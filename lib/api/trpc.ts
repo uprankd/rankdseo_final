@@ -1,12 +1,28 @@
 import { initTRPC, TRPCError } from '@trpc/server';
-import { auth } from '@/lib/auth';
 import { prisma } from '@/lib/db/prisma';
 import superjson from 'superjson';
 import { FetchCreateContextFnOptions } from '@trpc/server/adapters/fetch';
+import { getToken } from 'next-auth/jwt';
 
-export const createContext = async (opts?: FetchCreateContextFnOptions) => {
-  // Extract session from the request using NextAuth v5
-  const session = await auth();
+export const createContext = async (opts: FetchCreateContextFnOptions) => {
+  // Extract JWT token from cookies using NextAuth's getToken
+  const token = await getToken({
+    req: opts.req as any,
+    secret: process.env.NEXTAUTH_SECRET,
+  });
+
+  // Convert token to session format
+  const session = token
+    ? {
+        user: {
+          id: token.id as string,
+          email: token.email as string,
+          name: token.name as string,
+          role: token.role as string,
+        },
+        expires: new Date(token.exp! * 1000).toISOString(),
+      }
+    : null;
   
   return {
     session,
