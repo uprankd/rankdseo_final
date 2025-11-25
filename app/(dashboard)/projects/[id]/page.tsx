@@ -629,8 +629,15 @@ export default function ProjectDetailPage() {
   );
 
   const updateStatus = trpc.project.updateOpportunityStatus.useMutation({
-    onSuccess: () => {
-      toast.success('✅ Status updated!');
+    onSuccess: (data) => {
+      // Check if it was auto-approved
+      if (data.status === 'APPROVED') {
+        toast.success('✅ Link verified and auto-approved!', {
+          description: 'The backlink is live and working',
+        });
+      } else {
+        toast.success('✅ Status updated!');
+      }
       utils.project.getById.invalidate({ id: projectId });
     },
     onError: (error) => {
