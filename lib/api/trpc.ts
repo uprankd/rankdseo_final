@@ -1,12 +1,11 @@
 import { initTRPC, TRPCError } from '@trpc/server';
-import { getServerSession } from 'next-auth';
-import { authConfig } from '@/lib/auth/config';
+import { auth } from '@/lib/auth';
 import { prisma } from '@/lib/db/prisma';
 import superjson from 'superjson';
 import { FetchCreateContextFnOptions } from '@trpc/server/adapters/fetch';
 
 export const createContext = async (opts: FetchCreateContextFnOptions) => {
-  const session = await getServerSession(authConfig);
+  const session = await auth();
   return { session, prisma, ...opts };
 };
 
