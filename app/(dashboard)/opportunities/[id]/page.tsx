@@ -530,3 +530,84 @@ export default function OpportunityDetailPage({ params }: { params: Promise<{ id
     </div>
   );
 }
+
+// Add GitHub opportunity
+OPPORTUNITIES['3'] = {
+  id: '3',
+  siteName: 'GitHub Profile',
+  url: 'https://github.com',
+  shortDescription: 'Add your website to your GitHub developer profile',
+  fullDescription: 'GitHub is the world\'s leading platform for code hosting and version control. With over 100 million developers, adding your website link to your GitHub profile is an easy way to get a high-authority dofollow backlink.',
+  category: 'Developer Platform',
+  niche: 'Technology',
+  language: 'en',
+  country: 'US',
+  linkType: 'PROFILE',
+  isFree: true,
+  difficultyLevel: 1,
+  domainAuthority: 95,
+  domainRating: 94,
+  estimatedTraffic: 500000000,
+  spamScore: 0,
+  isDofollow: true,
+  averageTime: '10 minutes',
+  successRate: 99,
+  instructions: [
+    {
+      stepOrder: 1,
+      stepTitle: 'Create GitHub Account',
+      stepDescription: 'Visit github.com and sign up for a free account. Use your professional email address and choose a username that represents your brand or real name.',
+      estimatedMinutes: 3,
+      tips: [
+        'Choose a professional username',
+        'Use the same username across platforms',
+        'Enable two-factor authentication for security'
+      ]
+    },
+    {
+      stepOrder: 2,
+      stepTitle: 'Complete Your Profile',
+      stepDescription: 'Click on your profile picture in the top right, then select "Your profile". Click "Edit profile" to access the profile settings.',
+      estimatedMinutes: 2,
+      tips: [
+        'Add a professional profile picture',
+        'Use a clear headshot or logo',
+        'Match your profile photo to other platforms'
+      ]
+    },
+    {
+      stepOrder: 3,
+      stepTitle: 'Add Your Website URL',
+      stepDescription: 'In the profile edit page, find the "Website" or "Blog" field. Enter your complete website URL including https://. This link will be displayed prominently on your profile.',
+      estimatedMinutes: 2,
+      tips: [
+        'Use your main domain (not subdomain)',
+        'Include https:// for security',
+        'Test the link after saving'
+      ]
+    },
+    {
+      stepOrder: 4,
+      stepTitle: 'Add Bio and Location',
+      stepDescription: 'Write a compelling bio (160 characters max) that describes what you do. Add your location and company information for additional credibility.',
+      estimatedMinutes: 5,
+      tips: [
+        'Include relevant keywords in your bio',
+        'Mention your specialization',
+        'Keep it professional and concise'
+      ]
+    },
+    {
+      stepOrder: 5,
+      stepTitle: 'Create README Profile (Bonus)',
+      stepDescription: 'Create a special repository with your username to add a README to your profile. This allows you to add another link and showcase your work.',
+      estimatedMinutes: 10,
+      tips: [
+        'Repository name must match your username',
+        'Add profile stats and badges',
+        'Include social media links',
+        'Showcase your best projects'
+      ]
+    }
+  ]
+};
