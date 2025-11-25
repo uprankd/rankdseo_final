@@ -936,57 +936,175 @@ export default function ProjectDetailPage() {
             </div>
           ) : (
             <div className="space-y-4">
-              {filteredOpportunities.map((opp: any) => (
-                <div
-                  key={opp.projectOpportunityId || opp.id}
-                  className="border-2 rounded-2xl p-5 bg-gradient-to-br from-white to-gray-50 hover:shadow-lg transition-all"
-                >
-                  <div className="flex items-start justify-between gap-4">
-                    <div className="flex gap-4 flex-1">
-                      {getStatusIcon(opp.status)}
-                      <div className="flex-1">
-                        <div className="flex items-center gap-3 mb-2 flex-wrap">
-                          <h3 className="text-lg font-bold text-gray-800">{opp.siteName}</h3>
-                          {getStatusBadge(opp.status)}
-                          {opp.domainAuthority && (
-                            <Badge variant="outline" className="border-2 font-semibold">
-                              DA: {opp.domainAuthority}
-                            </Badge>
-                          )}
-                          <Badge className="bg-purple-100 text-purple-700 border-2 border-purple-300">
-                            {opp.category}
-                          </Badge>
-                        </div>
-                        {opp.notes && (
-                          <p className="text-sm text-gray-700 bg-blue-50 rounded-lg p-3 mb-2 border-2 border-blue-200">
-                            📝 <span className="font-semibold">Notes:</span> {opp.notes}
-                          </p>
-                        )}
-                        {opp.linkUrl && (
-                          <a
-                            href={opp.linkUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-sm text-blue-600 hover:text-blue-700 flex items-center gap-1 font-medium"
-                          >
-                            <LinkIcon className="h-4 w-4" />
-                            {opp.linkUrl}
-                            <ExternalLink className="h-3 w-3" />
-                          </a>
-                        )}
-                        <div className="flex gap-4 mt-3 text-xs text-gray-600">
-                          {opp.submittedAt && (
-                            <span className="font-semibold">✅ Submitted: {new Date(opp.submittedAt).toLocaleDateString()}</span>
-                          )}
-                          {opp.approvedAt && (
-                            <span className="font-semibold text-green-600">🎉 Approved: {new Date(opp.approvedAt).toLocaleDateString()}</span>
-                          )}
+              {filteredOpportunities.map((opp: any) => {
+                const oppId = opp.projectOpportunityId || opp.id;
+                const currentNotes = editingNotes[oppId] !== undefined ? editingNotes[oppId] : (opp.notes || '');
+                const currentUrl = editingUrls[oppId] !== undefined ? editingUrls[oppId] : (opp.linkUrl || '');
+
+                return (
+                  <div
+                    key={oppId}
+                    className="border-2 rounded-2xl p-5 bg-gradient-to-br from-white to-gray-50 hover:shadow-lg transition-all"
+                  >
+                    <div className="space-y-4">
+                      <div className="flex items-start justify-between gap-4">
+                        <div className="flex gap-4 flex-1">
+                          {getStatusIcon(opp.status)}
+                          <div className="flex-1">
+                            <div className="flex items-center gap-3 mb-2 flex-wrap">
+                              <h3 className="text-lg font-bold text-gray-800">{opp.siteName}</h3>
+                              {opp.domainAuthority && (
+                                <Badge variant="outline" className="border-2 font-semibold">
+                                  DA: {opp.domainAuthority}
+                                </Badge>
+                              )}
+                              <Badge className="bg-purple-100 text-purple-700 border-2 border-purple-300">
+                                {opp.category}
+                              </Badge>
+                            </div>
+                          </div>
                         </div>
                       </div>
+
+                      {!isDemoProject && (
+                        <div className="space-y-3 pl-9">
+                          {/* Status Selector */}
+                          <div className="flex items-center gap-3">
+                            <Label className="text-sm font-semibold w-20">Status:</Label>
+                            <Select
+                              value={opp.status}
+                              onValueChange={(value) => {
+                                updateStatus.mutate({
+                                  projectId,
+                                  opportunityId: opp.projectOpportunityId.split('_')[1] || opp.projectOpportunityId,
+                                  status: value as any,
+                                  notes: currentNotes || undefined,
+                                  linkUrl: currentUrl || undefined,
+                                });
+                              }}
+                            >
+                              <SelectTrigger className="w-48 border-2">
+                                <SelectValue />
+                              </SelectTrigger>
+                              <SelectContent>
+                                <SelectItem value="NOT_STARTED">Not Started</SelectItem>
+                                <SelectItem value="IN_PROGRESS">In Progress</SelectItem>
+                                <SelectItem value="SUBMITTED">Submitted</SelectItem>
+                                <SelectItem value="APPROVED">✓ Approved</SelectItem>
+                                <SelectItem value="REJECTED">Rejected</SelectItem>
+                              </SelectContent>
+                            </Select>
+                          </div>
+
+                          {/* Link URL Input */}
+                          <div className="flex items-start gap-3">
+                            <Label className="text-sm font-semibold w-20 pt-2">Link URL:</Label>
+                            <div className="flex-1 flex gap-2">
+                              <Input
+                                placeholder="https://example.com/your-backlink"
+                                value={currentUrl}
+                                onChange={(e) => setEditingUrls({ ...editingUrls, [oppId]: e.target.value })}
+                                className="border-2"
+                              />
+                              <Button
+                                size="sm"
+                                onClick={() => {
+                                  updateStatus.mutate({
+                                    projectId,
+                                    opportunityId: opp.projectOpportunityId.split('_')[1] || opp.projectOpportunityId,
+                                    status: opp.status,
+                                    linkUrl: currentUrl || undefined,
+                                    notes: currentNotes || undefined,
+                                  });
+                                }}
+                                disabled={updateStatus.isPending}
+                                className="bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600"
+                              >
+                                <Save className="h-4 w-4" />
+                              </Button>
+                            </div>
+                          </div>
+
+                          {/* Notes Input */}
+                          <div className="flex items-start gap-3">
+                            <Label className="text-sm font-semibold w-20 pt-2">Notes:</Label>
+                            <div className="flex-1 flex gap-2">
+                              <Textarea
+                                placeholder="Add notes about progress, issues, or next steps..."
+                                value={currentNotes}
+                                onChange={(e) => setEditingNotes({ ...editingNotes, [oppId]: e.target.value })}
+                                className="border-2 min-h-[80px]"
+                              />
+                              <Button
+                                size="sm"
+                                onClick={() => {
+                                  updateStatus.mutate({
+                                    projectId,
+                                    opportunityId: opp.projectOpportunityId.split('_')[1] || opp.projectOpportunityId,
+                                    status: opp.status,
+                                    notes: currentNotes || undefined,
+                                    linkUrl: currentUrl || undefined,
+                                  });
+                                }}
+                                disabled={updateStatus.isPending}
+                                className="bg-gradient-to-r from-green-500 to-teal-500 hover:from-green-600 hover:to-teal-600"
+                              >
+                                <Save className="h-4 w-4" />
+                              </Button>
+                            </div>
+                          </div>
+
+                          {/* Timestamps */}
+                          {(opp.submittedAt || opp.approvedAt) && (
+                            <div className="flex gap-4 text-xs text-gray-600 pl-24">
+                              {opp.submittedAt && (
+                                <span className="font-semibold">✅ Submitted: {new Date(opp.submittedAt).toLocaleDateString()}</span>
+                              )}
+                              {opp.approvedAt && (
+                                <span className="font-semibold text-green-600">🎉 Approved: {new Date(opp.approvedAt).toLocaleDateString()}</span>
+                              )}
+                            </div>
+                          )}
+                        </div>
+                      )}
+
+                      {/* Demo project - read-only view */}
+                      {isDemoProject && (
+                        <div className="pl-9 space-y-2">
+                          {getStatusBadge(opp.status)}
+                          {opp.notes && (
+                            <p className="text-sm text-gray-700 bg-blue-50 rounded-lg p-3 border-2 border-blue-200">
+                              📝 <span className="font-semibold">Notes:</span> {opp.notes}
+                            </p>
+                          )}
+                          {opp.linkUrl && (
+                            <a
+                              href={opp.linkUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-sm text-blue-600 hover:text-blue-700 flex items-center gap-1 font-medium"
+                            >
+                              <LinkIcon className="h-4 w-4" />
+                              {opp.linkUrl}
+                              <ExternalLink className="h-3 w-3" />
+                            </a>
+                          )}
+                          {(opp.submittedAt || opp.approvedAt) && (
+                            <div className="flex gap-4 text-xs text-gray-600">
+                              {opp.submittedAt && (
+                                <span className="font-semibold">✅ Submitted: {new Date(opp.submittedAt).toLocaleDateString()}</span>
+                              )}
+                              {opp.approvedAt && (
+                                <span className="font-semibold text-green-600">🎉 Approved: {new Date(opp.approvedAt).toLocaleDateString()}</span>
+                              )}
+                            </div>
+                          )}
+                        </div>
+                      )}
                     </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           )}
         </CardContent>
