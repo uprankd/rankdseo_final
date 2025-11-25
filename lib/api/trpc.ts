@@ -10,6 +10,7 @@ export const createContext = async (opts: FetchCreateContextFnOptions) => {
   try {
     // Get cookies from request
     const cookieHeader = opts.req.headers.get('cookie');
+    console.log('[tRPC] Cookie header exists:', !!cookieHeader);
     
     if (cookieHeader) {
       // Parse cookies manually
@@ -20,6 +21,8 @@ export const createContext = async (opts: FetchCreateContextFnOptions) => {
         })
       );
 
+      console.log('[tRPC] Cookie names:', Object.keys(cookies));
+
       // NextAuth session token can be in different cookie names
       const sessionToken = 
         cookies['next-auth.session-token'] || 
@@ -27,12 +30,16 @@ export const createContext = async (opts: FetchCreateContextFnOptions) => {
         cookies['authjs.session-token'] ||
         cookies['__Secure-authjs.session-token'];
 
+      console.log('[tRPC] Session token found:', !!sessionToken);
+
       if (sessionToken) {
         // Decode the JWT token
         const decoded = await decode({
           token: sessionToken,
           secret: process.env.NEXTAUTH_SECRET!,
         });
+
+        console.log('[tRPC] Token decoded:', !!decoded);
 
         if (decoded) {
           session = {
@@ -44,6 +51,7 @@ export const createContext = async (opts: FetchCreateContextFnOptions) => {
             },
             expires: new Date(decoded.exp! * 1000).toISOString(),
           };
+          console.log('[tRPC] Session created for:', decoded.email);
         }
       }
     }
