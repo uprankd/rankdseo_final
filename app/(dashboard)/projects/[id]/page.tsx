@@ -1012,7 +1012,7 @@ export default function ProjectDetailPage() {
                                 onClick={() => {
                                   updateStatus.mutate({
                                     projectId,
-                                    opportunityId: opp.projectOpportunityId.split('_')[1] || opp.projectOpportunityId,
+                                    opportunityId: opp.opportunityId,
                                     status: opp.status,
                                     linkUrl: currentUrl || undefined,
                                     notes: currentNotes || undefined,
