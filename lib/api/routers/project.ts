@@ -230,4 +230,191 @@ export const projectRouter = router({
         byStatus: statusCounts,
       };
     }),
+
+  addOpportunity: protectedProcedure
+    .input(
+      z.object({
+        projectId: z.string(),
+        opportunityId: z.string(),
+        priority: z.number().min(1).max(5).optional().default(3),
+        notes: z.string().optional(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      // Verify project ownership
+      const project = await ctx.prisma.project.findFirst({
+        where: {
+          id: input.projectId,
+          userId: ctx.user.id,
+        },
+      });
+
+      if (!project) {
+        throw new TRPCError({ code: 'NOT_FOUND', message: 'Project not found' });
+      }
+
+      // Check if opportunity already exists in project
+      const existing = await ctx.prisma.projectOpportunity.findUnique({
+        where: {
+          projectId_opportunityId: {
+            projectId: input.projectId,
+            opportunityId: input.opportunityId,
+          },
+        },
+      });
+
+      if (existing) {
+        throw new TRPCError({
+          code: 'CONFLICT',
+          message: 'This opportunity is already in the project',
+        });
+      }
+
+      const projectOpportunity = await ctx.prisma.projectOpportunity.create({
+        data: {
+          projectId: input.projectId,
+          opportunityId: input.opportunityId,
+          priority: input.priority,
+          notes: input.notes,
+        },
+        include: {
+          opportunity: true,
+        },
+      });
+
+      await ctx.prisma.activityLog.create({
+        data: {
+          userId: ctx.user.id,
+          projectId: input.projectId,
+          type: 'OPPORTUNITY_ADDED',
+          title: `Added opportunity: ${projectOpportunity.opportunity.siteName}`,
+        },
+      });
+
+      return projectOpportunity;
+    }),
+
+  removeOpportunity: protectedProcedure
+    .input(
+      z.object({
+        projectId: z.string(),
+        opportunityId: z.string(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      // Verify project ownership
+      const project = await ctx.prisma.project.findFirst({
+        where: {
+          id: input.projectId,
+          userId: ctx.user.id,
+        },
+      });
+
+      if (!project) {
+        throw new TRPCError({ code: 'NOT_FOUND', message: 'Project not found' });
+      }
+
+      const projectOpportunity = await ctx.prisma.projectOpportunity.findUnique({
+        where: {
+          projectId_opportunityId: {
+            projectId: input.projectId,
+            opportunityId: input.opportunityId,
+          },
+        },
+        include: {
+          opportunity: true,
+        },
+      });
+
+      if (!projectOpportunity) {
+        throw new TRPCError({
+          code: 'NOT_FOUND',
+          message: 'Opportunity not found in project',
+        });
+      }
+
+      await ctx.prisma.projectOpportunity.delete({
+        where: {
+          projectId_opportunityId: {
+            projectId: input.projectId,
+            opportunityId: input.opportunityId,
+          },
+        },
+      });
+
+      await ctx.prisma.activityLog.create({
+        data: {
+          userId: ctx.user.id,
+          projectId: input.projectId,
+          type: 'OPPORTUNITY_REMOVED',
+          title: `Removed opportunity: ${projectOpportunity.opportunity.siteName}`,
+        },
+      });
+
+      return { success: true };
+    }),
+
+  updateOpportunityStatus: protectedProcedure
+    .input(
+      z.object({
+        projectId: z.string(),
+        opportunityId: z.string(),
+        status: z.enum(['NOT_STARTED', 'IN_PROGRESS', 'SUBMITTED', 'APPROVED', 'REJECTED']),
+        notes: z.string().optional(),
+        linkUrl: z.string().optional(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      // Verify project ownership
+      const project = await ctx.prisma.project.findFirst({
+        where: {
+          id: input.projectId,
+          userId: ctx.user.id,
+        },
+      });
+
+      if (!project) {
+        throw new TRPCError({ code: 'NOT_FOUND', message: 'Project not found' });
+      }
+
+      const updateData: any = {
+        status: input.status,
+      };
+
+      if (input.notes !== undefined) updateData.notes = input.notes;
+      if (input.linkUrl !== undefined) updateData.linkUrl = input.linkUrl;
+
+      // Set timestamps based on status
+      if (input.status === 'SUBMITTED') {
+        updateData.submittedAt = new Date();
+      } else if (input.status === 'APPROVED') {
+        updateData.approvedAt = new Date();
+      } else if (input.status === 'REJECTED') {
+        updateData.rejectedAt = new Date();
+      }
+
+      const projectOpportunity = await ctx.prisma.projectOpportunity.update({
+        where: {
+          projectId_opportunityId: {
+            projectId: input.projectId,
+            opportunityId: input.opportunityId,
+          },
+        },
+        data: updateData,
+        include: {
+          opportunity: true,
+        },
+      });
+
+      await ctx.prisma.activityLog.create({
+        data: {
+          userId: ctx.user.id,
+          projectId: input.projectId,
+          type: 'STATUS_CHANGED',
+          title: `${projectOpportunity.opportunity.siteName} status: ${input.status}`,
+        },
+      });
+
+      return projectOpportunity;
+    }),
 });
