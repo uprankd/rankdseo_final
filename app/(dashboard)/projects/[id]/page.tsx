@@ -615,17 +615,16 @@ export default function ProjectDetailPage() {
   const isDemoProject = projectId.startsWith('demo-');
   const demoData = isDemoProject ? DEMO_PROJECT_DATA[projectId] : null;
 
-  // Fetch real project data if not demo (commented out for now since we don't have the tRPC route yet)
-  // const { data: project, isLoading } = trpc.project.getById.useQuery(
-  //   { id: projectId },
-  //   { enabled: !isDemoProject }
-  // );
+  // Fetch real project data if not demo
+  const { data: project, isLoading } = trpc.project.getById.useQuery(
+    { id: projectId },
+    { enabled: !isDemoProject }
+  );
 
   const [selectedStatus, setSelectedStatus] = useState<string>('all');
 
-  // Use demo data for now
-  const projectData = demoData;
-  const isLoading = false;
+  // Use demo data or real data
+  const projectData = isDemoProject ? demoData : project;
 
   if (isLoading && !isDemoProject) {
     return (
