@@ -1065,6 +1065,25 @@ export default function ProjectDetailPage() {
                               >
                                 <Save className="h-4 w-4" />
                               </Button>
+                              {currentUrl && (opp.status === 'APPROVED' || opp.status === 'SUBMITTED') && (
+                                <Button
+                                  size="sm"
+                                  variant="outline"
+                                  onClick={() => {
+                                    toast.info('🔍 Re-verifying link...');
+                                    verifyLink.mutate({
+                                      projectId,
+                                      opportunityId: opp.opportunityId,
+                                    });
+                                  }}
+                                  disabled={verifyLink.isPending}
+                                  className="border-2 border-purple-300 hover:bg-purple-50"
+                                  title="Check if link is still working"
+                                >
+                                  <CheckCircle2 className="h-4 w-4 mr-1" />
+                                  Re-verify
+                                </Button>
+                              )}
                             </div>
                           </div>
 
