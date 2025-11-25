@@ -410,7 +410,7 @@ export const projectRouter = router({
         data: {
           userId: ctx.user.id,
           projectId: input.projectId,
-          type: 'STATUS_CHANGED',
+          type: 'STATUS_CHANGE',
           title: `${projectOpportunity.opportunity.siteName} status: ${input.status}`,
         },
       });
