@@ -7,6 +7,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { Progress } from '@/components/ui/progress';
 import {
   Dialog,
   DialogContent,
@@ -16,7 +17,55 @@ import {
 } from '@/components/ui/dialog';
 import { trpc } from '@/lib/api/client';
 import { toast } from 'sonner';
-import { Plus, FolderOpen } from 'lucide-react';
+import { 
+  Plus, 
+  FolderOpen, 
+  TrendingUp, 
+  Clock, 
+  CheckCircle2,
+  XCircle,
+  Circle,
+  Sparkles,
+  ExternalLink,
+  Globe
+} from 'lucide-react';
+
+// Sample demo projects for visual appeal
+const DEMO_PROJECTS = [
+  {
+    id: 'demo-1',
+    name: 'TechStartup Website',
+    domain: 'techstartup.io',
+    niche: 'Technology',
+    color: '#3b82f6',
+    description: 'Building backlinks for our SaaS platform',
+    opportunities: 15,
+    stats: { notStarted: 5, inProgress: 6, completed: 4 },
+    isDemo: true
+  },
+  {
+    id: 'demo-2',
+    name: 'E-Commerce Store',
+    domain: 'mystore.com',
+    niche: 'E-commerce',
+    color: '#8b5cf6',
+    description: 'SEO campaign for online retail',
+    opportunities: 22,
+    stats: { notStarted: 8, inProgress: 10, completed: 4 },
+    isDemo: true
+  },
+  {
+    id: 'demo-3',
+    name: 'Health Blog',
+    domain: 'healthblog.net',
+    niche: 'Health & Wellness',
+    color: '#10b981',
+    description: 'Organic traffic growth strategy',
+    opportunities: 12,
+    stats: { notStarted: 2, inProgress: 5, completed: 5 },
+    isDemo: true
+  },
+];
 
 export default function ProjectsPage() {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -31,7 +80,7 @@ export default function ProjectsPage() {
   const { data: projects, isLoading } = trpc.project.list.useQuery({});
   const createMutation = trpc.project.create.useMutation({
     onSuccess: () => {
-      toast.success('Project created!');
+      toast.success('🎉 Project created successfully!');
       setIsDialogOpen(false);
       setFormData({ name: '', domain: '', niche: '', description: '' });
       utils.project.list.invalidate();
@@ -46,63 +95,100 @@ export default function ProjectsPage() {
     createMutation.mutate(formData);
   };
 
+  // Combine real projects with demo projects
+  const allProjects = [
+    ...(projects?.projects || []).map(p => ({
+      ...p,
+      opportunities: p._count.opportunities,
+      stats: p.opportunities.reduce((acc, opp) => {
+        if (opp.status === 'NOT_STARTED') acc.notStarted++;
+        else if (opp.status === 'IN_PROGRESS') acc.inProgress++;
+        else if (opp.status === 'APPROVED') acc.completed++;
+        return acc;
+      }, { notStarted: 0, inProgress: 0, completed: 0 }),
+      isDemo: false
+    })),
+    ...DEMO_PROJECTS
+  ];
+
+  const getProgressPercentage = (stats: any) => {
+    const total = stats.notStarted + stats.inProgress + stats.completed;
+    return total > 0 ? (stats.completed / total) * 100 : 0;
+  };
+
   return (
-    <div className="max-w-7xl mx-auto space-y-6">
-      <div className="flex items-center justify-between">
+    <div className="space-y-6 animate-in fade-in duration-500">
+      {/* Header */}
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold">Projects</h1>
-          <p className="text-gray-600 mt-1">Manage your backlink building projects</p>
+          <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
+            Your Projects
+          </h1>
+          <p className="text-gray-600 mt-2 flex items-center gap-2">
+            <Sparkles className="h-4 w-4 text-yellow-500" />
+            Manage your backlink building campaigns
+          </p>
         </div>
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
           <DialogTrigger asChild>
-            <Button>
-              <Plus className="h-4 w-4 mr-2" />
+            <Button size="lg" className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 shadow-lg">
+              <Plus className="h-5 w-5 mr-2" />
               New Project
             </Button>
           </DialogTrigger>
-          <DialogContent>
+          <DialogContent className="sm:max-w-[500px]">
             <DialogHeader>
-              <DialogTitle>Create New Project</DialogTitle>
+              <DialogTitle className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                Create New Project
+              </DialogTitle>
             </DialogHeader>
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <Label htmlFor="name">Project Name *</Label>
+                <Label htmlFor="name" className="text-sm font-medium">Project Name *</Label>
                 <Input
                   id="name"
-                  placeholder="My Website SEO"
+                  placeholder="My Awesome Website"
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                   required
+                  className="mt-1"
                 />
               </div>
               <div>
-                <Label htmlFor="domain">Domain</Label>
+                <Label htmlFor="domain" className="text-sm font-medium">Domain</Label>
                 <Input
                   id="domain"
                   placeholder="example.com"
                   value={formData.domain}
                   onChange={(e) => setFormData({ ...formData, domain: e.target.value })}
+                  className="mt-1"
                 />
               </div>
               <div>
-                <Label htmlFor="niche">Niche</Label>
+                <Label htmlFor="niche" className="text-sm font-medium">Niche</Label>
                 <Input
                   id="niche"
-                  placeholder="Technology, Health, etc."
+                  placeholder="Technology, Health, Finance..."
                   value={formData.niche}
                   onChange={(e) => setFormData({ ...formData, niche: e.target.value })}
+                  className="mt-1"
                 />
               </div>
               <div>
-                <Label htmlFor="description">Description</Label>
+                <Label htmlFor="description" className="text-sm font-medium">Description</Label>
                 <Input
                   id="description"
-                  placeholder="Brief description"
+                  placeholder="Brief project description"
                   value={formData.description}
                   onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                  className="mt-1"
                 />
               </div>
-              <Button type="submit" className="w-full" disabled={createMutation.isPending}>
+              <Button 
+                type="submit" 
+                className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700" 
+                disabled={createMutation.isPending}
+              >
                 {createMutation.isPending ? 'Creating...' : 'Create Project'}
               </Button>
             </form>
@@ -110,87 +196,178 @@ export default function ProjectsPage() {
         </Dialog>
       </div>
 
+      {/* Stats Cards */}
+      <div className="grid gap-4 md:grid-cols-3">
+        <Card className="bg-gradient-to-br from-blue-50 to-blue-100 border-blue-200 shadow-md hover:shadow-xl transition-all">
+          <CardContent className="pt-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-blue-700">Total Projects</p>
+                <p className="text-3xl font-bold text-blue-900">{allProjects.length}</p>
+              </div>
+              <FolderOpen className="h-10 w-10 text-blue-600 opacity-50" />
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className="bg-gradient-to-br from-purple-50 to-purple-100 border-purple-200 shadow-md hover:shadow-xl transition-all">
+          <CardContent className="pt-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-purple-700">In Progress</p>
+                <p className="text-3xl font-bold text-purple-900">
+                  {allProjects.reduce((sum, p) => sum + (p.stats?.inProgress || 0), 0)}
+                </p>
+              </div>
+              <Clock className="h-10 w-10 text-purple-600 opacity-50" />
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className="bg-gradient-to-br from-green-50 to-green-100 border-green-200 shadow-md hover:shadow-xl transition-all">
+          <CardContent className="pt-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-green-700">Completed</p>
+                <p className="text-3xl font-bold text-green-900">
+                  {allProjects.reduce((sum, p) => sum + (p.stats?.completed || 0), 0)}
+                </p>
+              </div>
+              <CheckCircle2 className="h-10 w-10 text-green-600 opacity-50" />
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Projects Grid */}
       {isLoading ? (
         <div className="text-center py-12">
-          <div className="h-8 w-8 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading projects...</p>
+          <div className="h-12 w-12 border-4 border-blue-200 border-t-blue-600 rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-gray-600">Loading your projects...</p>
         </div>
-      ) : !projects?.projects || projects.projects.length === 0 ? (
-        <Card>
-          <CardContent className="text-center py-12">
-            <FolderOpen className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-            <p className="text-gray-600 mb-4">No projects yet</p>
-            <Button onClick={() => setIsDialogOpen(true)}>
-              <Plus className="h-4 w-4 mr-2" />
+      ) : allProjects.length === 0 ? (
+        <Card className="bg-gradient-to-br from-gray-50 to-white border-dashed border-2 border-gray-300">
+          <CardContent className="text-center py-16">
+            <FolderOpen className="h-16 w-16 text-gray-400 mx-auto mb-4" />
+            <h3 className="text-xl font-semibold text-gray-700 mb-2">No projects yet</h3>
+            <p className="text-gray-500 mb-6">Create your first project to start building backlinks</p>
+            <Button onClick={() => setIsDialogOpen(true)} size="lg" className="bg-gradient-to-r from-blue-600 to-purple-600">
+              <Plus className="h-5 w-5 mr-2" />
               Create Your First Project
             </Button>
           </CardContent>
         </Card>
       ) : (
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {projects.projects.map((project) => {
-            const totalOpps = project._count.opportunities;
-            const statusCounts = project.opportunities.reduce((acc, opp) => {
-              acc[opp.status] = (acc[opp.status] || 0) + 1;
-              return acc;
-            }, {} as Record<string, number>);
+          {allProjects.map((project) => {
+            const progress = getProgressPercentage(project.stats);
+            const gradients = [
+              'from-blue-500 to-cyan-500',
+              'from-purple-500 to-pink-500',
+              'from-green-500 to-emerald-500',
+              'from-orange-500 to-red-500',
+              'from-indigo-500 to-purple-500',
+            ];
+            const gradient = gradients[Math.floor(Math.random() * gradients.length)];
 
             return (
-              <Link key={project.id} href={`/projects/${project.id}`}>
-                <Card className="hover:shadow-lg transition-shadow h-full">
-                  <CardContent className="pt-6">
-                    <div className="space-y-4">
-                      <div className="flex items-center space-x-3">
-                        {project.color && (
-                          <div
-                            className="h-4 w-4 rounded-full flex-shrink-0"
-                            style={{ backgroundColor: project.color }}
-                          />
-                        )}
-                        <h3 className="font-semibold text-lg">{project.name}</h3>
+              <Card 
+                key={project.id} 
+                className="group hover:shadow-2xl transition-all duration-300 border-2 hover:border-blue-300 hover:-translate-y-1 bg-white overflow-hidden"
+              >
+                {/* Color Header */}
+                <div className={`h-2 bg-gradient-to-r ${gradient}`}></div>
+                
+                <CardContent className="pt-6 space-y-4">
+                  {/* Project Header */}
+                  <div className="flex items-start justify-between">
+                    <div className="flex items-center space-x-3 flex-1">
+                      <div
+                        className="h-12 w-12 rounded-xl flex items-center justify-center shadow-lg flex-shrink-0"
+                        style={{ backgroundColor: project.color || '#3b82f6' }}
+                      >
+                        <FolderOpen className="h-6 w-6 text-white" />
                       </div>
-
-                      {project.domain && (
-                        <p className="text-sm text-gray-600">{project.domain}</p>
-                      )}
-
-                      {project.niche && (
-                        <Badge variant="secondary">{project.niche}</Badge>
-                      )}
-
-                      <div className="pt-2 border-t">
-                        <div className="flex items-center justify-between text-sm">
-                          <span className="text-gray-600">Opportunities</span>
-                          <Badge variant="outline">{totalOpps}</Badge>
-                        </div>
-
-                        {totalOpps > 0 && (
-                          <div className="mt-2 space-y-1 text-xs">
-                            {statusCounts.NOT_STARTED && (
-                              <div className="flex justify-between">
-                                <span className="text-gray-600">Not Started</span>
-                                <span>{statusCounts.NOT_STARTED}</span>
-                              </div>
-                            )}
-                            {statusCounts.IN_PROGRESS && (
-                              <div className="flex justify-between">
-                                <span className="text-blue-600">In Progress</span>
-                                <span>{statusCounts.IN_PROGRESS}</span>
-                              </div>
-                            )}
-                            {statusCounts.APPROVED && (
-                              <div className="flex justify-between">
-                                <span className="text-green-600">Approved</span>
-                                <span>{statusCounts.APPROVED}</span>
-                              </div>
-                            )}
+                      <div className="flex-1 min-w-0">
+                        <h3 className="font-bold text-lg text-gray-900 truncate">
+                          {project.name}
+                        </h3>
+                        {project.domain && (
+                          <div className="flex items-center gap-1 text-xs text-gray-500">
+                            <Globe className="h-3 w-3" />
+                            <span className="truncate">{project.domain}</span>
                           </div>
                         )}
                       </div>
                     </div>
-                  </CardContent>
-                </Card>
-              </Link>
+                    {project.isDemo && (
+                      <Badge variant="secondary" className="bg-yellow-100 text-yellow-700 border-yellow-300">
+                        Demo
+                      </Badge>
+                    )}
+                  </div>
+
+                  {/* Niche Badge */}
+                  {project.niche && (
+                    <Badge className={`bg-gradient-to-r ${gradient} text-white border-0`}>
+                      {project.niche}
+                    </Badge>
+                  )}
+
+                  {/* Description */}
+                  {project.description && (
+                    <p className="text-sm text-gray-600 line-clamp-2">{project.description}</p>
+                  )}
+
+                  {/* Progress Bar */}
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-between text-sm">
+                      <span className="text-gray-600 font-medium">Progress</span>
+                      <span className="text-gray-900 font-bold">{Math.round(progress)}%</span>
+                    </div>
+                    <Progress value={progress} className="h-2" />
+                  </div>
+
+                  {/* Stats */}
+                  <div className="grid grid-cols-3 gap-2 pt-2">
+                    <div className="bg-gray-50 rounded-lg p-2 text-center">
+                      <div className="flex items-center justify-center gap-1 mb-1">
+                        <Circle className="h-3 w-3 text-gray-400" />
+                      </div>
+                      <p className="text-xs text-gray-500">To Do</p>
+                      <p className="text-sm font-bold text-gray-900">{project.stats?.notStarted || 0}</p>
+                    </div>
+                    <div className="bg-blue-50 rounded-lg p-2 text-center">
+                      <div className="flex items-center justify-center gap-1 mb-1">
+                        <Clock className="h-3 w-3 text-blue-600" />
+                      </div>
+                      <p className="text-xs text-blue-600">Active</p>
+                      <p className="text-sm font-bold text-blue-900">{project.stats?.inProgress || 0}</p>
+                    </div>
+                    <div className="bg-green-50 rounded-lg p-2 text-center">
+                      <div className="flex items-center justify-center gap-1 mb-1">
+                        <CheckCircle2 className="h-3 w-3 text-green-600" />
+                      </div>
+                      <p className="text-xs text-green-600">Done</p>
+                      <p className="text-sm font-bold text-green-900">{project.stats?.completed || 0}</p>
+                    </div>
+                  </div>
+
+                  {/* Actions */}
+                  <div className="flex gap-2 pt-2">
+                    <Link href={`/projects/${project.id}`} className="flex-1">
+                      <Button 
+                        variant="default" 
+                        className={`w-full bg-gradient-to-r ${gradient} hover:opacity-90 shadow-md`}
+                        size="sm"
+                      >
+                        View Details
+                        <ExternalLink className="h-4 w-4 ml-2" />
+                      </Button>
+                    </Link>
+                  </div>
+                </CardContent>
+              </Card>
             );
           })}
         </div>
