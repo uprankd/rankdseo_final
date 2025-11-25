@@ -981,29 +981,44 @@ export default function ProjectDetailPage() {
                           {/* Status Selector */}
                           <div className="flex items-center gap-3">
                             <Label className="text-sm font-semibold w-20">Status:</Label>
-                            <Select
-                              value={opp.status}
-                              onValueChange={(value) => {
-                                updateStatus.mutate({
-                                  projectId,
-                                  opportunityId: opp.opportunityId,
-                                  status: value as any,
-                                  notes: currentNotes || undefined,
-                                  linkUrl: currentUrl || undefined,
-                                });
-                              }}
-                            >
-                              <SelectTrigger className="w-48 border-2">
-                                <SelectValue />
-                              </SelectTrigger>
-                              <SelectContent>
-                                <SelectItem value="NOT_STARTED">Not Started</SelectItem>
-                                <SelectItem value="IN_PROGRESS">In Progress</SelectItem>
-                                <SelectItem value="SUBMITTED">Submitted</SelectItem>
-                                <SelectItem value="APPROVED">✓ Approved</SelectItem>
-                                <SelectItem value="REJECTED">Rejected</SelectItem>
-                              </SelectContent>
-                            </Select>
+                            <div className="flex-1">
+                              <Select
+                                value={opp.status}
+                                onValueChange={(value) => {
+                                  // Show info toast when submitting with URL
+                                  if (value === 'SUBMITTED' && currentUrl) {
+                                    toast.info('🔍 Verifying link...', {
+                                      description: 'Checking if your backlink is live',
+                                    });
+                                  }
+                                  updateStatus.mutate({
+                                    projectId,
+                                    opportunityId: opp.opportunityId,
+                                    status: value as any,
+                                    notes: currentNotes || undefined,
+                                    linkUrl: currentUrl || undefined,
+                                  });
+                                }}
+                              >
+                                <SelectTrigger className="w-48 border-2">
+                                  <SelectValue />
+                                </SelectTrigger>
+                                <SelectContent>
+                                  <SelectItem value="NOT_STARTED">Not Started</SelectItem>
+                                  <SelectItem value="IN_PROGRESS">In Progress</SelectItem>
+                                  <SelectItem value="SUBMITTED">
+                                    Submitted {currentUrl && '(auto-verifies)'}
+                                  </SelectItem>
+                                  <SelectItem value="APPROVED">✓ Approved</SelectItem>
+                                  <SelectItem value="REJECTED">Rejected</SelectItem>
+                                </SelectContent>
+                              </Select>
+                              {currentUrl && (
+                                <p className="text-xs text-gray-500 mt-1">
+                                  💡 Tip: Set to "Submitted" to auto-verify your link
+                                </p>
+                              )}
+                            </div>
                           </div>
 
                           {/* Link URL Input */}
