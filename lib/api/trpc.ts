@@ -3,14 +3,11 @@ import { auth } from '@/lib/auth';
 import { prisma } from '@/lib/db/prisma';
 import superjson from 'superjson';
 import { FetchCreateContextFnOptions } from '@trpc/server/adapters/fetch';
-import { headers as getHeaders } from 'next/headers';
 
 export const createContext = async (opts: FetchCreateContextFnOptions) => {
-  // Ensure Next.js request context is accessed (needed for auth to work)
-  const headers = await getHeaders();
-  
   // Extract session from the request using NextAuth v5
-  const session = await auth();
+  // Must pass request to auth() to access session cookies
+  const session = await auth(opts.req, opts.resHeaders);
   
   return {
     session,
