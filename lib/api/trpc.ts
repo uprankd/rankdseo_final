@@ -11,6 +11,8 @@ export const createContext = async (opts: FetchCreateContextFnOptions) => {
     secret: process.env.NEXTAUTH_SECRET,
   });
 
+  console.log('[tRPC Context] Token:', token ? 'Found' : 'Not found');
+
   // Convert token to session format
   const session = token
     ? {
@@ -23,6 +25,8 @@ export const createContext = async (opts: FetchCreateContextFnOptions) => {
         expires: new Date(token.exp! * 1000).toISOString(),
       }
     : null;
+
+  console.log('[tRPC Context] Session:', session ? `User: ${session.user.email}, Role: ${session.user.role}` : 'No session');
   
   return {
     session,
