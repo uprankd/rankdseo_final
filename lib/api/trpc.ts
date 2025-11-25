@@ -1,0 +1,37 @@
+import { initTRPC, TRPCError } from '@trpc/server';
+import { auth } from '@/lib/auth';
+import { prisma } from '@/lib/db/prisma';
+import superjson from 'superjson';
+
+export const createContext = async () => {
+  const session = await auth();
+  return { session, prisma };
+};
+
+type Context = Awaited<ReturnType<typeof createContext>>;
+
+const t = initTRPC.context<Context>().create({
+  transformer: superjson,
+});
+
+export const router = t.router;
+export const publicProcedure = t.procedure;
+
+export const protectedProcedure = t.procedure.use(async ({ ctx, next }) => {
+  if (!ctx.session?.user) {
+    throw new TRPCError({ code: 'UNAUTHORIZED', message: 'Not authenticated' });
+  }
+  return next({
+    ctx: {
+      ...ctx,
+      user: ctx.session.user,
+    },
+  });
+});
+
+export const adminProcedure = protectedProcedure.use(async ({ ctx, next }) => {
+  if (ctx.user.role !== 'ADMIN') {
+    throw new TRPCError({ code: 'FORBIDDEN', message: 'Admin access required' });
+  }
+  return next({ ctx });
+});
