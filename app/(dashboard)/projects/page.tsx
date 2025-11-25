@@ -78,6 +78,7 @@ const DEMO_PROJECTS = [
 
 export default function ProjectsPage() {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [editingProject, setEditingProject] = useState<any>(null);
   const [formData, setFormData] = useState({
     name: '',
     domain: '',
@@ -87,6 +88,7 @@ export default function ProjectsPage() {
 
   const utils = trpc.useUtils();
   const { data: projects, isLoading } = trpc.project.list.useQuery({});
+  
   const createMutation = trpc.project.create.useMutation({
     onSuccess: () => {
       toast.success('🎉 Project created successfully!');
@@ -99,9 +101,61 @@ export default function ProjectsPage() {
     },
   });
 
+  const updateMutation = trpc.project.update.useMutation({
+    onSuccess: () => {
+      toast.success('✅ Project updated successfully!');
+      setIsDialogOpen(false);
+      setEditingProject(null);
+      setFormData({ name: '', domain: '', niche: '', description: '' });
+      utils.project.list.invalidate();
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
+  });
+
+  const deleteMutation = trpc.project.delete.useMutation({
+    onSuccess: () => {
+      toast.success('🗑️ Project deleted successfully!');
+      utils.project.list.invalidate();
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
+  });
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    createMutation.mutate(formData);
+    if (editingProject) {
+      updateMutation.mutate({ id: editingProject.id, ...formData });
+    } else {
+      createMutation.mutate(formData);
+    }
+  };
+
+  const handleEdit = (project: any) => {
+    setEditingProject(project);
+    setFormData({
+      name: project.name,
+      domain: project.domain || '',
+      niche: project.niche || '',
+      description: project.description || '',
+    });
+    setIsDialogOpen(true);
+  };
+
+  const handleDelete = async (project: any) => {
+    if (confirm(`Are you sure you want to delete "${project.name}"? This action cannot be undone and will remove all associated opportunities.`)) {
+      deleteMutation.mutate({ id: project.id });
+    }
+  };
+
+  const handleDialogClose = (open: boolean) => {
+    setIsDialogOpen(open);
+    if (!open) {
+      setEditingProject(null);
+      setFormData({ name: '', domain: '', niche: '', description: '' });
+    }
   };
 
   // Combine real projects with demo projects
