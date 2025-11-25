@@ -2,32 +2,55 @@ import { initTRPC, TRPCError } from '@trpc/server';
 import { prisma } from '@/lib/db/prisma';
 import superjson from 'superjson';
 import { FetchCreateContextFnOptions } from '@trpc/server/adapters/fetch';
-import { getToken } from 'next-auth/jwt';
+import { decode } from 'next-auth/jwt';
 
 export const createContext = async (opts: FetchCreateContextFnOptions) => {
-  // Extract JWT token from cookies using NextAuth's getToken
-  const token = await getToken({
-    req: opts.req as any,
-    secret: process.env.NEXTAUTH_SECRET,
-  });
+  let session = null;
 
-  console.log('[tRPC Context] Token:', token ? 'Found' : 'Not found');
+  try {
+    // Get cookies from request
+    const cookieHeader = opts.req.headers.get('cookie');
+    
+    if (cookieHeader) {
+      // Parse cookies manually
+      const cookies = Object.fromEntries(
+        cookieHeader.split('; ').map(c => {
+          const [key, ...v] = c.split('=');
+          return [key, v.join('=')];
+        })
+      );
 
-  // Convert token to session format
-  const session = token
-    ? {
-        user: {
-          id: token.id as string,
-          email: token.email as string,
-          name: token.name as string,
-          role: token.role as string,
-        },
-        expires: new Date(token.exp! * 1000).toISOString(),
+      // NextAuth session token can be in different cookie names
+      const sessionToken = 
+        cookies['next-auth.session-token'] || 
+        cookies['__Secure-next-auth.session-token'] ||
+        cookies['authjs.session-token'] ||
+        cookies['__Secure-authjs.session-token'];
+
+      if (sessionToken) {
+        // Decode the JWT token
+        const decoded = await decode({
+          token: sessionToken,
+          secret: process.env.NEXTAUTH_SECRET!,
+        });
+
+        if (decoded) {
+          session = {
+            user: {
+              id: decoded.id as string,
+              email: decoded.email as string,
+              name: decoded.name as string,
+              role: decoded.role as string,
+            },
+            expires: new Date(decoded.exp! * 1000).toISOString(),
+          };
+        }
       }
-    : null;
+    }
+  } catch (error) {
+    console.error('[tRPC Context] Error extracting session:', error);
+  }
 
-  console.log('[tRPC Context] Session:', session ? `User: ${session.user.email}, Role: ${session.user.role}` : 'No session');
-  
   return {
     session,
     prisma,
