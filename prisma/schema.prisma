@@ -281,6 +281,8 @@ enum ActivityType {
   OPPORTUNITY_REMOVED
   SUBSCRIPTION_CHANGED
   NOTE_ADDED
+  EXPORT_GENERATED
+}
 
 model UserPreferences {
   id                        String    @id @default(cuid())
@@ -314,7 +316,4 @@ model ApiKey {
   
   @@index([userId])
   @@index([key])
-}
-
-  EXPORT_GENERATED
 }
