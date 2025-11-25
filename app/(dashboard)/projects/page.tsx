@@ -27,8 +27,17 @@ import {
   Circle,
   Sparkles,
   ExternalLink,
-  Globe
+  Globe,
+  Edit,
+  Trash2,
+  MoreVertical
 } from 'lucide-react';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 
 // Sample demo projects for visual appeal
 const DEMO_PROJECTS = [
