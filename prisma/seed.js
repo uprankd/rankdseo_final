@@ -142,10 +142,10 @@ async function main() {
     update: {},
     create: {
       userId: adminUser.id,
-      planId: proPlan.id,
+      planId: lifetimePlan.id,
       status: 'ACTIVE',
       currentPeriodStart: new Date(),
-      currentPeriodEnd: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000) // 1 year
+      currentPeriodEnd: new Date(Date.now() + 99 * 365 * 24 * 60 * 60 * 1000) // 99 years for lifetime
     }
   });
 
