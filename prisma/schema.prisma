@@ -23,6 +23,8 @@ model User {
   subscription      Subscription?
   projects          Project[]
   activityLogs      ActivityLog[]
+  preferences       UserPreferences?
+  apiKeys           ApiKey[]
   
   @@index([email])
 }
