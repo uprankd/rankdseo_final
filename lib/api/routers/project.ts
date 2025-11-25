@@ -377,6 +377,7 @@ export const projectRouter = router({
         throw new TRPCError({ code: 'NOT_FOUND', message: 'Project not found' });
       }
 
+      let finalStatus = input.status;
       const updateData: any = {
         status: input.status,
       };
@@ -384,13 +385,46 @@ export const projectRouter = router({
       if (input.notes !== undefined) updateData.notes = input.notes;
       if (input.linkUrl !== undefined) updateData.linkUrl = input.linkUrl;
 
-      // Set timestamps based on status
-      if (input.status === 'SUBMITTED') {
-        updateData.submittedAt = new Date();
-      } else if (input.status === 'APPROVED') {
-        updateData.approvedAt = new Date();
-      } else if (input.status === 'REJECTED') {
-        updateData.rejectedAt = new Date();
+      // Auto-verify link when status is SUBMITTED
+      if (input.status === 'SUBMITTED' && input.linkUrl) {
+        try {
+          // Check if the link is live
+          const controller = new AbortController();
+          const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
+
+          const response = await fetch(input.linkUrl, {
+            method: 'HEAD',
+            signal: controller.signal,
+            redirect: 'follow',
+          });
+
+          clearTimeout(timeoutId);
+
+          // If link is accessible (200-399 status codes), auto-approve
+          if (response.ok || (response.status >= 300 && response.status < 400)) {
+            finalStatus = 'APPROVED';
+            updateData.status = 'APPROVED';
+            updateData.approvedAt = new Date();
+            console.log(`✅ Auto-approved: ${input.linkUrl} - Status ${response.status}`);
+          } else {
+            // Link exists but may have issues
+            updateData.submittedAt = new Date();
+            console.log(`⚠️ Link submitted but returned ${response.status}: ${input.linkUrl}`);
+          }
+        } catch (error: any) {
+          // Link verification failed - keep as SUBMITTED
+          updateData.submittedAt = new Date();
+          console.log(`❌ Link verification failed: ${input.linkUrl} - ${error.message}`);
+        }
+      } else {
+        // Set timestamps based on status (for non-SUBMITTED or no URL)
+        if (input.status === 'SUBMITTED') {
+          updateData.submittedAt = new Date();
+        } else if (input.status === 'APPROVED') {
+          updateData.approvedAt = new Date();
+        } else if (input.status === 'REJECTED') {
+          updateData.rejectedAt = new Date();
+        }
       }
 
       const projectOpportunity = await ctx.prisma.projectOpportunity.update({
@@ -411,7 +445,9 @@ export const projectRouter = router({
           userId: ctx.user.id,
           projectId: input.projectId,
           type: 'STATUS_CHANGE',
-          title: `${projectOpportunity.opportunity.siteName} status: ${input.status}`,
+          title: `${projectOpportunity.opportunity.siteName} status: ${finalStatus}${
+            finalStatus === 'APPROVED' && input.status === 'SUBMITTED' ? ' (auto-verified)' : ''
+          }`,
         },
       });
 
