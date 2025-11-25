@@ -620,12 +620,25 @@ export default function ProjectDetailPage() {
   const demoData = isDemoProject ? DEMO_PROJECT_DATA[projectId] : null;
 
   // Fetch real project data if not demo
+  const utils = trpc.useUtils();
   const { data: project, isLoading } = trpc.project.getById.useQuery(
     { id: projectId },
     { enabled: !isDemoProject }
   );
 
+  const updateStatus = trpc.project.updateOpportunityStatus.useMutation({
+    onSuccess: () => {
+      toast.success('✅ Status updated!');
+      utils.project.getById.invalidate({ id: projectId });
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
+  });
+
   const [selectedStatus, setSelectedStatus] = useState<string>('all');
+  const [editingNotes, setEditingNotes] = useState<Record<string, string>>({});
+  const [editingUrls, setEditingUrls] = useState<Record<string, string>>({});
 
   // Use demo data or real data
   const projectData = isDemoProject ? demoData : project;
