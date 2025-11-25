@@ -33,10 +33,11 @@ export const createContext = async (opts: FetchCreateContextFnOptions) => {
       console.log('[tRPC] Session token found:', !!sessionToken);
 
       if (sessionToken) {
-        // Decode the JWT token
+        // Decode the JWT token with salt parameter
         const decoded = await decode({
           token: sessionToken,
           secret: process.env.NEXTAUTH_SECRET!,
+          salt: 'authjs.session-token', // Required salt parameter
         });
 
         console.log('[tRPC] Token decoded:', !!decoded);
