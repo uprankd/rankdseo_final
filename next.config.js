@@ -16,6 +16,8 @@ const nextConfig = {
         ignored: ['**/node_modules'],
       };
     }
+    // Allow importing .jsx files without extension
+    config.resolve.extensions = ['.tsx', '.ts', '.jsx', '.js', '.json'];
     return config;
   },
   onDemandEntries: {
