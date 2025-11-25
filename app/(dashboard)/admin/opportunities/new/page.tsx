@@ -35,7 +35,7 @@ export default function NewOpportunityPage() {
     status: 'ACTIVE' as const,
   });
 
-  const createOpportunity = api.admin.createOpportunity.useMutation({
+  const createOpportunity = trpc.admin.createOpportunity.useMutation({
     onSuccess: (data) => {
       router.push(`/admin/opportunities/${data.id}/edit`);
     },
