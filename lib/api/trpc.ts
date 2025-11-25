@@ -2,7 +2,7 @@ import { initTRPC, TRPCError } from '@trpc/server';
 import { prisma } from '@/lib/db/prisma';
 import superjson from 'superjson';
 import { FetchCreateContextFnOptions } from '@trpc/server/adapters/fetch';
-import { decode } from 'next-auth/jwt';
+import { getToken } from 'next-auth/jwt';
 
 export const createContext = async (opts: FetchCreateContextFnOptions) => {
   let session = null;
