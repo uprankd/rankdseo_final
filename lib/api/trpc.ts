@@ -3,7 +3,7 @@ import { auth } from '@/lib/auth';
 import { prisma } from '@/lib/db/prisma';
 import superjson from 'superjson';
 
-export const createContext = async () => {
+export const createContext = async (opts: { req: Request }) => {
   const session = await auth();
   return { session, prisma };
 };
