@@ -42,7 +42,7 @@ export default function AdminPage() {
     limit: 50,
   });
 
-  const deleteOpportunity = api.admin.deleteOpportunity.useMutation({
+  const deleteOpportunity = trpc.admin.deleteOpportunity.useMutation({
     onSuccess: () => {
       refetch();
     },
