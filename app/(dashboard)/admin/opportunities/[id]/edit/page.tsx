@@ -27,8 +27,8 @@ export default function EditOpportunityPage() {
   const params = useParams();
   const id = params.id as string;
 
-  const { data: opportunity, isLoading, refetch } = api.admin.getOpportunity.useQuery({ id });
-  const updateOpportunity = api.admin.updateOpportunity.useMutation({
+  const { data: opportunity, isLoading, refetch } = trpc.admin.getOpportunity.useQuery({ id });
+  const updateOpportunity = trpc.admin.updateOpportunity.useMutation({
     onSuccess: () => {
       refetch();
     },
