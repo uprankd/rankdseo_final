@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import { Providers } from './providers';
 import { Toaster } from '@/components/ui/sonner';
+import '@/lib/init'; // Initialize background jobs
 
 const inter = Inter({ subsets: ['latin'] });
 
