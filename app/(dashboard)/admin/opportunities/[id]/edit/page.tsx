@@ -75,7 +75,7 @@ export default function EditOpportunityPage() {
     }
   }, [opportunity]);
 
-  const createInstruction = api.admin.createInstruction.useMutation({
+  const createInstruction = trpc.admin.createInstruction.useMutation({
     onSuccess: () => {
       refetch();
       setNewInstruction({
@@ -88,14 +88,14 @@ export default function EditOpportunityPage() {
     },
   });
 
-  const updateInstruction = api.admin.updateInstruction.useMutation({
+  const updateInstruction = trpc.admin.updateInstruction.useMutation({
     onSuccess: () => {
       refetch();
       setEditingInstruction(null);
     },
   });
 
-  const deleteInstruction = api.admin.deleteInstruction.useMutation({
+  const deleteInstruction = trpc.admin.deleteInstruction.useMutation({
     onSuccess: () => {
       refetch();
     },
