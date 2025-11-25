@@ -354,6 +354,123 @@ export const projectRouter = router({
       return { success: true };
     }),
 
+  verifyLink: protectedProcedure
+    .input(
+      z.object({
+        projectId: z.string(),
+        opportunityId: z.string(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      // Verify project ownership
+      const project = await ctx.prisma.project.findFirst({
+        where: {
+          id: input.projectId,
+          userId: ctx.user.id,
+        },
+      });
+
+      if (!project) {
+        throw new TRPCError({ code: 'NOT_FOUND', message: 'Project not found' });
+      }
+
+      // Get the opportunity
+      const projectOpportunity = await ctx.prisma.projectOpportunity.findUnique({
+        where: {
+          projectId_opportunityId: {
+            projectId: input.projectId,
+            opportunityId: input.opportunityId,
+          },
+        },
+        include: {
+          opportunity: true,
+        },
+      });
+
+      if (!projectOpportunity) {
+        throw new TRPCError({ code: 'NOT_FOUND', message: 'Opportunity not found' });
+      }
+
+      if (!projectOpportunity.linkUrl) {
+        throw new TRPCError({ code: 'BAD_REQUEST', message: 'No link URL to verify' });
+      }
+
+      let isLive = false;
+      let statusCode = 0;
+      let errorMessage = '';
+
+      try {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 10000);
+
+        const response = await fetch(projectOpportunity.linkUrl, {
+          method: 'HEAD',
+          signal: controller.signal,
+          redirect: 'follow',
+        });
+
+        clearTimeout(timeoutId);
+        statusCode = response.status;
+
+        if (response.ok || (response.status >= 300 && response.status < 400)) {
+          isLive = true;
+        }
+      } catch (error: any) {
+        errorMessage = error.message;
+      }
+
+      // Update status based on verification
+      let newStatus = projectOpportunity.status;
+      const updateData: any = {};
+
+      if (isLive) {
+        // Link is working - approve if not already approved
+        if (projectOpportunity.status !== 'APPROVED') {
+          newStatus = 'APPROVED';
+          updateData.status = 'APPROVED';
+          updateData.approvedAt = new Date();
+        }
+      } else {
+        // Link is not working - reject if it was approved/submitted
+        if (projectOpportunity.status === 'APPROVED' || projectOpportunity.status === 'SUBMITTED') {
+          newStatus = 'REJECTED';
+          updateData.status = 'REJECTED';
+          updateData.rejectedAt = new Date();
+          updateData.notes = `Link verification failed: ${errorMessage || `HTTP ${statusCode}`}`;
+        }
+      }
+
+      // Only update if status changed
+      if (Object.keys(updateData).length > 0) {
+        await ctx.prisma.projectOpportunity.update({
+          where: {
+            projectId_opportunityId: {
+              projectId: input.projectId,
+              opportunityId: input.opportunityId,
+            },
+          },
+          data: updateData,
+        });
+
+        await ctx.prisma.activityLog.create({
+          data: {
+            userId: ctx.user.id,
+            projectId: input.projectId,
+            type: 'STATUS_CHANGE',
+            title: `${projectOpportunity.opportunity.siteName} re-verified: ${newStatus}`,
+          },
+        });
+      }
+
+      return {
+        isLive,
+        statusCode,
+        newStatus,
+        errorMessage,
+        changed: Object.keys(updateData).length > 0,
+      };
+    }),
+
   updateOpportunityStatus: protectedProcedure
     .input(
       z.object({
