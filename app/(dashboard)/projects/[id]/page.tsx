@@ -653,7 +653,26 @@ export default function ProjectDetailPage() {
     );
   }
 
-  const opportunities = projectData.opportunities || [];
+  // Transform real project opportunities to match demo format
+  let opportunities = projectData.opportunities || [];
+  
+  // If this is a real project, transform the data structure
+  if (!isDemoProject && projectData?.opportunities) {
+    opportunities = projectData.opportunities.map((po: any) => ({
+      id: po.id,
+      projectOpportunityId: po.id,
+      siteName: po.opportunity?.siteName || 'Unknown',
+      category: po.opportunity?.category || 'General',
+      status: po.status,
+      priority: po.priority,
+      domainAuthority: po.opportunity?.domainAuthority,
+      linkUrl: po.linkUrl,
+      submittedAt: po.submittedAt,
+      approvedAt: po.approvedAt,
+      notes: po.notes,
+    }));
+  }
+  
   const filteredOpportunities =
     selectedStatus === 'all'
       ? opportunities
