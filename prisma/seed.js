@@ -6,81 +6,119 @@ const prisma = new PrismaClient();
 async function main() {
   console.log('🌱 Starting seed...');
 
-  // Create Plans
+  // Create subscription plans matching the pricing screenshot
   console.log('Creating plans...');
-  const freePlan = await prisma.plan.upsert({
-    where: { name: 'Free' },
+  
+  const monthlyPlan = await prisma.plan.upsert({
+    where: { name: 'Monthly Membership' },
     update: {},
     create: {
-      name: 'Free',
-      description: 'Perfect for getting started with backlink building',
-      price: 0,
+      name: 'Monthly Membership',
+      description: 'Full access to all backlink opportunities - billed monthly',
+      price: 3499, // $34.99
       interval: 'month',
-      maxOpportunities: 50,
-      maxProjects: 1,
-      allowExport: false,
-      allowApiAccess: false,
+      maxOpportunities: 1000,
+      maxProjects: 100,
+      allowExport: true,
+      allowApiAccess: true,
       priority: 0,
       isActive: true,
       features: {
-        opportunities: 50,
-        projects: 1,
-        export: false,
-        api: false,
-        support: 'Community'
-      }
-    }
+        opportunities: 'Unlimited',
+        projects: 100,
+        export: true,
+        apiAccess: true,
+        support: 'Priority Email',
+        autoVerification: true,
+        tutorials: 'Full Access',
+      },
+    },
   });
 
-  const basicPlan = await prisma.plan.upsert({
-    where: { name: 'Basic' },
+  const threeMonthPlan = await prisma.plan.upsert({
+    where: { name: '3 Month Membership' },
     update: {},
     create: {
-      name: 'Basic',
-      description: 'For serious SEO practitioners',
-      price: 2900, // $29.00 in cents
-      interval: 'month',
+      name: '3 Month Membership',
+      description: 'Save 43% - Full access for 3 months',
+      price: 5999, // $59.99
+      interval: '3-month',
       maxOpportunities: 1000,
-      maxProjects: 5,
-      allowExport: false,
-      allowApiAccess: false,
+      maxProjects: 100,
+      allowExport: true,
+      allowApiAccess: true,
       priority: 1,
       isActive: true,
       features: {
-        opportunities: 1000,
-        projects: 5,
-        export: false,
-        api: false,
-        support: 'Priority Email'
-      }
-    }
+        opportunities: 'Unlimited',
+        projects: 100,
+        export: true,
+        apiAccess: true,
+        support: 'Priority Email',
+        autoVerification: true,
+        tutorials: 'Full Access',
+        savings: '43% off',
+      },
+    },
   });
 
-  const proPlan = await prisma.plan.upsert({
-    where: { name: 'Pro' },
+  const yearlyPlan = await prisma.plan.upsert({
+    where: { name: '1 Year Membership' },
     update: {},
     create: {
-      name: 'Pro',
-      description: 'For agencies and power users',
-      price: 9900, // $99.00 in cents
-      interval: 'month',
-      maxOpportunities: 999999,
-      maxProjects: 999999,
+      name: '1 Year Membership',
+      description: 'Best value - Save 76% with annual billing',
+      price: 9999, // $99.99
+      interval: 'year',
+      maxOpportunities: 1000,
+      maxProjects: 100,
       allowExport: true,
       allowApiAccess: true,
       priority: 2,
       isActive: true,
       features: {
         opportunities: 'Unlimited',
-        projects: 'Unlimited',
+        projects: 100,
         export: true,
-        api: true,
-        support: 'Priority + Phone'
-      }
-    }
+        apiAccess: true,
+        support: 'Priority Email',
+        autoVerification: true,
+        tutorials: 'Full Access',
+        savings: '76% off',
+        popular: true,
+      },
+    },
   });
 
-  console.log('✅ Plans created');
+  const lifetimePlan = await prisma.plan.upsert({
+    where: { name: 'Lifetime Membership' },
+    update: {},
+    create: {
+      name: 'Lifetime Membership',
+      description: 'Pay once, use forever - 99 year access',
+      price: 17999, // $179.99
+      interval: 'lifetime',
+      maxOpportunities: 1000,
+      maxProjects: 100,
+      allowExport: true,
+      allowApiAccess: true,
+      priority: 3,
+      isActive: true,
+      features: {
+        opportunities: 'Unlimited',
+        projects: 'Unlimited',
+        export: true,
+        apiAccess: true,
+        support: 'Priority Email',
+        autoVerification: true,
+        tutorials: 'Full Access',
+        duration: '99 Years',
+        bestValue: true,
+      },
+    },
+  });
+
+  console.log('✅ Plans created (Monthly, 3-Month, Yearly, Lifetime)');
 
   // Create Admin User
   console.log('Creating admin user...');
