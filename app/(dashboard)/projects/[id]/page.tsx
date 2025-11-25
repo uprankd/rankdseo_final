@@ -28,6 +28,8 @@ import {
   Target,
   BarChart3,
   PlayCircle,
+  Edit,
+  Save,
 } from 'lucide-react';
 import { useState } from 'react';
 import { toast } from 'sonner';
