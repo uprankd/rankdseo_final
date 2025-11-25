@@ -15,7 +15,7 @@ TRPC_URL = f"{BASE_URL}/api/trpc"
 
 # Admin credentials
 ADMIN_EMAIL = "admin@rankseo.com"
-ADMIN_PASSWORD = "admin123"
+ADMIN_PASSWORD = "Admin123!"
 
 class TRPCClient:
     def __init__(self):
