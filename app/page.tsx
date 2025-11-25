@@ -4,118 +4,151 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Check, ArrowRight, Search, TrendingUp, Target, Zap } from 'lucide-react';
+import { Check, ArrowRight, Search, TrendingUp, Target, Zap, Star, Crown, Sparkles, Globe } from 'lucide-react';
 
 export default function HomePage() {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white">
+    <div className="min-h-screen">
       {/* Header */}
-      <header className="border-b bg-white/80 backdrop-blur-sm sticky top-0 z-50">
-        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-          <div className="flex items-center space-x-2">
-            <div className="h-8 w-8 bg-blue-600 rounded flex items-center justify-center">
-              <span className="text-white font-bold">R</span>
+      <header className="border-b-2 border-purple-200 bg-white/90 backdrop-blur-lg sticky top-0 z-50 shadow-lg">
+        <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
+          <div className="flex items-center space-x-3">
+            <div className="relative">
+              <div className="h-12 w-12 bg-gradient-to-br from-purple-600 via-pink-600 to-orange-500 rounded-2xl flex items-center justify-center shadow-xl">
+                <Crown className="h-7 w-7 text-white" />
+              </div>
+              <div className="absolute -top-1 -right-1 h-4 w-4 bg-yellow-400 rounded-full border-2 border-white animate-pulse"></div>
             </div>
-            <span className="text-xl font-bold">RankdSEO</span>
+            <span className="text-2xl font-black bg-gradient-to-r from-purple-600 via-pink-600 to-orange-500 bg-clip-text text-transparent">RankdSEO</span>
           </div>
           <nav className="hidden md:flex items-center space-x-6">
-            <Link href="#features" className="text-sm font-medium hover:text-blue-600">
+            <Link href="#features" className="text-sm font-semibold text-gray-700 hover:text-purple-600 transition-colors">
               Features
             </Link>
-            <Link href="#pricing" className="text-sm font-medium hover:text-blue-600">
+            <Link href="#pricing" className="text-sm font-semibold text-gray-700 hover:text-purple-600 transition-colors">
               Pricing
             </Link>
-            <Link href="/signin" className="text-sm font-medium hover:text-blue-600">
+            <Link href="/signin" className="text-sm font-semibold text-gray-700 hover:text-purple-600 transition-colors">
               Sign In
             </Link>
             <Link href="/signup">
-              <Button size="sm">Get Started</Button>
+              <Button size="sm" className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 shadow-lg">
+                Get Started
+              </Button>
             </Link>
           </nav>
         </div>
       </header>
 
       {/* Hero Section */}
-      <section className="py-20 px-4">
-        <div className="container mx-auto text-center max-w-4xl">
-          <Badge className="mb-4" variant="secondary">
-            10,000+ Curated Backlink Opportunities
-          </Badge>
-          <h1 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent">
-            Build High-Quality Backlinks with Confidence
+      <section className="relative py-20 px-4 overflow-hidden">
+        {/* Decorative Background Elements */}
+        <div className="absolute inset-0 overflow-hidden">
+          <div className="absolute top-20 left-10 w-72 h-72 bg-purple-300 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob"></div>
+          <div className="absolute top-40 right-10 w-72 h-72 bg-pink-300 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob animation-delay-2000"></div>
+          <div className="absolute -bottom-8 left-1/2 w-72 h-72 bg-orange-300 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob animation-delay-4000"></div>
+        </div>
+
+        <div className="relative max-w-7xl mx-auto text-center">
+          <div className="flex justify-center mb-6">
+            <Badge className="bg-gradient-to-r from-purple-600 to-pink-600 text-white border-0 px-6 py-2 text-base font-bold shadow-xl">
+              <Sparkles className="h-4 w-4 mr-2" />
+              10,000+ Curated Backlink Opportunities
+            </Badge>
+          </div>
+          <h1 className="text-6xl md:text-7xl font-black mb-6 leading-tight">
+            <span className="bg-gradient-to-r from-purple-600 via-pink-600 to-orange-500 bg-clip-text text-transparent">
+              Build High-Quality
+            </span>
+            <br />
+            <span className="bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
+              Backlinks with Confidence
+            </span>
           </h1>
-          <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
+          <p className="text-2xl text-gray-700 mb-10 max-w-3xl mx-auto font-medium leading-relaxed">
             Discover curated backlink opportunities with step-by-step instructions,
-            track your progress, and boost your website's SEO performance.
+            track your progress, and <span className="text-purple-600 font-bold">boost your SEO performance</span>
           </p>
-          <div className="flex gap-4 justify-center">
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <Link href="/signup">
-              <Button size="lg" className="text-lg px-8">
-                Start Free Trial <ArrowRight className="ml-2 h-5 w-5" />
+              <Button size="lg" className="bg-gradient-to-r from-purple-600 via-pink-600 to-orange-500 hover:from-purple-700 hover:via-pink-700 hover:to-orange-600 text-white text-xl px-10 py-7 shadow-2xl transform hover:scale-105 transition-all">
+                Start Free Trial
+                <ArrowRight className="ml-3 h-6 w-6" />
               </Button>
             </Link>
             <Link href="#features">
-              <Button size="lg" variant="outline" className="text-lg px-8">
+              <Button size="lg" variant="outline" className="text-xl px-10 py-7 border-2 border-purple-300 hover:bg-purple-50">
                 Learn More
               </Button>
             </Link>
           </div>
-          <p className="text-sm text-gray-500 mt-4">No credit card required • Free forever plan</p>
+          <p className="text-sm text-gray-600 mt-6 flex items-center justify-center gap-2">
+            <Check className="h-4 w-4 text-green-600" />
+            No credit card required
+            <Check className="h-4 w-4 text-green-600" />
+            Free forever plan
+          </p>
         </div>
       </section>
 
       {/* Features Section */}
       <section id="features" className="py-20 px-4 bg-white">
-        <div className="container mx-auto">
+        <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-4">Everything You Need to Build Better Backlinks</h2>
+            <Badge className="bg-purple-100 text-purple-700 mb-4 text-base px-4 py-2">
+              <Star className="h-4 w-4 mr-2" />
+              Features
+            </Badge>
+            <h2 className="text-5xl font-black mb-4 bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
+              Everything You Need
+            </h2>
             <p className="text-xl text-gray-600">Powerful features to streamline your SEO workflow</p>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <Card>
-              <CardContent className="pt-6">
-                <div className="h-12 w-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4">
-                  <Search className="h-6 w-6 text-blue-600" />
+            <Card className="border-2 border-blue-200 hover:border-blue-400 transition-all hover:shadow-2xl hover:-translate-y-2 group">
+              <CardContent className="pt-8">
+                <div className="h-16 w-16 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-2xl flex items-center justify-center mb-6 shadow-xl group-hover:scale-110 transition-transform">
+                  <Search className="h-8 w-8 text-white" />
                 </div>
-                <h3 className="text-xl font-semibold mb-2">Curated Opportunities</h3>
-                <p className="text-gray-600">
+                <h3 className="text-2xl font-bold mb-3 text-gray-800">Curated Opportunities</h3>
+                <p className="text-gray-600 leading-relaxed">
                   Access 10,000+ verified backlink opportunities across all niches and industries.
                 </p>
               </CardContent>
             </Card>
 
-            <Card>
-              <CardContent className="pt-6">
-                <div className="h-12 w-12 bg-green-100 rounded-lg flex items-center justify-center mb-4">
-                  <Target className="h-6 w-6 text-green-600" />
+            <Card className="border-2 border-green-200 hover:border-green-400 transition-all hover:shadow-2xl hover:-translate-y-2 group">
+              <CardContent className="pt-8">
+                <div className="h-16 w-16 bg-gradient-to-br from-green-500 to-emerald-500 rounded-2xl flex items-center justify-center mb-6 shadow-xl group-hover:scale-110 transition-transform">
+                  <Target className="h-8 w-8 text-white" />
                 </div>
-                <h3 className="text-xl font-semibold mb-2">Step-by-Step Guides</h3>
-                <p className="text-gray-600">
+                <h3 className="text-2xl font-bold mb-3 text-gray-800">Step-by-Step Guides</h3>
+                <p className="text-gray-600 leading-relaxed">
                   Detailed instructions for each opportunity to ensure successful backlink creation.
                 </p>
               </CardContent>
             </Card>
 
-            <Card>
-              <CardContent className="pt-6">
-                <div className="h-12 w-12 bg-purple-100 rounded-lg flex items-center justify-center mb-4">
-                  <TrendingUp className="h-6 w-6 text-purple-600" />
+            <Card className="border-2 border-purple-200 hover:border-purple-400 transition-all hover:shadow-2xl hover:-translate-y-2 group">
+              <CardContent className="pt-8">
+                <div className="h-16 w-16 bg-gradient-to-br from-purple-500 to-pink-500 rounded-2xl flex items-center justify-center mb-6 shadow-xl group-hover:scale-110 transition-transform">
+                  <TrendingUp className="h-8 w-8 text-white" />
                 </div>
-                <h3 className="text-xl font-semibold mb-2">Progress Tracking</h3>
-                <p className="text-gray-600">
+                <h3 className="text-2xl font-bold mb-3 text-gray-800">Progress Tracking</h3>
+                <p className="text-gray-600 leading-relaxed">
                   Monitor your backlink building progress with project management tools.
                 </p>
               </CardContent>
             </Card>
 
-            <Card>
-              <CardContent className="pt-6">
-                <div className="h-12 w-12 bg-orange-100 rounded-lg flex items-center justify-center mb-4">
-                  <Zap className="h-6 w-6 text-orange-600" />
+            <Card className="border-2 border-orange-200 hover:border-orange-400 transition-all hover:shadow-2xl hover:-translate-y-2 group">
+              <CardContent className="pt-8">
+                <div className="h-16 w-16 bg-gradient-to-br from-orange-500 to-red-500 rounded-2xl flex items-center justify-center mb-6 shadow-xl group-hover:scale-110 transition-transform">
+                  <Zap className="h-8 w-8 text-white" />
                 </div>
-                <h3 className="text-xl font-semibold mb-2">SEO Metrics</h3>
-                <p className="text-gray-600">
+                <h3 className="text-2xl font-bold mb-3 text-gray-800">SEO Metrics</h3>
+                <p className="text-gray-600 leading-relaxed">
                   View DA, DR, traffic estimates, and spam scores for informed decisions.
                 </p>
               </CardContent>
@@ -126,108 +159,126 @@ export default function HomePage() {
 
       {/* Pricing Section */}
       <section id="pricing" className="py-20 px-4">
-        <div className="container mx-auto">
+        <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-4">Simple, Transparent Pricing</h2>
+            <Badge className="bg-gradient-to-r from-green-500 to-teal-500 text-white mb-4 text-base px-4 py-2 border-0">
+              <Crown className="h-4 w-4 mr-2" />
+              Pricing
+            </Badge>
+            <h2 className="text-5xl font-black mb-4 bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
+              Simple, Transparent Pricing
+            </h2>
             <p className="text-xl text-gray-600">Choose the plan that fits your needs</p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+          <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
             {/* Free Plan */}
-            <Card>
-              <CardContent className="pt-6">
-                <h3 className="text-2xl font-bold mb-2">Free</h3>
-                <div className="mb-4">
-                  <span className="text-4xl font-bold">$0</span>
-                  <span className="text-gray-600">/month</span>
+            <Card className="border-2 border-blue-200 hover:shadow-2xl transition-all">
+              <CardContent className="pt-8">
+                <h3 className="text-3xl font-black mb-2 text-gray-800">Free</h3>
+                <div className="mb-6">
+                  <span className="text-5xl font-black bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent">$0</span>
+                  <span className="text-gray-600 text-lg">/month</span>
                 </div>
-                <ul className="space-y-3 mb-6">
+                <ul className="space-y-4 mb-8">
                   <li className="flex items-center">
-                    <Check className="h-5 w-5 text-green-600 mr-2" />
-                    <span>50 opportunities</span>
+                    <Check className="h-5 w-5 text-green-600 mr-3 flex-shrink-0" />
+                    <span className="text-gray-700">50 opportunities</span>
                   </li>
                   <li className="flex items-center">
-                    <Check className="h-5 w-5 text-green-600 mr-2" />
-                    <span>1 project</span>
+                    <Check className="h-5 w-5 text-green-600 mr-3 flex-shrink-0" />
+                    <span className="text-gray-700">1 project</span>
                   </li>
                   <li className="flex items-center">
-                    <Check className="h-5 w-5 text-green-600 mr-2" />
-                    <span>Basic filtering</span>
+                    <Check className="h-5 w-5 text-green-600 mr-3 flex-shrink-0" />
+                    <span className="text-gray-700">Basic filtering</span>
                   </li>
                 </ul>
                 <Link href="/signup">
-                  <Button variant="outline" className="w-full">Get Started</Button>
+                  <Button variant="outline" className="w-full h-12 text-base font-semibold border-2 border-blue-300 hover:bg-blue-50">
+                    Get Started
+                  </Button>
                 </Link>
               </CardContent>
             </Card>
 
             {/* Basic Plan */}
-            <Card className="border-blue-600 border-2 relative">
-              <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
-                <Badge className="bg-blue-600">Popular</Badge>
+            <Card className="border-4 border-purple-400 relative transform scale-105 hover:shadow-2xl transition-all bg-gradient-to-b from-purple-50 to-white">
+              <div className="absolute -top-5 left-1/2 transform -translate-x-1/2">
+                <Badge className="bg-gradient-to-r from-purple-600 to-pink-600 text-white text-base px-6 py-2 shadow-xl border-0">
+                  <Star className="h-4 w-4 mr-2" />
+                  Popular
+                </Badge>
               </div>
-              <CardContent className="pt-6">
-                <h3 className="text-2xl font-bold mb-2">Basic</h3>
-                <div className="mb-4">
-                  <span className="text-4xl font-bold">$29</span>
-                  <span className="text-gray-600">/month</span>
+              <CardContent className="pt-10">
+                <h3 className="text-3xl font-black mb-2 text-gray-800">Basic</h3>
+                <div className="mb-6">
+                  <span className="text-5xl font-black bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">$29</span>
+                  <span className="text-gray-600 text-lg">/month</span>
                 </div>
-                <ul className="space-y-3 mb-6">
+                <ul className="space-y-4 mb-8">
                   <li className="flex items-center">
-                    <Check className="h-5 w-5 text-green-600 mr-2" />
-                    <span>1,000 opportunities</span>
+                    <Check className="h-5 w-5 text-green-600 mr-3 flex-shrink-0" />
+                    <span className="text-gray-700 font-semibold">1,000 opportunities</span>
                   </li>
                   <li className="flex items-center">
-                    <Check className="h-5 w-5 text-green-600 mr-2" />
-                    <span>5 projects</span>
+                    <Check className="h-5 w-5 text-green-600 mr-3 flex-shrink-0" />
+                    <span className="text-gray-700 font-semibold">5 projects</span>
                   </li>
                   <li className="flex items-center">
-                    <Check className="h-5 w-5 text-green-600 mr-2" />
-                    <span>Advanced filtering</span>
+                    <Check className="h-5 w-5 text-green-600 mr-3 flex-shrink-0" />
+                    <span className="text-gray-700 font-semibold">Advanced filtering</span>
                   </li>
                   <li className="flex items-center">
-                    <Check className="h-5 w-5 text-green-600 mr-2" />
-                    <span>Priority support</span>
+                    <Check className="h-5 w-5 text-green-600 mr-3 flex-shrink-0" />
+                    <span className="text-gray-700 font-semibold">Priority support</span>
                   </li>
                 </ul>
                 <Link href="/signup">
-                  <Button className="w-full">Get Started</Button>
+                  <Button className="w-full h-12 text-base font-semibold bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 shadow-xl">
+                    Get Started
+                  </Button>
                 </Link>
               </CardContent>
             </Card>
 
             {/* Pro Plan */}
-            <Card>
-              <CardContent className="pt-6">
-                <h3 className="text-2xl font-bold mb-2">Pro</h3>
-                <div className="mb-4">
-                  <span className="text-4xl font-bold">$99</span>
-                  <span className="text-gray-600">/month</span>
+            <Card className="border-2 border-orange-200 hover:shadow-2xl transition-all">
+              <CardContent className="pt-8">
+                <div className="flex items-center gap-2 mb-2">
+                  <h3 className="text-3xl font-black text-gray-800">Pro</h3>
+                  <Crown className="h-6 w-6 text-yellow-500" />
                 </div>
-                <ul className="space-y-3 mb-6">
+                <div className="mb-6">
+                  <span className="text-5xl font-black bg-gradient-to-r from-orange-600 to-pink-600 bg-clip-text text-transparent">$99</span>
+                  <span className="text-gray-600 text-lg">/month</span>
+                </div>
+                <ul className="space-y-4 mb-8">
                   <li className="flex items-center">
-                    <Check className="h-5 w-5 text-green-600 mr-2" />
-                    <span>Unlimited opportunities</span>
+                    <Check className="h-5 w-5 text-green-600 mr-3 flex-shrink-0" />
+                    <span className="text-gray-700">Unlimited opportunities</span>
                   </li>
                   <li className="flex items-center">
-                    <Check className="h-5 w-5 text-green-600 mr-2" />
-                    <span>Unlimited projects</span>
+                    <Check className="h-5 w-5 text-green-600 mr-3 flex-shrink-0" />
+                    <span className="text-gray-700">Unlimited projects</span>
                   </li>
                   <li className="flex items-center">
-                    <Check className="h-5 w-5 text-green-600 mr-2" />
-                    <span>CSV export</span>
+                    <Check className="h-5 w-5 text-green-600 mr-3 flex-shrink-0" />
+                    <span className="text-gray-700">CSV export</span>
                   </li>
                   <li className="flex items-center">
-                    <Check className="h-5 w-5 text-green-600 mr-2" />
-                    <span>API access</span>
+                    <Check className="h-5 w-5 text-green-600 mr-3 flex-shrink-0" />
+                    <span className="text-gray-700">API access</span>
                   </li>
                   <li className="flex items-center">
-                    <Check className="h-5 w-5 text-green-600 mr-2" />
-                    <span>Priority + Phone support</span>
+                    <Check className="h-5 w-5 text-green-600 mr-3 flex-shrink-0" />
+                    <span className="text-gray-700">Priority + Phone support</span>
                   </li>
                 </ul>
                 <Link href="/signup">
-                  <Button variant="outline" className="w-full">Get Started</Button>
+                  <Button variant="outline" className="w-full h-12 text-base font-semibold border-2 border-orange-300 hover:bg-orange-50">
+                    Get Started
+                  </Button>
                 </Link>
               </CardContent>
             </Card>
@@ -236,13 +287,16 @@ export default function HomePage() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 px-4 bg-blue-600 text-white">
-        <div className="container mx-auto text-center">
-          <h2 className="text-4xl font-bold mb-4">Ready to Build Better Backlinks?</h2>
-          <p className="text-xl mb-8 opacity-90">Join thousands of SEO professionals using RankdSEO</p>
+      <section className="py-20 px-4 bg-gradient-to-br from-purple-600 via-pink-600 to-orange-500 text-white relative overflow-hidden">
+        <div className="absolute inset-0 bg-black/10"></div>
+        <div className="relative max-w-5xl mx-auto text-center">
+          <Sparkles className="h-16 w-16 mx-auto mb-6 animate-pulse" />
+          <h2 className="text-5xl font-black mb-6">Ready to Build Better Backlinks?</h2>
+          <p className="text-2xl mb-10 opacity-95 font-medium">Join thousands of SEO professionals using RankdSEO</p>
           <Link href="/signup">
-            <Button size="lg" variant="secondary" className="text-lg px-8">
-              Start Your Free Trial <ArrowRight className="ml-2 h-5 w-5" />
+            <Button size="lg" variant="secondary" className="text-xl px-12 py-8 bg-white text-purple-600 hover:bg-gray-100 shadow-2xl font-bold">
+              Start Your Free Trial
+              <ArrowRight className="ml-3 h-6 w-6" />
             </Button>
           </Link>
         </div>
@@ -250,16 +304,34 @@ export default function HomePage() {
 
       {/* Footer */}
       <footer className="py-12 px-4 bg-gray-900 text-gray-400">
-        <div className="container mx-auto text-center">
-          <div className="flex items-center justify-center space-x-2 mb-4">
-            <div className="h-8 w-8 bg-blue-600 rounded flex items-center justify-center">
-              <span className="text-white font-bold">R</span>
+        <div className="max-w-7xl mx-auto text-center">
+          <div className="flex items-center justify-center space-x-3 mb-6">
+            <div className="h-12 w-12 bg-gradient-to-br from-purple-600 via-pink-600 to-orange-500 rounded-2xl flex items-center justify-center shadow-xl">
+              <Crown className="h-7 w-7 text-white" />
             </div>
-            <span className="text-xl font-bold text-white">RankdSEO</span>
+            <span className="text-2xl font-black bg-gradient-to-r from-purple-400 via-pink-400 to-orange-400 bg-clip-text text-transparent">RankdSEO</span>
           </div>
           <p className="text-sm">© 2024 RankdSEO. All rights reserved.</p>
         </div>
       </footer>
+
+      <style jsx global>{`
+        @keyframes blob {
+          0% { transform: translate(0px, 0px) scale(1); }
+          33% { transform: translate(30px, -50px) scale(1.1); }
+          66% { transform: translate(-20px, 20px) scale(0.9); }
+          100% { transform: translate(0px, 0px) scale(1); }
+        }
+        .animate-blob {
+          animation: blob 7s infinite;
+        }
+        .animation-delay-2000 {
+          animation-delay: 2s;
+        }
+        .animation-delay-4000 {
+          animation-delay: 4s;
+        }
+      `}</style>
     </div>
   );
 }
