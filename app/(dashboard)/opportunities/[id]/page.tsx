@@ -238,8 +238,8 @@ const OPPORTUNITIES = {
   // Add more opportunities here...
 };
 
-export default function OpportunityDetailPage({ params }: { params: Promise<{ id: string }> }) {
-  const { id } = use(params);
+export default function OpportunityDetailPage({ params }: { params: { id: string } }) {
+  const { id } = params;
   
   // Try to get real data from API, fallback to fake data
   const { data: realOpportunity } = trpc.opportunity.getById.useQuery({ id });
