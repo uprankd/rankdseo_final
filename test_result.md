@@ -47,7 +47,25 @@ Build an admin panel for RankdSEO that allows admin users to:
   ✅ Added admin menu item to sidebar (visible only to ADMIN role users)
 
 ## Test Results
-_Will be updated after each testing phase_
+_Will be updated after backend testing phase_
+
+## Testing Details
+
+### Backend API Endpoints to Test:
+1. **Admin Stats**: `admin.getStats` - Get dashboard statistics
+2. **List Opportunities**: `admin.listOpportunities` - List all opportunities with search/filter
+3. **Get Opportunity**: `admin.getOpportunity` - Get single opportunity with instructions
+4. **Create Opportunity**: `admin.createOpportunity` - Create new opportunity
+5. **Update Opportunity**: `admin.updateOpportunity` - Update existing opportunity
+6. **Delete Opportunity**: `admin.deleteOpportunity` - Delete opportunity
+7. **Create Instruction**: `admin.createInstruction` - Add instruction step
+8. **Update Instruction**: `admin.updateInstruction` - Edit instruction step
+9. **Delete Instruction**: `admin.deleteInstruction` - Delete instruction step
+
+### Authentication:
+- Admin user: `admin@rankseo.com` / `admin123`
+- All admin endpoints should reject non-admin users
+- Should return FORBIDDEN error for regular users
 
 ## Action Items
 _Will be populated by testing agents_
