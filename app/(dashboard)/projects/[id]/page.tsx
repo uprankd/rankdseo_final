@@ -977,7 +977,7 @@ export default function ProjectDetailPage() {
                               onValueChange={(value) => {
                                 updateStatus.mutate({
                                   projectId,
-                                  opportunityId: opp.projectOpportunityId.split('_')[1] || opp.projectOpportunityId,
+                                  opportunityId: opp.opportunityId,
                                   status: value as any,
                                   notes: currentNotes || undefined,
                                   linkUrl: currentUrl || undefined,
