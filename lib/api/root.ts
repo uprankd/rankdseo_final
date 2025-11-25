@@ -5,6 +5,7 @@ import { subscriptionRouter } from './routers/subscription';
 import { projectRouter } from './routers/project';
 import { opportunityRouter } from './routers/opportunity';
 import { adminRouter } from './routers/admin';
+import { settingsRouter } from './routers/settings';
 
 export const appRouter = router({
   auth: authRouter,
@@ -13,6 +14,7 @@ export const appRouter = router({
   project: projectRouter,
   opportunity: opportunityRouter,
   admin: adminRouter,
+  settings: settingsRouter,
 });
 
 export type AppRouter = typeof appRouter;
