@@ -1,0 +1,274 @@
+import { router, adminProcedure } from '../trpc';
+import { z } from 'zod';
+import { TRPCError } from '@trpc/server';
+
+export const adminRouter = router({
+  // List all opportunities (including inactive ones)
+  listOpportunities: adminProcedure
+    .input(
+      z.object({
+        limit: z.number().min(1).max(100).optional().default(50),
+        cursor: z.string().optional(),
+        search: z.string().optional(),
+        status: z.enum(['ACTIVE', 'INACTIVE', 'NEEDS_REVIEW', 'BROKEN']).optional(),
+      })
+    )
+    .query(async ({ ctx, input }) => {
+      const where: any = {
+        ...(input.search && {
+          OR: [
+            { siteName: { contains: input.search, mode: 'insensitive' } },
+            { shortDescription: { contains: input.search, mode: 'insensitive' } },
+            { category: { contains: input.search, mode: 'insensitive' } },
+          ],
+        }),
+        ...(input.status && { status: input.status }),
+      };
+
+      const opportunities = await ctx.prisma.backlinkOpportunity.findMany({
+        where,
+        take: input.limit + 1,
+        cursor: input.cursor ? { id: input.cursor } : undefined,
+        orderBy: { createdAt: 'desc' },
+        include: {
+          _count: {
+            select: { instructions: true },
+          },
+        },
+      });
+
+      let nextCursor: string | undefined = undefined;
+      if (opportunities.length > input.limit) {
+        const nextItem = opportunities.pop();
+        nextCursor = nextItem!.id;
+      }
+
+      return {
+        opportunities,
+        nextCursor,
+        hasMore: !!nextCursor,
+      };
+    }),
+
+  // Get a single opportunity with all instructions
+  getOpportunity: adminProcedure
+    .input(z.object({ id: z.string() }))
+    .query(async ({ ctx, input }) => {
+      const opportunity = await ctx.prisma.backlinkOpportunity.findUnique({
+        where: { id: input.id },
+        include: {
+          instructions: {
+            orderBy: { stepOrder: 'asc' },
+          },
+        },
+      });
+
+      if (!opportunity) {
+        throw new TRPCError({ code: 'NOT_FOUND', message: 'Opportunity not found' });
+      }
+
+      return opportunity;
+    }),
+
+  // Create a new opportunity
+  createOpportunity: adminProcedure
+    .input(
+      z.object({
+        url: z.string().url(),
+        siteName: z.string().min(1),
+        shortDescription: z.string().min(1),
+        fullDescription: z.string().optional(),
+        category: z.string().min(1),
+        niche: z.string().min(1),
+        language: z.string().default('en'),
+        country: z.string().optional(),
+        linkType: z.enum([
+          'PROFILE',
+          'DIRECTORY',
+          'GUEST_POST',
+          'FORUM',
+          'SOCIAL',
+          'ARTICLE_SUBMISSION',
+          'BLOG_COMMENT',
+          'WEB_2_0',
+          'Q_AND_A',
+          'BUSINESS_LISTING',
+        ]),
+        isFree: z.boolean().default(true),
+        cost: z.number().optional(),
+        difficultyLevel: z.number().min(1).max(5).default(3),
+        domainAuthority: z.number().optional(),
+        domainRating: z.number().optional(),
+        estimatedTraffic: z.number().optional(),
+        spamScore: z.number().optional().default(0),
+        isDofollow: z.boolean().default(true),
+        status: z.enum(['ACTIVE', 'INACTIVE', 'NEEDS_REVIEW', 'BROKEN']).default('ACTIVE'),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const opportunity = await ctx.prisma.backlinkOpportunity.create({
+        data: input,
+      });
+
+      return opportunity;
+    }),
+
+  // Update an existing opportunity
+  updateOpportunity: adminProcedure
+    .input(
+      z.object({
+        id: z.string(),
+        url: z.string().url().optional(),
+        siteName: z.string().min(1).optional(),
+        shortDescription: z.string().min(1).optional(),
+        fullDescription: z.string().optional(),
+        category: z.string().min(1).optional(),
+        niche: z.string().min(1).optional(),
+        language: z.string().optional(),
+        country: z.string().optional(),
+        linkType: z.enum([
+          'PROFILE',
+          'DIRECTORY',
+          'GUEST_POST',
+          'FORUM',
+          'SOCIAL',
+          'ARTICLE_SUBMISSION',
+          'BLOG_COMMENT',
+          'WEB_2_0',
+          'Q_AND_A',
+          'BUSINESS_LISTING',
+        ]).optional(),
+        isFree: z.boolean().optional(),
+        cost: z.number().optional(),
+        difficultyLevel: z.number().min(1).max(5).optional(),
+        domainAuthority: z.number().optional(),
+        domainRating: z.number().optional(),
+        estimatedTraffic: z.number().optional(),
+        spamScore: z.number().optional(),
+        isDofollow: z.boolean().optional(),
+        status: z.enum(['ACTIVE', 'INACTIVE', 'NEEDS_REVIEW', 'BROKEN']).optional(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const { id, ...data } = input;
+
+      const opportunity = await ctx.prisma.backlinkOpportunity.update({
+        where: { id },
+        data,
+      });
+
+      return opportunity;
+    }),
+
+  // Delete an opportunity
+  deleteOpportunity: adminProcedure
+    .input(z.object({ id: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      await ctx.prisma.backlinkOpportunity.delete({
+        where: { id: input.id },
+      });
+
+      return { success: true };
+    }),
+
+  // Add a new instruction step
+  createInstruction: adminProcedure
+    .input(
+      z.object({
+        opportunityId: z.string(),
+        stepOrder: z.number().min(1),
+        stepTitle: z.string().min(1),
+        stepDescription: z.string().min(1),
+        screenshotUrl: z.string().url().optional(),
+        estimatedMinutes: z.number().optional(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const instruction = await ctx.prisma.opportunityInstruction.create({
+        data: input,
+      });
+
+      return instruction;
+    }),
+
+  // Update an instruction step
+  updateInstruction: adminProcedure
+    .input(
+      z.object({
+        id: z.string(),
+        stepOrder: z.number().min(1).optional(),
+        stepTitle: z.string().min(1).optional(),
+        stepDescription: z.string().min(1).optional(),
+        screenshotUrl: z.string().url().optional(),
+        estimatedMinutes: z.number().optional(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const { id, ...data } = input;
+
+      const instruction = await ctx.prisma.opportunityInstruction.update({
+        where: { id },
+        data,
+      });
+
+      return instruction;
+    }),
+
+  // Delete an instruction step
+  deleteInstruction: adminProcedure
+    .input(z.object({ id: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      await ctx.prisma.opportunityInstruction.delete({
+        where: { id: input.id },
+      });
+
+      return { success: true };
+    }),
+
+  // Reorder instructions
+  reorderInstructions: adminProcedure
+    .input(
+      z.object({
+        opportunityId: z.string(),
+        instructionIds: z.array(z.string()),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      // Update each instruction with new stepOrder
+      const updatePromises = input.instructionIds.map((id, index) =>
+        ctx.prisma.opportunityInstruction.update({
+          where: { id },
+          data: { stepOrder: index + 1 },
+        })
+      );
+
+      await Promise.all(updatePromises);
+
+      return { success: true };
+    }),
+
+  // Get statistics for admin dashboard
+  getStats: adminProcedure.query(async ({ ctx }) => {
+    const [
+      totalOpportunities,
+      activeOpportunities,
+      totalInstructions,
+      totalUsers,
+      totalProjects,
+    ] = await Promise.all([
+      ctx.prisma.backlinkOpportunity.count(),
+      ctx.prisma.backlinkOpportunity.count({ where: { status: 'ACTIVE' } }),
+      ctx.prisma.opportunityInstruction.count(),
+      ctx.prisma.user.count(),
+      ctx.prisma.project.count(),
+    ]);
+
+    return {
+      totalOpportunities,
+      activeOpportunities,
+      totalInstructions,
+      totalUsers,
+      totalProjects,
+    };
+  }),
+});
