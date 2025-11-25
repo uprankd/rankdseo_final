@@ -661,7 +661,7 @@ async function main() {
 
   console.log('\n🎉 Seed completed successfully!');
   console.log('\n📊 Summary:');
-  console.log(`   - Plans: 3 (Free, Basic, Pro)`);
+  console.log(`   - Plans: 4 (Monthly, 3-Month, Yearly, Lifetime)`);
   console.log(`   - Users: 1 admin user`);
   console.log(`   - Opportunities: ${opportunities.length}`);
   console.log(`   - Projects: 1 demo project`);
