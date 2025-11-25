@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import { TRPCProvider } from '@/lib/api/providers';
 import { Toaster } from '@/components/ui/sonner';
+import { SessionProvider } from 'next-auth/react';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -19,10 +20,12 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={inter.className}>
-        <TRPCProvider>
-          {children}
-          <Toaster />
-        </TRPCProvider>
+        <SessionProvider>
+          <TRPCProvider>
+            {children}
+            <Toaster />
+          </TRPCProvider>
+        </SessionProvider>
       </body>
     </html>
   );
