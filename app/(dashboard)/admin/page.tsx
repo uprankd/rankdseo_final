@@ -29,8 +29,13 @@ export default function AdminPage() {
   const [search, setSearch] = useState('');
   const [statusFilter, setStatusFilter] = useState<'ACTIVE' | 'INACTIVE' | 'NEEDS_REVIEW' | 'BROKEN' | undefined>();
 
+  // Debug logging
+  console.log('[Admin Page] Session:', JSON.stringify(session));
+  console.log('[Admin Page] User role:', (session?.user as any)?.role);
+
   // Redirect if not admin
-  if (session?.user?.role !== 'ADMIN') {
+  if ((session?.user as any)?.role !== 'ADMIN') {
+    console.log('[Admin Page] Not admin, redirecting');
     router.push('/dashboard');
     return null;
   }
