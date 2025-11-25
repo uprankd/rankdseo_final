@@ -5,8 +5,15 @@ import superjson from 'superjson';
 import { FetchCreateContextFnOptions } from '@trpc/server/adapters/fetch';
 
 export const createContext = async (opts: FetchCreateContextFnOptions) => {
+  // Extract session from the request using NextAuth v5
   const session = await auth();
-  return { session, prisma, ...opts };
+  
+  return {
+    session,
+    prisma,
+    req: opts.req,
+    resHeaders: opts.resHeaders,
+  };
 };
 
 type Context = Awaited<ReturnType<typeof createContext>>;
