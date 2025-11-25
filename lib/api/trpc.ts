@@ -8,55 +8,26 @@ export const createContext = async (opts: FetchCreateContextFnOptions) => {
   let session = null;
 
   try {
-    // Get cookies from request
-    const cookieHeader = opts.req.headers.get('cookie');
-    console.log('[tRPC] Cookie header exists:', !!cookieHeader);
-    
-    if (cookieHeader) {
-      // Parse cookies manually
-      const cookies = Object.fromEntries(
-        cookieHeader.split('; ').map(c => {
-          const [key, ...v] = c.split('=');
-          return [key, v.join('=')];
-        })
-      );
+    // Use getToken to extract the session - it handles all the complexity
+    const token = await getToken({
+      req: opts.req as any,
+      secret: process.env.NEXTAUTH_SECRET!,
+      secureCookie: true, // We're using HTTPS
+    });
 
-      console.log('[tRPC] Cookie names:', Object.keys(cookies));
+    console.log('[tRPC] Token found:', !!token);
 
-      // NextAuth session token can be in different cookie names
-      const sessionToken = 
-        cookies['next-auth.session-token'] || 
-        cookies['__Secure-next-auth.session-token'] ||
-        cookies['authjs.session-token'] ||
-        cookies['__Secure-authjs.session-token'];
-
-      console.log('[tRPC] Session token found:', !!sessionToken);
-
-      if (sessionToken) {
-        // Decode the JWT token with salt parameter  
-        // Use the cookie name as salt (secure version for HTTPS)
-        const cookieName = '__Secure-authjs.session-token';
-        const decoded = await decode({
-          token: sessionToken,
-          secret: process.env.NEXTAUTH_SECRET!,
-          salt: cookieName,
-        });
-
-        console.log('[tRPC] Token decoded:', !!decoded);
-
-        if (decoded) {
-          session = {
-            user: {
-              id: decoded.id as string,
-              email: decoded.email as string,
-              name: decoded.name as string,
-              role: decoded.role as string,
-            },
-            expires: new Date(decoded.exp! * 1000).toISOString(),
-          };
-          console.log('[tRPC] Session created for:', decoded.email);
-        }
-      }
+    if (token) {
+      session = {
+        user: {
+          id: token.id as string,
+          email: token.email as string,
+          name: token.name as string,
+          role: token.role as string,
+        },
+        expires: new Date(token.exp! * 1000).toISOString(),
+      };
+      console.log('[tRPC] Session created for:', token.email);
     }
   } catch (error) {
     console.error('[tRPC Context] Error extracting session:', error);
