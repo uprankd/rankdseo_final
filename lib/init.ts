@@ -4,5 +4,8 @@ import { startScheduler } from './scheduler';
 if (typeof window === 'undefined') {
   // Only run on server side
   console.log('🚀 Initializing server-side jobs...');
-  startScheduler();
+  // Delay scheduler start to avoid startup issues
+  setTimeout(() => {
+    startScheduler();
+  }, 10000); // Start after 10 seconds
 }
