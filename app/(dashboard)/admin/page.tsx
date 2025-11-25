@@ -35,8 +35,8 @@ export default function AdminPage() {
     return null;
   }
 
-  const { data: stats } = api.admin.getStats.useQuery();
-  const { data: opportunitiesData, isLoading, refetch } = api.admin.listOpportunities.useQuery({
+  const { data: stats } = trpc.admin.getStats.useQuery();
+  const { data: opportunitiesData, isLoading, refetch } = trpc.admin.listOpportunities.useQuery({
     search: search || undefined,
     status: statusFilter,
     limit: 50,
