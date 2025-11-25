@@ -678,6 +678,7 @@ export default function ProjectDetailPage() {
     opportunities = projectData.opportunities.map((po: any) => ({
       id: po.id,
       projectOpportunityId: po.id,
+      opportunityId: po.opportunityId, // Store the actual opportunity ID
       siteName: po.opportunity?.siteName || 'Unknown',
       category: po.opportunity?.category || 'General',
       status: po.status,
