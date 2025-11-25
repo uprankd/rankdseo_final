@@ -645,6 +645,24 @@ export default function ProjectDetailPage() {
     },
   });
 
+  const verifyLink = trpc.project.verifyLink.useMutation({
+    onSuccess: (data) => {
+      if (data.isLive) {
+        toast.success('✅ Link is working!', {
+          description: data.changed ? 'Status updated to Approved' : 'Backlink is live',
+        });
+      } else {
+        toast.error('❌ Link is not working', {
+          description: data.changed ? 'Status changed to Rejected' : data.errorMessage || 'Link verification failed',
+        });
+      }
+      utils.project.getById.invalidate({ id: projectId });
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
+  });
+
   const [selectedStatus, setSelectedStatus] = useState<string>('all');
   const [editingNotes, setEditingNotes] = useState<Record<string, string>>({});
   const [editingUrls, setEditingUrls] = useState<Record<string, string>>({});
