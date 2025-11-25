@@ -769,6 +769,14 @@ export default function ProjectDetailPage() {
             </div>
           </div>
         </div>
+        {!isDemoProject && (
+          <Link href={`/projects/${projectId}/edit`}>
+            <Button className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 shadow-lg">
+              <Edit className="h-5 w-5 mr-2" />
+              Manage Opportunities
+            </Button>
+          </Link>
+        )}
       </div>
 
       {/* Stats Overview */}
