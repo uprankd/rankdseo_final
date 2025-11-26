@@ -43,6 +43,8 @@ export default function EditOpportunityPage() {
     screenshotUrl: '',
     estimatedMinutes: 5,
   });
+  const [uploadingImage, setUploadingImage] = useState(false);
+  const [imagePreview, setImagePreview] = useState<string>('');
 
   useEffect(() => {
     if (opportunity) {
