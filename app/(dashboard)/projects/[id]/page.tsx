@@ -1132,6 +1132,38 @@ export default function ProjectDetailPage() {
                               )}
                             </div>
                           )}
+
+                          {/* Tutorial Button */}
+                          {opp.opportunityId && (
+                            <div className="pl-0">
+                              <Button
+                                variant="outline"
+                                size="sm"
+                                onClick={() => {
+                                  setExpandedTutorials({
+                                    ...expandedTutorials,
+                                    [oppId]: !expandedTutorials[oppId],
+                                  });
+                                }}
+                                className="border-2 border-navy-300 hover:bg-navy-50 w-full justify-between"
+                              >
+                                <span className="flex items-center gap-2">
+                                  <BookOpen className="h-4 w-4" />
+                                  View Step-by-Step Tutorial
+                                </span>
+                                {expandedTutorials[oppId] ? (
+                                  <ChevronUp className="h-4 w-4" />
+                                ) : (
+                                  <ChevronDown className="h-4 w-4" />
+                                )}
+                              </Button>
+
+                              {/* Tutorial Content */}
+                              {expandedTutorials[oppId] && (
+                                <TutorialSection opportunityId={opp.opportunityId} />
+                              )}
+                            </div>
+                          )}
                         </div>
                       )}
 
