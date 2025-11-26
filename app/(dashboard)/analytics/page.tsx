@@ -9,7 +9,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { 
   LineChart, Line, BarChart, Bar, PieChart, Pie, Cell,
   XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer 
-} from 'recharts';
+} from '@/components/charts/ChartComponents';
 import { 
   TrendingUp, TrendingDown, Award, Target, Link2, CheckCircle2, 
   XCircle, Clock, Download, Activity, BarChart3, PieChart as PieChartIcon,
