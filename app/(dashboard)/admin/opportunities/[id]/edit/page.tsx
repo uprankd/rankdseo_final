@@ -154,6 +154,49 @@ export default function EditOpportunityPage() {
     }
   };
 
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    // Validate file type
+    if (!file.type.startsWith('image/')) {
+      toast.error('Please upload an image file');
+      return;
+    }
+
+    // Validate file size (max 5MB)
+    if (file.size > 5 * 1024 * 1024) {
+      toast.error('Image size must be less than 5MB');
+      return;
+    }
+
+    setUploadingImage(true);
+    try {
+      // Convert to base64
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const base64String = reader.result as string;
+        setImagePreview(base64String);
+        setNewInstruction({ ...newInstruction, screenshotUrl: base64String });
+        toast.success('Image uploaded successfully!');
+        setUploadingImage(false);
+      };
+      reader.onerror = () => {
+        toast.error('Failed to upload image');
+        setUploadingImage(false);
+      };
+      reader.readAsDataURL(file);
+    } catch (error) {
+      toast.error('Failed to upload image');
+      setUploadingImage(false);
+    }
+  };
+
+  const handleRemoveImage = () => {
+    setImagePreview('');
+    setNewInstruction({ ...newInstruction, screenshotUrl: '' });
+  };
+
   if (isLoading || !formData) {
     return (
       <div className="flex items-center justify-center py-20">
