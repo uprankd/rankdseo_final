@@ -1211,3 +1211,87 @@ export default function ProjectDetailPage() {
     </div>
   );
 }
+
+// Tutorial Section Component
+function TutorialSection({ opportunityId }: { opportunityId: string }) {
+  const { data: opportunity, isLoading } = trpc.opportunity.getById.useQuery({ id: opportunityId });
+
+  if (isLoading) {
+    return (
+      <div className="mt-4 p-6 bg-paleblue-50 rounded-lg border-2 border-navy-200">
+        <div className="flex items-center gap-2 text-navy-500">
+          <div className="h-4 w-4 border-2 border-navy-500 border-t-transparent rounded-full animate-spin"></div>
+          <span className="text-sm">Loading tutorial...</span>
+        </div>
+      </div>
+    );
+  }
+
+  if (!opportunity?.instructions || opportunity.instructions.length === 0) {
+    return (
+      <div className="mt-4 p-6 bg-gray-50 rounded-lg border-2 border-gray-200">
+        <p className="text-sm text-gray-600 flex items-center gap-2">
+          <Lightbulb className="h-4 w-4" />
+          No tutorial available for this opportunity yet.
+        </p>
+      </div>
+    );
+  }
+
+  return (
+    <div className="mt-4 p-6 bg-gradient-to-br from-paleblue-50 to-sky-50 rounded-lg border-2 border-navy-200">
+      <div className="space-y-4">
+        <div className="flex items-center gap-2 mb-4">
+          <div className="h-8 w-8 rounded-full bg-gradient-to-br from-navy-500 to-sky-500 flex items-center justify-center">
+            <BookOpen className="h-4 w-4 text-white" />
+          </div>
+          <div>
+            <h4 className="font-bold text-navy-600">How to Get This Backlink</h4>
+            <p className="text-xs text-gray-600">{opportunity.instructions.length} steps to follow</p>
+          </div>
+        </div>
+
+        <div className="space-y-3">
+          {opportunity.instructions.map((instruction: any, index: number) => (
+            <div
+              key={instruction.id}
+              className="flex gap-4 p-4 bg-white rounded-lg border-2 border-navy-100 hover:border-navy-300 transition-all"
+            >
+              <div className="flex-shrink-0">
+                <div className="h-8 w-8 rounded-full bg-gradient-to-br from-navy-500 to-sky-500 flex items-center justify-center font-bold text-white text-sm">
+                  {index + 1}
+                </div>
+              </div>
+              <div className="flex-1">
+                <h5 className="font-semibold text-gray-800 mb-1">{instruction.title}</h5>
+                <p className="text-sm text-gray-600 leading-relaxed">{instruction.description}</p>
+                {instruction.tip && (
+                  <div className="mt-2 flex items-start gap-2 p-2 bg-sky-50 rounded border border-sky-200">
+                    <Lightbulb className="h-4 w-4 text-sky-600 flex-shrink-0 mt-0.5" />
+                    <p className="text-xs text-sky-700">
+                      <span className="font-semibold">Pro Tip:</span> {instruction.tip}
+                    </p>
+                  </div>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {opportunity.websiteUrl && (
+          <div className="mt-4 pt-4 border-t-2 border-navy-200">
+            <a
+              href={opportunity.websiteUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 text-sm font-semibold text-navy-600 hover:text-sky-600 transition-colors"
+            >
+              <ExternalLink className="h-4 w-4" />
+              Visit {opportunity.siteName} →
+            </a>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
