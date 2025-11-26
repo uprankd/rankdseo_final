@@ -703,14 +703,61 @@ export default function EditOpportunityPage() {
                 />
               </div>
               <div>
-                <Label className="font-semibold">Screenshot URL (optional)</Label>
-                <Input
-                  type="url"
-                  value={newInstruction.screenshotUrl}
-                  onChange={(e) => setNewInstruction({ ...newInstruction, screenshotUrl: e.target.value })}
-                  className="border-2 h-11"
-                  placeholder="https://example.com/screenshot.png"
-                />
+                <Label className="font-semibold">Screenshot (optional)</Label>
+                
+                {/* Image Preview */}
+                {imagePreview && (
+                  <div className="relative mb-3 group">
+                    <img 
+                      src={imagePreview} 
+                      alt="Screenshot preview" 
+                      className="w-full max-h-64 object-contain rounded-lg border-2 border-navy-200"
+                    />
+                    <Button
+                      type="button"
+                      variant="destructive"
+                      size="sm"
+                      onClick={handleRemoveImage}
+                      className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity"
+                    >
+                      <X className="h-4 w-4 mr-1" />
+                      Remove
+                    </Button>
+                  </div>
+                )}
+
+                {/* Upload Button */}
+                <div className="flex gap-2">
+                  <label className="flex-1">
+                    <div className={`border-2 border-dashed rounded-lg p-4 text-center cursor-pointer transition-all ${
+                      uploadingImage ? 'border-navy-400 bg-navy-50' : 'border-gray-300 hover:border-navy-400 hover:bg-navy-50'
+                    }`}>
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={handleImageUpload}
+                        className="hidden"
+                        disabled={uploadingImage}
+                      />
+                      <div className="flex flex-col items-center gap-2">
+                        {uploadingImage ? (
+                          <>
+                            <Sparkles className="h-8 w-8 text-navy-500 animate-spin" />
+                            <p className="text-sm font-medium text-navy-600">Uploading...</p>
+                          </>
+                        ) : (
+                          <>
+                            <Upload className="h-8 w-8 text-gray-400" />
+                            <p className="text-sm font-medium text-gray-600">
+                              {imagePreview ? 'Change Screenshot' : 'Upload Screenshot'}
+                            </p>
+                            <p className="text-xs text-gray-500">PNG, JPG up to 5MB</p>
+                          </>
+                        )}
+                      </div>
+                    </div>
+                  </label>
+                </div>
               </div>
               <Button
                 type="submit"
