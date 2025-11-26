@@ -134,14 +134,24 @@ export default function AnalyticsPage() {
           </h1>
           <p className="text-gray-600 text-lg">Comprehensive insights into your backlink building performance</p>
         </div>
-        <Button 
-          onClick={handleExport} 
-          disabled={exportingData}
-          className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700"
-        >
-          <Download className="mr-2 h-4 w-4" />
-          Export Data
-        </Button>
+        <div className="flex gap-3">
+          <Button 
+            onClick={handleRefreshData}
+            variant="outline"
+            className="border-purple-200 text-purple-600 hover:bg-purple-50"
+          >
+            <RefreshCw className="mr-2 h-4 w-4" />
+            Refresh Data
+          </Button>
+          <Button 
+            onClick={handleExport} 
+            disabled={exportingData}
+            className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700"
+          >
+            <Download className="mr-2 h-4 w-4" />
+            Export Data
+          </Button>
+        </div>
       </div>
 
       {/* Key Metrics */}
