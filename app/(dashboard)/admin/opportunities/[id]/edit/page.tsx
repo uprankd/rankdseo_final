@@ -84,13 +84,16 @@ export default function EditOpportunityPage() {
   const createInstruction = trpc.admin.createInstruction.useMutation({
     onSuccess: () => {
       refetch();
+      // Reset form and image preview
       setNewInstruction({
-        stepOrder: (opportunity?.instructions.length || 0) + 2,
+        stepOrder: (opportunity?.instructions?.length || 0) + 1,
         stepTitle: '',
         stepDescription: '',
         screenshotUrl: '',
         estimatedMinutes: 5,
       });
+      setImagePreview('');
+      toast.success('Instruction step added successfully!');
     },
   });
 
