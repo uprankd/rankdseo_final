@@ -152,7 +152,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
               {/* Plan Badge */}
               <div className="pt-6">
-                <div className="bg-gradient-to-br from-yellow-400 via-orange-500 to-pink-500 p-6 rounded-2xl border-2 border-gold-300 shadow-xl">
+                <div className="bg-gradient-to-br from-gold-400 via-gold-500 to-gold-600 p-6 rounded-2xl border-2 border-gold-300 shadow-xl">
                   <div className="flex items-center justify-between mb-3">
                     <Badge className="bg-white/90 backdrop-blur text-gold-600 border-0 font-bold text-sm px-3 py-1">
                       <Crown className="h-4 w-4 mr-1" />
