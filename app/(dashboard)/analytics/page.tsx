@@ -88,7 +88,13 @@ export default function AnalyticsPage() {
     setExportingData(false);
   };
 
-  const StatCard = ({ title, value, change, icon: Icon, trend }: any) => (
+  const StatCard = ({ title, value, change, icon: Icon, trend }: {
+    title: string;
+    value: string | number;
+    change?: string;
+    icon: any;
+    trend?: 'up' | 'down';
+  }) => (
     <Card className="border-2 hover:shadow-lg transition-all">
       <CardContent className="pt-6">
         <div className="flex items-center justify-between">
