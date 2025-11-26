@@ -230,7 +230,7 @@ export default function SettingsPage() {
               <Button 
                 onClick={handleUpdateProfile} 
                 disabled={updateProfile.isPending}
-                className="bg-gradient-to-r from-navy-500 to-sky-500 hover:from-purple-700 hover:to-pink-700"
+                className="bg-gradient-to-r from-navy-500 to-sky-500 hover:from-purple-700 hover:to-sky-600"
               >
                 {updateProfile.isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                 Update Profile
@@ -277,7 +277,7 @@ export default function SettingsPage() {
               <Button 
                 onClick={handleChangePassword} 
                 disabled={changePassword.isPending}
-                className="bg-gradient-to-r from-navy-500 to-sky-500 hover:from-purple-700 hover:to-pink-700"
+                className="bg-gradient-to-r from-navy-500 to-sky-500 hover:from-purple-700 hover:to-sky-600"
               >
                 {changePassword.isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                 Change Password
@@ -299,7 +299,7 @@ export default function SettingsPage() {
             <CardContent>
               {subscription ? (
                 <div className="space-y-6">
-                  <div className="flex items-center justify-between p-6 bg-gradient-to-r from-purple-50 to-pink-50 rounded-lg border-2 border-navy-200">
+                  <div className="flex items-center justify-between p-6 bg-gradient-to-r from-paleblue-50 to-pink-50 rounded-lg border-2 border-navy-200">
                     <div>
                       <h3 className="text-2xl font-bold text-gray-800">{subscription.plan.name}</h3>
                       <p className="text-gray-600 mt-1">{subscription.plan.description}</p>
@@ -460,7 +460,7 @@ export default function SettingsPage() {
                     <Button 
                       onClick={handleGenerateApiKey}
                       disabled={generateApiKey.isPending}
-                      className="bg-gradient-to-r from-navy-500 to-sky-500 hover:from-purple-700 hover:to-pink-700 whitespace-nowrap"
+                      className="bg-gradient-to-r from-navy-500 to-sky-500 hover:from-purple-700 hover:to-sky-600 whitespace-nowrap"
                     >
                       {generateApiKey.isPending ? (
                         <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -520,7 +520,7 @@ export default function SettingsPage() {
                   <p className="text-gray-600 mb-4">Upgrade your plan to get API access</p>
                   <Button 
                     onClick={() => setActiveTab('subscription')}
-                    className="bg-gradient-to-r from-navy-500 to-sky-500 hover:from-purple-700 hover:to-pink-700"
+                    className="bg-gradient-to-r from-navy-500 to-sky-500 hover:from-purple-700 hover:to-sky-600"
                   >
                     View Plans
                   </Button>

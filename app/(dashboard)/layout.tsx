@@ -69,13 +69,13 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             </Button>
             <Link href="/dashboard" className="flex items-center space-x-3">
               <div className="relative">
-                <div className="h-12 w-12 bg-gradient-to-br from-purple-600 via-pink-600 to-orange-500 rounded-2xl flex items-center justify-center shadow-xl transform hover:rotate-6 transition-transform">
+                <div className="h-12 w-12 bg-gradient-to-br from-navy-500 via-sky-500 to-sky-600 rounded-2xl flex items-center justify-center shadow-xl transform hover:rotate-6 transition-transform">
                   <Crown className="h-7 w-7 text-white" />
                 </div>
                 <div className="absolute -top-1 -right-1 h-4 w-4 bg-yellow-400 rounded-full border-2 border-white animate-pulse"></div>
               </div>
               <div className="hidden sm:block">
-                <span className="text-2xl font-black bg-gradient-to-r from-purple-600 via-pink-600 to-orange-500 bg-clip-text text-transparent">
+                <span className="text-2xl font-black bg-gradient-to-r from-navy-500 via-sky-500 to-sky-600 bg-clip-text text-transparent">
                   RankdSEO
                 </span>
                 <div className="flex items-center gap-1">
@@ -87,9 +87,9 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           </div>
 
           <div className="flex items-center space-x-3">
-            <div className="hidden md:flex items-center space-x-3 bg-gradient-to-r from-purple-50 to-pink-50 px-4 py-2 rounded-2xl border-2 border-navy-200">
+            <div className="hidden md:flex items-center space-x-3 bg-gradient-to-r from-paleblue-50 to-pink-50 px-4 py-2 rounded-2xl border-2 border-navy-200">
               <Avatar className="h-10 w-10 border-3 border-white shadow-lg ring-2 ring-purple-200">
-                <AvatarFallback className="bg-gradient-to-br from-purple-600 via-pink-600 to-orange-500 text-white font-bold text-lg">
+                <AvatarFallback className="bg-gradient-to-br from-navy-500 via-sky-500 to-sky-600 text-white font-bold text-lg">
                   {session.user.name?.charAt(0) || session.user.email?.charAt(0) || 'U'}
                 </AvatarFallback>
               </Avatar>
@@ -131,7 +131,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                       className={`w-full justify-start group transition-all h-14 text-base ${
                         active
                           ? `bg-gradient-to-r ${item.gradient} text-white shadow-xl transform scale-105`
-                          : 'hover:bg-gradient-to-r hover:from-purple-50 hover:to-pink-50 hover:scale-105'
+                          : 'hover:bg-gradient-to-r hover:from-paleblue-50 hover:to-pink-50 hover:scale-105'
                       }`}
                     >
                       <Icon className={`h-6 w-6 mr-3 ${active ? 'text-white' : 'text-gray-600'}`} />
@@ -143,7 +143,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
               
               <div className="pt-6 mt-6 border-t-2 border-gray-200">
                 <Link href="/settings">
-                  <Button variant="ghost" className="w-full justify-start hover:bg-gradient-to-r hover:from-purple-50 hover:to-pink-50 h-14 text-base">
+                  <Button variant="ghost" className="w-full justify-start hover:bg-gradient-to-r hover:from-paleblue-50 hover:to-pink-50 h-14 text-base">
                     <Settings className="h-6 w-6 mr-3 text-gray-600" />
                     <span className="font-semibold">Settings</span>
                   </Button>

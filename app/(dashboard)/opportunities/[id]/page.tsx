@@ -363,7 +363,7 @@ export default function OpportunityDetailPage({ params }: { params: { id: string
           </CardContent>
         </Card>
 
-        <Card className="border-2 border-navy-200 bg-gradient-to-br from-purple-50 to-white">
+        <Card className="border-2 border-navy-200 bg-gradient-to-br from-paleblue-50 to-white">
           <CardContent className="pt-6">
             <div className="text-center">
               <Star className="h-8 w-8 text-navy-500 mx-auto mb-2" />
@@ -414,7 +414,7 @@ export default function OpportunityDetailPage({ params }: { params: { id: string
       </div>
 
       {/* Progress Tracker */}
-      <Card className="border-2 border-navy-300 bg-gradient-to-br from-purple-50 to-white">
+      <Card className="border-2 border-navy-300 bg-gradient-to-br from-paleblue-50 to-white">
         <CardHeader>
           <CardTitle className="flex items-center justify-between">
             <span className="text-2xl">Your Progress</span>
@@ -433,7 +433,7 @@ export default function OpportunityDetailPage({ params }: { params: { id: string
 
       {/* Step-by-Step Instructions */}
       <Card className="border-2 border-gray-200 shadow-xl">
-        <CardHeader className="bg-gradient-to-r from-purple-50 to-pink-50 border-b-2 border-navy-200">
+        <CardHeader className="bg-gradient-to-r from-paleblue-50 to-pink-50 border-b-2 border-navy-200">
           <CardTitle className="text-3xl flex items-center gap-3">
             <FileText className="h-8 w-8 text-navy-500" />
             Step-by-Step Tutorial

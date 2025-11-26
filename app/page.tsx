@@ -14,12 +14,12 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center space-x-3">
             <div className="relative">
-              <div className="h-12 w-12 bg-gradient-to-br from-purple-600 via-pink-600 to-orange-500 rounded-2xl flex items-center justify-center shadow-xl">
+              <div className="h-12 w-12 bg-gradient-to-br from-navy-500 via-sky-500 to-sky-600 rounded-2xl flex items-center justify-center shadow-xl">
                 <Crown className="h-7 w-7 text-white" />
               </div>
               <div className="absolute -top-1 -right-1 h-4 w-4 bg-yellow-400 rounded-full border-2 border-white animate-pulse"></div>
             </div>
-            <span className="text-2xl font-black bg-gradient-to-r from-purple-600 via-pink-600 to-orange-500 bg-clip-text text-transparent">RankdSEO</span>
+            <span className="text-2xl font-black bg-gradient-to-r from-navy-500 via-sky-500 to-sky-600 bg-clip-text text-transparent">RankdSEO</span>
           </div>
           <nav className="hidden md:flex items-center space-x-6">
             <Link href="#features" className="text-sm font-semibold text-gray-700 hover:text-navy-500 transition-colors">
@@ -32,7 +32,7 @@ export default function HomePage() {
               Sign In
             </Link>
             <Link href="/signup">
-              <Button size="sm" className="bg-gradient-to-r from-navy-500 to-sky-500 hover:from-purple-700 hover:to-pink-700 shadow-lg">
+              <Button size="sm" className="bg-gradient-to-r from-navy-500 to-sky-500 hover:from-purple-700 hover:to-sky-600 shadow-lg">
                 Get Started
               </Button>
             </Link>
@@ -57,11 +57,11 @@ export default function HomePage() {
             </Badge>
           </div>
           <h1 className="text-6xl md:text-7xl font-black mb-6 leading-tight">
-            <span className="bg-gradient-to-r from-purple-600 via-pink-600 to-orange-500 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-navy-500 via-sky-500 to-sky-600 bg-clip-text text-transparent">
               Build High-Quality
             </span>
             <br />
-            <span className="bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-blue-600 via-navy-500 to-sky-500 bg-clip-text text-transparent">
               Backlinks with Confidence
             </span>
           </h1>
@@ -71,7 +71,7 @@ export default function HomePage() {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <Link href="/signup">
-              <Button size="lg" className="bg-gradient-to-r from-purple-600 via-pink-600 to-orange-500 hover:from-purple-700 hover:via-pink-700 hover:to-orange-600 text-white text-xl px-10 py-7 shadow-2xl transform hover:scale-105 transition-all">
+              <Button size="lg" className="bg-gradient-to-r from-navy-500 via-sky-500 to-sky-600 hover:from-purple-700 hover:via-sky-600 hover:to-orange-600 text-white text-xl px-10 py-7 shadow-2xl transform hover:scale-105 transition-all">
                 Start Free Trial
                 <ArrowRight className="ml-3 h-6 w-6" />
               </Button>
@@ -95,7 +95,7 @@ export default function HomePage() {
       <section id="features" className="py-20 px-4 bg-white">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
-            <Badge className="bg-navy-100 text-purple-700 mb-4 text-base px-4 py-2">
+            <Badge className="bg-navy-100 text-navy-600 mb-4 text-base px-4 py-2">
               <Star className="h-4 w-4 mr-2" />
               Features
             </Badge>
@@ -264,7 +264,7 @@ export default function HomePage() {
             </Card>
 
             {/* 1 Year Membership */}
-            <Card className="border-4 border-navy-400 relative hover:shadow-2xl transition-all bg-gradient-to-b from-purple-50 to-white">
+            <Card className="border-4 border-navy-400 relative hover:shadow-2xl transition-all bg-gradient-to-b from-paleblue-50 to-white">
               <div className="absolute -top-5 left-1/2 transform -translate-x-1/2">
                 <Badge className="bg-gradient-to-r from-navy-500 to-sky-500 text-white text-sm px-6 py-2 shadow-xl border-0">
                   <Star className="h-4 w-4 mr-2" />
@@ -278,7 +278,7 @@ export default function HomePage() {
                   <span className="text-gray-600 text-base"> per Year</span>
                 </div>
                 <div className="mb-6">
-                  <Badge className="bg-navy-100 text-purple-700 text-xs px-2 py-1 border-0">
+                  <Badge className="bg-navy-100 text-navy-600 text-xs px-2 py-1 border-0">
                     Save 76%
                   </Badge>
                 </div>
@@ -309,7 +309,7 @@ export default function HomePage() {
                   </li>
                 </ul>
                 <Link href="/signup">
-                  <Button className="w-full h-12 text-base font-semibold bg-gradient-to-r from-navy-500 to-sky-500 hover:from-purple-700 hover:to-pink-700 shadow-xl">
+                  <Button className="w-full h-12 text-base font-semibold bg-gradient-to-r from-navy-500 to-sky-500 hover:from-purple-700 hover:to-sky-600 shadow-xl">
                     Get Started
                   </Button>
                 </Link>
@@ -324,7 +324,7 @@ export default function HomePage() {
                   <Crown className="h-6 w-6 text-yellow-500" />
                 </div>
                 <div className="mb-2">
-                  <span className="text-4xl font-black bg-gradient-to-r from-orange-600 to-pink-600 bg-clip-text text-transparent">$179.99</span>
+                  <span className="text-4xl font-black bg-gradient-to-r from-orange-600 to-sky-500 bg-clip-text text-transparent">$179.99</span>
                   <span className="text-gray-600 text-base"> now</span>
                 </div>
                 <div className="mb-6">
@@ -374,7 +374,7 @@ export default function HomePage() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 px-4 bg-gradient-to-br from-purple-600 via-pink-600 to-orange-500 text-white relative overflow-hidden">
+      <section className="py-20 px-4 bg-gradient-to-br from-navy-500 via-sky-500 to-sky-600 text-white relative overflow-hidden">
         <div className="absolute inset-0 bg-black/10"></div>
         <div className="relative max-w-5xl mx-auto text-center">
           <Sparkles className="h-16 w-16 mx-auto mb-6 animate-pulse" />
@@ -393,10 +393,10 @@ export default function HomePage() {
       <footer className="py-12 px-4 bg-gray-900 text-gray-400">
         <div className="max-w-7xl mx-auto text-center">
           <div className="flex items-center justify-center space-x-3 mb-6">
-            <div className="h-12 w-12 bg-gradient-to-br from-purple-600 via-pink-600 to-orange-500 rounded-2xl flex items-center justify-center shadow-xl">
+            <div className="h-12 w-12 bg-gradient-to-br from-navy-500 via-sky-500 to-sky-600 rounded-2xl flex items-center justify-center shadow-xl">
               <Crown className="h-7 w-7 text-white" />
             </div>
-            <span className="text-2xl font-black bg-gradient-to-r from-purple-400 via-pink-400 to-orange-400 bg-clip-text text-transparent">RankdSEO</span>
+            <span className="text-2xl font-black bg-gradient-to-r from-navy-100 via-sky-100 to-sky-200 bg-clip-text text-transparent">RankdSEO</span>
           </div>
           <p className="text-sm">© 2024 RankdSEO. All rights reserved.</p>
         </div>

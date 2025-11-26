@@ -162,7 +162,7 @@ export default function EditProjectPage() {
           </Button>
         </Link>
         <div className="flex-1">
-          <h1 className="text-3xl font-black bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
+          <h1 className="text-3xl font-black bg-gradient-to-r from-blue-600 via-navy-500 to-sky-500 bg-clip-text text-transparent">
             Edit Project
           </h1>
           <p className="text-gray-600 text-sm">Manage project details and opportunities</p>
@@ -321,7 +321,7 @@ export default function EditProjectPage() {
                         {po.opportunity.domainAuthority && (
                           <Badge variant="outline" className="border-2">DA: {po.opportunity.domainAuthority}</Badge>
                         )}
-                        <Badge className="bg-navy-100 text-purple-700 border-2 border-navy-300">
+                        <Badge className="bg-navy-100 text-navy-600 border-2 border-navy-300">
                           {po.opportunity.category}
                         </Badge>
                       </div>

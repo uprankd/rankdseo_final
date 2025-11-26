@@ -666,7 +666,7 @@ export default function EditOpportunityPage() {
               <Button
                 type="submit"
                 disabled={createInstruction.isPending}
-                className="w-full bg-gradient-to-r from-navy-500 to-sky-500 hover:from-purple-600 hover:to-pink-600 text-white shadow-lg h-12 font-semibold"
+                className="w-full bg-gradient-to-r from-navy-500 to-sky-500 hover:from-purple-600 hover:to-sky-500 text-white shadow-lg h-12 font-semibold"
               >
                 {createInstruction.isPending ? (
                   <>

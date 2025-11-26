@@ -184,7 +184,7 @@ export default function ProjectsPage() {
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
+          <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-600 via-navy-500 to-sky-500 bg-clip-text text-transparent">
             Your Projects
           </h1>
           <p className="text-gray-600 mt-2 flex items-center gap-2">
@@ -275,11 +275,11 @@ export default function ProjectsPage() {
           </CardContent>
         </Card>
 
-        <Card className="bg-gradient-to-br from-purple-50 to-purple-100 border-navy-200 shadow-md hover:shadow-xl transition-all">
+        <Card className="bg-gradient-to-br from-paleblue-50 to-purple-100 border-navy-200 shadow-md hover:shadow-xl transition-all">
           <CardContent className="pt-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-purple-700">In Progress</p>
+                <p className="text-sm font-medium text-navy-600">In Progress</p>
                 <p className="text-3xl font-bold text-purple-900">
                   {allProjects.reduce((sum, p) => sum + (p.stats?.inProgress || 0), 0)}
                 </p>

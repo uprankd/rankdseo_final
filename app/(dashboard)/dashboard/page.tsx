@@ -35,7 +35,7 @@ export default function DashboardPage() {
   return (
     <div className="space-y-8 animate-in fade-in duration-500">
       {/* Welcome Section */}
-      <div className="bg-gradient-to-br from-blue-600 via-purple-600 to-pink-600 rounded-3xl p-8 text-white shadow-2xl">
+      <div className="bg-gradient-to-br from-blue-600 via-navy-500 to-sky-500 rounded-3xl p-8 text-white shadow-2xl">
         <div className="flex items-start justify-between">
           <div className="space-y-3">
             <div className="flex items-center gap-2">

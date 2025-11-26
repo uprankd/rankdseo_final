@@ -227,7 +227,7 @@ export default function AdminPage() {
                             } border-2 font-semibold`}>
                               {opportunity.status}
                             </Badge>
-                            <Badge className="bg-navy-100 text-purple-700 border-2 border-navy-300 font-semibold">
+                            <Badge className="bg-navy-100 text-navy-600 border-2 border-navy-300 font-semibold">
                               {opportunity.category}
                             </Badge>
                             <Badge className="bg-blue-100 text-blue-700 border-2 border-blue-300 font-semibold">

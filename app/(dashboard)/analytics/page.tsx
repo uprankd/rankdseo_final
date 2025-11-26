@@ -149,7 +149,7 @@ export default function AnalyticsPage() {
           <Button 
             onClick={handleExport} 
             disabled={exportingData}
-            className="bg-gradient-to-r from-navy-500 to-sky-500 hover:from-purple-700 hover:to-pink-700"
+            className="bg-gradient-to-r from-navy-500 to-sky-500 hover:from-purple-700 hover:to-sky-600"
           >
             <Download className="mr-2 h-4 w-4" />
             Export Data

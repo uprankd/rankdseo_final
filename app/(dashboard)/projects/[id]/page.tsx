@@ -790,7 +790,7 @@ export default function ProjectDetailPage() {
               <Globe className="h-8 w-8 text-white" />
             </div>
             <div>
-              <h1 className="text-3xl font-black bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
+              <h1 className="text-3xl font-black bg-gradient-to-r from-blue-600 via-navy-500 to-sky-500 bg-clip-text text-transparent">
                 {projectData.name}
               </h1>
               <div className="flex items-center gap-3 text-sm text-gray-600">
@@ -816,7 +816,7 @@ export default function ProjectDetailPage() {
         </div>
         {!isDemoProject && (
           <Link href={`/projects/${projectId}/edit`}>
-            <Button className="bg-gradient-to-r from-navy-500 to-sky-500 hover:from-purple-600 hover:to-pink-600 shadow-lg">
+            <Button className="bg-gradient-to-r from-navy-500 to-sky-500 hover:from-purple-600 hover:to-sky-500 shadow-lg">
               <Edit className="h-5 w-5 mr-2" />
               Manage Opportunities
             </Button>
@@ -986,7 +986,7 @@ export default function ProjectDetailPage() {
                                   DA: {opp.domainAuthority}
                                 </Badge>
                               )}
-                              <Badge className="bg-navy-100 text-purple-700 border-2 border-navy-300">
+                              <Badge className="bg-navy-100 text-navy-600 border-2 border-navy-300">
                                 {opp.category}
                               </Badge>
                             </div>
