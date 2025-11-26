@@ -88,7 +88,7 @@ export default function AnalyticsPage() {
     setExportingData(false);
   };
 
-  const StatCard = (props: any) => {
+  const StatCard = (props) => {
     const { title, value, change, icon: Icon, trend } = props;
     return (
     <Card className="border-2 hover:shadow-lg transition-all">
