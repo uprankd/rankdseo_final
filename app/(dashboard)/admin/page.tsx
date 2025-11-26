@@ -82,7 +82,7 @@ export default function AdminPage() {
       title: 'Total Users',
       value: stats?.totalUsers || 0,
       icon: Users,
-      gradient: 'from-orange-500 to-red-500',
+      gradient: 'from-gold-500 to-red-500',
     },
   ];
 
@@ -104,7 +104,7 @@ export default function AdminPage() {
           </div>
         </div>
         <Link href="/admin/opportunities/new">
-          <Button className="bg-gradient-to-r from-red-500 to-orange-500 hover:from-red-600 hover:to-orange-600 text-white shadow-lg h-12 px-6 font-semibold">
+          <Button className="bg-gradient-to-r from-red-500 to-gold-500 hover:from-red-600 hover:to-gold-600 text-white shadow-lg h-12 px-6 font-semibold">
             <Plus className="h-5 w-5 mr-2" />
             Add New Opportunity
           </Button>
@@ -233,7 +233,7 @@ export default function AdminPage() {
                             <Badge className="bg-blue-100 text-blue-700 border-2 border-blue-300 font-semibold">
                               {opportunity.linkType}
                             </Badge>
-                            <Badge className="bg-orange-100 text-orange-700 border-2 border-orange-300 font-semibold">
+                            <Badge className="bg-gold-100 text-gold-700 border-2 border-gold-300 font-semibold">
                               <ListChecks className="h-3 w-3 mr-1" />
                               {opportunity._count.instructions} steps
                             </Badge>

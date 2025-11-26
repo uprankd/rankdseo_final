@@ -257,9 +257,9 @@ export default function OpportunityDetailPage({ params }: { params: { id: string
       PROFILE: 'from-blue-500 to-cyan-500',
       DIRECTORY: 'from-green-500 to-emerald-500',
       GUEST_POST: 'from-navy-500 to-sky-500',
-      FORUM: 'from-orange-500 to-red-500',
+      FORUM: 'from-gold-500 to-red-500',
       SOCIAL: 'from-indigo-500 to-purple-500',
-      ARTICLE_SUBMISSION: 'from-yellow-500 to-orange-500',
+      ARTICLE_SUBMISSION: 'from-yellow-500 to-gold-500',
       BUSINESS_LISTING: 'from-teal-500 to-green-500',
       Q_AND_A: 'from-pink-500 to-rose-500',
     };
@@ -316,7 +316,7 @@ export default function OpportunityDetailPage({ params }: { params: { id: string
                     Free
                   </Badge>
                 ) : (
-                  <Badge className="bg-orange-500/90 backdrop-blur text-white border-0 text-base px-4 py-2">
+                  <Badge className="bg-gold-500/90 backdrop-blur text-white border-0 text-base px-4 py-2">
                     ${((opportunity.cost || 0) / 100).toFixed(0)}
                   </Badge>
                 )}
@@ -383,17 +383,17 @@ export default function OpportunityDetailPage({ params }: { params: { id: string
           </CardContent>
         </Card>
 
-        <Card className="border-2 border-orange-200 bg-gradient-to-br from-orange-50 to-white">
+        <Card className="border-2 border-gold-200 bg-gradient-to-br from-orange-50 to-white">
           <CardContent className="pt-6">
             <div className="text-center">
-              <AlertCircle className="h-8 w-8 text-orange-600 mx-auto mb-2" />
+              <AlertCircle className="h-8 w-8 text-gold-600 mx-auto mb-2" />
               <p className="text-sm text-gray-600 mb-1">Difficulty</p>
               <div className="flex items-center justify-center gap-1 mt-2">
                 {[...Array(5)].map((_, i) => (
                   <Star
                     key={i}
                     className={`h-5 w-5 ${
-                      i < opportunity.difficultyLevel ? 'text-orange-500 fill-orange-500' : 'text-gray-300'
+                      i < opportunity.difficultyLevel ? 'text-gold-500 fill-orange-500' : 'text-gray-300'
                     }`}
                   />
                 ))}

@@ -38,9 +38,9 @@ export default function OpportunitiesPage() {
       PROFILE: 'from-blue-500 to-cyan-500',
       DIRECTORY: 'from-green-500 to-emerald-500',
       GUEST_POST: 'from-navy-500 to-sky-500',
-      FORUM: 'from-orange-500 to-red-500',
+      FORUM: 'from-gold-500 to-red-500',
       SOCIAL: 'from-indigo-500 to-purple-500',
-      ARTICLE_SUBMISSION: 'from-yellow-500 to-orange-500',
+      ARTICLE_SUBMISSION: 'from-yellow-500 to-gold-500',
       BUSINESS_LISTING: 'from-teal-500 to-green-500',
       Q_AND_A: 'from-pink-500 to-rose-500',
     };
@@ -141,7 +141,7 @@ export default function OpportunitiesPage() {
                           Free
                         </Badge>
                       ) : (
-                        <Badge className="bg-gradient-to-r from-orange-500 to-red-500 text-white border-0 shadow-md">
+                        <Badge className="bg-gradient-to-r from-gold-500 to-red-500 text-white border-0 shadow-md">
                           <DollarSign className="h-3 w-3 mr-1" />
                           ${((opp.cost || 0) / 100).toFixed(0)}
                         </Badge>
@@ -189,7 +189,7 @@ export default function OpportunitiesPage() {
                     <div className="bg-gradient-to-r from-yellow-50 to-orange-50 px-3 py-2 rounded-lg border border-yellow-200">
                       <div className="flex items-center justify-between">
                         <span className="text-xs font-medium text-gray-600">Est. Monthly Traffic</span>
-                        <span className="text-sm font-bold text-orange-900">
+                        <span className="text-sm font-bold text-gold-900">
                           {(opp.estimatedTraffic / 1000000).toFixed(1)}M
                         </span>
                       </div>

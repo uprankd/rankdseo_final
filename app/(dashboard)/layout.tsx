@@ -47,8 +47,8 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     { href: '/dashboard', icon: LayoutDashboard, label: 'Dashboard', gradient: 'from-blue-500 to-cyan-500' },
     { href: '/projects', icon: FolderOpen, label: 'Projects', gradient: 'from-navy-500 to-sky-500' },
     { href: '/opportunities', icon: Database, label: 'Opportunities', gradient: 'from-green-500 to-teal-500' },
-    { href: '/analytics', icon: TrendingUp, label: 'Analytics', gradient: 'from-orange-500 to-yellow-500' },
-    ...(session?.user?.role === 'ADMIN' ? [{ href: '/admin', icon: Shield, label: 'Admin Panel', gradient: 'from-red-500 to-orange-500' }] : []),
+    { href: '/analytics', icon: TrendingUp, label: 'Analytics', gradient: 'from-gold-500 to-yellow-500' },
+    ...(session?.user?.role === 'ADMIN' ? [{ href: '/admin', icon: Shield, label: 'Admin Panel', gradient: 'from-red-500 to-gold-500' }] : []),
   ];
 
   const isActive = (href: string) => pathname === href;
@@ -152,9 +152,9 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
               {/* Plan Badge */}
               <div className="pt-6">
-                <div className="bg-gradient-to-br from-yellow-400 via-orange-500 to-pink-500 p-6 rounded-2xl border-2 border-orange-300 shadow-xl">
+                <div className="bg-gradient-to-br from-yellow-400 via-orange-500 to-pink-500 p-6 rounded-2xl border-2 border-gold-300 shadow-xl">
                   <div className="flex items-center justify-between mb-3">
-                    <Badge className="bg-white/90 backdrop-blur text-orange-600 border-0 font-bold text-sm px-3 py-1">
+                    <Badge className="bg-white/90 backdrop-blur text-gold-600 border-0 font-bold text-sm px-3 py-1">
                       <Crown className="h-4 w-4 mr-1" />
                       Pro Plan
                     </Badge>

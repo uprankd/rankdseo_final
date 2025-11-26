@@ -97,7 +97,7 @@ export default function DashboardPage() {
           </CardContent>
         </Card>
 
-        <Card className="bg-gradient-to-br from-orange-500 to-red-500 text-white border-0 shadow-xl hover:shadow-2xl transition-all">
+        <Card className="bg-gradient-to-br from-gold-500 to-red-500 text-white border-0 shadow-xl hover:shadow-2xl transition-all">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium text-white/90">Current Plan</CardTitle>
             <Zap className="h-5 w-5 text-white/80" />

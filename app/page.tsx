@@ -46,7 +46,7 @@ export default function HomePage() {
         <div className="absolute inset-0 overflow-hidden">
           <div className="absolute top-20 left-10 w-72 h-72 bg-navy-300 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob"></div>
           <div className="absolute top-40 right-10 w-72 h-72 bg-pink-300 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob animation-delay-2000"></div>
-          <div className="absolute -bottom-8 left-1/2 w-72 h-72 bg-orange-300 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob animation-delay-4000"></div>
+          <div className="absolute -bottom-8 left-1/2 w-72 h-72 bg-gold-300 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob animation-delay-4000"></div>
         </div>
 
         <div className="relative max-w-7xl mx-auto text-center">
@@ -71,7 +71,7 @@ export default function HomePage() {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <Link href="/signup">
-              <Button size="lg" className="bg-gradient-to-r from-navy-500 via-sky-500 to-sky-600 hover:from-purple-700 hover:via-sky-600 hover:to-orange-600 text-white text-xl px-10 py-7 shadow-2xl transform hover:scale-105 transition-all">
+              <Button size="lg" className="bg-gradient-to-r from-navy-500 via-sky-500 to-sky-600 hover:from-purple-700 hover:via-sky-600 hover:to-gold-600 text-white text-xl px-10 py-7 shadow-2xl transform hover:scale-105 transition-all">
                 Start Free Trial
                 <ArrowRight className="ml-3 h-6 w-6" />
               </Button>
@@ -142,9 +142,9 @@ export default function HomePage() {
               </CardContent>
             </Card>
 
-            <Card className="border-2 border-orange-200 hover:border-orange-400 transition-all hover:shadow-2xl hover:-translate-y-2 group">
+            <Card className="border-2 border-gold-200 hover:border-gold-400 transition-all hover:shadow-2xl hover:-translate-y-2 group">
               <CardContent className="pt-8">
-                <div className="h-16 w-16 bg-gradient-to-br from-orange-500 to-red-500 rounded-2xl flex items-center justify-center mb-6 shadow-xl group-hover:scale-110 transition-transform">
+                <div className="h-16 w-16 bg-gradient-to-br from-gold-500 to-red-500 rounded-2xl flex items-center justify-center mb-6 shadow-xl group-hover:scale-110 transition-transform">
                   <Zap className="h-8 w-8 text-white" />
                 </div>
                 <h3 className="text-2xl font-bold mb-3 text-gray-800">SEO Metrics</h3>
@@ -317,18 +317,18 @@ export default function HomePage() {
             </Card>
 
             {/* Lifetime Membership */}
-            <Card className="border-2 border-orange-300 hover:shadow-2xl transition-all hover:-translate-y-1 bg-gradient-to-b from-orange-50 to-white">
+            <Card className="border-2 border-gold-300 hover:shadow-2xl transition-all hover:-translate-y-1 bg-gradient-to-b from-orange-50 to-white">
               <CardContent className="pt-8">
                 <div className="flex items-center gap-2 mb-2">
                   <h3 className="text-2xl font-black text-gray-800">Lifetime</h3>
                   <Crown className="h-6 w-6 text-yellow-500" />
                 </div>
                 <div className="mb-2">
-                  <span className="text-4xl font-black bg-gradient-to-r from-orange-600 to-sky-500 bg-clip-text text-transparent">$179.99</span>
+                  <span className="text-4xl font-black bg-gradient-to-r from-gold-600 to-sky-500 bg-clip-text text-transparent">$179.99</span>
                   <span className="text-gray-600 text-base"> now</span>
                 </div>
                 <div className="mb-6">
-                  <Badge className="bg-orange-100 text-orange-700 text-xs px-2 py-1 border-0">
+                  <Badge className="bg-gold-100 text-gold-700 text-xs px-2 py-1 border-0">
                     99 Years
                   </Badge>
                 </div>
@@ -363,7 +363,7 @@ export default function HomePage() {
                   </li>
                 </ul>
                 <Link href="/signup">
-                  <Button variant="outline" className="w-full h-12 text-base font-semibold border-2 border-orange-400 hover:bg-orange-50">
+                  <Button variant="outline" className="w-full h-12 text-base font-semibold border-2 border-gold-400 hover:bg-gold-50">
                     Get Started
                   </Button>
                 </Link>

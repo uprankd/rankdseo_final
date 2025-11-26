@@ -330,7 +330,7 @@ export default function ProjectsPage() {
               'from-blue-500 to-cyan-500',
               'from-navy-500 to-sky-500',
               'from-green-500 to-emerald-500',
-              'from-orange-500 to-red-500',
+              'from-gold-500 to-red-500',
               'from-indigo-500 to-purple-500',
             ];
             const gradient = gradients[Math.floor(Math.random() * gradients.length)];
