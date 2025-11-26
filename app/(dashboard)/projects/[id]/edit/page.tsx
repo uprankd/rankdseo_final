@@ -63,11 +63,49 @@ export default function EditProjectPage() {
   const addOpportunity = trpc.project.addOpportunity.useMutation({
     onSuccess: () => {
       toast.success('✅ Opportunity added!');
-      setIsAddDialogOpen(false);
-      setSearchQuery('');
       utils.project.getById.invalidate({ id: projectId });
     },
   });
+
+  const handleToggleOpportunity = (opportunityId: string) => {
+    setSelectedOpportunities(prev => 
+      prev.includes(opportunityId) 
+        ? prev.filter(id => id !== opportunityId)
+        : [...prev, opportunityId]
+    );
+  };
+
+  const handleToggleAll = (allOpportunityIds: string[]) => {
+    if (selectedOpportunities.length === allOpportunityIds.length) {
+      setSelectedOpportunities([]);
+    } else {
+      setSelectedOpportunities(allOpportunityIds);
+    }
+  };
+
+  const handleAddSelectedOpportunities = async () => {
+    if (selectedOpportunities.length === 0) {
+      toast.error('Please select at least one opportunity');
+      return;
+    }
+
+    try {
+      // Add all selected opportunities sequentially
+      for (const oppId of selectedOpportunities) {
+        await addOpportunity.mutateAsync({
+          projectId,
+          opportunityId: oppId,
+        });
+      }
+      
+      toast.success(`✅ Added ${selectedOpportunities.length} ${selectedOpportunities.length === 1 ? 'opportunity' : 'opportunities'}!`);
+      setSelectedOpportunities([]);
+      setIsAddDialogOpen(false);
+      setSearchQuery('');
+    } catch (error) {
+      toast.error('Failed to add some opportunities');
+    }
+  };
 
   const removeOpportunity = trpc.project.removeOpportunity.useMutation({
     onSuccess: () => {
