@@ -670,6 +670,7 @@ export default function ProjectDetailPage() {
   const [selectedStatus, setSelectedStatus] = useState<string>('all');
   const [editingNotes, setEditingNotes] = useState<Record<string, string>>({});
   const [editingUrls, setEditingUrls] = useState<Record<string, string>>({});
+  const [expandedTutorials, setExpandedTutorials] = useState<Record<string, boolean>>({});
 
   // Use demo data or real data
   const projectData = isDemoProject ? demoData : project;
