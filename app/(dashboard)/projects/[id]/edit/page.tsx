@@ -35,7 +35,9 @@ import {
   CheckCircle2,
   XCircle,
   Edit,
+  Check,
 } from 'lucide-react';
+import { Checkbox } from '@/components/ui/checkbox';
 
 export default function EditProjectPage() {
   const params = useParams();
