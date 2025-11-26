@@ -116,34 +116,6 @@ export default function AnalyticsPage() {
     setExportingData(false);
   };
 
-  const StatCard = (props) => {
-    const { title, value, change, icon: Icon, trend } = props;
-    return (
-    <Card className="border-2 hover:shadow-lg transition-all">
-      <CardContent className="pt-6">
-        <div className="flex items-center justify-between">
-          <div>
-            <p className="text-sm text-gray-600 font-medium">{title}</p>
-            <h3 className="text-3xl font-bold mt-2">{value}</h3>
-            {change !== undefined && (
-              <div className={`flex items-center gap-1 mt-2 text-sm font-semibold ${
-                trend === 'up' ? 'text-green-600' : trend === 'down' ? 'text-red-600' : 'text-gray-600'
-              }`}>
-                {trend === 'up' && <TrendingUp className="h-4 w-4" />}
-                {trend === 'down' && <TrendingDown className="h-4 w-4" />}
-                <span>{change}</span>
-              </div>
-            )}
-          </div>
-          <div className="h-14 w-14 rounded-full bg-gradient-to-br from-purple-100 to-pink-100 flex items-center justify-center">
-            <Icon className="h-7 w-7 text-purple-600" />
-          </div>
-        </div>
-      </CardContent>
-    </Card>
-    );
-  };
-
   if (loadingOverview) {
     return (
       <div className="flex items-center justify-center h-96">
