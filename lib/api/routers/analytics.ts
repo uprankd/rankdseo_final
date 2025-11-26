@@ -3,71 +3,65 @@ import { z } from 'zod';
 import { startOfMonth, endOfMonth, subMonths, eachDayOfInterval, format } from 'date-fns';
 
 export const analyticsRouter = router({
-  // Overview Stats
+  // Overview Stats - Optimized
   getOverviewStats: protectedProcedure.query(async ({ ctx }) => {
     const userId = ctx.session.user.id;
 
-    // Get total backlinks by status
-    const totalOpportunities = await ctx.prisma.projectOpportunity.count({
+    // Get all opportunities in a single query
+    const allOpportunities = await ctx.prisma.projectOpportunity.findMany({
       where: {
         project: { userId },
       },
-    });
-
-    const approvedLinks = await ctx.prisma.projectOpportunity.count({
-      where: {
-        project: { userId },
-        status: 'APPROVED',
+      select: {
+        status: true,
+        opportunity: {
+          select: {
+            domainAuthority: true,
+            domainRating: true,
+            isDofollow: true,
+          },
+        },
       },
     });
 
-    const submittedLinks = await ctx.prisma.projectOpportunity.count({
-      where: {
-        project: { userId },
-        status: 'SUBMITTED',
-      },
+    // Calculate everything in memory
+    let totalOpportunities = allOpportunities.length;
+    let approvedLinks = 0;
+    let submittedLinks = 0;
+    let rejectedLinks = 0;
+    let inProgressLinks = 0;
+    let totalDA = 0;
+    let totalDR = 0;
+    let dofollowCount = 0;
+    let nofollowCount = 0;
+    let approvedCount = 0;
+
+    allOpportunities.forEach((opp) => {
+      switch (opp.status) {
+        case 'APPROVED':
+          approvedLinks++;
+          totalDA += opp.opportunity.domainAuthority || 0;
+          totalDR += opp.opportunity.domainRating || 0;
+          if (opp.opportunity.isDofollow) dofollowCount++;
+          else nofollowCount++;
+          approvedCount++;
+          break;
+        case 'SUBMITTED':
+          submittedLinks++;
+          break;
+        case 'REJECTED':
+          rejectedLinks++;
+          break;
+        case 'IN_PROGRESS':
+          inProgressLinks++;
+          break;
+      }
     });
 
-    const rejectedLinks = await ctx.prisma.projectOpportunity.count({
-      where: {
-        project: { userId },
-        status: 'REJECTED',
-      },
-    });
-
-    const inProgressLinks = await ctx.prisma.projectOpportunity.count({
-      where: {
-        project: { userId },
-        status: 'IN_PROGRESS',
-      },
-    });
-
-    // Calculate success rate
     const totalSubmissions = submittedLinks + approvedLinks + rejectedLinks;
     const successRate = totalSubmissions > 0 ? (approvedLinks / totalSubmissions) * 100 : 0;
-
-    // Get average DA/DR
-    const opportunities = await ctx.prisma.projectOpportunity.findMany({
-      where: {
-        project: { userId },
-        status: 'APPROVED',
-      },
-      include: {
-        opportunity: true,
-      },
-    });
-
-    const avgDA = opportunities.length > 0
-      ? opportunities.reduce((sum, o) => sum + (o.opportunity.domainAuthority || 0), 0) / opportunities.length
-      : 0;
-
-    const avgDR = opportunities.length > 0
-      ? opportunities.reduce((sum, o) => sum + (o.opportunity.domainRating || 0), 0) / opportunities.length
-      : 0;
-
-    // Dofollow vs Nofollow
-    const dofollowCount = opportunities.filter(o => o.opportunity.isDofollow).length;
-    const nofollowCount = opportunities.length - dofollowCount;
+    const avgDA = approvedCount > 0 ? totalDA / approvedCount : 0;
+    const avgDR = approvedCount > 0 ? totalDR / approvedCount : 0;
 
     return {
       totalOpportunities,
