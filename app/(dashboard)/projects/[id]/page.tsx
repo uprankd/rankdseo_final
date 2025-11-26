@@ -1260,18 +1260,16 @@ function TutorialSection({ opportunityId }: { opportunityId: string }) {
             >
               <div className="flex-shrink-0">
                 <div className="h-8 w-8 rounded-full bg-gradient-to-br from-navy-500 to-sky-500 flex items-center justify-center font-bold text-white text-sm">
-                  {index + 1}
+                  {instruction.stepOrder || index + 1}
                 </div>
               </div>
               <div className="flex-1">
-                <h5 className="font-semibold text-gray-800 mb-1">{instruction.title}</h5>
-                <p className="text-sm text-gray-600 leading-relaxed">{instruction.description}</p>
-                {instruction.tip && (
-                  <div className="mt-2 flex items-start gap-2 p-2 bg-sky-50 rounded border border-sky-200">
-                    <Lightbulb className="h-4 w-4 text-sky-600 flex-shrink-0 mt-0.5" />
-                    <p className="text-xs text-sky-700">
-                      <span className="font-semibold">Pro Tip:</span> {instruction.tip}
-                    </p>
+                <h5 className="font-semibold text-gray-800 mb-1">{instruction.stepTitle}</h5>
+                <p className="text-sm text-gray-600 leading-relaxed">{instruction.stepDescription}</p>
+                {instruction.estimatedMinutes && (
+                  <div className="mt-2 flex items-center gap-2 text-xs text-gray-500">
+                    <Clock className="h-3 w-3" />
+                    <span>Estimated time: {instruction.estimatedMinutes} minutes</span>
                   </div>
                 )}
               </div>
