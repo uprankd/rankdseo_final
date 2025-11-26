@@ -286,9 +286,9 @@ export default function EditProjectPage() {
                   Add Opportunity
                 </Button>
               </DialogTrigger>
-              <DialogContent className="sm:max-w-[600px]">
+              <DialogContent className="sm:max-w-[700px] max-h-[80vh]">
                 <DialogHeader>
-                  <DialogTitle>Add Opportunity to Project</DialogTitle>
+                  <DialogTitle>Add Opportunities to Project</DialogTitle>
                 </DialogHeader>
                 <div className="space-y-4">
                   <div>
@@ -300,7 +300,27 @@ export default function EditProjectPage() {
                       className="border-2"
                     />
                   </div>
-                  <div className="max-h-[400px] overflow-y-auto space-y-2">
+
+                  {/* Selection Controls */}
+                  {availableOpportunities.length > 0 && (
+                    <div className="flex items-center justify-between p-3 bg-navy-50 rounded-lg border-2 border-navy-200">
+                      <div className="flex items-center gap-3">
+                        <Checkbox
+                          id="select-all"
+                          checked={selectedOpportunities.length === availableOpportunities.map((o: any) => o.id).length && selectedOpportunities.length > 0}
+                          onCheckedChange={() => handleToggleAll(availableOpportunities.map((o: any) => o.id))}
+                        />
+                        <Label htmlFor="select-all" className="cursor-pointer font-semibold">
+                          Select All ({availableOpportunities.length})
+                        </Label>
+                      </div>
+                      <Badge className="bg-navy-500 text-white">
+                        {selectedOpportunities.length} selected
+                      </Badge>
+                    </div>
+                  )}
+
+                  <div className="max-h-[350px] overflow-y-auto space-y-2">
                     {availableOpportunities.length === 0 ? (
                       <p className="text-center text-gray-500 py-8">
                         {searchQuery ? 'No matching opportunities found' : 'All opportunities already added'}
@@ -309,9 +329,19 @@ export default function EditProjectPage() {
                       availableOpportunities.map((opp: any) => (
                         <div
                           key={opp.id}
-                          className="border-2 rounded-lg p-3 hover:bg-blue-50 transition-colors"
+                          className={`border-2 rounded-lg p-3 transition-all cursor-pointer ${
+                            selectedOpportunities.includes(opp.id)
+                              ? 'bg-sky-50 border-navy-400'
+                              : 'hover:bg-paleblue-50 border-gray-200'
+                          }`}
+                          onClick={() => handleToggleOpportunity(opp.id)}
                         >
-                          <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-3">
+                            <Checkbox
+                              checked={selectedOpportunities.includes(opp.id)}
+                              onCheckedChange={() => handleToggleOpportunity(opp.id)}
+                              onClick={(e) => e.stopPropagation()}
+                            />
                             <div className="flex-1">
                               <h4 className="font-bold text-gray-800">{opp.siteName}</h4>
                               <p className="text-sm text-gray-600">{opp.category}</p>
@@ -322,20 +352,34 @@ export default function EditProjectPage() {
                                 <Badge variant="outline" className="text-xs">{opp.linkType}</Badge>
                               </div>
                             </div>
-                            <Button
-                              size="sm"
-                              onClick={() => handleAddOpportunity(opp.id)}
-                              disabled={addOpportunity.isPending}
-                              className="bg-gradient-to-r from-green-500 to-teal-500"
-                            >
-                              <Plus className="h-4 w-4 mr-1" />
-                              Add
-                            </Button>
+                            {selectedOpportunities.includes(opp.id) && (
+                              <Check className="h-5 w-5 text-navy-600" />
+                            )}
                           </div>
                         </div>
                       ))
                     )}
                   </div>
+
+                  {/* Add Button */}
+                  {availableOpportunities.length > 0 && (
+                    <div className="flex items-center justify-between pt-4 border-t-2">
+                      <p className="text-sm text-gray-600">
+                        {selectedOpportunities.length === 0 
+                          ? 'Select opportunities to add'
+                          : `${selectedOpportunities.length} ${selectedOpportunities.length === 1 ? 'opportunity' : 'opportunities'} selected`
+                        }
+                      </p>
+                      <Button
+                        onClick={handleAddSelectedOpportunities}
+                        disabled={selectedOpportunities.length === 0 || addOpportunity.isPending}
+                        className="bg-gradient-to-r from-navy-500 to-sky-500 hover:from-navy-600 hover:to-sky-600"
+                      >
+                        <Plus className="h-4 w-4 mr-2" />
+                        Add {selectedOpportunities.length > 0 && `(${selectedOpportunities.length})`}
+                      </Button>
+                    </div>
+                  )}
                 </div>
               </DialogContent>
             </Dialog>
