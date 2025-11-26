@@ -2,12 +2,29 @@
 
 echo "🔍 Starting database initialization..."
 
+# Ensure persistent data directory exists
+mkdir -p /app/postgresql-data
+chmod 700 /app/postgresql-data
+
 # Check if PostgreSQL is installed
 if ! command -v psql &> /dev/null; then
     echo "📦 Installing PostgreSQL..."
     apt-get update > /dev/null 2>&1
     apt-get install -y postgresql postgresql-contrib > /dev/null 2>&1
+    
+    # Configure to use persistent data directory
+    sed -i "s|data_directory = '/var/lib/postgresql/15/main'|data_directory = '/app/postgresql-data'|g" /etc/postgresql/15/main/postgresql.conf
+    
     echo "✅ PostgreSQL installed"
+fi
+
+# Set proper permissions
+chown -R postgres:postgres /app/postgresql-data 2>/dev/null || true
+
+# Initialize data directory if empty
+if [ ! -f "/app/postgresql-data/PG_VERSION" ]; then
+    echo "📂 Initializing PostgreSQL data directory..."
+    sudo -u postgres /usr/lib/postgresql/15/bin/initdb -D /app/postgresql-data > /dev/null 2>&1
 fi
 
 # Start PostgreSQL
