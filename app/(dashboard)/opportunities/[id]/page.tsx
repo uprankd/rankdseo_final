@@ -516,14 +516,25 @@ export default function OpportunityDetailPage({ params }: { params: { id: string
                     </div>
                   )}
 
-                  {/* Screenshot Placeholder */}
-                  <div className="mt-4 bg-gradient-to-br from-gray-100 to-gray-200 rounded-xl p-8 border-2 border-dashed border-gray-300">
-                    <div className="flex flex-col items-center justify-center text-gray-500">
-                      <ImageIcon className="h-16 w-16 mb-3" />
-                      <p className="font-semibold">Screenshot Preview</p>
-                      <p className="text-sm">{instruction.stepTitle}</p>
+                  {/* Screenshot */}
+                  {instruction.screenshotUrl ? (
+                    <div className="mt-4">
+                      <img 
+                        src={instruction.screenshotUrl} 
+                        alt={`Step ${instruction.stepOrder}: ${instruction.stepTitle}`}
+                        className="w-full rounded-xl border-4 border-navy-200 shadow-2xl hover:shadow-3xl transition-shadow cursor-pointer"
+                        onClick={() => window.open(instruction.screenshotUrl, '_blank')}
+                      />
                     </div>
-                  </div>
+                  ) : (
+                    <div className="mt-4 bg-gradient-to-br from-gray-100 to-gray-200 rounded-xl p-8 border-2 border-dashed border-gray-300">
+                      <div className="flex flex-col items-center justify-center text-gray-500">
+                        <ImageIcon className="h-16 w-16 mb-3" />
+                        <p className="font-semibold">Screenshot Coming Soon</p>
+                        <p className="text-sm">{instruction.stepTitle}</p>
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
             ))}
