@@ -13,7 +13,7 @@ import {
 import { 
   TrendingUp, TrendingDown, Award, Target, Link2, CheckCircle2, 
   XCircle, Clock, Download, Activity, BarChart3, PieChart as PieChartIcon,
-  ArrowUpRight, Calendar, Zap
+  ArrowUpRight, Calendar, Zap, RefreshCw
 } from 'lucide-react';
 import { format } from 'date-fns';
 import { toast } from 'sonner';
