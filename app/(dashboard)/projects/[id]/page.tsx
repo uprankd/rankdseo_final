@@ -30,6 +30,10 @@ import {
   PlayCircle,
   Edit,
   Save,
+  ChevronDown,
+  ChevronUp,
+  BookOpen,
+  Lightbulb,
 } from 'lucide-react';
 import { useState } from 'react';
 import { toast } from 'sonner';
