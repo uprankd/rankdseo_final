@@ -44,6 +44,7 @@ export default function EditProjectPage() {
 
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const [selectedOpportunities, setSelectedOpportunities] = useState<string[]>([]);
 
   const utils = trpc.useUtils();
   
