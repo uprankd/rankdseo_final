@@ -57,6 +57,20 @@ export default function AnalyticsPage() {
     enabled: false,
   });
 
+  const handleRefreshData = async () => {
+    toast.info('Refreshing analytics data...');
+    await Promise.all([
+      refetchOverview(),
+      refetchTimeline(),
+      refetchLinkType(),
+      refetchNiche(),
+      refetchTop(),
+      refetchRecent(),
+      refetchProject(),
+    ]);
+    toast.success('Analytics data refreshed!');
+  };
+
   const handleExport = async () => {
     setExportingData(true);
     const { refetch } = exportData;
