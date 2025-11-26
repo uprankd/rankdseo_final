@@ -113,7 +113,8 @@ export default function AnalyticsPage() {
         </div>
       </CardContent>
     </Card>
-  );
+    );
+  };
 
   if (loadingOverview) {
     return (
