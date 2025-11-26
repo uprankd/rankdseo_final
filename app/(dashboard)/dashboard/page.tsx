@@ -138,7 +138,7 @@ export default function DashboardPage() {
               Browse Opportunities
             </Button>
           </Link>
-          <Link href="/settings">
+          <Link href="/analytics">
             <Button size="lg" variant="outline" className="border-2 hover:border-purple-600 hover:bg-purple-50">
               <TrendingUp className="h-5 w-5 mr-2" />
               View Analytics
