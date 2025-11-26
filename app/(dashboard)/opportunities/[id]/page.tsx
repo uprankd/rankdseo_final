@@ -256,7 +256,7 @@ export default function OpportunityDetailPage({ params }: { params: { id: string
     const colors: Record<string, string> = {
       PROFILE: 'from-blue-500 to-cyan-500',
       DIRECTORY: 'from-green-500 to-emerald-500',
-      GUEST_POST: 'from-purple-500 to-pink-500',
+      GUEST_POST: 'from-navy-500 to-sky-500',
       FORUM: 'from-orange-500 to-red-500',
       SOCIAL: 'from-indigo-500 to-purple-500',
       ARTICLE_SUBMISSION: 'from-yellow-500 to-orange-500',

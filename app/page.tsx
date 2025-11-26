@@ -132,7 +132,7 @@ export default function HomePage() {
 
             <Card className="border-2 border-purple-200 hover:border-purple-400 transition-all hover:shadow-2xl hover:-translate-y-2 group">
               <CardContent className="pt-8">
-                <div className="h-16 w-16 bg-gradient-to-br from-purple-500 to-pink-500 rounded-2xl flex items-center justify-center mb-6 shadow-xl group-hover:scale-110 transition-transform">
+                <div className="h-16 w-16 bg-gradient-to-br from-navy-500 to-sky-500 rounded-2xl flex items-center justify-center mb-6 shadow-xl group-hover:scale-110 transition-transform">
                   <TrendingUp className="h-8 w-8 text-white" />
                 </div>
                 <h3 className="text-2xl font-bold mb-3 text-gray-800">Progress Tracking</h3>

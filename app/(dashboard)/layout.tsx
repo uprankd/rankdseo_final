@@ -45,7 +45,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
   const navItems = [
     { href: '/dashboard', icon: LayoutDashboard, label: 'Dashboard', gradient: 'from-blue-500 to-cyan-500' },
-    { href: '/projects', icon: FolderOpen, label: 'Projects', gradient: 'from-purple-500 to-pink-500' },
+    { href: '/projects', icon: FolderOpen, label: 'Projects', gradient: 'from-navy-500 to-sky-500' },
     { href: '/opportunities', icon: Database, label: 'Opportunities', gradient: 'from-green-500 to-teal-500' },
     { href: '/analytics', icon: TrendingUp, label: 'Analytics', gradient: 'from-orange-500 to-yellow-500' },
     ...(session?.user?.role === 'ADMIN' ? [{ href: '/admin', icon: Shield, label: 'Admin Panel', gradient: 'from-red-500 to-orange-500' }] : []),

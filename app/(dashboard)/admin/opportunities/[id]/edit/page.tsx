@@ -554,7 +554,7 @@ export default function EditOpportunityPage() {
                     <>
                       <div className="flex items-start justify-between gap-4">
                         <div className="flex gap-4 flex-1">
-                          <div className="h-12 w-12 bg-gradient-to-br from-purple-500 to-pink-500 rounded-2xl flex items-center justify-center text-white font-bold text-xl shadow-lg flex-shrink-0">
+                          <div className="h-12 w-12 bg-gradient-to-br from-navy-500 to-sky-500 rounded-2xl flex items-center justify-center text-white font-bold text-xl shadow-lg flex-shrink-0">
                             {instruction.stepOrder}
                           </div>
                           <div className="flex-1">
@@ -666,7 +666,7 @@ export default function EditOpportunityPage() {
               <Button
                 type="submit"
                 disabled={createInstruction.isPending}
-                className="w-full bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white shadow-lg h-12 font-semibold"
+                className="w-full bg-gradient-to-r from-navy-500 to-sky-500 hover:from-purple-600 hover:to-pink-600 text-white shadow-lg h-12 font-semibold"
               >
                 {createInstruction.isPending ? (
                   <>

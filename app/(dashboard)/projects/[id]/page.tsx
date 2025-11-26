@@ -801,7 +801,7 @@ export default function ProjectDetailPage() {
                   </span>
                 )}
                 {projectData.niche && (
-                  <Badge className="bg-gradient-to-r from-purple-500 to-pink-500 text-white border-0">
+                  <Badge className="bg-gradient-to-r from-navy-500 to-sky-500 text-white border-0">
                     {projectData.niche}
                   </Badge>
                 )}
@@ -816,7 +816,7 @@ export default function ProjectDetailPage() {
         </div>
         {!isDemoProject && (
           <Link href={`/projects/${projectId}/edit`}>
-            <Button className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 shadow-lg">
+            <Button className="bg-gradient-to-r from-navy-500 to-sky-500 hover:from-purple-600 hover:to-pink-600 shadow-lg">
               <Edit className="h-5 w-5 mr-2" />
               Manage Opportunities
             </Button>

@@ -76,7 +76,7 @@ export default function AdminPage() {
       title: 'Total Instructions',
       value: stats?.totalInstructions || 0,
       icon: ListChecks,
-      gradient: 'from-purple-500 to-pink-500',
+      gradient: 'from-navy-500 to-sky-500',
     },
     {
       title: 'Total Users',
@@ -157,7 +157,7 @@ export default function AdminPage() {
               <Button
                 variant={statusFilter === undefined ? 'default' : 'outline'}
                 onClick={() => setStatusFilter(undefined)}
-                className={statusFilter === undefined ? 'bg-gradient-to-r from-purple-500 to-pink-500' : ''}
+                className={statusFilter === undefined ? 'bg-gradient-to-r from-navy-500 to-sky-500' : ''}
               >
                 All
               </Button>
