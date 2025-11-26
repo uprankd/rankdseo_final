@@ -24,31 +24,32 @@ export default function AnalyticsPage() {
   const [exportingData, setExportingData] = useState(false);
 
   // Queries with caching and stale time
-  const { data: overviewStats, isLoading: loadingOverview } = trpc.analytics.getOverviewStats.useQuery(undefined, {
-    staleTime: 5 * 60 * 1000, // Cache for 5 minutes
+  const { data: overviewStats, isLoading: loadingOverview, refetch: refetchOverview } = trpc.analytics.getOverviewStats.useQuery(undefined, {
+    staleTime: 30 * 1000, // Cache for 30 seconds
+    refetchOnWindowFocus: true,
   });
-  const { data: timelineData } = trpc.analytics.getTimelineData.useQuery({ months: 6 }, {
-    staleTime: 5 * 60 * 1000,
+  const { data: timelineData, refetch: refetchTimeline } = trpc.analytics.getTimelineData.useQuery({ months: 6 }, {
+    staleTime: 30 * 1000,
     enabled: !!overviewStats, // Only load after overview loads
   });
-  const { data: linkTypeDistribution } = trpc.analytics.getLinkTypeDistribution.useQuery(undefined, {
-    staleTime: 5 * 60 * 1000,
+  const { data: linkTypeDistribution, refetch: refetchLinkType } = trpc.analytics.getLinkTypeDistribution.useQuery(undefined, {
+    staleTime: 30 * 1000,
     enabled: !!overviewStats,
   });
-  const { data: nicheDistribution } = trpc.analytics.getNicheDistribution.useQuery(undefined, {
-    staleTime: 5 * 60 * 1000,
+  const { data: nicheDistribution, refetch: refetchNiche } = trpc.analytics.getNicheDistribution.useQuery(undefined, {
+    staleTime: 30 * 1000,
     enabled: !!overviewStats,
   });
-  const { data: topOpportunities } = trpc.analytics.getTopOpportunities.useQuery(undefined, {
-    staleTime: 10 * 60 * 1000, // Cache for 10 minutes
+  const { data: topOpportunities, refetch: refetchTop } = trpc.analytics.getTopOpportunities.useQuery(undefined, {
+    staleTime: 30 * 1000,
     enabled: !!overviewStats,
   });
-  const { data: recentActivity } = trpc.analytics.getRecentActivity.useQuery({ limit: 10 }, {
-    staleTime: 2 * 60 * 1000, // Cache for 2 minutes (fresher data)
+  const { data: recentActivity, refetch: refetchRecent } = trpc.analytics.getRecentActivity.useQuery({ limit: 10 }, {
+    staleTime: 30 * 1000,
     enabled: !!overviewStats,
   });
-  const { data: projectPerformance } = trpc.analytics.getProjectPerformance.useQuery(undefined, {
-    staleTime: 5 * 60 * 1000,
+  const { data: projectPerformance, refetch: refetchProject } = trpc.analytics.getProjectPerformance.useQuery(undefined, {
+    staleTime: 30 * 1000,
     enabled: !!overviewStats,
   });
 
