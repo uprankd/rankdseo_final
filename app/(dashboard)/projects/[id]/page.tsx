@@ -1215,7 +1215,15 @@ export default function ProjectDetailPage() {
 
 // Tutorial Section Component
 function TutorialSection({ opportunityId }: { opportunityId: string }) {
-  const { data: opportunity, isLoading } = trpc.opportunity.getById.useQuery({ id: opportunityId });
+  const { data: opportunity, isLoading } = trpc.opportunity.getById.useQuery(
+    { id: opportunityId },
+    {
+      enabled: !!opportunityId,
+      refetchOnMount: true,
+      refetchOnWindowFocus: false,
+      staleTime: 0, // Don't cache to ensure fresh data for each opportunity
+    }
+  );
 
   if (isLoading) {
     return (
