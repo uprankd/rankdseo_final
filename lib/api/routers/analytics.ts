@@ -189,36 +189,50 @@ export const analyticsRouter = router({
   getTopOpportunities: protectedProcedure.query(async ({ ctx }) => {
     const userId = ctx.session.user.id;
 
-    const opportunities = await ctx.prisma.projectOpportunity.groupBy({
-      by: ['opportunityId'],
+    // Optimized query - fetch everything in one go
+    const topOpportunities = await ctx.prisma.projectOpportunity.findMany({
       where: {
         project: { userId },
         status: 'APPROVED',
       },
-      _count: {
-        id: true,
-      },
-      orderBy: {
-        _count: {
-          id: 'desc',
+      select: {
+        opportunityId: true,
+        opportunity: {
+          select: {
+            id: true,
+            siteName: true,
+            category: true,
+            domainAuthority: true,
+            domainRating: true,
+            isDofollow: true,
+          },
         },
       },
-      take: 10,
     });
 
-    const topOppsWithDetails = await Promise.all(
-      opportunities.map(async (opp) => {
-        const opportunity = await ctx.prisma.backlinkOpportunity.findUnique({
-          where: { id: opp.opportunityId },
+    // Count and aggregate in memory
+    const countMap = new Map<string, { opportunity: any; count: number }>();
+    
+    topOpportunities.forEach((item) => {
+      const existing = countMap.get(item.opportunityId);
+      if (existing) {
+        existing.count++;
+      } else {
+        countMap.set(item.opportunityId, {
+          opportunity: item.opportunity,
+          count: 1,
         });
-        return {
-          ...opportunity,
-          count: opp._count.id,
-        };
-      })
-    );
+      }
+    });
 
-    return topOppsWithDetails;
+    // Sort and return top 10
+    return Array.from(countMap.values())
+      .sort((a, b) => b.count - a.count)
+      .slice(0, 10)
+      .map((item) => ({
+        ...item.opportunity,
+        count: item.count,
+      }));
   }),
 
   // Recent Activity
