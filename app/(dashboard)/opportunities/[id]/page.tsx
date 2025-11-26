@@ -241,11 +241,43 @@ const OPPORTUNITIES = {
 export default function OpportunityDetailPage({ params }: { params: { id: string } }) {
   const { id } = params;
   
-  // Try to get real data from API, fallback to fake data
-  const { data: realOpportunity } = trpc.opportunity.getById.useQuery({ id });
-  
-  // Use fake data for demo purposes
-  const opportunity = OPPORTUNITIES[id as keyof typeof OPPORTUNITIES] || OPPORTUNITIES['1'];
+  // Get real data from API with proper caching disabled
+  const { data: opportunity, isLoading } = trpc.opportunity.getById.useQuery(
+    { id },
+    {
+      enabled: !!id,
+      refetchOnMount: true,
+      refetchOnWindowFocus: false,
+      staleTime: 0, // Don't cache to ensure fresh data for each opportunity
+    }
+  );
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center h-96">
+        <div className="text-center">
+          <div className="h-16 w-16 border-4 border-navy-200 border-t-navy-600 rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-gray-600 font-semibold">Loading opportunity details...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!opportunity) {
+    return (
+      <div className="flex items-center justify-center h-96">
+        <div className="text-center">
+          <AlertCircle className="h-16 w-16 text-red-500 mx-auto mb-4" />
+          <p className="text-gray-600 font-semibold">Opportunity not found</p>
+          <Link href="/opportunities">
+            <Button className="mt-4" variant="outline">
+              Back to Opportunities
+            </Button>
+          </Link>
+        </div>
+      </div>
+    );
+  }
 
   const copyToClipboard = (text: string) => {
     navigator.clipboard.writeText(text);
