@@ -150,7 +150,7 @@ export default function AdminPage() {
                 placeholder="Search by site name, description, or category..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                className="h-12 border-2 focus:border-purple-400"
+                className="h-12 border-2 focus:border-navy-400"
               />
             </div>
             <div className="flex gap-2">
@@ -195,7 +195,7 @@ export default function AdminPage() {
           {isLoading ? (
             <div className="flex items-center justify-center py-12">
               <div className="relative">
-                <div className="h-16 w-16 border-4 border-purple-200 border-t-purple-600 rounded-full animate-spin"></div>
+                <div className="h-16 w-16 border-4 border-navy-200 border-t-purple-600 rounded-full animate-spin"></div>
                 <Sparkles className="h-6 w-6 text-navy-500 absolute top-5 left-5 animate-pulse" />
               </div>
             </div>
@@ -227,7 +227,7 @@ export default function AdminPage() {
                             } border-2 font-semibold`}>
                               {opportunity.status}
                             </Badge>
-                            <Badge className="bg-purple-100 text-purple-700 border-2 border-purple-300 font-semibold">
+                            <Badge className="bg-navy-100 text-purple-700 border-2 border-navy-300 font-semibold">
                               {opportunity.category}
                             </Badge>
                             <Badge className="bg-blue-100 text-blue-700 border-2 border-blue-300 font-semibold">

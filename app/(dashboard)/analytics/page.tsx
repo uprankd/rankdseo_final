@@ -120,7 +120,7 @@ export default function AnalyticsPage() {
     return (
       <div className="flex items-center justify-center h-96">
         <div className="text-center">
-          <div className="h-16 w-16 border-4 border-purple-200 border-t-purple-600 rounded-full animate-spin mx-auto mb-4"></div>
+          <div className="h-16 w-16 border-4 border-navy-200 border-t-purple-600 rounded-full animate-spin mx-auto mb-4"></div>
           <p className="text-gray-600 font-semibold">Loading analytics...</p>
         </div>
       </div>
@@ -141,7 +141,7 @@ export default function AnalyticsPage() {
           <Button 
             onClick={handleRefreshData}
             variant="outline"
-            className="border-purple-200 text-navy-500 hover:bg-purple-50"
+            className="border-navy-200 text-navy-500 hover:bg-navy-50"
           >
             <RefreshCw className="mr-2 h-4 w-4" />
             Refresh Data
@@ -347,7 +347,7 @@ export default function AnalyticsPage() {
           </CardContent>
         </Card>
 
-        <Card className="border-2 border-purple-200">
+        <Card className="border-2 border-navy-200">
           <CardHeader>
             <CardTitle className="text-lg flex items-center gap-2">
               <Zap className="h-5 w-5 text-navy-500" />
@@ -394,7 +394,7 @@ export default function AnalyticsPage() {
           <div className="space-y-4">
             {topOpportunities && topOpportunities.length > 0 ? (
               topOpportunities.map((opp, index) => (
-                <div key={opp.id} className="flex items-center justify-between p-4 border-2 rounded-lg hover:bg-purple-50 transition-all">
+                <div key={opp.id} className="flex items-center justify-between p-4 border-2 rounded-lg hover:bg-navy-50 transition-all">
                   <div className="flex items-center gap-4">
                     <div className="h-10 w-10 rounded-full bg-gradient-to-br from-navy-500 to-sky-500 flex items-center justify-center text-white font-bold">
                       #{index + 1}

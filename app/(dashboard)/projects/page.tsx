@@ -275,7 +275,7 @@ export default function ProjectsPage() {
           </CardContent>
         </Card>
 
-        <Card className="bg-gradient-to-br from-purple-50 to-purple-100 border-purple-200 shadow-md hover:shadow-xl transition-all">
+        <Card className="bg-gradient-to-br from-purple-50 to-purple-100 border-navy-200 shadow-md hover:shadow-xl transition-all">
           <CardContent className="pt-6">
             <div className="flex items-center justify-between">
               <div>

@@ -275,7 +275,7 @@ export default function OpportunityDetailPage({ params }: { params: { id: string
     <div className="space-y-6 animate-in fade-in duration-500">
       {/* Back Button */}
       <Link href="/opportunities">
-        <Button variant="ghost" size="sm" className="hover:bg-purple-50">
+        <Button variant="ghost" size="sm" className="hover:bg-navy-50">
           <ArrowLeft className="h-4 w-4 mr-2" />
           Back to Opportunities
         </Button>
@@ -363,7 +363,7 @@ export default function OpportunityDetailPage({ params }: { params: { id: string
           </CardContent>
         </Card>
 
-        <Card className="border-2 border-purple-200 bg-gradient-to-br from-purple-50 to-white">
+        <Card className="border-2 border-navy-200 bg-gradient-to-br from-purple-50 to-white">
           <CardContent className="pt-6">
             <div className="text-center">
               <Star className="h-8 w-8 text-navy-500 mx-auto mb-2" />
@@ -414,7 +414,7 @@ export default function OpportunityDetailPage({ params }: { params: { id: string
       </div>
 
       {/* Progress Tracker */}
-      <Card className="border-2 border-purple-300 bg-gradient-to-br from-purple-50 to-white">
+      <Card className="border-2 border-navy-300 bg-gradient-to-br from-purple-50 to-white">
         <CardHeader>
           <CardTitle className="flex items-center justify-between">
             <span className="text-2xl">Your Progress</span>
@@ -433,7 +433,7 @@ export default function OpportunityDetailPage({ params }: { params: { id: string
 
       {/* Step-by-Step Instructions */}
       <Card className="border-2 border-gray-200 shadow-xl">
-        <CardHeader className="bg-gradient-to-r from-purple-50 to-pink-50 border-b-2 border-purple-200">
+        <CardHeader className="bg-gradient-to-r from-purple-50 to-pink-50 border-b-2 border-navy-200">
           <CardTitle className="text-3xl flex items-center gap-3">
             <FileText className="h-8 w-8 text-navy-500" />
             Step-by-Step Tutorial
@@ -445,7 +445,7 @@ export default function OpportunityDetailPage({ params }: { params: { id: string
             {opportunity.instructions.map((instruction, index) => (
               <div
                 key={instruction.stepOrder}
-                className="relative pl-8 pb-8 border-l-4 border-purple-200 last:border-l-0 last:pb-0"
+                className="relative pl-8 pb-8 border-l-4 border-navy-200 last:border-l-0 last:pb-0"
               >
                 {/* Step Number Badge */}
                 <div className={`absolute left-0 top-0 -translate-x-1/2 h-14 w-14 rounded-full bg-gradient-to-br ${gradient} flex items-center justify-center shadow-xl border-4 border-white`}>
@@ -519,7 +519,7 @@ export default function OpportunityDetailPage({ params }: { params: { id: string
           </Button>
           <Button
             variant="outline"
-            className="w-full justify-start text-lg h-14 border-2 hover:bg-purple-50"
+            className="w-full justify-start text-lg h-14 border-2 hover:bg-navy-50"
             onClick={() => copyToClipboard(opportunity.url)}
           >
             <Copy className="h-5 w-5 mr-3 text-navy-500" />

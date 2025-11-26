@@ -299,7 +299,7 @@ export default function SettingsPage() {
             <CardContent>
               {subscription ? (
                 <div className="space-y-6">
-                  <div className="flex items-center justify-between p-6 bg-gradient-to-r from-purple-50 to-pink-50 rounded-lg border-2 border-purple-200">
+                  <div className="flex items-center justify-between p-6 bg-gradient-to-r from-purple-50 to-pink-50 rounded-lg border-2 border-navy-200">
                     <div>
                       <h3 className="text-2xl font-bold text-gray-800">{subscription.plan.name}</h3>
                       <p className="text-gray-600 mt-1">{subscription.plan.description}</p>
@@ -320,7 +320,7 @@ export default function SettingsPage() {
                     <h4 className="font-semibold text-lg mb-4">Upgrade or Change Plan</h4>
                     <div className="grid md:grid-cols-2 gap-4">
                       {plans?.filter(p => p.id !== subscription.planId).map((plan) => (
-                        <Card key={plan.id} className="border-2 hover:border-purple-400 transition-all">
+                        <Card key={plan.id} className="border-2 hover:border-navy-400 transition-all">
                           <CardHeader>
                             <CardTitle className="text-xl">{plan.name}</CardTitle>
                             <CardDescription>{plan.description}</CardDescription>

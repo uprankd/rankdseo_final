@@ -26,7 +26,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
           <div className="relative">
-            <div className="h-20 w-20 border-4 border-purple-200 border-t-purple-600 rounded-full animate-spin mx-auto mb-4"></div>
+            <div className="h-20 w-20 border-4 border-navy-200 border-t-purple-600 rounded-full animate-spin mx-auto mb-4"></div>
             <Sparkles className="h-8 w-8 text-navy-500 absolute top-6 left-1/2 transform -translate-x-1/2 animate-pulse" />
           </div>
           <p className="text-gray-700 font-semibold text-lg">Loading your workspace...</p>
@@ -56,14 +56,14 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   return (
     <div className="min-h-screen">
       {/* Header - Full Width */}
-      <header className="bg-white/90 backdrop-blur-lg border-b-2 border-purple-200 sticky top-0 z-50 shadow-lg">
+      <header className="bg-white/90 backdrop-blur-lg border-b-2 border-navy-200 sticky top-0 z-50 shadow-lg">
         <div className="max-w-[1600px] mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center space-x-4">
             <Button
               variant="ghost"
               size="icon"
               onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-              className="lg:hidden hover:bg-purple-50"
+              className="lg:hidden hover:bg-navy-50"
             >
               {isSidebarOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
             </Button>
@@ -87,7 +87,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           </div>
 
           <div className="flex items-center space-x-3">
-            <div className="hidden md:flex items-center space-x-3 bg-gradient-to-r from-purple-50 to-pink-50 px-4 py-2 rounded-2xl border-2 border-purple-200">
+            <div className="hidden md:flex items-center space-x-3 bg-gradient-to-r from-purple-50 to-pink-50 px-4 py-2 rounded-2xl border-2 border-navy-200">
               <Avatar className="h-10 w-10 border-3 border-white shadow-lg ring-2 ring-purple-200">
                 <AvatarFallback className="bg-gradient-to-br from-purple-600 via-pink-600 to-orange-500 text-white font-bold text-lg">
                   {session.user.name?.charAt(0) || session.user.email?.charAt(0) || 'U'}
@@ -118,7 +118,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           <aside
             className={`${
               isSidebarOpen ? 'translate-x-0' : '-translate-x-full'
-            } fixed lg:sticky top-[89px] left-0 z-30 w-72 h-[calc(100vh-89px)] lg:h-auto bg-white lg:rounded-3xl border-r-2 lg:border-2 border-purple-200 transition-transform lg:translate-x-0 shadow-2xl overflow-y-auto`}
+            } fixed lg:sticky top-[89px] left-0 z-30 w-72 h-[calc(100vh-89px)] lg:h-auto bg-white lg:rounded-3xl border-r-2 lg:border-2 border-navy-200 transition-transform lg:translate-x-0 shadow-2xl overflow-y-auto`}
           >
             <nav className="p-6 space-y-3">
               {navItems.map((item) => {
@@ -171,7 +171,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
           {/* Main Content - Boxed */}
           <main className="flex-1 min-h-[calc(100vh-89px)] lg:min-h-0">
-            <div className="bg-white lg:rounded-3xl border-0 lg:border-2 border-purple-200 shadow-2xl p-6 lg:p-8">
+            <div className="bg-white lg:rounded-3xl border-0 lg:border-2 border-navy-200 shadow-2xl p-6 lg:p-8">
               {children}
             </div>
           </main>

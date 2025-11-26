@@ -10,7 +10,7 @@ export default function HomePage() {
   return (
     <div className="min-h-screen">
       {/* Header */}
-      <header className="border-b-2 border-purple-200 bg-white/90 backdrop-blur-lg sticky top-0 z-50 shadow-lg">
+      <header className="border-b-2 border-navy-200 bg-white/90 backdrop-blur-lg sticky top-0 z-50 shadow-lg">
         <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center space-x-3">
             <div className="relative">
@@ -44,7 +44,7 @@ export default function HomePage() {
       <section className="relative py-20 px-4 overflow-hidden">
         {/* Decorative Background Elements */}
         <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute top-20 left-10 w-72 h-72 bg-purple-300 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob"></div>
+          <div className="absolute top-20 left-10 w-72 h-72 bg-navy-300 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob"></div>
           <div className="absolute top-40 right-10 w-72 h-72 bg-pink-300 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob animation-delay-2000"></div>
           <div className="absolute -bottom-8 left-1/2 w-72 h-72 bg-orange-300 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob animation-delay-4000"></div>
         </div>
@@ -77,7 +77,7 @@ export default function HomePage() {
               </Button>
             </Link>
             <Link href="#features">
-              <Button size="lg" variant="outline" className="text-xl px-10 py-7 border-2 border-purple-300 hover:bg-purple-50">
+              <Button size="lg" variant="outline" className="text-xl px-10 py-7 border-2 border-navy-300 hover:bg-navy-50">
                 Learn More
               </Button>
             </Link>
@@ -95,7 +95,7 @@ export default function HomePage() {
       <section id="features" className="py-20 px-4 bg-white">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
-            <Badge className="bg-purple-100 text-purple-700 mb-4 text-base px-4 py-2">
+            <Badge className="bg-navy-100 text-purple-700 mb-4 text-base px-4 py-2">
               <Star className="h-4 w-4 mr-2" />
               Features
             </Badge>
@@ -130,7 +130,7 @@ export default function HomePage() {
               </CardContent>
             </Card>
 
-            <Card className="border-2 border-purple-200 hover:border-purple-400 transition-all hover:shadow-2xl hover:-translate-y-2 group">
+            <Card className="border-2 border-navy-200 hover:border-navy-400 transition-all hover:shadow-2xl hover:-translate-y-2 group">
               <CardContent className="pt-8">
                 <div className="h-16 w-16 bg-gradient-to-br from-navy-500 to-sky-500 rounded-2xl flex items-center justify-center mb-6 shadow-xl group-hover:scale-110 transition-transform">
                   <TrendingUp className="h-8 w-8 text-white" />
@@ -264,7 +264,7 @@ export default function HomePage() {
             </Card>
 
             {/* 1 Year Membership */}
-            <Card className="border-4 border-purple-400 relative hover:shadow-2xl transition-all bg-gradient-to-b from-purple-50 to-white">
+            <Card className="border-4 border-navy-400 relative hover:shadow-2xl transition-all bg-gradient-to-b from-purple-50 to-white">
               <div className="absolute -top-5 left-1/2 transform -translate-x-1/2">
                 <Badge className="bg-gradient-to-r from-navy-500 to-sky-500 text-white text-sm px-6 py-2 shadow-xl border-0">
                   <Star className="h-4 w-4 mr-2" />
@@ -278,7 +278,7 @@ export default function HomePage() {
                   <span className="text-gray-600 text-base"> per Year</span>
                 </div>
                 <div className="mb-6">
-                  <Badge className="bg-purple-100 text-purple-700 text-xs px-2 py-1 border-0">
+                  <Badge className="bg-navy-100 text-purple-700 text-xs px-2 py-1 border-0">
                     Save 76%
                   </Badge>
                 </div>

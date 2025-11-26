@@ -119,7 +119,7 @@ export default function EditProjectPage() {
     return (
       <div className="flex items-center justify-center py-20">
         <div className="relative">
-          <div className="h-20 w-20 border-4 border-purple-200 border-t-purple-600 rounded-full animate-spin"></div>
+          <div className="h-20 w-20 border-4 border-navy-200 border-t-purple-600 rounded-full animate-spin"></div>
           <Sparkles className="h-8 w-8 text-navy-500 absolute top-6 left-6 animate-pulse" />
         </div>
       </div>
@@ -321,7 +321,7 @@ export default function EditProjectPage() {
                         {po.opportunity.domainAuthority && (
                           <Badge variant="outline" className="border-2">DA: {po.opportunity.domainAuthority}</Badge>
                         )}
-                        <Badge className="bg-purple-100 text-purple-700 border-2 border-purple-300">
+                        <Badge className="bg-navy-100 text-purple-700 border-2 border-navy-300">
                           {po.opportunity.category}
                         </Badge>
                       </div>

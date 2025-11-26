@@ -139,7 +139,7 @@ export default function DashboardPage() {
             </Button>
           </Link>
           <Link href="/analytics">
-            <Button size="lg" variant="outline" className="border-2 hover:border-purple-600 hover:bg-purple-50">
+            <Button size="lg" variant="outline" className="border-2 hover:border-navy-600 hover:bg-navy-50">
               <TrendingUp className="h-5 w-5 mr-2" />
               View Analytics
             </Button>
