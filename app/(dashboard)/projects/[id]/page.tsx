@@ -1274,6 +1274,19 @@ function TutorialSection({ opportunityId }: { opportunityId: string }) {
               <div className="flex-1">
                 <h5 className="font-semibold text-gray-800 mb-1">{instruction.stepTitle}</h5>
                 <p className="text-sm text-gray-600 leading-relaxed">{instruction.stepDescription}</p>
+                
+                {/* Screenshot */}
+                {instruction.screenshotUrl && (
+                  <div className="mt-3">
+                    <img 
+                      src={instruction.screenshotUrl} 
+                      alt={`Step ${instruction.stepOrder}: ${instruction.stepTitle}`}
+                      className="w-full rounded-lg border-2 border-navy-200 shadow-md hover:shadow-xl transition-shadow cursor-pointer"
+                      onClick={() => window.open(instruction.screenshotUrl, '_blank')}
+                    />
+                  </div>
+                )}
+                
                 {instruction.estimatedMinutes && (
                   <div className="mt-2 flex items-center gap-2 text-xs text-gray-500">
                     <Clock className="h-3 w-3" />
