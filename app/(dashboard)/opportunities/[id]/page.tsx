@@ -326,8 +326,8 @@ export default function OpportunityDetailPage({ params }: { params: { id: string
                   <h1 className="text-4xl font-black">{opportunity.siteName}</h1>
                   <div className="flex items-center gap-2 mt-2 text-white/90">
                     <Link2 className="h-4 w-4" />
-                    <a href={opportunity.url} target="_blank" rel="noopener noreferrer" className="hover:underline">
-                      {opportunity.url}
+                    <a href={opportunity.websiteUrl} target="_blank" rel="noopener noreferrer" className="hover:underline">
+                      {opportunity.websiteUrl}
                     </a>
                   </div>
                 </div>
@@ -364,7 +364,7 @@ export default function OpportunityDetailPage({ params }: { params: { id: string
               <Button
                 size="lg"
                 className="bg-white text-gray-900 hover:bg-gray-100 shadow-xl font-bold text-lg"
-                onClick={() => window.open(opportunity.url, '_blank')}
+                onClick={() => window.open(opportunity.websiteUrl, '_blank')}
               >
                 Visit Website
                 <ExternalLink className="h-5 w-5 ml-2" />
@@ -373,7 +373,7 @@ export default function OpportunityDetailPage({ params }: { params: { id: string
                 size="lg"
                 variant="outline"
                 className="border-2 border-white/50 text-white hover:bg-white/20 font-bold text-lg"
-                onClick={() => copyToClipboard(opportunity.url)}
+                onClick={() => copyToClipboard(opportunity.websiteUrl)}
               >
                 Copy URL
                 <Copy className="h-5 w-5 ml-2" />
@@ -554,7 +554,7 @@ export default function OpportunityDetailPage({ params }: { params: { id: string
           <Button
             variant="outline"
             className="w-full justify-start text-lg h-14 border-2 hover:bg-green-50"
-            onClick={() => window.open(opportunity.url, '_blank')}
+            onClick={() => window.open(opportunity.websiteUrl, '_blank')}
           >
             <Globe className="h-5 w-5 mr-3 text-green-600" />
             Open {opportunity.siteName}
@@ -563,7 +563,7 @@ export default function OpportunityDetailPage({ params }: { params: { id: string
           <Button
             variant="outline"
             className="w-full justify-start text-lg h-14 border-2 hover:bg-navy-50"
-            onClick={() => copyToClipboard(opportunity.url)}
+            onClick={() => copyToClipboard(opportunity.websiteUrl)}
           >
             <Copy className="h-5 w-5 mr-3 text-navy-500" />
             Copy Website URL
