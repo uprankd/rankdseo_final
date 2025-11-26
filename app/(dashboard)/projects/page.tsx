@@ -284,7 +284,7 @@ export default function ProjectsPage() {
                   {allProjects.reduce((sum, p) => sum + (p.stats?.inProgress || 0), 0)}
                 </p>
               </div>
-              <Clock className="h-10 w-10 text-purple-600 opacity-50" />
+              <Clock className="h-10 w-10 text-navy-500 opacity-50" />
             </div>
           </CardContent>
         </Card>

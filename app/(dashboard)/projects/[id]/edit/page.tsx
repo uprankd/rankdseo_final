@@ -120,7 +120,7 @@ export default function EditProjectPage() {
       <div className="flex items-center justify-center py-20">
         <div className="relative">
           <div className="h-20 w-20 border-4 border-purple-200 border-t-purple-600 rounded-full animate-spin"></div>
-          <Sparkles className="h-8 w-8 text-purple-600 absolute top-6 left-6 animate-pulse" />
+          <Sparkles className="h-8 w-8 text-navy-500 absolute top-6 left-6 animate-pulse" />
         </div>
       </div>
     );

@@ -139,7 +139,7 @@ export default function AdminPage() {
       <Card className="border-2 shadow-lg">
         <CardHeader>
           <CardTitle className="flex items-center gap-2 text-xl">
-            <Search className="h-6 w-6 text-purple-600" />
+            <Search className="h-6 w-6 text-navy-500" />
             Search & Filter
           </CardTitle>
         </CardHeader>
@@ -196,7 +196,7 @@ export default function AdminPage() {
             <div className="flex items-center justify-center py-12">
               <div className="relative">
                 <div className="h-16 w-16 border-4 border-purple-200 border-t-purple-600 rounded-full animate-spin"></div>
-                <Sparkles className="h-6 w-6 text-purple-600 absolute top-5 left-5 animate-pulse" />
+                <Sparkles className="h-6 w-6 text-navy-500 absolute top-5 left-5 animate-pulse" />
               </div>
             </div>
           ) : !opportunitiesData?.opportunities.length ? (

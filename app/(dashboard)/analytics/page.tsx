@@ -40,7 +40,7 @@ const StatCard = (props) => {
             )}
           </div>
           <div className="h-14 w-14 rounded-full bg-gradient-to-br from-purple-100 to-pink-100 flex items-center justify-center">
-            <Icon className="h-7 w-7 text-purple-600" />
+            <Icon className="h-7 w-7 text-navy-500" />
           </div>
         </div>
       </CardContent>
@@ -141,7 +141,7 @@ export default function AnalyticsPage() {
           <Button 
             onClick={handleRefreshData}
             variant="outline"
-            className="border-purple-200 text-purple-600 hover:bg-purple-50"
+            className="border-purple-200 text-navy-500 hover:bg-purple-50"
           >
             <RefreshCw className="mr-2 h-4 w-4" />
             Refresh Data
@@ -188,7 +188,7 @@ export default function AnalyticsPage() {
         <Card className="border-2">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <Activity className="h-5 w-5 text-purple-600" />
+              <Activity className="h-5 w-5 text-navy-500" />
               Backlink Acquisition Timeline
             </CardTitle>
             <CardDescription>Last 6 months performance</CardDescription>
@@ -213,7 +213,7 @@ export default function AnalyticsPage() {
         <Card className="border-2">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <PieChartIcon className="h-5 w-5 text-purple-600" />
+              <PieChartIcon className="h-5 w-5 text-navy-500" />
               Link Type Distribution
             </CardTitle>
             <CardDescription>Breakdown by link type</CardDescription>
@@ -248,7 +248,7 @@ export default function AnalyticsPage() {
         <Card className="border-2">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <BarChart3 className="h-5 w-5 text-purple-600" />
+              <BarChart3 className="h-5 w-5 text-navy-500" />
               Project Performance
             </CardTitle>
             <CardDescription>Completion rate by project</CardDescription>
@@ -272,7 +272,7 @@ export default function AnalyticsPage() {
         <Card className="border-2">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <Target className="h-5 w-5 text-purple-600" />
+              <Target className="h-5 w-5 text-navy-500" />
               Top Niches
             </CardTitle>
             <CardDescription>Most active niches</CardDescription>
@@ -350,7 +350,7 @@ export default function AnalyticsPage() {
         <Card className="border-2 border-purple-200">
           <CardHeader>
             <CardTitle className="text-lg flex items-center gap-2">
-              <Zap className="h-5 w-5 text-purple-600" />
+              <Zap className="h-5 w-5 text-navy-500" />
               Key Insights
             </CardTitle>
           </CardHeader>
@@ -370,7 +370,7 @@ export default function AnalyticsPage() {
               </p>
             </div>
             <div className="flex items-start gap-2">
-              <ArrowUpRight className="h-4 w-4 text-purple-600 mt-1 flex-shrink-0" />
+              <ArrowUpRight className="h-4 w-4 text-navy-500 mt-1 flex-shrink-0" />
               <p className="text-sm">
                 {overviewStats && overviewStats.dofollowCount > overviewStats.nofollowCount 
                   ? 'Great dofollow ratio for SEO impact!' 
@@ -385,7 +385,7 @@ export default function AnalyticsPage() {
       <Card className="border-2">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <Award className="h-5 w-5 text-purple-600" />
+            <Award className="h-5 w-5 text-navy-500" />
             Top Performing Opportunities
           </CardTitle>
           <CardDescription>Sites with highest success rates</CardDescription>
@@ -430,7 +430,7 @@ export default function AnalyticsPage() {
       <Card className="border-2">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <Clock className="h-5 w-5 text-purple-600" />
+            <Clock className="h-5 w-5 text-navy-500" />
             Recent Activity
           </CardTitle>
           <CardDescription>Latest updates on your backlinks</CardDescription>

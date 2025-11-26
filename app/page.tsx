@@ -22,13 +22,13 @@ export default function HomePage() {
             <span className="text-2xl font-black bg-gradient-to-r from-purple-600 via-pink-600 to-orange-500 bg-clip-text text-transparent">RankdSEO</span>
           </div>
           <nav className="hidden md:flex items-center space-x-6">
-            <Link href="#features" className="text-sm font-semibold text-gray-700 hover:text-purple-600 transition-colors">
+            <Link href="#features" className="text-sm font-semibold text-gray-700 hover:text-navy-500 transition-colors">
               Features
             </Link>
-            <Link href="#pricing" className="text-sm font-semibold text-gray-700 hover:text-purple-600 transition-colors">
+            <Link href="#pricing" className="text-sm font-semibold text-gray-700 hover:text-navy-500 transition-colors">
               Pricing
             </Link>
-            <Link href="/signin" className="text-sm font-semibold text-gray-700 hover:text-purple-600 transition-colors">
+            <Link href="/signin" className="text-sm font-semibold text-gray-700 hover:text-navy-500 transition-colors">
               Sign In
             </Link>
             <Link href="/signup">
@@ -67,7 +67,7 @@ export default function HomePage() {
           </h1>
           <p className="text-2xl text-gray-700 mb-10 max-w-3xl mx-auto font-medium leading-relaxed">
             Discover curated backlink opportunities with step-by-step instructions,
-            track your progress, and <span className="text-purple-600 font-bold">boost your SEO performance</span>
+            track your progress, and <span className="text-navy-500 font-bold">boost your SEO performance</span>
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <Link href="/signup">
@@ -381,7 +381,7 @@ export default function HomePage() {
           <h2 className="text-5xl font-black mb-6">Ready to Build Better Backlinks?</h2>
           <p className="text-2xl mb-10 opacity-95 font-medium">Join thousands of SEO professionals using RankdSEO</p>
           <Link href="/signup">
-            <Button size="lg" variant="secondary" className="text-xl px-12 py-8 bg-white text-purple-600 hover:bg-gray-100 shadow-2xl font-bold">
+            <Button size="lg" variant="secondary" className="text-xl px-12 py-8 bg-white text-navy-500 hover:bg-gray-100 shadow-2xl font-bold">
               Start Your Free Trial
               <ArrowRight className="ml-3 h-6 w-6" />
             </Button>

@@ -159,7 +159,7 @@ export default function OpportunitiesPage() {
                     )}
                     {opp.domainRating && (
                       <div className="flex items-center gap-1 bg-purple-50 px-3 py-1.5 rounded-lg border border-purple-200">
-                        <TrendingUp className="h-3 w-3 text-purple-600" />
+                        <TrendingUp className="h-3 w-3 text-navy-500" />
                         <span className="text-xs font-bold text-purple-900">DR {opp.domainRating}</span>
                       </div>
                     )}

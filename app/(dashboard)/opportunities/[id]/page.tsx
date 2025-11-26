@@ -366,7 +366,7 @@ export default function OpportunityDetailPage({ params }: { params: { id: string
         <Card className="border-2 border-purple-200 bg-gradient-to-br from-purple-50 to-white">
           <CardContent className="pt-6">
             <div className="text-center">
-              <Star className="h-8 w-8 text-purple-600 mx-auto mb-2" />
+              <Star className="h-8 w-8 text-navy-500 mx-auto mb-2" />
               <p className="text-sm text-gray-600 mb-1">Domain Rating</p>
               <p className="text-4xl font-black text-purple-900">{opportunity.domainRating}</p>
             </div>
@@ -435,7 +435,7 @@ export default function OpportunityDetailPage({ params }: { params: { id: string
       <Card className="border-2 border-gray-200 shadow-xl">
         <CardHeader className="bg-gradient-to-r from-purple-50 to-pink-50 border-b-2 border-purple-200">
           <CardTitle className="text-3xl flex items-center gap-3">
-            <FileText className="h-8 w-8 text-purple-600" />
+            <FileText className="h-8 w-8 text-navy-500" />
             Step-by-Step Tutorial
           </CardTitle>
           <p className="text-gray-600 mt-2">Follow these detailed instructions to create your backlink</p>
@@ -522,7 +522,7 @@ export default function OpportunityDetailPage({ params }: { params: { id: string
             className="w-full justify-start text-lg h-14 border-2 hover:bg-purple-50"
             onClick={() => copyToClipboard(opportunity.url)}
           >
-            <Copy className="h-5 w-5 mr-3 text-purple-600" />
+            <Copy className="h-5 w-5 mr-3 text-navy-500" />
             Copy Website URL
           </Button>
         </CardContent>

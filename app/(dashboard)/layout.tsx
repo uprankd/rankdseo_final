@@ -27,7 +27,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         <div className="text-center">
           <div className="relative">
             <div className="h-20 w-20 border-4 border-purple-200 border-t-purple-600 rounded-full animate-spin mx-auto mb-4"></div>
-            <Sparkles className="h-8 w-8 text-purple-600 absolute top-6 left-1/2 transform -translate-x-1/2 animate-pulse" />
+            <Sparkles className="h-8 w-8 text-navy-500 absolute top-6 left-1/2 transform -translate-x-1/2 animate-pulse" />
           </div>
           <p className="text-gray-700 font-semibold text-lg">Loading your workspace...</p>
         </div>
