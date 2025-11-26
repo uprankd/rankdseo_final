@@ -23,14 +23,34 @@ const COLORS = ['#8b5cf6', '#ec4899', '#f59e0b', '#10b981', '#3b82f6', '#6366f1'
 export default function AnalyticsPage() {
   const [exportingData, setExportingData] = useState(false);
 
-  // Queries
-  const { data: overviewStats, isLoading: loadingOverview } = trpc.analytics.getOverviewStats.useQuery();
-  const { data: timelineData } = trpc.analytics.getTimelineData.useQuery({ months: 6 });
-  const { data: linkTypeDistribution } = trpc.analytics.getLinkTypeDistribution.useQuery();
-  const { data: nicheDistribution } = trpc.analytics.getNicheDistribution.useQuery();
-  const { data: topOpportunities } = trpc.analytics.getTopOpportunities.useQuery();
-  const { data: recentActivity } = trpc.analytics.getRecentActivity.useQuery({ limit: 10 });
-  const { data: projectPerformance } = trpc.analytics.getProjectPerformance.useQuery();
+  // Queries with caching and stale time
+  const { data: overviewStats, isLoading: loadingOverview } = trpc.analytics.getOverviewStats.useQuery(undefined, {
+    staleTime: 5 * 60 * 1000, // Cache for 5 minutes
+  });
+  const { data: timelineData } = trpc.analytics.getTimelineData.useQuery({ months: 6 }, {
+    staleTime: 5 * 60 * 1000,
+    enabled: !!overviewStats, // Only load after overview loads
+  });
+  const { data: linkTypeDistribution } = trpc.analytics.getLinkTypeDistribution.useQuery(undefined, {
+    staleTime: 5 * 60 * 1000,
+    enabled: !!overviewStats,
+  });
+  const { data: nicheDistribution } = trpc.analytics.getNicheDistribution.useQuery(undefined, {
+    staleTime: 5 * 60 * 1000,
+    enabled: !!overviewStats,
+  });
+  const { data: topOpportunities } = trpc.analytics.getTopOpportunities.useQuery(undefined, {
+    staleTime: 10 * 60 * 1000, // Cache for 10 minutes
+    enabled: !!overviewStats,
+  });
+  const { data: recentActivity } = trpc.analytics.getRecentActivity.useQuery({ limit: 10 }, {
+    staleTime: 2 * 60 * 1000, // Cache for 2 minutes (fresher data)
+    enabled: !!overviewStats,
+  });
+  const { data: projectPerformance } = trpc.analytics.getProjectPerformance.useQuery(undefined, {
+    staleTime: 5 * 60 * 1000,
+    enabled: !!overviewStats,
+  });
 
   const exportData = trpc.analytics.exportAnalytics.useQuery(undefined, {
     enabled: false,
