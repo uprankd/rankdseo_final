@@ -39,7 +39,7 @@ const StatCard = (props) => {
               </div>
             )}
           </div>
-          <div className="h-14 w-14 rounded-full bg-gradient-to-br from-purple-100 to-pink-100 flex items-center justify-center">
+          <div className="h-14 w-14 rounded-full bg-gradient-to-br from-navy-50 to-sky-50 flex items-center justify-center">
             <Icon className="h-7 w-7 text-navy-500" />
           </div>
         </div>
