@@ -18,7 +18,7 @@ import {
 import { format } from 'date-fns';
 import { toast } from 'sonner';
 
-const COLORS = ['#8b5cf6', '#ec4899', '#f59e0b', '#10b981', '#3b82f6', '#6366f1', '#ef4444', '#14b8a6'];
+const COLORS = ['#060B70', '#05B3F2', '#0490C2', '#D3EBF5', '#05095C', '#E5F7FE', '#040748', '#CCEFFD'];
 
 const StatCard = (props) => {
   const { title, value, change, icon: Icon, trend } = props;
