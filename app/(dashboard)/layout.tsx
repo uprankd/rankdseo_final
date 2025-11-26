@@ -80,7 +80,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                 </span>
                 <div className="flex items-center gap-1">
                   <Sparkles className="h-3 w-3 text-yellow-500" />
-                  <span className="text-xs font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">Premium Platform</span>
+                  <span className="text-xs font-bold bg-gradient-to-r from-navy-500 to-sky-500 bg-clip-text text-transparent">Premium Platform</span>
                 </div>
               </div>
             </Link>

@@ -167,7 +167,7 @@ export default function SettingsPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-4xl font-black bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent mb-2">
+        <h1 className="text-4xl font-black bg-gradient-to-r from-navy-500 to-sky-500 bg-clip-text text-transparent mb-2">
           Settings
         </h1>
         <p className="text-gray-600 text-lg">Manage your account and application preferences</p>
@@ -230,7 +230,7 @@ export default function SettingsPage() {
               <Button 
                 onClick={handleUpdateProfile} 
                 disabled={updateProfile.isPending}
-                className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700"
+                className="bg-gradient-to-r from-navy-500 to-sky-500 hover:from-purple-700 hover:to-pink-700"
               >
                 {updateProfile.isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                 Update Profile
@@ -277,7 +277,7 @@ export default function SettingsPage() {
               <Button 
                 onClick={handleChangePassword} 
                 disabled={changePassword.isPending}
-                className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700"
+                className="bg-gradient-to-r from-navy-500 to-sky-500 hover:from-purple-700 hover:to-pink-700"
               >
                 {changePassword.isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                 Change Password
@@ -304,7 +304,7 @@ export default function SettingsPage() {
                       <h3 className="text-2xl font-bold text-gray-800">{subscription.plan.name}</h3>
                       <p className="text-gray-600 mt-1">{subscription.plan.description}</p>
                       <div className="mt-4 flex items-center gap-4">
-                        <Badge className="bg-gradient-to-r from-purple-600 to-pink-600 text-white">
+                        <Badge className="bg-gradient-to-r from-navy-500 to-sky-500 text-white">
                           ${(subscription.plan.price / 100).toFixed(2)} / {subscription.plan.interval}
                         </Badge>
                         <Badge variant="outline">
@@ -460,7 +460,7 @@ export default function SettingsPage() {
                     <Button 
                       onClick={handleGenerateApiKey}
                       disabled={generateApiKey.isPending}
-                      className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 whitespace-nowrap"
+                      className="bg-gradient-to-r from-navy-500 to-sky-500 hover:from-purple-700 hover:to-pink-700 whitespace-nowrap"
                     >
                       {generateApiKey.isPending ? (
                         <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -520,7 +520,7 @@ export default function SettingsPage() {
                   <p className="text-gray-600 mb-4">Upgrade your plan to get API access</p>
                   <Button 
                     onClick={() => setActiveTab('subscription')}
-                    className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700"
+                    className="bg-gradient-to-r from-navy-500 to-sky-500 hover:from-purple-700 hover:to-pink-700"
                   >
                     View Plans
                   </Button>

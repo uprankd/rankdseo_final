@@ -132,7 +132,7 @@ export default function AnalyticsPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-4xl font-black bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent mb-2">
+          <h1 className="text-4xl font-black bg-gradient-to-r from-navy-500 to-sky-500 bg-clip-text text-transparent mb-2">
             Analytics Dashboard
           </h1>
           <p className="text-gray-600 text-lg">Comprehensive insights into your backlink building performance</p>
@@ -149,7 +149,7 @@ export default function AnalyticsPage() {
           <Button 
             onClick={handleExport} 
             disabled={exportingData}
-            className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700"
+            className="bg-gradient-to-r from-navy-500 to-sky-500 hover:from-purple-700 hover:to-pink-700"
           >
             <Download className="mr-2 h-4 w-4" />
             Export Data
@@ -396,7 +396,7 @@ export default function AnalyticsPage() {
               topOpportunities.map((opp, index) => (
                 <div key={opp.id} className="flex items-center justify-between p-4 border-2 rounded-lg hover:bg-purple-50 transition-all">
                   <div className="flex items-center gap-4">
-                    <div className="h-10 w-10 rounded-full bg-gradient-to-br from-purple-600 to-pink-600 flex items-center justify-center text-white font-bold">
+                    <div className="h-10 w-10 rounded-full bg-gradient-to-br from-navy-500 to-sky-500 flex items-center justify-center text-white font-bold">
                       #{index + 1}
                     </div>
                     <div>

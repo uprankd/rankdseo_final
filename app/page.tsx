@@ -32,7 +32,7 @@ export default function HomePage() {
               Sign In
             </Link>
             <Link href="/signup">
-              <Button size="sm" className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 shadow-lg">
+              <Button size="sm" className="bg-gradient-to-r from-navy-500 to-sky-500 hover:from-purple-700 hover:to-pink-700 shadow-lg">
                 Get Started
               </Button>
             </Link>
@@ -51,7 +51,7 @@ export default function HomePage() {
 
         <div className="relative max-w-7xl mx-auto text-center">
           <div className="flex justify-center mb-6">
-            <Badge className="bg-gradient-to-r from-purple-600 to-pink-600 text-white border-0 px-6 py-2 text-base font-bold shadow-xl">
+            <Badge className="bg-gradient-to-r from-navy-500 to-sky-500 text-white border-0 px-6 py-2 text-base font-bold shadow-xl">
               <Sparkles className="h-4 w-4 mr-2" />
               10,000+ Curated Backlink Opportunities
             </Badge>
@@ -99,7 +99,7 @@ export default function HomePage() {
               <Star className="h-4 w-4 mr-2" />
               Features
             </Badge>
-            <h2 className="text-5xl font-black mb-4 bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
+            <h2 className="text-5xl font-black mb-4 bg-gradient-to-r from-navy-500 to-sky-500 bg-clip-text text-transparent">
               Everything You Need
             </h2>
             <p className="text-xl text-gray-600">Powerful features to streamline your SEO workflow</p>
@@ -165,7 +165,7 @@ export default function HomePage() {
               <Crown className="h-4 w-4 mr-2" />
               Pricing
             </Badge>
-            <h2 className="text-5xl font-black mb-4 bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
+            <h2 className="text-5xl font-black mb-4 bg-gradient-to-r from-navy-500 to-sky-500 bg-clip-text text-transparent">
               Simple, Transparent Pricing
             </h2>
             <p className="text-xl text-gray-600">Choose the plan that fits your needs</p>
@@ -266,7 +266,7 @@ export default function HomePage() {
             {/* 1 Year Membership */}
             <Card className="border-4 border-purple-400 relative hover:shadow-2xl transition-all bg-gradient-to-b from-purple-50 to-white">
               <div className="absolute -top-5 left-1/2 transform -translate-x-1/2">
-                <Badge className="bg-gradient-to-r from-purple-600 to-pink-600 text-white text-sm px-6 py-2 shadow-xl border-0">
+                <Badge className="bg-gradient-to-r from-navy-500 to-sky-500 text-white text-sm px-6 py-2 shadow-xl border-0">
                   <Star className="h-4 w-4 mr-2" />
                   Popular
                 </Badge>
@@ -274,7 +274,7 @@ export default function HomePage() {
               <CardContent className="pt-10">
                 <h3 className="text-2xl font-black mb-2 text-gray-800">1 Year Membership</h3>
                 <div className="mb-2">
-                  <span className="text-4xl font-black bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">$99.99</span>
+                  <span className="text-4xl font-black bg-gradient-to-r from-navy-500 to-sky-500 bg-clip-text text-transparent">$99.99</span>
                   <span className="text-gray-600 text-base"> per Year</span>
                 </div>
                 <div className="mb-6">
@@ -309,7 +309,7 @@ export default function HomePage() {
                   </li>
                 </ul>
                 <Link href="/signup">
-                  <Button className="w-full h-12 text-base font-semibold bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 shadow-xl">
+                  <Button className="w-full h-12 text-base font-semibold bg-gradient-to-r from-navy-500 to-sky-500 hover:from-purple-700 hover:to-pink-700 shadow-xl">
                     Get Started
                   </Button>
                 </Link>
