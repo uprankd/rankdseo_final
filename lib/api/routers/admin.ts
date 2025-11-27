@@ -448,4 +448,50 @@ export const adminRouter = router({
 
       return { success: true };
     }),
+
+  updateUser: adminProcedure
+    .input(
+      z.object({
+        userId: z.string(),
+        name: z.string().min(1, 'Name is required').optional(),
+        email: z.string().email('Invalid email format').optional(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const { userId, ...updates } = input;
+
+      // Check if user exists
+      const user = await ctx.prisma.user.findUnique({
+        where: { id: userId },
+      });
+
+      if (!user) {
+        throw new TRPCError({
+          code: 'NOT_FOUND',
+          message: 'User not found',
+        });
+      }
+
+      // If email is being updated, check if it's already in use
+      if (updates.email && updates.email !== user.email) {
+        const existingUser = await ctx.prisma.user.findUnique({
+          where: { email: updates.email },
+        });
+
+        if (existingUser) {
+          throw new TRPCError({
+            code: 'CONFLICT',
+            message: 'Email is already in use',
+          });
+        }
+      }
+
+      // Update user details
+      const updatedUser = await ctx.prisma.user.update({
+        where: { id: userId },
+        data: updates,
+      });
+
+      return { success: true, user: updatedUser };
+    }),
 });
