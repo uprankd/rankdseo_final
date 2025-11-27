@@ -134,17 +134,36 @@ Build an admin panel for RankdSEO that allows admin users to:
 4. Updated "All Users" count to show `filteredUsers.length` instead of `users.length`
 5. Updated user list to map over `filteredUsers` instead of `users`
 
+### Cancel Membership Feature Details
+**Files Modified**:
+1. `/app/lib/api/routers/admin.ts` - Backend
+2. `/app/app/(dashboard)/admin/users/page.tsx` - Frontend
+
+**Backend Changes**:
+- Added `cancelUserSubscription` mutation procedure
+- Updates subscription status to `CANCELED`
+- Sets `canceledAt` timestamp
+- Sets `cancelAtPeriodEnd` to true
+- Includes error handling for users without subscriptions
+
+**Frontend Changes**:
+1. Added `cancelSubscription` tRPC mutation
+2. Added `handleCancelMembership` function with confirmation dialog
+3. Added "Cancel Membership" button for users with active subscriptions
+4. Updated plan badge to show canceled status with red styling
+5. Disabled plan selector for canceled subscriptions
+6. Button shows XCircle icon with red styling
+7. Button only visible for active subscriptions
+
 **Testing Requirements**:
-- No backend changes required (filtering is client-side)
-- Frontend testing should verify:
-  1. Search input is visible and properly styled
-  2. Typing in search box filters users in real-time
-  3. Search works for both email and name
-  4. Search is case-insensitive
-  5. Clear button appears when text is entered
-  6. Clicking clear button resets the search
-  7. User count updates based on filtered results
-  8. "No users found" message shows when no matches
+- Backend: Test canceling a user's subscription via admin panel
+- Frontend: Verify:
+  1. Cancel button visible for active subscriptions
+  2. Confirmation dialog appears before canceling
+  3. Success toast message after cancellation
+  4. UI updates to show canceled status
+  5. Plan selector is disabled after cancellation
+  6. Cancel button disappears after cancellation
 
 ## Action Items
 _Will be populated by testing agents_
