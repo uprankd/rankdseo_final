@@ -161,15 +161,40 @@ Build an admin panel for RankdSEO that allows admin users to:
 6. Button shows XCircle icon with red styling
 7. Button only visible for active subscriptions
 
+### Restore Membership Feature Details
+**Files Modified**:
+1. `/app/lib/api/routers/admin.ts` - Backend
+2. `/app/app/(dashboard)/admin/users/page.tsx` - Frontend
+
+**Backend Changes**:
+- Added `restoreUserSubscription` mutation procedure
+- Updates subscription status back to `ACTIVE`
+- Clears `canceledAt` timestamp
+- Sets `cancelAtPeriodEnd` to false
+- Extends billing period by 30 days from restoration date
+- Includes validation to ensure subscription is canceled before restoring
+
+**Frontend Changes**:
+1. Added `restoreSubscription` tRPC mutation
+2. Added `handleRestoreMembership` function with confirmation dialog
+3. Updated button logic to toggle between Cancel/Restore based on status
+4. Green-styled "Restore Membership" button with RotateCcw icon
+5. Button only visible for canceled subscriptions
+6. Plan selector re-enabled after restoration
+
 **Testing Requirements**:
-- Backend: Test canceling a user's subscription via admin panel
+- Backend: Test full cycle (cancel → restore → cancel again)
 - Frontend: Verify:
   1. Cancel button visible for active subscriptions
   2. Confirmation dialog appears before canceling
   3. Success toast message after cancellation
-  4. UI updates to show canceled status
+  4. UI updates to show canceled status (red badge)
   5. Plan selector is disabled after cancellation
-  6. Cancel button disappears after cancellation
+  6. Restore button appears after cancellation (green)
+  7. Confirmation dialog appears before restoring
+  8. Success toast message after restoration
+  9. UI updates to show active status
+  10. Cancel button reappears after restoration
 
 ## Action Items
 _Will be populated by testing agents_
