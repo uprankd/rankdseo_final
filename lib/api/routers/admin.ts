@@ -365,4 +365,46 @@ export const adminRouter = router({
 
       return { success: true };
     }),
+
+  restoreUserSubscription: adminProcedure
+    .input(
+      z.object({
+        userId: z.string(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      // Check if user has a subscription
+      const subscription = await ctx.prisma.subscription.findUnique({
+        where: { userId: input.userId },
+        include: { user: true },
+      });
+
+      if (!subscription) {
+        throw new TRPCError({
+          code: 'NOT_FOUND',
+          message: 'User does not have a subscription',
+        });
+      }
+
+      if (subscription.status !== 'CANCELED') {
+        throw new TRPCError({
+          code: 'BAD_REQUEST',
+          message: 'Subscription is not canceled',
+        });
+      }
+
+      // Restore subscription to ACTIVE status
+      await ctx.prisma.subscription.update({
+        where: { userId: input.userId },
+        data: {
+          status: 'ACTIVE',
+          canceledAt: null,
+          cancelAtPeriodEnd: false,
+          currentPeriodStart: new Date(),
+          currentPeriodEnd: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), // 30 days from now
+        },
+      });
+
+      return { success: true };
+    }),
 });
