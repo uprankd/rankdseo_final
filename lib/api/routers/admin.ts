@@ -271,4 +271,65 @@ export const adminRouter = router({
       totalProjects,
     };
   }),
+
+  // User management procedures
+  listUsers: adminProcedure.query(async ({ ctx }) => {
+    const users = await ctx.prisma.user.findMany({
+      include: {
+        subscription: {
+          include: {
+            plan: true,
+          },
+        },
+        _count: {
+          select: {
+            projects: true,
+          },
+        },
+      },
+      orderBy: { createdAt: 'desc' },
+    });
+
+    return users;
+  }),
+
+  updateUserPlan: adminProcedure
+    .input(
+      z.object({
+        userId: z.string(),
+        planId: z.string(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      // Check if user already has a subscription
+      const existingSubscription = await ctx.prisma.subscription.findUnique({
+        where: { userId: input.userId },
+      });
+
+      if (existingSubscription) {
+        // Update existing subscription
+        await ctx.prisma.subscription.update({
+          where: { userId: input.userId },
+          data: {
+            planId: input.planId,
+            currentPeriodStart: new Date(),
+            currentPeriodEnd: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), // 30 days
+            status: 'ACTIVE',
+          },
+        });
+      } else {
+        // Create new subscription
+        await ctx.prisma.subscription.create({
+          data: {
+            userId: input.userId,
+            planId: input.planId,
+            status: 'ACTIVE',
+            currentPeriodStart: new Date(),
+            currentPeriodEnd: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
+          },
+        });
+      }
+
+      return { success: true };
+    }),
 });
