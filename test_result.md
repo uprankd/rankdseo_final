@@ -189,19 +189,55 @@ Build an admin panel for RankdSEO that allows admin users to:
 5. Button only visible for canceled subscriptions
 6. Plan selector re-enabled after restoration
 
+### Password Reset Feature Details
+**Files Modified**:
+1. `/app/lib/api/routers/admin.ts` - Backend
+2. `/app/app/(dashboard)/admin/users/page.tsx` - Frontend
+
+**Backend Changes**:
+- Added `resetUserPassword` mutation procedure
+- Accepts `userId` and `newPassword` (min 8 characters)
+- Validates user exists and is not another admin
+- Security: Prevents admins from resetting other admin passwords (except their own)
+- Hashes password using bcryptjs before storing
+- Returns success status
+
+**Frontend Changes**:
+1. Added "Reset Password" button for non-admin users (blue styling with KeyRound icon)
+2. Created password reset dialog with:
+   - Manual password input with show/hide toggle (Eye/EyeOff icons)
+   - "Generate Secure Password" button
+   - Auto-generates 12-character passwords with mixed case, numbers, and special chars
+   - Copy to clipboard button
+   - Password validation (minimum 8 characters)
+   - Success message after generation
+   - Loading state during reset
+3. Dialog features:
+   - Shows username in header
+   - Real-time password validation
+   - Visual feedback for generated passwords
+   - Toast notifications for success/error
+   - Disabled submit when password is invalid
+
+**Security Features**:
+- Admin users cannot reset other admin passwords
+- Minimum password length: 8 characters
+- Passwords are bcrypt hashed (10 rounds)
+- Generated passwords include special characters for strength
+
 **Testing Requirements**:
-- Backend: Test full cycle (cancel → restore → cancel again)
+- Backend: Test password reset cycle and validation
 - Frontend: Verify:
-  1. Cancel button visible for active subscriptions
-  2. Confirmation dialog appears before canceling
-  3. Success toast message after cancellation
-  4. UI updates to show canceled status (red badge)
-  5. Plan selector is disabled after cancellation
-  6. Restore button appears after cancellation (green)
-  7. Confirmation dialog appears before restoring
-  8. Success toast message after restoration
-  9. UI updates to show active status
-  10. Cancel button reappears after restoration
+  1. Reset Password button visible for non-admin users only
+  2. Dialog opens with user information
+  3. Manual password entry works
+  4. Password validation (min 8 chars) works
+  5. Generate password creates secure password
+  6. Show/hide password toggle works
+  7. Copy to clipboard works with toast notification
+  8. Success toast after password reset
+  9. Dialog closes after successful reset
+  10. Error handling for invalid passwords
 
 ## Action Items
 _Will be populated by testing agents_
