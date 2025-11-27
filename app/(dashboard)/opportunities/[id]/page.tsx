@@ -299,9 +299,6 @@ export default function OpportunityDetailPage({ params }: { params: { id: string
   };
 
   const gradient = getLinkTypeColor(opportunity.linkType);
-  const completedSteps = 0;
-  const totalSteps = opportunity.instructions?.length || 0;
-  const progress = (completedSteps / totalSteps) * 100;
 
   return (
     <div className="space-y-6 animate-in fade-in duration-500">
