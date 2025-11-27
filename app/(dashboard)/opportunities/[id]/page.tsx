@@ -13,12 +13,10 @@ import {
   TrendingUp,
   Globe,
   Sparkles,
-  Copy,
   AlertCircle,
   Star,
   ChevronRight,
   Image as ImageIcon,
-  Link2,
   FileText
 } from 'lucide-react';
 import { trpc } from '@/lib/api/client';
