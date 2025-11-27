@@ -27,6 +27,12 @@ Build an admin panel for RankdSEO that allows admin users to:
    - Visual indicator for canceled memberships
    - Disable plan changes for canceled subscriptions
 
+3. ✅ Add ability to restore canceled memberships
+   - Restore button for users with canceled subscriptions
+   - Confirmation dialog before restoring
+   - Reactivate subscription with new billing period
+   - Toggle between Cancel/Restore based on status
+
 ## Current Implementation Status
 **Phase**: Cancel Membership Feature - Ready for Testing
 **Date**: Current session (Cancel Membership Enhancement)
