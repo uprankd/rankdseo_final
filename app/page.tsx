@@ -216,51 +216,45 @@ export default function HomePage() {
 
             {/* 1 Year Membership - Now with GREEN colors */}
             <Card className="border-2 border-green-200 hover:shadow-2xl transition-all hover:-translate-y-1">
-              <div className="absolute -top-5 left-1/2 transform -translate-x-1/2">
-                <Badge className="bg-gradient-to-r from-navy-500 to-sky-500 text-white text-sm px-6 py-2 shadow-xl border-0">
-                  <Star className="h-4 w-4 mr-2" />
-                  Popular
-                </Badge>
-              </div>
-              <CardContent className="pt-10">
+              <CardContent className="pt-8">
                 <h3 className="text-2xl font-black mb-2 text-gray-800">1 Year Membership</h3>
                 <div className="mb-2">
-                  <span className="text-4xl font-black bg-gradient-to-r from-navy-500 to-sky-500 bg-clip-text text-transparent">$99.99</span>
+                  <span className="text-4xl font-black bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent">$99.99</span>
                   <span className="text-gray-600 text-base"> per Year</span>
                 </div>
                 <div className="mb-6">
-                  <Badge className="bg-navy-100 text-navy-600 text-xs px-2 py-1 border-0">
+                  <Badge className="bg-green-100 text-green-700 text-xs px-2 py-1 border-0">
                     Save 76%
                   </Badge>
                 </div>
                 <ul className="space-y-3 mb-8">
                   <li className="flex items-start">
                     <Check className="h-5 w-5 text-green-600 mr-3 flex-shrink-0 mt-0.5" />
-                    <span className="text-gray-700 font-semibold text-sm">Unlimited opportunities</span>
+                    <span className="text-gray-700 text-sm">Unlimited opportunities</span>
                   </li>
                   <li className="flex items-start">
                     <Check className="h-5 w-5 text-green-600 mr-3 flex-shrink-0 mt-0.5" />
-                    <span className="text-gray-700 font-semibold text-sm">100 projects</span>
+                    <span className="text-gray-700 text-sm">100 projects</span>
                   </li>
                   <li className="flex items-start">
                     <Check className="h-5 w-5 text-green-600 mr-3 flex-shrink-0 mt-0.5" />
-                    <span className="text-gray-700 font-semibold text-sm">CSV export</span>
+                    <span className="text-gray-700 text-sm">CSV export</span>
                   </li>
                   <li className="flex items-start">
                     <Check className="h-5 w-5 text-green-600 mr-3 flex-shrink-0 mt-0.5" />
-                    <span className="text-gray-700 font-semibold text-sm">API access</span>
+                    <span className="text-gray-700 text-sm">API access</span>
                   </li>
                   <li className="flex items-start">
                     <Check className="h-5 w-5 text-green-600 mr-3 flex-shrink-0 mt-0.5" />
-                    <span className="text-gray-700 font-semibold text-sm">Priority email support</span>
+                    <span className="text-gray-700 text-sm">Priority email support</span>
                   </li>
                   <li className="flex items-start">
                     <Check className="h-5 w-5 text-green-600 mr-3 flex-shrink-0 mt-0.5" />
-                    <span className="text-gray-700 font-semibold text-sm">Auto link verification</span>
+                    <span className="text-gray-700 text-sm">Auto link verification</span>
                   </li>
                 </ul>
                 <Link href="/signup">
-                  <Button className="w-full h-12 text-base font-semibold bg-gradient-to-r from-navy-500 to-sky-500 hover:from-purple-700 hover:to-sky-600 shadow-xl">
+                  <Button variant="outline" className="w-full h-12 text-base font-semibold border-2 border-green-300 hover:bg-green-50">
                     Get Started
                   </Button>
                 </Link>
