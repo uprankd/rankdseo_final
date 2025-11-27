@@ -59,6 +59,19 @@ export default function AdminUsersPage() {
     },
   });
 
+  const resetPassword = trpc.admin.resetUserPassword.useMutation({
+    onSuccess: () => {
+      toast.success('Password reset successfully!');
+      setResetPasswordDialog(null);
+      setNewPassword('');
+      setGeneratedPassword('');
+      setShowPassword(false);
+    },
+    onError: (error) => {
+      toast.error(`Failed to reset password: ${error.message}`);
+    },
+  });
+
   const handlePlanChange = async (userId: string, planId: string) => {
     setUpdatingUser(userId);
     await updatePlan.mutateAsync({ userId, planId });
@@ -76,6 +89,34 @@ export default function AdminUsersPage() {
       setUpdatingUser(userId);
       await restoreSubscription.mutateAsync({ userId });
     }
+  };
+
+  const generatePassword = () => {
+    const length = 12;
+    const charset = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*';
+    let password = '';
+    for (let i = 0; i < length; i++) {
+      password += charset.charAt(Math.floor(Math.random() * charset.length));
+    }
+    setNewPassword(password);
+    setGeneratedPassword(password);
+    setShowPassword(true);
+  };
+
+  const handleResetPassword = async () => {
+    if (!resetPasswordDialog || !newPassword || newPassword.length < 8) {
+      toast.error('Password must be at least 8 characters');
+      return;
+    }
+    await resetPassword.mutateAsync({
+      userId: resetPasswordDialog.userId,
+      newPassword,
+    });
+  };
+
+  const copyToClipboard = () => {
+    navigator.clipboard.writeText(newPassword);
+    toast.success('Password copied to clipboard!');
   };
 
   // Filter users based on search query (case-insensitive, search by name and email)
