@@ -114,5 +114,31 @@ Add email search filter to the Admin User Management page with the following req
 - All admin endpoints should reject non-admin users
 - Should return FORBIDDEN error for regular users
 
+### Email Search Filter Feature Details
+**File Modified**: `/app/app/(dashboard)/admin/users/page.tsx`
+
+**Changes Made**:
+1. Added `useMemo` hook to filter users based on search query
+2. Filter logic searches both `user.email` and `user.name` (case-insensitive)
+3. Added search input in CardHeader with:
+   - Search icon on the left
+   - Clear button (X) on the right (appears when searchQuery is not empty)
+   - Placeholder: "Search by user/email"
+   - Width: w-96 (fixed width for better UX)
+4. Updated "All Users" count to show `filteredUsers.length` instead of `users.length`
+5. Updated user list to map over `filteredUsers` instead of `users`
+
+**Testing Requirements**:
+- No backend changes required (filtering is client-side)
+- Frontend testing should verify:
+  1. Search input is visible and properly styled
+  2. Typing in search box filters users in real-time
+  3. Search works for both email and name
+  4. Search is case-insensitive
+  5. Clear button appears when text is entered
+  6. Clicking clear button resets the search
+  7. User count updates based on filtered results
+  8. "No users found" message shows when no matches
+
 ## Action Items
 _Will be populated by testing agents_
