@@ -41,6 +41,18 @@ export default function AdminUsersPage() {
     },
   });
 
+  const restoreSubscription = trpc.admin.restoreUserSubscription.useMutation({
+    onSuccess: () => {
+      toast.success('Membership restored successfully!');
+      refetch();
+      setUpdatingUser(null);
+    },
+    onError: (error) => {
+      toast.error(`Failed to restore membership: ${error.message}`);
+      setUpdatingUser(null);
+    },
+  });
+
   const handlePlanChange = async (userId: string, planId: string) => {
     setUpdatingUser(userId);
     await updatePlan.mutateAsync({ userId, planId });
@@ -50,6 +62,13 @@ export default function AdminUsersPage() {
     if (confirm(`Are you sure you want to cancel the membership for ${userName}? This action cannot be undone.`)) {
       setUpdatingUser(userId);
       await cancelSubscription.mutateAsync({ userId });
+    }
+  };
+
+  const handleRestoreMembership = async (userId: string, userName: string) => {
+    if (confirm(`Are you sure you want to restore the membership for ${userName}? This will reactivate their subscription.`)) {
+      setUpdatingUser(userId);
+      await restoreSubscription.mutateAsync({ userId });
     }
   };
 
