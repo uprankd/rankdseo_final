@@ -274,11 +274,6 @@ export default function OpportunityDetailPage({ params }: { params: { id: string
     );
   }
 
-  const copyToClipboard = (text: string) => {
-    navigator.clipboard.writeText(text);
-    toast.success('Copied to clipboard!');
-  };
-
   const getLinkTypeColor = (linkType: string) => {
     const colors: Record<string, string> = {
       PROFILE: 'from-blue-500 to-cyan-500',
