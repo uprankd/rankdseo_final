@@ -363,15 +363,6 @@ export default function OpportunityDetailPage({ params }: { params: { id: string
                 Visit Website
                 <ExternalLink className="h-5 w-5 ml-2" />
               </Button>
-              <Button
-                size="lg"
-                variant="outline"
-                className="border-2 border-white/50 text-white hover:bg-white/20 font-bold text-lg"
-                onClick={() => copyToClipboard(opportunity.websiteUrl)}
-              >
-                Copy URL
-                <Copy className="h-5 w-5 ml-2" />
-              </Button>
             </div>
           </div>
         </CardContent>
