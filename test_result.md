@@ -14,9 +14,16 @@ Build an admin panel for RankdSEO that allows admin users to:
 - Manage step-by-step tutorial instructions for each opportunity
 - Delete opportunities
 
+**Latest Enhancement Request:**
+Add email search filter to the Admin User Management page with the following requirements:
+- Search by both user name AND email
+- Case-insensitive search
+- Beautiful search input placed where "All Users" heading is
+- Placeholder text: "Search by user/email"
+
 ## Current Implementation Status
-**Phase**: Admin Panel Implementation Complete - Ready for Backend Testing
-**Date**: Current session
+**Phase**: User Search Filter Feature - Ready for Backend Testing
+**Date**: Current session (Email Search Filter Enhancement)
 
 ### Backend Implementation
 - Status: **COMPLETED**
