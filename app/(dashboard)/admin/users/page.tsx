@@ -16,6 +16,10 @@ import { useState, useMemo } from 'react';
 export default function AdminUsersPage() {
   const [updatingUser, setUpdatingUser] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
+  const [resetPasswordDialog, setResetPasswordDialog] = useState<{ open: boolean; userId: string; userName: string } | null>(null);
+  const [newPassword, setNewPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [generatedPassword, setGeneratedPassword] = useState('');
   
   const { data: users, isLoading, refetch } = trpc.admin.listUsers.useQuery();
   const { data: plans } = trpc.subscription.listPlans.useQuery();
