@@ -301,6 +301,22 @@ export default function AdminUsersPage() {
                           {user.role === 'ADMIN' && (
                             <Badge className="bg-red-500 text-white">Admin</Badge>
                           )}
+                          <button
+                            onClick={() => {
+                              setEditUserDialog({
+                                open: true,
+                                userId: user.id,
+                                currentName: user.name || '',
+                                currentEmail: user.email,
+                              });
+                              setEditName(user.name || '');
+                              setEditEmail(user.email);
+                            }}
+                            className="p-1 hover:bg-gray-100 rounded transition-colors"
+                            title="Edit user"
+                          >
+                            <Edit className="h-3 w-3 text-gray-500 hover:text-gray-700" />
+                          </button>
                         </div>
                         <div className="flex items-center gap-2 text-sm text-gray-600">
                           <Mail className="h-3 w-3" />
