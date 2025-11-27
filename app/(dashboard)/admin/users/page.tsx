@@ -395,6 +395,103 @@ export default function AdminUsersPage() {
           </div>
         </CardContent>
       </Card>
+
+      {/* Reset Password Dialog */}
+      <Dialog open={resetPasswordDialog?.open || false} onOpenChange={(open) => !open && setResetPasswordDialog(null)}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Reset Password</DialogTitle>
+            <DialogDescription>
+              Reset password for <span className="font-semibold">{resetPasswordDialog?.userName}</span>
+            </DialogDescription>
+          </DialogHeader>
+          
+          <div className="space-y-4 py-4">
+            <div className="space-y-2">
+              <Label htmlFor="password">New Password</Label>
+              <div className="flex gap-2">
+                <div className="relative flex-1">
+                  <Input
+                    id="password"
+                    type={showPassword ? 'text' : 'password'}
+                    value={newPassword}
+                    onChange={(e) => setNewPassword(e.target.value)}
+                    placeholder="Enter new password (min 8 characters)"
+                    className="pr-10"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                  >
+                    {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                  </button>
+                </div>
+                {newPassword && (
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="icon"
+                    onClick={copyToClipboard}
+                    title="Copy password"
+                  >
+                    <Copy className="h-4 w-4" />
+                  </Button>
+                )}
+              </div>
+              {newPassword && newPassword.length < 8 && (
+                <p className="text-xs text-red-500">Password must be at least 8 characters</p>
+              )}
+            </div>
+
+            <Button
+              type="button"
+              variant="outline"
+              onClick={generatePassword}
+              className="w-full"
+            >
+              Generate Secure Password
+            </Button>
+
+            {generatedPassword && (
+              <div className="p-3 bg-green-50 border border-green-200 rounded-md">
+                <p className="text-xs text-green-800 font-medium mb-1">
+                  ✓ Password generated! Make sure to copy and save it securely.
+                </p>
+                <p className="text-xs text-green-700">
+                  The user will need this password to login.
+                </p>
+              </div>
+            )}
+          </div>
+
+          <DialogFooter className="gap-2">
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => setResetPasswordDialog(null)}
+              disabled={resetPassword.isLoading}
+            >
+              Cancel
+            </Button>
+            <Button
+              type="button"
+              onClick={handleResetPassword}
+              disabled={resetPassword.isLoading || !newPassword || newPassword.length < 8}
+              className="bg-blue-600 hover:bg-blue-700"
+            >
+              {resetPassword.isLoading ? (
+                <>
+                  <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                  Resetting...
+                </>
+              ) : (
+                'Reset Password'
+              )}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
