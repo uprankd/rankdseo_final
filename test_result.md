@@ -232,19 +232,46 @@ Build an admin panel for RankdSEO that allows admin users to:
 - Passwords are bcrypt hashed (10 rounds)
 - Generated passwords include special characters for strength
 
+### User Edit Feature Details
+**Files Modified**:
+1. `/app/lib/api/routers/admin.ts` - Backend
+2. `/app/app/(dashboard)/admin/users/page.tsx` - Frontend
+
+**Backend Changes**:
+- Added `updateUser` mutation procedure
+- Accepts `userId`, `name` (optional), and `email` (optional)
+- Validates user exists in database
+- Email uniqueness validation: prevents duplicate emails
+- Returns updated user object
+
+**Frontend Changes**:
+1. Added small edit icon button (✏️) next to each user's name
+2. Created edit user dialog with:
+   - Name input field (pre-populated)
+   - Email input field (pre-populated)
+   - Real-time validation for both fields
+   - Visual error messages for invalid inputs
+   - Info message about immediate changes
+   - Loading state during update
+3. Form validation:
+   - Name cannot be empty
+   - Email must be valid format
+   - Email uniqueness checked on backend
+   - Submit disabled when invalid
+
 **Testing Requirements**:
-- Backend: Test password reset cycle and validation
+- Backend: Test user update and email uniqueness
 - Frontend: Verify:
-  1. Reset Password button visible for non-admin users only
-  2. Dialog opens with user information
-  3. Manual password entry works
-  4. Password validation (min 8 chars) works
-  5. Generate password creates secure password
-  6. Show/hide password toggle works
-  7. Copy to clipboard works with toast notification
-  8. Success toast after password reset
-  9. Dialog closes after successful reset
-  10. Error handling for invalid passwords
+  1. Edit button visible next to all user names
+  2. Dialog opens with pre-populated data
+  3. Name field validation (required)
+  4. Email field validation (format + uniqueness)
+  5. Save button disabled when invalid
+  6. Success toast after update
+  7. User list refreshes with new data
+  8. Error toast for duplicate emails
+  9. Dialog closes after successful update
+  10. Loading state shows during update
 
 ## Action Items
 _Will be populated by testing agents_
