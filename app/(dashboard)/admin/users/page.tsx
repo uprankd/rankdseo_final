@@ -162,8 +162,8 @@ export default function AdminUsersPage() {
         </CardHeader>
         <CardContent>
           <div className="space-y-3">
-            {users && users.length > 0 ? (
-              users.map((user) => (
+            {filteredUsers && filteredUsers.length > 0 ? (
+              filteredUsers.map((user) => (
                 <Card key={user.id} className="border-2 hover:border-navy-400 transition-all">
                   <CardContent className="p-4">
                     <div className="flex items-center gap-4">
