@@ -219,9 +219,22 @@ export default function AdminUsersPage() {
                       <div className="flex-shrink-0 text-right">
                         <p className="text-xs text-gray-600 mb-2">Current Plan</p>
                         {user.subscription ? (
-                          <Badge className="bg-gradient-to-r from-navy-500 to-sky-500 text-white">
-                            {user.subscription.plan.name}
-                          </Badge>
+                          <div className="flex flex-col gap-1">
+                            <Badge 
+                              className={
+                                user.subscription.status === 'CANCELED' 
+                                  ? 'bg-red-500 text-white' 
+                                  : 'bg-gradient-to-r from-navy-500 to-sky-500 text-white'
+                              }
+                            >
+                              {user.subscription.plan.name}
+                            </Badge>
+                            {user.subscription.status === 'CANCELED' && (
+                              <Badge variant="outline" className="text-red-600 border-red-300">
+                                Canceled
+                              </Badge>
+                            )}
+                          </div>
                         ) : (
                           <Badge variant="outline">No Plan</Badge>
                         )}
@@ -232,7 +245,7 @@ export default function AdminUsersPage() {
                         <Select
                           value={user.subscription?.planId || ''}
                           onValueChange={(planId) => handlePlanChange(user.id, planId)}
-                          disabled={updatingUser === user.id}
+                          disabled={updatingUser === user.id || user.subscription?.status === 'CANCELED'}
                         >
                           <SelectTrigger className="border-2">
                             <SelectValue placeholder="Select plan" />
@@ -257,6 +270,22 @@ export default function AdminUsersPage() {
                           </div>
                         )}
                       </div>
+
+                      {/* Cancel Membership Button */}
+                      {user.subscription && user.subscription.status !== 'CANCELED' && (
+                        <div className="flex-shrink-0">
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => handleCancelMembership(user.id, user.name || user.email)}
+                            disabled={updatingUser === user.id}
+                            className="border-2 border-red-300 text-red-600 hover:bg-red-50 hover:border-red-400"
+                          >
+                            <XCircle className="h-4 w-4 mr-2" />
+                            Cancel Membership
+                          </Button>
+                        </div>
+                      )}
                     </div>
                   </CardContent>
                 </Card>
