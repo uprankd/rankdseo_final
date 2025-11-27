@@ -20,7 +20,6 @@ import {
   FileText
 } from 'lucide-react';
 import { trpc } from '@/lib/api/client';
-import { toast } from 'sonner';
 
 // Fake opportunity data with detailed tutorials
 const OPPORTUNITIES = {
