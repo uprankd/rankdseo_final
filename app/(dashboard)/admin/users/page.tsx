@@ -135,10 +135,30 @@ export default function AdminUsersPage() {
       {/* Users List */}
       <Card className="border-2">
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Users className="h-5 w-5" />
-            All Users ({users?.length || 0})
-          </CardTitle>
+          <div className="flex items-center justify-between gap-4">
+            <CardTitle className="flex items-center gap-2">
+              <Users className="h-5 w-5" />
+              All Users ({filteredUsers?.length || 0})
+            </CardTitle>
+            <div className="relative w-96">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+              <Input
+                type="text"
+                placeholder="Search by user/email"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="pl-10 pr-10 border-2"
+              />
+              {searchQuery && (
+                <button
+                  onClick={() => setSearchQuery('')}
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
+                >
+                  <X className="h-4 w-4" />
+                </button>
+              )}
+            </div>
+          </div>
         </CardHeader>
         <CardContent>
           <div className="space-y-3">
