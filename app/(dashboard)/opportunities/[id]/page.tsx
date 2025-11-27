@@ -18,8 +18,6 @@ import {
   Star,
   ChevronRight,
   Image as ImageIcon,
-  Link2,
-  Mail,
   FileText
 } from 'lucide-react';
 import { trpc } from '@/lib/api/client';
