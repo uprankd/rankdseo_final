@@ -106,95 +106,90 @@ export default function OpportunitiesPage() {
           </CardContent>
         </Card>
       ) : (
-        <div className="grid gap-6 md:grid-cols-2">
+        <div className="space-y-3">
           {data.opportunities.map((opp) => {
             const gradient = getLinkTypeColor(opp.linkType);
             return (
               <Card 
                 key={opp.id} 
-                className="group hover:shadow-2xl transition-all duration-300 border-2 hover:border-blue-400 hover:-translate-y-1 bg-white overflow-hidden"
+                className="group hover:shadow-xl transition-all duration-200 border-2 hover:border-navy-400 bg-white"
               >
-                {/* Gradient Header */}
-                <div className={`h-3 bg-gradient-to-r ${gradient}`}></div>
-                
-                <CardContent className="pt-6 space-y-4">
-                  {/* Header */}
-                  <div className="flex items-start justify-between gap-3">
-                    <div className="flex-1">
-                      <div className="flex items-center gap-2 mb-2">
-                        <div className={`h-10 w-10 rounded-xl bg-gradient-to-r ${gradient} flex items-center justify-center shadow-lg`}>
-                          <Globe className="h-5 w-5 text-white" />
+                <CardContent className="p-4">
+                  <div className="flex items-center gap-4">
+                    {/* Icon */}
+                    <div className={`h-12 w-12 rounded-xl bg-gradient-to-r ${gradient} flex items-center justify-center shadow-md flex-shrink-0`}>
+                      <Globe className="h-6 w-6 text-white" />
+                    </div>
+
+                    {/* Main Content */}
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-start justify-between gap-4">
+                        <div className="flex-1 min-w-0">
+                          <h3 className="text-lg font-bold text-gray-900 group-hover:text-navy-600 transition-colors truncate">
+                            {opp.siteName}
+                          </h3>
+                          <p className="text-sm text-gray-600 line-clamp-1 mt-1">
+                            {opp.shortDescription}
+                          </p>
                         </div>
-                        <h3 className="text-xl font-bold text-gray-900 group-hover:text-blue-600 transition-colors">
-                          {opp.siteName}
-                        </h3>
+
+                        {/* Price Badge */}
+                        <div className="flex-shrink-0">
+                          {opp.isFree ? (
+                            <Badge className="bg-gradient-to-r from-green-500 to-emerald-500 text-white border-0 shadow-md">
+                              <CheckCircle2 className="h-3 w-3 mr-1" />
+                              Free
+                            </Badge>
+                          ) : (
+                            <Badge className="bg-gradient-to-r from-gold-500 to-red-500 text-white border-0 shadow-md">
+                              <DollarSign className="h-3 w-3 mr-1" />
+                              ${((opp.cost || 0) / 100).toFixed(0)}
+                            </Badge>
+                          )}
+                        </div>
                       </div>
-                      <p className="text-sm text-gray-600 line-clamp-2 mb-3">
-                        {opp.shortDescription}
-                      </p>
-                    </div>
-                    
-                    <div className="flex flex-col gap-2">
-                      {opp.isFree ? (
-                        <Badge className="bg-gradient-to-r from-green-500 to-emerald-500 text-white border-0 shadow-md">
-                          <CheckCircle2 className="h-3 w-3 mr-1" />
-                          Free
+
+                      {/* Metrics & Info Row */}
+                      <div className="flex items-center gap-3 mt-3 flex-wrap">
+                        {/* Metrics */}
+                        {opp.domainAuthority && (
+                          <div className="flex items-center gap-1 bg-blue-50 px-2 py-1 rounded border border-blue-200">
+                            <Star className="h-3 w-3 text-blue-600" />
+                            <span className="text-xs font-bold text-blue-900">DA {opp.domainAuthority}</span>
+                          </div>
+                        )}
+                        {opp.domainRating && (
+                          <div className="flex items-center gap-1 bg-navy-50 px-2 py-1 rounded border border-navy-200">
+                            <TrendingUp className="h-3 w-3 text-navy-500" />
+                            <span className="text-xs font-bold text-navy-900">DR {opp.domainRating}</span>
+                          </div>
+                        )}
+                        {opp.isDofollow && (
+                          <div className="flex items-center gap-1 bg-green-50 px-2 py-1 rounded border border-green-200">
+                            <Zap className="h-3 w-3 text-green-600" />
+                            <span className="text-xs font-bold text-green-900">Dofollow</span>
+                          </div>
+                        )}
+
+                        {/* Type & Category */}
+                        <Badge className={`bg-gradient-to-r ${gradient} text-white border-0 text-xs`}>
+                          {opp.linkType.replace(/_/g, ' ')}
                         </Badge>
-                      ) : (
-                        <Badge className="bg-gradient-to-r from-gold-500 to-red-500 text-white border-0 shadow-md">
-                          <DollarSign className="h-3 w-3 mr-1" />
-                          ${((opp.cost || 0) / 100).toFixed(0)}
+                        <Badge variant="secondary" className="font-medium text-xs">
+                          {opp.category}
                         </Badge>
-                      )}
-                    </div>
-                  </div>
+                        <Badge variant="outline" className="font-medium text-xs">
+                          {opp.niche}
+                        </Badge>
 
-                  {/* Metrics Row */}
-                  <div className="flex flex-wrap gap-2">
-                    {opp.domainAuthority && (
-                      <div className="flex items-center gap-1 bg-blue-50 px-3 py-1.5 rounded-lg border border-blue-200">
-                        <Star className="h-3 w-3 text-blue-600" />
-                        <span className="text-xs font-bold text-blue-900">DA {opp.domainAuthority}</span>
-                      </div>
-                    )}
-                    {opp.domainRating && (
-                      <div className="flex items-center gap-1 bg-navy-50 px-3 py-1.5 rounded-lg border border-navy-200">
-                        <TrendingUp className="h-3 w-3 text-navy-500" />
-                        <span className="text-xs font-bold text-purple-900">DR {opp.domainRating}</span>
-                      </div>
-                    )}
-                    {opp.isDofollow && (
-                      <div className="flex items-center gap-1 bg-green-50 px-3 py-1.5 rounded-lg border border-green-200">
-                        <Zap className="h-3 w-3 text-green-600" />
-                        <span className="text-xs font-bold text-green-900">Dofollow</span>
-                      </div>
-                    )}
-                  </div>
-
-                  {/* Category & Type */}
-                  <div className="flex flex-wrap gap-2">
-                    <Badge className={`bg-gradient-to-r ${gradient} text-white border-0`}>
-                      {opp.linkType.replace(/_/g, ' ')}
-                    </Badge>
-                    <Badge variant="secondary" className="font-medium">
-                      {opp.category}
-                    </Badge>
-                    <Badge variant="outline" className="font-medium">
-                      {opp.niche}
-                    </Badge>
-                  </div>
-
-                  {/* Traffic Estimate */}
-                  {opp.estimatedTraffic && opp.estimatedTraffic > 0 && (
-                    <div className="bg-gradient-to-r from-yellow-50 to-orange-50 px-3 py-2 rounded-lg border border-yellow-200">
-                      <div className="flex items-center justify-between">
-                        <span className="text-xs font-medium text-gray-600">Est. Monthly Traffic</span>
-                        <span className="text-sm font-bold text-gold-900">
-                          {(opp.estimatedTraffic / 1000000).toFixed(1)}M
-                        </span>
+                        {/* Traffic */}
+                        {opp.estimatedTraffic && opp.estimatedTraffic > 0 && (
+                          <div className="text-xs font-semibold text-gold-700">
+                            📊 {(opp.estimatedTraffic / 1000000).toFixed(1)}M visits/mo
+                          </div>
+                        )}
                       </div>
                     </div>
-                  )}
 
                   {/* Actions */}
                   <div className="flex gap-2 pt-2">
