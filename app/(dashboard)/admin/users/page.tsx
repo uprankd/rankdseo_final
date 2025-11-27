@@ -75,6 +75,19 @@ export default function AdminUsersPage() {
     },
   });
 
+  const updateUser = trpc.admin.updateUser.useMutation({
+    onSuccess: () => {
+      toast.success('User updated successfully!');
+      refetch();
+      setEditUserDialog(null);
+      setEditName('');
+      setEditEmail('');
+    },
+    onError: (error) => {
+      toast.error(`Failed to update user: ${error.message}`);
+    },
+  });
+
   const handlePlanChange = async (userId: string, planId: string) => {
     setUpdatingUser(userId);
     await updatePlan.mutateAsync({ userId, planId });
