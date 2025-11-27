@@ -445,24 +445,6 @@ export default function OpportunityDetailPage({ params }: { params: { id: string
         </Card>
       </div>
 
-      {/* Progress Tracker */}
-      <Card className="border-2 border-navy-300 bg-gradient-to-br from-paleblue-50 to-white">
-        <CardHeader>
-          <CardTitle className="flex items-center justify-between">
-            <span className="text-2xl">Your Progress</span>
-            <Badge className={`bg-gradient-to-r ${gradient} text-white border-0 text-lg px-4 py-2`}>
-              {completedSteps} / {totalSteps} Steps
-            </Badge>
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <Progress value={progress} className="h-4" />
-          <p className="text-sm text-gray-600 mt-3">
-            Complete all steps to build your backlink successfully
-          </p>
-        </CardContent>
-      </Card>
-
       {/* Step-by-Step Instructions */}
       <Card className="border-2 border-gray-200 shadow-xl">
         <CardHeader className="bg-gradient-to-r from-paleblue-50 to-pink-50 border-b-2 border-navy-200">
