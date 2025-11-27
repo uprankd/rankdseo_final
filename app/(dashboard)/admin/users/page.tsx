@@ -20,6 +20,9 @@ export default function AdminUsersPage() {
   const [newPassword, setNewPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [generatedPassword, setGeneratedPassword] = useState('');
+  const [editUserDialog, setEditUserDialog] = useState<{ open: boolean; userId: string; currentName: string; currentEmail: string } | null>(null);
+  const [editName, setEditName] = useState('');
+  const [editEmail, setEditEmail] = useState('');
   
   const { data: users, isLoading, refetch } = trpc.admin.listUsers.useQuery();
   const { data: plans } = trpc.subscription.listPlans.useQuery();
