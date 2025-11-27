@@ -6,12 +6,14 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { toast } from 'sonner';
-import { Users, Crown, Mail, Calendar, FolderOpen, Loader2 } from 'lucide-react';
+import { Users, Crown, Mail, Calendar, FolderOpen, Loader2, Search, X } from 'lucide-react';
+import { Input } from '@/components/ui/input';
 import { format } from 'date-fns';
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 
 export default function AdminUsersPage() {
   const [updatingUser, setUpdatingUser] = useState<string | null>(null);
+  const [searchQuery, setSearchQuery] = useState('');
   
   const { data: users, isLoading, refetch } = trpc.admin.listUsers.useQuery();
   const { data: plans } = trpc.subscription.listPlans.useQuery();
