@@ -171,7 +171,7 @@ export default function HomePage() {
             <p className="text-xl text-gray-600">Choose the plan that fits your needs</p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto">
+          <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
             {/* Monthly Membership */}
             <Card className="border-2 border-blue-200 hover:shadow-2xl transition-all hover:-translate-y-1">
               <CardContent className="pt-8">
@@ -214,57 +214,8 @@ export default function HomePage() {
               </CardContent>
             </Card>
 
-            {/* 3 Month Membership */}
+            {/* 1 Year Membership - Now with GREEN colors */}
             <Card className="border-2 border-green-200 hover:shadow-2xl transition-all hover:-translate-y-1">
-              <CardContent className="pt-8">
-                <div className="flex items-center justify-between mb-2">
-                  <h3 className="text-2xl font-black text-gray-800">3 Month Membership</h3>
-                </div>
-                <div className="mb-2">
-                  <span className="text-4xl font-black bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent">$59.99</span>
-                  <span className="text-gray-600 text-base"> every 3 Months</span>
-                </div>
-                <div className="mb-6">
-                  <Badge className="bg-green-100 text-green-700 text-xs px-2 py-1 border-0">
-                    Save 43%
-                  </Badge>
-                </div>
-                <ul className="space-y-3 mb-8">
-                  <li className="flex items-start">
-                    <Check className="h-5 w-5 text-green-600 mr-3 flex-shrink-0 mt-0.5" />
-                    <span className="text-gray-700 text-sm">Unlimited opportunities</span>
-                  </li>
-                  <li className="flex items-start">
-                    <Check className="h-5 w-5 text-green-600 mr-3 flex-shrink-0 mt-0.5" />
-                    <span className="text-gray-700 text-sm">100 projects</span>
-                  </li>
-                  <li className="flex items-start">
-                    <Check className="h-5 w-5 text-green-600 mr-3 flex-shrink-0 mt-0.5" />
-                    <span className="text-gray-700 text-sm">CSV export</span>
-                  </li>
-                  <li className="flex items-start">
-                    <Check className="h-5 w-5 text-green-600 mr-3 flex-shrink-0 mt-0.5" />
-                    <span className="text-gray-700 text-sm">API access</span>
-                  </li>
-                  <li className="flex items-start">
-                    <Check className="h-5 w-5 text-green-600 mr-3 flex-shrink-0 mt-0.5" />
-                    <span className="text-gray-700 text-sm">Priority email support</span>
-                  </li>
-                  <li className="flex items-start">
-                    <Check className="h-5 w-5 text-green-600 mr-3 flex-shrink-0 mt-0.5" />
-                    <span className="text-gray-700 text-sm">Auto link verification</span>
-                  </li>
-                </ul>
-                <Link href="/signup">
-                  <Button variant="outline" className="w-full h-12 text-base font-semibold border-2 border-green-300 hover:bg-green-50">
-                    Get Started
-                  </Button>
-                </Link>
-              </CardContent>
-            </Card>
-
-            {/* 1 Year Membership */}
-            <Card className="border-4 border-navy-400 relative hover:shadow-2xl transition-all bg-gradient-to-b from-paleblue-50 to-white">
               <div className="absolute -top-5 left-1/2 transform -translate-x-1/2">
                 <Badge className="bg-gradient-to-r from-navy-500 to-sky-500 text-white text-sm px-6 py-2 shadow-xl border-0">
                   <Star className="h-4 w-4 mr-2" />
