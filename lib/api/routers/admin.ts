@@ -407,4 +407,45 @@ export const adminRouter = router({
 
       return { success: true };
     }),
+
+  resetUserPassword: adminProcedure
+    .input(
+      z.object({
+        userId: z.string(),
+        newPassword: z.string().min(8, 'Password must be at least 8 characters'),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      // Check if user exists
+      const user = await ctx.prisma.user.findUnique({
+        where: { id: input.userId },
+      });
+
+      if (!user) {
+        throw new TRPCError({
+          code: 'NOT_FOUND',
+          message: 'User not found',
+        });
+      }
+
+      // Prevent resetting admin passwords (security measure)
+      if (user.role === 'ADMIN' && user.id !== ctx.session.user.id) {
+        throw new TRPCError({
+          code: 'FORBIDDEN',
+          message: 'Cannot reset password for other admin users',
+        });
+      }
+
+      // Hash the new password
+      const bcrypt = require('bcryptjs');
+      const hashedPassword = await bcrypt.hash(input.newPassword, 10);
+
+      // Update user's password
+      await ctx.prisma.user.update({
+        where: { id: input.userId },
+        data: { password: hashedPassword },
+      });
+
+      return { success: true };
+    }),
 });
