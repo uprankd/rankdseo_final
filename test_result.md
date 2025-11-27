@@ -14,16 +14,22 @@ Build an admin panel for RankdSEO that allows admin users to:
 - Manage step-by-step tutorial instructions for each opportunity
 - Delete opportunities
 
-**Latest Enhancement Request:**
-Add email search filter to the Admin User Management page with the following requirements:
-- Search by both user name AND email
-- Case-insensitive search
-- Beautiful search input placed where "All Users" heading is
-- Placeholder text: "Search by user/email"
+**Latest Enhancement Requests:**
+1. ✅ Add email search filter to the Admin User Management page
+   - Search by both user name AND email
+   - Case-insensitive search
+   - Beautiful search input placed where "All Users" heading is
+   - Placeholder text: "Search by user/email"
+
+2. ✅ Add ability to cancel user membership from admin panel
+   - Cancel button for each user with active subscription
+   - Confirmation dialog before canceling
+   - Visual indicator for canceled memberships
+   - Disable plan changes for canceled subscriptions
 
 ## Current Implementation Status
-**Phase**: User Search Filter Feature - Ready for Backend Testing
-**Date**: Current session (Email Search Filter Enhancement)
+**Phase**: Cancel Membership Feature - Ready for Testing
+**Date**: Current session (Cancel Membership Enhancement)
 
 ### Backend Implementation
 - Status: **COMPLETED**
