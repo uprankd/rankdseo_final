@@ -52,6 +52,14 @@ Add email search filter to the Admin User Management page with the following req
     - Add, edit, delete instruction steps
     - Preview link to view as user would see it
   ✅ Added admin menu item to sidebar (visible only to ADMIN role users)
+  ✅ **NEW: Added Email Search Filter to `/admin/users` page:**
+    - Search input field with search icon in CardHeader
+    - Placeholder: "Search by user/email"
+    - Case-insensitive search by both name and email
+    - Clear button (X icon) appears when search has text
+    - Real-time filtering using React useMemo
+    - Updated user count to show filtered results
+    - No results message when search returns empty
 
 ## Test Results
 
