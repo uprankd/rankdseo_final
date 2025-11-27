@@ -35,33 +35,6 @@ async function main() {
     },
   });
 
-  const threeMonthPlan = await prisma.plan.upsert({
-    where: { name: '3 Month Membership' },
-    update: {},
-    create: {
-      name: '3 Month Membership',
-      description: 'Save 43% - Full access for 3 months',
-      price: 5999, // $59.99
-      interval: '3-month',
-      maxOpportunities: 1000,
-      maxProjects: 100,
-      allowExport: true,
-      allowApiAccess: true,
-      priority: 1,
-      isActive: true,
-      features: {
-        opportunities: 'Unlimited',
-        projects: 100,
-        export: true,
-        apiAccess: true,
-        support: 'Priority Email',
-        autoVerification: true,
-        tutorials: 'Full Access',
-        savings: '43% off',
-      },
-    },
-  });
-
   const yearlyPlan = await prisma.plan.upsert({
     where: { name: '1 Year Membership' },
     update: {},
