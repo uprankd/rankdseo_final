@@ -192,7 +192,7 @@ export default function OpportunitiesPage() {
                     </div>
 
                     {/* Actions */}
-                    <div className="flex gap-2 ml-auto flex-shrink-0">
+                    <div className="flex gap-2 flex-shrink-0">
                       <Link href={`/opportunities/${opp.id}`}>
                         <Button 
                           variant="default" 
