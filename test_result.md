@@ -33,6 +33,13 @@ Build an admin panel for RankdSEO that allows admin users to:
    - Reactivate subscription with new billing period
    - Toggle between Cancel/Restore based on status
 
+4. ✅ Add password reset functionality for admin users
+   - Reset password button for non-admin users
+   - Dialog with password input and generator
+   - Auto-generate secure passwords
+   - Copy to clipboard functionality
+   - Visual password toggle (show/hide)
+
 ## Current Implementation Status
 **Phase**: Restore Membership Feature - Ready for Testing
 **Date**: Current session (Cancel & Restore Membership Enhancement)
