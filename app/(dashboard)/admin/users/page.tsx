@@ -290,19 +290,32 @@ export default function AdminUsersPage() {
                         )}
                       </div>
 
-                      {/* Cancel Membership Button */}
-                      {user.subscription && user.subscription.status !== 'CANCELED' && (
+                      {/* Cancel/Restore Membership Button */}
+                      {user.subscription && (
                         <div className="flex-shrink-0">
-                          <Button
-                            variant="outline"
-                            size="sm"
-                            onClick={() => handleCancelMembership(user.id, user.name || user.email)}
-                            disabled={updatingUser === user.id}
-                            className="border-2 border-red-300 text-red-600 hover:bg-red-50 hover:border-red-400"
-                          >
-                            <XCircle className="h-4 w-4 mr-2" />
-                            Cancel Membership
-                          </Button>
+                          {user.subscription.status === 'CANCELED' ? (
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              onClick={() => handleRestoreMembership(user.id, user.name || user.email)}
+                              disabled={updatingUser === user.id}
+                              className="border-2 border-green-300 text-green-600 hover:bg-green-50 hover:border-green-400"
+                            >
+                              <RotateCcw className="h-4 w-4 mr-2" />
+                              Restore Membership
+                            </Button>
+                          ) : (
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              onClick={() => handleCancelMembership(user.id, user.name || user.email)}
+                              disabled={updatingUser === user.id}
+                              className="border-2 border-red-300 text-red-600 hover:bg-red-50 hover:border-red-400"
+                            >
+                              <XCircle className="h-4 w-4 mr-2" />
+                              Cancel Membership
+                            </Button>
+                          )}
                         </div>
                       )}
                     </div>
