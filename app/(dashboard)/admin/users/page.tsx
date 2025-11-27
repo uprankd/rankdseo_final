@@ -545,6 +545,85 @@ export default function AdminUsersPage() {
           </DialogFooter>
         </DialogContent>
       </Dialog>
+
+      {/* Edit User Dialog */}
+      <Dialog open={editUserDialog?.open || false} onOpenChange={(open) => !open && setEditUserDialog(null)}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Edit User</DialogTitle>
+            <DialogDescription>
+              Update user information for <span className="font-semibold">{editUserDialog?.currentName || editUserDialog?.currentEmail}</span>
+            </DialogDescription>
+          </DialogHeader>
+          
+          <div className="space-y-4 py-4">
+            <div className="space-y-2">
+              <Label htmlFor="edit-name">Name</Label>
+              <Input
+                id="edit-name"
+                type="text"
+                value={editName}
+                onChange={(e) => setEditName(e.target.value)}
+                placeholder="Enter user name"
+              />
+              {!editName.trim() && (
+                <p className="text-xs text-red-500">Name is required</p>
+              )}
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="edit-email">Email</Label>
+              <Input
+                id="edit-email"
+                type="email"
+                value={editEmail}
+                onChange={(e) => setEditEmail(e.target.value)}
+                placeholder="Enter user email"
+              />
+              {editEmail && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(editEmail) && (
+                <p className="text-xs text-red-500">Invalid email format</p>
+              )}
+            </div>
+
+            <div className="p-3 bg-blue-50 border border-blue-200 rounded-md">
+              <p className="text-xs text-blue-800">
+                ℹ️ Changes will be reflected immediately after saving.
+              </p>
+            </div>
+          </div>
+
+          <DialogFooter className="gap-2">
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => setEditUserDialog(null)}
+              disabled={updateUser.isLoading}
+            >
+              Cancel
+            </Button>
+            <Button
+              type="button"
+              onClick={handleUpdateUser}
+              disabled={
+                updateUser.isLoading || 
+                !editName.trim() || 
+                !editEmail.trim() || 
+                !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(editEmail)
+              }
+              className="bg-navy-600 hover:bg-navy-700"
+            >
+              {updateUser.isLoading ? (
+                <>
+                  <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                  Updating...
+                </>
+              ) : (
+                'Save Changes'
+              )}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
