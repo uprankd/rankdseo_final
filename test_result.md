@@ -34,8 +34,8 @@ Build an admin panel for RankdSEO that allows admin users to:
    - Toggle between Cancel/Restore based on status
 
 ## Current Implementation Status
-**Phase**: Cancel Membership Feature - Ready for Testing
-**Date**: Current session (Cancel Membership Enhancement)
+**Phase**: Restore Membership Feature - Ready for Testing
+**Date**: Current session (Cancel & Restore Membership Enhancement)
 
 ### Backend Implementation
 - Status: **COMPLETED**
