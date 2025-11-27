@@ -1,98 +1,106 @@
 <analysis>
-The user provided a detailed trajectory of an AI engineer's work on a SaaS application, RankdSEO. My task is to summarize this work for a new engineer.
+The trajectory details the extensive work of an AI engineer on the RankdSEO SaaS application. The work can be broadly categorized into feature development, critical bug fixing, and UI/UX enhancements based on direct user feedback.
 
-I have analyzed the trajectory chronologically. The initial goal was to build an admin panel. This led to significant debugging, primarily revolving around integrating NextAuth.js v5 with tRPC for authentication. The core issue was a misconfigured  environment variable, which, once corrected, resolved the persistent 401 errors.
+Initially, the focus was on building core features like a comprehensive **Settings page** (profile, subscriptions, API keys, etc.) and a detailed **Analytics dashboard** with charts and key metrics.
 
-Following this, the engineer implemented several user-requested features:
-1.  **Full CRUD for Projects and Opportunities:** An admin panel was created, and existing pages were enhanced to allow for creating, editing, and deleting projects and their associated backlink opportunities.
-2.  **Inline Opportunity Management:** The project detail page was updated to allow for inline editing of an opportunity's status, notes, and live URL.
-3.  **Automated Link Verification:** A system was built to automatically verify a backlink URL when its status is set to Submitted. It updates the status to Approved or Rejected based on the HTTP response.
-4.  **Background Cron Job:** A recurring background job was implemented using  to re-verify all live links every 10 minutes, ensuring data accuracy.
-5.  **Database Recovery:** A critical issue where the PostgreSQL database was down was resolved by reinstalling, migrating, and re-seeding the database.
-6.  **Pricing Plan Update:** The subscription plans were updated in the database seed script to match new pricing provided by the user.
+A significant portion of the work involved resolving persistent infrastructure and database issues. The PostgreSQL database repeatedly failed to persist data or start after container restarts. This led to a series of fixes: reinstalling the database, re-seeding data, adding PostgreSQL to  for automatic startup, creating a startup script () to ensure the database is initialized and seeded, and finally, moving the PostgreSQL data directory to a persistent volume () to guarantee data survival across restarts.
+
+The engineer also implemented numerous user-requested UI/UX improvements. This included updating homepage pricing, implementing multiple color theme changes (to blue, then to gold), converting the opportunities page from a card grid to a list view, and adding a multi-select feature for adding opportunities to projects. Functionality was also enhanced by adding an image upload feature for tutorial steps and implementing a collapsible step-by-step tutorial directly within the project view.
+
+The final major feature implemented was an **Admin User Management** page, allowing admins to view all users and change their subscription plans. The last user request was to add a search filter to this page.
 
 The user's primary language is English. The next agent should respond in English.
 </analysis>
 
 <product_requirements>
-The application, RankdSEO, is a SaaS platform designed to help users manage their backlink acquisition campaigns.
+The application, RankdSEO, is a SaaS platform for managing backlink acquisition campaigns.
 
 **Core Functionality:**
-*   **User Management:** Users can sign up, sign in, and manage their accounts. There is a distinct  role with elevated privileges, with a default admin user .
-*   **Project Management:** Users can create, view, edit, and delete projects to organize their SEO campaigns.
-*   **Backlink Opportunity Management:** The system provides a database of potential backlink opportunities. Users can add these opportunities to their projects.
-*   **In-Project Opportunity Tracking:** Within a project, users can track the status of each backlink opportunity (, , , , ), add notes, and record the final live URL of the acquired backlink.
-*   **Automated Link Verification:** The system automatically checks URLs for Submitted links to approve or reject them. A background job runs every 10 minutes to re-validate all Approved links to ensure they remain live.
-*   **Admin Panel:** An admin-only section for managing the application's data, including full CRUD operations on all backlink opportunities and viewing system statistics.
-*   **Subscription Tiers:** The application supports multiple subscription plans (Monthly, 3-Month, 6-Month, Lifetime Membership) with varying features and pricing, managed via the database.
+*   **User & Project Management:** Users can manage their profiles, and create projects to organize SEO campaigns.
+*   **Opportunity Management:** Users can browse a list of backlink opportunities and add them to projects. The opportunities listing was changed from a card view to a more scannable list view. A bulk-add feature with checkboxes was implemented.
+*   **In-Project Tracking:** Inside a project, users can track an opportunity's status (, , , etc.), add notes, and view a step-by-step tutorial for acquiring the backlink via a collapsible dropdown.
+*   **Settings Page:** A comprehensive settings area allows users to manage their profile (name, email, password), view/change their subscription plan, manage API keys, and handle account deletion/data export.
+*   **Analytics Dashboard:** A dedicated analytics page visualizes key metrics like total backlinks, success rate, and average domain authority using charts. It includes performance optimizations like query aggregation and client-side chart rendering, plus a manual refresh button.
+*   **Admin Panel & User Management:** An  role has exclusive access to a panel for managing application data. This includes a Users page to view all registered users and modify their subscription plans.
+*   **Data Persistence:** The PostgreSQL database and its data are configured to persist across server restarts, ensuring user data (projects, users, etc.) is not lost.
 </product_requirements>
 
 <key_technical_concepts>
 - **Framework**: Next.js 14 (App Router)
-- **API**: tRPC (for type-safe client-server communication)
-- **Database**: PostgreSQL
-- **ORM**: Prisma
-- **Authentication**: NextAuth.js v5 (Auth.js)
-- **Styling**: Tailwind CSS with shadcn/ui
-- **Background Jobs**:  for scheduled tasks.
+- **API**: tRPC for type-safe client-server communication.
+- **Database**: PostgreSQL with Prisma ORM.
+- **Authentication**: NextAuth.js v5 (Auth.js).
+- **Styling**: Tailwind CSS with shadcn/ui and a custom color palette.
+- **Background Jobs & Persistence**:  is used to manage the Next.js and PostgreSQL processes. A custom shell script handles database initialization on startup.
+- **UI Components**:  for analytics visualizations,  for toast notifications.
 </key_technical_concepts>
 
 <code_architecture>
-The application follows a standard Next.js App Router structure, separating API logic, database management, and UI components.
+The application follows a standard Next.js App Router structure, with logic separated into UI, API routes, and library functions. The database state is managed by a PostgreSQL instance configured for data persistence.
 
 
+- **🔍 Starting database initialization...
+📦 Installing PostgreSQL...
+✅ PostgreSQL installed
+🚀 Starting PostgreSQL...
+🔄 Running migrations...
+✅ Database ready
+🎉 Startup complete!**:
+    - **Importance**: This script is critical for ensuring database availability and persistence. It checks if PostgreSQL is running, creates the database/user if they don't exist, runs migrations, and re-seeds the data (specifically the admin user) if necessary.
+    - **Changes**: Created and modified to handle database initialization, making the application resilient to container restarts. It was updated to point to the persistent data directory .
 
-**Key File Summaries:**
+- ** & **:
+    - **Importance**: These supervisor configuration files ensure that the PostgreSQL database and the  script are run automatically when the environment starts.
+    - **Changes**: Created from scratch to solve the recurring problem of the database not running after a server wake-up.
 
--   ****:
-    -   **Importance**: Central point for tRPC setup and authentication context.
-    -   **Changes**: Heavily modified during a lengthy debugging process to correctly integrate NextAuth.js v5. The final working solution uses  from  to extract the session from the request headers within the  function.
+- ****:
+    - **Importance**: This tRPC router defines all backend procedures exclusive to admin users.
+    - **Changes**: It was significantly expanded to include procedures for fetching all users () and updating a user's subscription plan (), which powers the new User Management page.
 
--   ****:
-    -   **Importance**: Contains critical environment variables for database and authentication.
-    -   **Changes**: The  was corrected to , which was the crucial fix for the authentication issues. The  points to a local PostgreSQL instance.
+- ****:
+    - **Importance**: This is the new frontend page for the Admin User Management feature.
+    - **Changes**: Created from scratch. It fetches the list of all users and their current plans using the  tRPC query. It displays them in a table and provides a dropdown for admins to change any user's plan via the  mutation.
 
--   ****:
-    -   **Importance**: Defines backend procedures for project and opportunity management.
-    -   **Changes**: Expanded significantly to include procedures for updating opportunity status, notes, and URL (), and to implement the automatic link verification logic via .
+- ****:
+    - **Importance**: This page displays the details of a single project, including its associated backlink opportunities.
+    - **Changes**: Heavily modified to add a collapsible step-by-step tutorial section under each opportunity. This involved adding state to manage the expanded tutorial, fetching opportunity details with a unique key to avoid caching issues, and creating a  component. A bug was fixed where field names in the component () didn't match the database schema ().
 
--   ****:
-    -   **Importance**: The user-facing page for managing a single project.
-    -   **Changes**: Overhauled to include a rich UI for inline editing of backlink opportunities. It now uses tRPC mutations () to save changes for status, notes, and link URLs directly from the page.
+- ****:
+    - **Importance**: Defines the application's design system and color palette.
+    - **Changes**: Modified multiple times to introduce new color schemes based on user requests. The final version includes custom 'navy', 'sky', 'pale-blue', and 'gold' color palettes that replaced the original purple/pink theme.
 
--   ** & **:
-    -   **Importance**: These new files implement the background job system.
-    -   **Changes**:  contains the logic to query all relevant opportunities and check their URLs.  uses  to run this job every 10 minutes. The scheduler is started via , which is imported in the root layout.
+- ****:
+    - **Importance**: Contains the backend logic for the Analytics dashboard.
+    - **Changes**: Created to provide data for the dashboard. It was later heavily optimized by combining multiple database calls into a single aggregation query and simplifying expensive queries, resulting in an 8x performance improvement (from ~4430ms to ~557ms). The tRPC query's  was also reduced to 30 seconds to address data freshness issues.
 
--   ****:
-    -   **Importance**: Populates the database with initial data, including plans and the admin user.
-    -   **Changes**: Updated to reflect the new multi-tiered subscription plans (Monthly, 3-Month, 6-Month, Lifetime Membership) requested by the user.
-
--   ****:
-    -   **Importance**: Provides an API endpoint to manually trigger the link verification job.
-    -   **Changes**: Created to allow on-demand execution of the background task, which proved useful for testing.
-
--   ****:
-    -   **Importance**: Contains all backend logic for the Admin Panel.
-    -   **Changes**: Created from scratch to provide admin users with full CRUD capabilities over  records.
 </code_architecture>
 
 <pending_tasks>
-- **Implement Background Jobs with BullMQ**: The original plan to use BullMQ and Redis for background jobs was superseded by a  implementation. This could be revisited for a more robust queueing system.
-- **Implement Real Email Service**: The application's email system is currently mocked. Integration with a service like Resend or SendGrid is still pending.
+- **Implement a search filter by email address on the User Management page.**
+- Implement background jobs with a more robust system like BullMQ and Redis.
+- Integrate a real email service (e.g., Resend, SendGrid) to replace the mocked email system.
 </pending_tasks>
 
 <current_work>
-The most recent task was to update the application's subscription plans to match new pricing and tiers provided by the user in a screenshot.
+The most recent work involved building a new feature for administrators: a **User Management dashboard**.
 
 **Actions Taken:**
-1.  **Database Seeding Updated:** The  file was modified to remove the old plans and create four new subscription plans: Monthly, 3-Month, 6-Month, and Lifetime Membership, complete with the correct pricing, features (e.g., number of projects, opportunities), and intervals.
-2.  **Database Updated:** The seeding script was executed, populating the live PostgreSQL database with these new subscription plans. The existing admin user was assigned the Lifetime Membership plan.
-3.  **Verification:** The engineer logged into the application as the admin user and captured a screenshot of the dashboard. The screenshot confirmed that the UI correctly displayed the user's new plan as Lifetime Membership, indicating the update was successful.
+1.  **Sidebar Navigation:** A Users menu item was added to the main navigation layout (), visible only to users with the  role.
+2.  **Backend tRPC Procedures:** The  file was updated with new procedures:
+    *   : Fetches all users from the database, including their subscription plan details.
+    *   : Allows an admin to change the  for a specific user.
+3.  **Frontend Page:** A new page was created at . This page uses the new tRPC procedures to:
+    *   Display a table of all registered users, showing their email, name, current plan, and registration date.
+    *   Provide a dropdown menu next to each user, listing all available subscription plans.
+    *   Allow the admin to select a new plan from the dropdown and trigger a mutation to update the user's subscription in the database.
 
-The application is now fully functional with the updated pricing structure reflected in the database and visible on the user dashboard. All previously implemented features, including the admin panel and project management tools, are operational.
+The feature is functionally complete, allowing an admin to view and manage user subscription plans. Immediately after this was implemented, the user requested an enhancement.
 </current_work>
 
 <optional_next_step>
-The last user request to update the subscription plans has been successfully completed. I will await your next set of instructions or feature requests.
+Add an email search filter to the User Management page () as requested.
 </optional_next_step>
+
+<direct_quotes>
+**User's last request:** create filter in User Management witch can search by e-mail address
+</direct_quotes>

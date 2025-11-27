@@ -10,7 +10,7 @@ import sys
 from typing import Dict, Any, Optional
 
 # Configuration
-BASE_URL = "https://rankdseo-admin.preview.emergentagent.com"
+BASE_URL = "https://rankdseo-dash.preview.emergentagent.com"
 TRPC_URL = f"{BASE_URL}/api/trpc"
 
 # Admin credentials
