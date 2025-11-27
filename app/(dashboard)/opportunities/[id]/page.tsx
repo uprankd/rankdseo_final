@@ -520,34 +520,6 @@ export default function OpportunityDetailPage({ params }: { params: { id: string
         </CardContent>
       </Card>
 
-      {/* Quick Links */}
-      <Card className="border-2 border-green-200 bg-gradient-to-br from-green-50 to-white">
-        <CardHeader>
-          <CardTitle className="text-2xl flex items-center gap-2">
-            <Link2 className="h-6 w-6 text-green-600" />
-            Quick Access Links
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-3">
-          <Button
-            variant="outline"
-            className="w-full justify-start text-lg h-14 border-2 hover:bg-green-50"
-            onClick={() => window.open(opportunity.websiteUrl, '_blank')}
-          >
-            <Globe className="h-5 w-5 mr-3 text-green-600" />
-            Open {opportunity.siteName}
-            <ExternalLink className="h-4 w-4 ml-auto" />
-          </Button>
-          <Button
-            variant="outline"
-            className="w-full justify-start text-lg h-14 border-2 hover:bg-navy-50"
-            onClick={() => copyToClipboard(opportunity.websiteUrl)}
-          >
-            <Copy className="h-5 w-5 mr-3 text-navy-500" />
-            Copy Website URL
-          </Button>
-        </CardContent>
-      </Card>
     </div>
   );
 }
