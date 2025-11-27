@@ -29,9 +29,28 @@ export default function AdminUsersPage() {
     },
   });
 
+  const cancelSubscription = trpc.admin.cancelUserSubscription.useMutation({
+    onSuccess: () => {
+      toast.success('Membership canceled successfully!');
+      refetch();
+      setUpdatingUser(null);
+    },
+    onError: (error) => {
+      toast.error(`Failed to cancel membership: ${error.message}`);
+      setUpdatingUser(null);
+    },
+  });
+
   const handlePlanChange = async (userId: string, planId: string) => {
     setUpdatingUser(userId);
     await updatePlan.mutateAsync({ userId, planId });
+  };
+
+  const handleCancelMembership = async (userId: string, userName: string) => {
+    if (confirm(`Are you sure you want to cancel the membership for ${userName}? This action cannot be undone.`)) {
+      setUpdatingUser(userId);
+      await cancelSubscription.mutateAsync({ userId });
+    }
   };
 
   // Filter users based on search query (case-insensitive, search by name and email)
