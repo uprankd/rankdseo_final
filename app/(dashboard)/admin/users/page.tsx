@@ -34,6 +34,18 @@ export default function AdminUsersPage() {
     await updatePlan.mutateAsync({ userId, planId });
   };
 
+  // Filter users based on search query (case-insensitive, search by name and email)
+  const filteredUsers = useMemo(() => {
+    if (!users) return [];
+    if (!searchQuery.trim()) return users;
+    
+    const query = searchQuery.toLowerCase().trim();
+    return users.filter(user => 
+      user.email.toLowerCase().includes(query) ||
+      (user.name?.toLowerCase() || '').includes(query)
+    );
+  }, [users, searchQuery]);
+
   if (isLoading) {
     return (
       <div className="flex items-center justify-center h-96">
