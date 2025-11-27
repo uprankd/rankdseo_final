@@ -135,6 +135,27 @@ export default function AdminUsersPage() {
     toast.success('Password copied to clipboard!');
   };
 
+  const handleUpdateUser = async () => {
+    if (!editUserDialog) return;
+
+    // Validate inputs
+    if (!editName.trim()) {
+      toast.error('Name is required');
+      return;
+    }
+
+    if (!editEmail.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(editEmail)) {
+      toast.error('Valid email is required');
+      return;
+    }
+
+    await updateUser.mutateAsync({
+      userId: editUserDialog.userId,
+      name: editName,
+      email: editEmail,
+    });
+  };
+
   // Filter users based on search query (case-insensitive, search by name and email)
   const filteredUsers = useMemo(() => {
     if (!users) return [];
