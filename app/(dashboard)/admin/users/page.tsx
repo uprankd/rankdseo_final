@@ -365,6 +365,26 @@ export default function AdminUsersPage() {
                           )}
                         </div>
                       )}
+
+                      {/* Reset Password Button */}
+                      {user.role !== 'ADMIN' && (
+                        <div className="flex-shrink-0">
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => {
+                              setResetPasswordDialog({ open: true, userId: user.id, userName: user.name || user.email });
+                              setNewPassword('');
+                              setGeneratedPassword('');
+                              setShowPassword(false);
+                            }}
+                            className="border-2 border-blue-300 text-blue-600 hover:bg-blue-50 hover:border-blue-400"
+                          >
+                            <KeyRound className="h-4 w-4 mr-2" />
+                            Reset Password
+                          </Button>
+                        </div>
+                      )}
                     </div>
                   </CardContent>
                 </Card>
