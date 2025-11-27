@@ -191,25 +191,26 @@ export default function OpportunitiesPage() {
                       </div>
                     </div>
 
-                  {/* Actions */}
-                  <div className="flex gap-2 pt-2">
-                    <Link href={`/opportunities/${opp.id}`} className="flex-1">
-                      <Button 
-                        variant="default" 
-                        className={`w-full bg-gradient-to-r ${gradient} hover:opacity-90 shadow-md`}
+                    {/* Actions */}
+                    <div className="flex gap-2 ml-auto flex-shrink-0">
+                      <Link href={`/opportunities/${opp.id}`}>
+                        <Button 
+                          variant="default" 
+                          className={`bg-gradient-to-r ${gradient} hover:opacity-90 shadow-md`}
+                          size="sm"
+                        >
+                          View Details
+                        </Button>
+                      </Link>
+                      <Button
+                        variant="outline"
                         size="sm"
+                        className="border-2"
+                        onClick={() => window.open(opp.websiteUrl, '_blank')}
                       >
-                        View Details
+                        <ExternalLink className="h-4 w-4" />
                       </Button>
-                    </Link>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      className="border-2"
-                      onClick={() => window.open(opp.url, '_blank')}
-                    >
-                      <ExternalLink className="h-4 w-4" />
-                    </Button>
+                    </div>
                   </div>
                 </CardContent>
               </Card>
