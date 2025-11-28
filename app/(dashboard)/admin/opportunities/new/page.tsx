@@ -31,6 +31,11 @@ export default function NewOpportunityPage() {
     domainRating: 0,
     estimatedTraffic: 0,
     spamScore: 0,
+    referringDomains: 0,
+    totalBacklinks: 0,
+    trafficValue: 0,
+    trustFlow: 0,
+    citationFlow: 0,
     isDofollow: true,
     status: 'ACTIVE' as const,
   });
