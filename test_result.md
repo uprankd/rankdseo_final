@@ -349,5 +349,55 @@ The following test keys need to be configured in .env:
   9. Dialog closes after successful update
   10. Loading state shows during update
 
+## Testing Requirements for Stripe Integration
+
+### Backend API Endpoints to Test:
+
+**Payment Router (`payment.*`):**
+1. **createSignupCheckout** (Public)
+   - Input: email, name, planId
+   - Should create Stripe checkout session for paid plans
+   - Should return isFree:true for free plans
+   - Should return sessionId and checkout URL
+   
+2. **getCheckoutStatus** (Public)
+   - Input: sessionId
+   - Should retrieve payment status from Stripe
+   - Should return transaction details from database
+
+**Authentication Flow:**
+1. **signUp with paid plan**
+   - Should create user with PENDING accountStatus
+   - Should create subscription with INCOMPLETE status
+   - Should create PaymentTransaction record
+   
+2. **signUp with free plan**
+   - Should create user with ACTIVE accountStatus
+   - Should create subscription with ACTIVE status
+
+3. **signIn with PENDING account**
+   - Should reject login with PAYMENT_REQUIRED error
+
+4. **signIn with ACTIVE account**
+   - Should allow login successfully
+
+**Webhook Handler:**
+1. **POST /api/webhooks/stripe**
+   - Should handle checkout.session.completed event
+   - Should activate user account
+   - Should update PaymentTransaction status
+   - Should update subscription dates
+
+### Test Data:
+- Test email: testpayment@example.com
+- Test name: Test User
+- Use existing plan IDs from database
+
+### Notes:
+- Stripe test keys are currently set to mock values
+- Full Stripe integration requires real test keys from Stripe Dashboard
+- Can test basic endpoint structure and database operations without real keys
+- Webhook testing requires Stripe webhook signature (can be mocked for structure testing)
+
 ## Action Items
 _Will be populated by testing agents_
