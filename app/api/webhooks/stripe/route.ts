@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { headers } from 'next/headers';
 import { stripe } from '@/lib/stripe';
-import { prisma } from '@/lib/prisma';
+import { prisma } from '@/lib/db/prisma';
 import Stripe from 'stripe';
 
 // Disable body parsing for webhook signature verification
