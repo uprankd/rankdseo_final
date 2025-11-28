@@ -113,7 +113,52 @@ export default function SignUpPage() {
                 <p className="text-xs text-gray-500">Minimum 8 characters</p>
               </div>
 
-              <Button type="submit" className="w-full" disabled={isLoading}>
+              {/* Plan Selection */}
+              <div className="space-y-3">
+                <Label className="text-base font-semibold">Choose Your Plan</Label>
+                <div className="grid gap-3">
+                  {plans.map((plan) => (
+                    <div
+                      key={plan.id}
+                      onClick={() => !isLoading && setSelectedPlan(plan.id)}
+                      className={`p-4 border-2 rounded-lg cursor-pointer transition-all ${
+                        selectedPlan === plan.id
+                          ? 'border-blue-600 bg-blue-50 shadow-md'
+                          : 'border-gray-200 hover:border-blue-300 hover:shadow-sm'
+                      } ${isLoading ? 'opacity-50 cursor-not-allowed' : ''}`}
+                    >
+                      <div className="flex items-start justify-between">
+                        <div className="flex-1">
+                          <div className="flex items-center gap-2 mb-1">
+                            <h3 className="font-bold text-lg">{plan.name}</h3>
+                            {plan.name === '1 Year Membership' && (
+                              <Badge className="bg-green-500 text-white text-xs">Best Value</Badge>
+                            )}
+                          </div>
+                          <p className="text-sm text-gray-600 mb-2">{plan.description}</p>
+                          <div className="flex items-baseline gap-1">
+                            <span className="text-2xl font-black text-blue-600">
+                              ${(plan.price / 100).toFixed(2)}
+                            </span>
+                            <span className="text-sm text-gray-500">/ {plan.interval}</span>
+                          </div>
+                        </div>
+                        <div
+                          className={`w-6 h-6 rounded-full border-2 flex items-center justify-center ${
+                            selectedPlan === plan.id
+                              ? 'border-blue-600 bg-blue-600'
+                              : 'border-gray-300'
+                          }`}
+                        >
+                          {selectedPlan === plan.id && <Check className="h-4 w-4 text-white" />}
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <Button type="submit" className="w-full" disabled={isLoading || !selectedPlan}>
                 {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                 Create Account
               </Button>
