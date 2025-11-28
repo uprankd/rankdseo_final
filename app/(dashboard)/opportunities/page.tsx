@@ -28,6 +28,16 @@ export default function OpportunitiesPage() {
   const [debouncedSearch, setDebouncedSearch] = useState('');
   const [sortBy, setSortBy] = useState<'domainAuthority' | 'domainRating' | 'referringDomains' | 'totalBacklinks' | 'trustFlow' | 'citationFlow' | 'none'>('none');
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
+  
+  // Range filters state
+  const [filters, setFilters] = useState({
+    domainAuthority: { min: 0, max: 100 },
+    domainRating: { min: 0, max: 100 },
+    referringDomains: { min: 0, max: 10000000 },
+    totalBacklinks: { min: 0, max: 1000000000 },
+    trustFlow: { min: 0, max: 100 },
+    citationFlow: { min: 0, max: 100 },
+  });
 
   const { data, isLoading } = trpc.opportunity.list.useQuery({
     limit: 50,
