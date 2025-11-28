@@ -31,7 +31,15 @@ export default function SignInPage() {
       });
 
       if (result?.error) {
-        toast.error('Invalid email or password');
+        // Handle specific error types
+        if (result.error === 'PAYMENT_REQUIRED') {
+          toast.error('Payment required to activate your account');
+          router.push('/payment/pending');
+        } else if (result.error === 'ACCOUNT_INACTIVE') {
+          toast.error('Your account has been suspended or canceled');
+        } else {
+          toast.error('Invalid email or password');
+        }
       } else {
         toast.success('Signed in successfully!');
         router.push('/dashboard');
