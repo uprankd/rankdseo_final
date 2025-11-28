@@ -145,6 +145,11 @@ export const adminRouter = router({
         domainRating: z.number().optional(),
         estimatedTraffic: z.number().optional(),
         spamScore: z.number().optional(),
+        referringDomains: z.number().optional(),
+        totalBacklinks: z.number().optional(),
+        trafficValue: z.number().optional(),
+        trustFlow: z.number().optional(),
+        citationFlow: z.number().optional(),
         isDofollow: z.boolean().optional(),
         status: z.enum(['ACTIVE', 'INACTIVE', 'NEEDS_REVIEW', 'BROKEN']).optional(),
       })
