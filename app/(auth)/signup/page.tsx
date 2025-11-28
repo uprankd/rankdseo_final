@@ -14,11 +14,16 @@ import { trpc } from '@/lib/api/client';
 export default function SignUpPage() {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
+  const [selectedPlan, setSelectedPlan] = useState<string>('');
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     password: '',
   });
+
+  // Fetch available plans
+  const { data: plansData } = trpc.subscription.getPlans.useQuery();
+  const plans = plansData?.plans || [];
 
   const signUpMutation = trpc.auth.signUp.useMutation();
 
