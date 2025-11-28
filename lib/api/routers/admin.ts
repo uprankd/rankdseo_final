@@ -505,4 +505,23 @@ export const adminRouter = router({
 
       return { success: true, user: updatedUser };
     }),
+
+  // Fetch domain metrics from DataForSEO
+  fetchDomainMetrics: adminProcedure
+    .input(
+      z.object({
+        url: z.string().min(1, 'URL is required'),
+      })
+    )
+    .mutation(async ({ input }) => {
+      try {
+        const metrics = await getDomainMetrics(input.url);
+        return { success: true, metrics };
+      } catch (error: any) {
+        throw new TRPCError({
+          code: 'INTERNAL_SERVER_ERROR',
+          message: error.message || 'Failed to fetch domain metrics',
+        });
+      }
+    }),
 });
