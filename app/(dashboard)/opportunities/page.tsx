@@ -190,7 +190,7 @@ export default function OpportunitiesPage() {
           </div>
           <p className="text-gray-600 font-medium">Discovering opportunities...</p>
         </div>
-      ) : !data?.opportunities || data.opportunities.length === 0 ? (
+      ) : !sortedOpportunities || sortedOpportunities.length === 0 ? (
         <Card className="border-2 border-dashed">
           <CardContent className="text-center py-16">
             <Search className="h-16 w-16 text-gray-400 mx-auto mb-4" />
@@ -199,7 +199,7 @@ export default function OpportunitiesPage() {
         </Card>
       ) : (
         <div className="space-y-3">
-          {data.opportunities.map((opp) => {
+          {sortedOpportunities.map((opp) => {
             const gradient = getLinkTypeColor(opp.linkType);
             return (
               <Card 
