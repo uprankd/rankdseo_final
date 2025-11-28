@@ -23,7 +23,7 @@ export default function SignUpPage() {
   });
 
   // Fetch available plans
-  const { data: plansData } = trpc.subscription.getPlans.useQuery();
+  const { data: plansData } = trpc.subscription.getPublicPlans.useQuery();
   const plans = plansData?.plans || [];
 
   const signUpMutation = trpc.auth.signUp.useMutation();
