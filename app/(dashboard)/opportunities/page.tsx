@@ -125,6 +125,62 @@ export default function OpportunitiesPage() {
         </CardContent>
       </Card>
 
+      {/* Sorting Filters */}
+      <Card className="border-2 shadow-lg bg-gradient-to-r from-blue-50 to-purple-50">
+        <CardContent className="pt-6">
+          <div className="flex items-center gap-4 flex-wrap">
+            <div className="flex items-center gap-2">
+              <ArrowUpDown className="h-5 w-5 text-gray-600" />
+              <span className="text-sm font-semibold text-gray-700">Sort By:</span>
+            </div>
+            
+            <Select value={sortBy} onValueChange={(value: any) => setSortBy(value)}>
+              <SelectTrigger className="w-[200px] border-2 bg-white">
+                <SelectValue placeholder="Select metric" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="none">Default Order</SelectItem>
+                <SelectItem value="domainAuthority">Domain Authority (DA)</SelectItem>
+                <SelectItem value="domainRating">Domain Rating (DR)</SelectItem>
+                <SelectItem value="referringDomains">Referring Domains (RD)</SelectItem>
+                <SelectItem value="totalBacklinks">Total Backlinks (BL)</SelectItem>
+                <SelectItem value="trustFlow">Trust Flow (TF)</SelectItem>
+                <SelectItem value="citationFlow">Citation Flow (CF)</SelectItem>
+              </SelectContent>
+            </Select>
+
+            {sortBy !== 'none' && (
+              <>
+                <Button
+                  variant={sortOrder === 'desc' ? 'default' : 'outline'}
+                  size="sm"
+                  onClick={() => setSortOrder('desc')}
+                  className="gap-2"
+                >
+                  <ArrowDown className="h-4 w-4" />
+                  High to Low
+                </Button>
+                <Button
+                  variant={sortOrder === 'asc' ? 'default' : 'outline'}
+                  size="sm"
+                  onClick={() => setSortOrder('asc')}
+                  className="gap-2"
+                >
+                  <ArrowUp className="h-4 w-4" />
+                  Low to High
+                </Button>
+              </>
+            )}
+
+            {sortBy !== 'none' && (
+              <Badge className="bg-green-500 text-white">
+                Sorted by {sortBy === 'domainAuthority' ? 'DA' : sortBy === 'domainRating' ? 'DR' : sortBy === 'referringDomains' ? 'RD' : sortBy === 'totalBacklinks' ? 'BL' : sortBy === 'trustFlow' ? 'TF' : 'CF'} ({sortOrder === 'desc' ? 'High to Low' : 'Low to High'})
+              </Badge>
+            )}
+          </div>
+        </CardContent>
+      </Card>
+
       {/* Results */}
       {isLoading ? (
         <div className="text-center py-16">
