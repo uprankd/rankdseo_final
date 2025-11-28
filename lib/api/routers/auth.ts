@@ -10,10 +10,11 @@ export const authRouter = router({
         email: z.string().email(),
         password: z.string().min(8),
         name: z.string().min(2),
+        planId: z.string().optional(),
       })
     )
     .mutation(async ({ ctx, input }) => {
-      const { email, password, name } = input;
+      const { email, password, name, planId } = input;
 
       // Check if user exists
       const existingUser = await ctx.prisma.user.findUnique({
@@ -30,15 +31,24 @@ export const authRouter = router({
       // Hash password
       const hashedPassword = await hash(password, 10);
 
-      // Get free plan
-      const freePlan = await ctx.prisma.plan.findUnique({
-        where: { name: 'Free' },
-      });
+      // Get selected plan or default to free
+      let selectedPlan;
+      if (planId) {
+        selectedPlan = await ctx.prisma.plan.findUnique({
+          where: { id: planId },
+        });
+      }
+      
+      if (!selectedPlan) {
+        selectedPlan = await ctx.prisma.plan.findUnique({
+          where: { name: 'Free' },
+        });
+      }
 
-      if (!freePlan) {
+      if (!selectedPlan) {
         throw new TRPCError({
           code: 'INTERNAL_SERVER_ERROR',
-          message: 'Free plan not found',
+          message: 'Plan not found',
         });
       }
 
@@ -51,8 +61,10 @@ export const authRouter = router({
           emailVerified: new Date(), // Auto-verify for MVP
           subscription: {
             create: {
-              planId: freePlan.id,
+              planId: selectedPlan.id,
               status: 'ACTIVE',
+              currentPeriodStart: new Date(),
+              currentPeriodEnd: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), // 30 days
             },
           },
         },
