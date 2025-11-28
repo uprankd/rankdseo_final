@@ -73,12 +73,32 @@ export default function OpportunitiesPage() {
     return num.toString();
   };
 
-  // Sort opportunities based on selected metric
+  // Filter and sort opportunities based on selected metrics
   const sortedOpportunities = useMemo(() => {
     if (!data?.opportunities) return [];
     
-    const opps = [...data.opportunities];
+    let opps = [...data.opportunities];
     
+    // Apply range filters
+    opps = opps.filter(opp => {
+      const da = opp.domainAuthority || 0;
+      const dr = opp.domainRating || 0;
+      const rd = opp.referringDomains || 0;
+      const bl = opp.totalBacklinks || 0;
+      const tf = opp.trustFlow || 0;
+      const cf = opp.citationFlow || 0;
+      
+      return (
+        da >= filters.domainAuthority.min && da <= filters.domainAuthority.max &&
+        dr >= filters.domainRating.min && dr <= filters.domainRating.max &&
+        rd >= filters.referringDomains.min && rd <= filters.referringDomains.max &&
+        bl >= filters.totalBacklinks.min && bl <= filters.totalBacklinks.max &&
+        tf >= filters.trustFlow.min && tf <= filters.trustFlow.max &&
+        cf >= filters.citationFlow.min && cf <= filters.citationFlow.max
+      );
+    });
+    
+    // Apply sorting
     if (sortBy === 'none') return opps;
     
     return opps.sort((a, b) => {
@@ -91,7 +111,7 @@ export default function OpportunitiesPage() {
         return aValue - bValue;
       }
     });
-  }, [data?.opportunities, sortBy, sortOrder]);
+  }, [data?.opportunities, sortBy, sortOrder, filters]);
 
   return (
     <div className="space-y-6 animate-in fade-in duration-500">
