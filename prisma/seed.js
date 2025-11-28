@@ -207,6 +207,11 @@ async function main() {
       domainRating: 85,
       estimatedTraffic: 15000000,
       spamScore: 1,
+      referringDomains: 42000,
+      totalBacklinks: 2100000,
+      trafficValue: 450000,
+      trustFlow: 68,
+      citationFlow: 74,
       isDofollow: true,
       status: 'ACTIVE'
     },
