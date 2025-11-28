@@ -69,6 +69,11 @@ export default function EditOpportunityPage() {
         domainRating: opportunity.domainRating || 0,
         estimatedTraffic: opportunity.estimatedTraffic || 0,
         spamScore: opportunity.spamScore || 0,
+        referringDomains: opportunity.referringDomains || 0,
+        totalBacklinks: opportunity.totalBacklinks || 0,
+        trafficValue: opportunity.trafficValue || 0,
+        trustFlow: opportunity.trustFlow || 0,
+        citationFlow: opportunity.citationFlow || 0,
         isDofollow: opportunity.isDofollow,
         status: opportunity.status,
       });
