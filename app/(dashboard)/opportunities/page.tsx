@@ -214,6 +214,207 @@ export default function OpportunitiesPage() {
         </CardContent>
       </Card>
 
+      {/* Range Filters */}
+      <Card className="border-2 shadow-lg bg-gradient-to-r from-green-50 to-teal-50">
+        <CardContent className="pt-6">
+          <div className="space-y-4">
+            <div className="flex items-center gap-2 mb-4">
+              <Filter className="h-5 w-5 text-gray-600" />
+              <span className="text-sm font-semibold text-gray-700">Filter by Range:</span>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setFilters({
+                  domainAuthority: { min: 0, max: 100 },
+                  domainRating: { min: 0, max: 100 },
+                  referringDomains: { min: 0, max: 10000000 },
+                  totalBacklinks: { min: 0, max: 1000000000 },
+                  trustFlow: { min: 0, max: 100 },
+                  citationFlow: { min: 0, max: 100 },
+                })}
+                className="ml-auto"
+              >
+                <X className="h-4 w-4 mr-2" />
+                Reset All Filters
+              </Button>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {/* DA Filter */}
+              <div className="space-y-2 bg-white p-4 rounded-lg border-2">
+                <Label className="text-sm font-semibold flex items-center gap-2">
+                  <Star className="h-4 w-4 text-blue-600" />
+                  Domain Authority (DA)
+                </Label>
+                <div className="flex gap-2">
+                  <Input
+                    type="number"
+                    placeholder="Min"
+                    value={filters.domainAuthority.min}
+                    onChange={(e) => setFilters({...filters, domainAuthority: {...filters.domainAuthority, min: parseInt(e.target.value) || 0}})}
+                    className="border-2"
+                    min="0"
+                    max="100"
+                  />
+                  <Input
+                    type="number"
+                    placeholder="Max"
+                    value={filters.domainAuthority.max}
+                    onChange={(e) => setFilters({...filters, domainAuthority: {...filters.domainAuthority, max: parseInt(e.target.value) || 100}})}
+                    className="border-2"
+                    min="0"
+                    max="100"
+                  />
+                </div>
+              </div>
+
+              {/* DR Filter */}
+              <div className="space-y-2 bg-white p-4 rounded-lg border-2">
+                <Label className="text-sm font-semibold flex items-center gap-2">
+                  <TrendingUp className="h-4 w-4 text-navy-500" />
+                  Domain Rating (DR)
+                </Label>
+                <div className="flex gap-2">
+                  <Input
+                    type="number"
+                    placeholder="Min"
+                    value={filters.domainRating.min}
+                    onChange={(e) => setFilters({...filters, domainRating: {...filters.domainRating, min: parseInt(e.target.value) || 0}})}
+                    className="border-2"
+                    min="0"
+                    max="100"
+                  />
+                  <Input
+                    type="number"
+                    placeholder="Max"
+                    value={filters.domainRating.max}
+                    onChange={(e) => setFilters({...filters, domainRating: {...filters.domainRating, max: parseInt(e.target.value) || 100}})}
+                    className="border-2"
+                    min="0"
+                    max="100"
+                  />
+                </div>
+              </div>
+
+              {/* RD Filter */}
+              <div className="space-y-2 bg-white p-4 rounded-lg border-2">
+                <Label className="text-sm font-semibold flex items-center gap-2">
+                  <Globe className="h-4 w-4 text-purple-600" />
+                  Referring Domains (RD)
+                </Label>
+                <div className="flex gap-2">
+                  <Input
+                    type="number"
+                    placeholder="Min"
+                    value={filters.referringDomains.min}
+                    onChange={(e) => setFilters({...filters, referringDomains: {...filters.referringDomains, min: parseInt(e.target.value) || 0}})}
+                    className="border-2"
+                    min="0"
+                  />
+                  <Input
+                    type="number"
+                    placeholder="Max"
+                    value={filters.referringDomains.max}
+                    onChange={(e) => setFilters({...filters, referringDomains: {...filters.referringDomains, max: parseInt(e.target.value) || 10000000}})}
+                    className="border-2"
+                    min="0"
+                  />
+                </div>
+              </div>
+
+              {/* BL Filter */}
+              <div className="space-y-2 bg-white p-4 rounded-lg border-2">
+                <Label className="text-sm font-semibold flex items-center gap-2">
+                  <ExternalLink className="h-4 w-4 text-indigo-600" />
+                  Total Backlinks (BL)
+                </Label>
+                <div className="flex gap-2">
+                  <Input
+                    type="number"
+                    placeholder="Min"
+                    value={filters.totalBacklinks.min}
+                    onChange={(e) => setFilters({...filters, totalBacklinks: {...filters.totalBacklinks, min: parseInt(e.target.value) || 0}})}
+                    className="border-2"
+                    min="0"
+                  />
+                  <Input
+                    type="number"
+                    placeholder="Max"
+                    value={filters.totalBacklinks.max}
+                    onChange={(e) => setFilters({...filters, totalBacklinks: {...filters.totalBacklinks, max: parseInt(e.target.value) || 1000000000}})}
+                    className="border-2"
+                    min="0"
+                  />
+                </div>
+              </div>
+
+              {/* TF Filter */}
+              <div className="space-y-2 bg-white p-4 rounded-lg border-2">
+                <Label className="text-sm font-semibold flex items-center gap-2">
+                  <CheckCircle2 className="h-4 w-4 text-cyan-600" />
+                  Trust Flow (TF)
+                </Label>
+                <div className="flex gap-2">
+                  <Input
+                    type="number"
+                    placeholder="Min"
+                    value={filters.trustFlow.min}
+                    onChange={(e) => setFilters({...filters, trustFlow: {...filters.trustFlow, min: parseInt(e.target.value) || 0}})}
+                    className="border-2"
+                    min="0"
+                    max="100"
+                  />
+                  <Input
+                    type="number"
+                    placeholder="Max"
+                    value={filters.trustFlow.max}
+                    onChange={(e) => setFilters({...filters, trustFlow: {...filters.trustFlow, max: parseInt(e.target.value) || 100}})}
+                    className="border-2"
+                    min="0"
+                    max="100"
+                  />
+                </div>
+              </div>
+
+              {/* CF Filter */}
+              <div className="space-y-2 bg-white p-4 rounded-lg border-2">
+                <Label className="text-sm font-semibold flex items-center gap-2">
+                  <Star className="h-4 w-4 text-emerald-600" />
+                  Citation Flow (CF)
+                </Label>
+                <div className="flex gap-2">
+                  <Input
+                    type="number"
+                    placeholder="Min"
+                    value={filters.citationFlow.min}
+                    onChange={(e) => setFilters({...filters, citationFlow: {...filters.citationFlow, min: parseInt(e.target.value) || 0}})}
+                    className="border-2"
+                    min="0"
+                    max="100"
+                  />
+                  <Input
+                    type="number"
+                    placeholder="Max"
+                    value={filters.citationFlow.max}
+                    onChange={(e) => setFilters({...filters, citationFlow: {...filters.citationFlow, max: parseInt(e.target.value) || 100}})}
+                    className="border-2"
+                    min="0"
+                    max="100"
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* Active Filters Summary */}
+            <div className="flex items-center gap-2 pt-2">
+              <Badge variant="outline" className="text-sm">
+                Showing {sortedOpportunities.length} of {data?.opportunities?.length || 0} opportunities
+              </Badge>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
       {/* Results */}
       {isLoading ? (
         <div className="text-center py-16">
