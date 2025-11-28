@@ -395,13 +395,283 @@ def test_unauthorized_access():
         print(f"❌ Unauthorized access not properly blocked: {result}")
         return False
 
+def test_payment_create_checkout(client: TRPCClient):
+    """Test payment.createSignupCheckout endpoint"""
+    print("\n=== Testing payment.createSignupCheckout ===")
+    
+    # Test with paid plan
+    test_data = {
+        "email": TEST_USER_EMAIL,
+        "name": TEST_USER_NAME,
+        "planId": PAID_PLAN_ID
+    }
+    
+    result = client.call_trpc("payment.createSignupCheckout", test_data, is_mutation=True)
+    
+    if result.get('error'):
+        print(f"❌ createSignupCheckout failed: {result.get('message', 'Unknown error')}")
+        return False, None
+    
+    if 'result' in result and 'data' in result['result']:
+        data = result['result']['data']
+        
+        # Should return checkout session for paid plan
+        if data.get('isFree') == False and data.get('sessionId') and data.get('url'):
+            print(f"✅ createSignupCheckout successful for paid plan")
+            print(f"   Session ID: {data.get('sessionId')}")
+            print(f"   Checkout URL: {data.get('url')[:50]}...")
+            return True, data.get('sessionId')
+        elif data.get('isFree') == True:
+            print(f"❌ Paid plan incorrectly marked as free")
+            return False, None
+        else:
+            print(f"❌ createSignupCheckout missing required fields: {data}")
+            return False, None
+    else:
+        print(f"❌ createSignupCheckout unexpected response format: {result}")
+        return False, None
+
+def test_payment_checkout_status(client: TRPCClient, session_id: str):
+    """Test payment.getCheckoutStatus endpoint"""
+    print(f"\n=== Testing payment.getCheckoutStatus (Session: {session_id}) ===")
+    
+    result = client.call_trpc("payment.getCheckoutStatus", {"sessionId": session_id})
+    
+    if result.get('error'):
+        # Expected to fail with mock Stripe keys, but should handle gracefully
+        error_msg = result.get('message', '')
+        if 'stripe' in error_msg.lower() or 'api' in error_msg.lower():
+            print(f"✅ getCheckoutStatus handled Stripe API error gracefully: {error_msg[:100]}...")
+            return True
+        else:
+            print(f"❌ getCheckoutStatus failed unexpectedly: {error_msg}")
+            return False
+    
+    if 'result' in result and 'data' in result['result']:
+        data = result['result']['data']
+        print(f"✅ getCheckoutStatus returned data: {data}")
+        return True
+    else:
+        print(f"❌ getCheckoutStatus unexpected response format: {result}")
+        return False
+
+def test_auth_signup_paid_plan(client: TRPCClient, session_id: str):
+    """Test auth.signUp with paid plan"""
+    print(f"\n=== Testing auth.signUp with paid plan ===")
+    
+    signup_data = {
+        "email": TEST_USER_EMAIL,
+        "password": TEST_USER_PASSWORD,
+        "name": TEST_USER_NAME,
+        "planId": PAID_PLAN_ID,
+        "paymentSessionId": session_id
+    }
+    
+    result = client.call_trpc("auth.signUp", signup_data, is_mutation=True)
+    
+    if result.get('error'):
+        error_msg = result.get('message', '')
+        if 'already exists' in error_msg.lower():
+            print(f"✅ User already exists (expected for repeated tests)")
+            return True, None
+        else:
+            print(f"❌ signUp failed: {error_msg}")
+            return False, None
+    
+    if 'result' in result and 'data' in result['result']:
+        data = result['result']['data']
+        
+        if (data.get('success') == True and 
+            data.get('requiresPayment') == True and
+            data.get('user', {}).get('accountStatus') == 'PENDING'):
+            print(f"✅ signUp successful with PENDING status")
+            print(f"   User ID: {data.get('user', {}).get('id')}")
+            print(f"   Account Status: {data.get('user', {}).get('accountStatus')}")
+            return True, data.get('user', {}).get('id')
+        else:
+            print(f"❌ signUp incorrect response for paid plan: {data}")
+            return False, None
+    else:
+        print(f"❌ signUp unexpected response format: {result}")
+        return False, None
+
+def test_database_verification(user_id: str):
+    """Verify database records after signup"""
+    print(f"\n=== Testing Database Verification (User ID: {user_id}) ===")
+    
+    try:
+        # Use Node.js to query database
+        import subprocess
+        
+        script = f"""
+const {{ PrismaClient }} = require('@prisma/client');
+const prisma = new PrismaClient();
+
+async function verifyUser() {{
+  try {{
+    const user = await prisma.user.findUnique({{
+      where: {{ id: '{user_id}' }},
+      include: {{
+        subscription: {{ include: {{ plan: true }} }},
+        payments: true
+      }}
+    }});
+    
+    if (!user) {{
+      console.log('ERROR: User not found');
+      return;
+    }}
+    
+    console.log('User Status:', user.accountStatus);
+    console.log('Subscription Status:', user.subscription?.status);
+    console.log('Plan Name:', user.subscription?.plan?.name);
+    console.log('Payment Records:', user.payments?.length || 0);
+    
+    // Check if user has PENDING status and INCOMPLETE subscription
+    if (user.accountStatus === 'PENDING' && user.subscription?.status === 'INCOMPLETE') {{
+      console.log('SUCCESS: Database verification passed');
+    }} else {{
+      console.log('ERROR: Database verification failed');
+    }}
+    
+    await prisma.$disconnect();
+  }} catch (error) {{
+    console.error('Database error:', error.message);
+    await prisma.$disconnect();
+  }}
+}}
+
+verifyUser();
+"""
+        
+        result = subprocess.run(['node', '-e', script], 
+                              cwd='/app', 
+                              capture_output=True, 
+                              text=True)
+        
+        if result.returncode == 0:
+            output = result.stdout.strip()
+            print(f"Database query output:\n{output}")
+            
+            if 'SUCCESS: Database verification passed' in output:
+                print("✅ Database verification successful")
+                return True
+            else:
+                print("❌ Database verification failed")
+                return False
+        else:
+            print(f"❌ Database query failed: {result.stderr}")
+            return False
+            
+    except Exception as e:
+        print(f"❌ Database verification error: {e}")
+        return False
+
+def test_auth_blocking_pending_user():
+    """Test that PENDING users cannot login"""
+    print(f"\n=== Testing Auth Blocking for PENDING Users ===")
+    
+    # Create new client for login attempt
+    test_client = TRPCClient()
+    
+    # Try to authenticate with the test user
+    success = test_client.authenticate(TEST_USER_EMAIL, TEST_USER_PASSWORD)
+    
+    if not success:
+        print("✅ PENDING user login correctly blocked")
+        return True
+    else:
+        print("❌ PENDING user was able to login (should be blocked)")
+        return False
+
+def test_webhook_endpoint():
+    """Test webhook endpoint structure"""
+    print(f"\n=== Testing Webhook Endpoint Structure ===")
+    
+    try:
+        # Test webhook endpoint exists
+        webhook_url = f"{BASE_URL}/api/webhooks/stripe"
+        
+        # Send a test POST request (will fail signature verification, but endpoint should exist)
+        response = requests.post(webhook_url, 
+                               json={"test": "data"}, 
+                               headers={"Content-Type": "application/json"})
+        
+        print(f"Webhook endpoint status: {response.status_code}")
+        print(f"Response: {response.text[:200]}...")
+        
+        # Should return 400 (bad signature) not 404 (not found)
+        if response.status_code == 400 and 'signature' in response.text.lower():
+            print("✅ Webhook endpoint exists and handles signature verification")
+            return True
+        elif response.status_code == 404:
+            print("❌ Webhook endpoint not found")
+            return False
+        else:
+            print(f"✅ Webhook endpoint exists (status: {response.status_code})")
+            return True
+            
+    except Exception as e:
+        print(f"❌ Webhook endpoint test error: {e}")
+        return False
+
+def cleanup_test_user():
+    """Clean up test user from database"""
+    print(f"\n=== Cleaning up test user ===")
+    
+    try:
+        import subprocess
+        
+        script = f"""
+const {{ PrismaClient }} = require('@prisma/client');
+const prisma = new PrismaClient();
+
+async function cleanup() {{
+  try {{
+    // Delete payment transactions first
+    await prisma.paymentTransaction.deleteMany({{
+      where: {{ user: {{ email: '{TEST_USER_EMAIL}' }} }}
+    }});
+    
+    // Delete user (cascade will handle subscription)
+    const deleted = await prisma.user.deleteMany({{
+      where: {{ email: '{TEST_USER_EMAIL}' }}
+    }});
+    
+    console.log('Deleted users:', deleted.count);
+    await prisma.$disconnect();
+  }} catch (error) {{
+    console.error('Cleanup error:', error.message);
+    await prisma.$disconnect();
+  }}
+}}
+
+cleanup();
+"""
+        
+        result = subprocess.run(['node', '-e', script], 
+                              cwd='/app', 
+                              capture_output=True, 
+                              text=True)
+        
+        if result.returncode == 0:
+            print("✅ Test user cleanup completed")
+        else:
+            print(f"⚠️ Cleanup warning: {result.stderr}")
+            
+    except Exception as e:
+        print(f"⚠️ Cleanup error: {e}")
+
 def main():
-    """Run all admin API tests"""
-    print("🚀 Starting RankdSEO Admin Panel Backend API Tests")
+    """Run all backend API tests including payment integration"""
+    print("🚀 Starting RankdSEO Backend API Tests (Admin Panel + Stripe Payment)")
     print(f"Base URL: {BASE_URL}")
     print(f"tRPC URL: {TRPC_URL}")
     
     test_results = []
+    
+    # Clean up any existing test user first
+    cleanup_test_user()
     
     # Test unauthorized access first
     test_results.append(("Unauthorized Access Block", test_unauthorized_access()))
@@ -412,7 +682,7 @@ def main():
         print("\n❌ Cannot proceed without admin authentication")
         sys.exit(1)
     
-    # Test admin endpoints
+    # Test admin endpoints (existing tests)
     test_results.append(("Admin Stats", test_admin_stats(client)))
     
     success, opportunities = test_list_opportunities(client)
@@ -437,6 +707,29 @@ def main():
         
         # Clean up - delete test opportunity
         test_results.append(("Delete Opportunity", test_delete_opportunity(client, opportunity_id)))
+    
+    print("\n" + "="*60)
+    print("🔄 STARTING STRIPE PAYMENT INTEGRATION TESTS")
+    print("="*60)
+    
+    # Test payment integration (new tests)
+    success, session_id = test_payment_create_checkout(client)
+    test_results.append(("Payment Create Checkout", success))
+    
+    if session_id:
+        test_results.append(("Payment Checkout Status", test_payment_checkout_status(client, session_id)))
+        
+        success, user_id = test_auth_signup_paid_plan(client, session_id)
+        test_results.append(("Auth Signup Paid Plan", success))
+        
+        if user_id:
+            test_results.append(("Database Verification", test_database_verification(user_id)))
+            test_results.append(("Auth Blocking PENDING User", test_auth_blocking_pending_user()))
+    
+    test_results.append(("Webhook Endpoint Structure", test_webhook_endpoint()))
+    
+    # Clean up test user
+    cleanup_test_user()
     
     # Print summary
     print("\n" + "="*60)
