@@ -15,7 +15,6 @@ import { toast } from 'sonner';
 
 export default function NewOpportunityPage() {
   const router = useRouter();
-  const [fetchingMetrics, setFetchingMetrics] = useState(false);
   const [formData, setFormData] = useState({
     url: '',
     siteName: '',
