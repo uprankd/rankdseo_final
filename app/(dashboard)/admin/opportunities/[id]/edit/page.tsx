@@ -48,6 +48,7 @@ export default function EditOpportunityPage() {
     estimatedMinutes: 5,
   });
   const [uploadingImage, setUploadingImage] = useState(false);
+  const [fetchingMetrics, setFetchingMetrics] = useState(false);
   const [imagePreview, setImagePreview] = useState<string>('');
 
   useEffect(() => {
