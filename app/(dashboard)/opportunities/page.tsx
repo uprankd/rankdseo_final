@@ -164,6 +164,30 @@ export default function OpportunitiesPage() {
                             <span className="text-xs font-bold text-navy-900">DR {opp.domainRating}</span>
                           </div>
                         )}
+                        {opp.referringDomains && (
+                          <div className="flex items-center gap-1 bg-purple-50 px-2 py-1 rounded border border-purple-200">
+                            <Globe className="h-3 w-3 text-purple-600" />
+                            <span className="text-xs font-bold text-purple-900">RD {formatNumber(opp.referringDomains)}</span>
+                          </div>
+                        )}
+                        {opp.totalBacklinks && (
+                          <div className="flex items-center gap-1 bg-indigo-50 px-2 py-1 rounded border border-indigo-200">
+                            <ExternalLink className="h-3 w-3 text-indigo-600" />
+                            <span className="text-xs font-bold text-indigo-900">BL {formatNumber(opp.totalBacklinks)}</span>
+                          </div>
+                        )}
+                        {opp.trustFlow && (
+                          <div className="flex items-center gap-1 bg-cyan-50 px-2 py-1 rounded border border-cyan-200">
+                            <CheckCircle2 className="h-3 w-3 text-cyan-600" />
+                            <span className="text-xs font-bold text-cyan-900">TF {opp.trustFlow}</span>
+                          </div>
+                        )}
+                        {opp.citationFlow && (
+                          <div className="flex items-center gap-1 bg-emerald-50 px-2 py-1 rounded border border-emerald-200">
+                            <Star className="h-3 w-3 text-emerald-600" />
+                            <span className="text-xs font-bold text-emerald-900">CF {opp.citationFlow}</span>
+                          </div>
+                        )}
                         {opp.isDofollow && (
                           <div className="flex items-center gap-1 bg-green-50 px-2 py-1 rounded border border-green-200">
                             <Zap className="h-3 w-3 text-green-600" />
