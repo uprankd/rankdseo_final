@@ -361,65 +361,130 @@ export default function OpportunityDetailPage({ params }: { params: { id: string
       </Card>
 
       {/* SEO Metrics */}
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-5">
-        <Card className="border-2 border-blue-200 bg-gradient-to-br from-blue-50 to-white">
-          <CardContent className="pt-6">
-            <div className="text-center">
-              <TrendingUp className="h-8 w-8 text-blue-600 mx-auto mb-2" />
-              <p className="text-sm text-gray-600 mb-1">Domain Authority</p>
-              <p className="text-4xl font-black text-blue-900">{opportunity.domainAuthority}</p>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card className="border-2 border-navy-200 bg-gradient-to-br from-paleblue-50 to-white">
-          <CardContent className="pt-6">
-            <div className="text-center">
-              <Star className="h-8 w-8 text-navy-500 mx-auto mb-2" />
-              <p className="text-sm text-gray-600 mb-1">Domain Rating</p>
-              <p className="text-4xl font-black text-purple-900">{opportunity.domainRating}</p>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card className="border-2 border-green-200 bg-gradient-to-br from-green-50 to-white">
-          <CardContent className="pt-6">
-            <div className="text-center">
-              <Clock className="h-8 w-8 text-green-600 mx-auto mb-2" />
-              <p className="text-sm text-gray-600 mb-1">Average Time</p>
-              <p className="text-2xl font-black text-green-900">{opportunity.averageTime}</p>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card className="border-2 border-gold-200 bg-gradient-to-br from-orange-50 to-white">
-          <CardContent className="pt-6">
-            <div className="text-center">
-              <AlertCircle className="h-8 w-8 text-gold-600 mx-auto mb-2" />
-              <p className="text-sm text-gray-600 mb-1">Difficulty</p>
-              <div className="flex items-center justify-center gap-1 mt-2">
-                {[...Array(5)].map((_, i) => (
-                  <Star
-                    key={i}
-                    className={`h-5 w-5 ${
-                      i < opportunity.difficultyLevel ? 'text-gold-500 fill-orange-500' : 'text-gray-300'
-                    }`}
-                  />
-                ))}
+      <div className="space-y-4">
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-5">
+          <Card className="border-2 border-blue-200 bg-gradient-to-br from-blue-50 to-white">
+            <CardContent className="pt-6">
+              <div className="text-center">
+                <TrendingUp className="h-8 w-8 text-blue-600 mx-auto mb-2" />
+                <p className="text-sm text-gray-600 mb-1">Domain Authority</p>
+                <p className="text-4xl font-black text-blue-900">{opportunity.domainAuthority}</p>
               </div>
-            </div>
-          </CardContent>
-        </Card>
+            </CardContent>
+          </Card>
 
-        <Card className="border-2 border-pink-200 bg-gradient-to-br from-pink-50 to-white">
-          <CardContent className="pt-6">
-            <div className="text-center">
-              <Sparkles className="h-8 w-8 text-pink-600 mx-auto mb-2" />
-              <p className="text-sm text-gray-600 mb-1">Success Rate</p>
-              <p className="text-4xl font-black text-pink-900">{opportunity.successRate}%</p>
-            </div>
-          </CardContent>
-        </Card>
+          <Card className="border-2 border-navy-200 bg-gradient-to-br from-paleblue-50 to-white">
+            <CardContent className="pt-6">
+              <div className="text-center">
+                <Star className="h-8 w-8 text-navy-500 mx-auto mb-2" />
+                <p className="text-sm text-gray-600 mb-1">Domain Rating</p>
+                <p className="text-4xl font-black text-purple-900">{opportunity.domainRating}</p>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="border-2 border-green-200 bg-gradient-to-br from-green-50 to-white">
+            <CardContent className="pt-6">
+              <div className="text-center">
+                <Clock className="h-8 w-8 text-green-600 mx-auto mb-2" />
+                <p className="text-sm text-gray-600 mb-1">Average Time</p>
+                <p className="text-2xl font-black text-green-900">{opportunity.averageTime}</p>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="border-2 border-gold-200 bg-gradient-to-br from-orange-50 to-white">
+            <CardContent className="pt-6">
+              <div className="text-center">
+                <AlertCircle className="h-8 w-8 text-gold-600 mx-auto mb-2" />
+                <p className="text-sm text-gray-600 mb-1">Difficulty</p>
+                <div className="flex items-center justify-center gap-1 mt-2">
+                  {[...Array(5)].map((_, i) => (
+                    <Star
+                      key={i}
+                      className={`h-5 w-5 ${
+                        i < opportunity.difficultyLevel ? 'text-gold-500 fill-orange-500' : 'text-gray-300'
+                      }`}
+                    />
+                  ))}
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="border-2 border-pink-200 bg-gradient-to-br from-pink-50 to-white">
+            <CardContent className="pt-6">
+              <div className="text-center">
+                <Sparkles className="h-8 w-8 text-pink-600 mx-auto mb-2" />
+                <p className="text-sm text-gray-600 mb-1">Success Rate</p>
+                <p className="text-4xl font-black text-pink-900">{opportunity.successRate}%</p>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Additional SEO Metrics Row */}
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-5">
+          {opportunity.referringDomains && (
+            <Card className="border-2 border-purple-200 bg-gradient-to-br from-purple-50 to-white">
+              <CardContent className="pt-6">
+                <div className="text-center">
+                  <Globe className="h-8 w-8 text-purple-600 mx-auto mb-2" />
+                  <p className="text-sm text-gray-600 mb-1">Referring Domains</p>
+                  <p className="text-3xl font-black text-purple-900">{formatNumber(opportunity.referringDomains)}</p>
+                </div>
+              </CardContent>
+            </Card>
+          )}
+
+          {opportunity.totalBacklinks && (
+            <Card className="border-2 border-indigo-200 bg-gradient-to-br from-indigo-50 to-white">
+              <CardContent className="pt-6">
+                <div className="text-center">
+                  <ExternalLink className="h-8 w-8 text-indigo-600 mx-auto mb-2" />
+                  <p className="text-sm text-gray-600 mb-1">Total Backlinks</p>
+                  <p className="text-3xl font-black text-indigo-900">{formatNumber(opportunity.totalBacklinks)}</p>
+                </div>
+              </CardContent>
+            </Card>
+          )}
+
+          {opportunity.trafficValue && (
+            <Card className="border-2 border-teal-200 bg-gradient-to-br from-teal-50 to-white">
+              <CardContent className="pt-6">
+                <div className="text-center">
+                  <TrendingUp className="h-8 w-8 text-teal-600 mx-auto mb-2" />
+                  <p className="text-sm text-gray-600 mb-1">Traffic Value</p>
+                  <p className="text-3xl font-black text-teal-900">${formatNumber(opportunity.trafficValue)}</p>
+                </div>
+              </CardContent>
+            </Card>
+          )}
+
+          {opportunity.trustFlow && (
+            <Card className="border-2 border-cyan-200 bg-gradient-to-br from-cyan-50 to-white">
+              <CardContent className="pt-6">
+                <div className="text-center">
+                  <CheckCircle2 className="h-8 w-8 text-cyan-600 mx-auto mb-2" />
+                  <p className="text-sm text-gray-600 mb-1">Trust Flow</p>
+                  <p className="text-4xl font-black text-cyan-900">{opportunity.trustFlow}</p>
+                </div>
+              </CardContent>
+            </Card>
+          )}
+
+          {opportunity.citationFlow && (
+            <Card className="border-2 border-emerald-200 bg-gradient-to-br from-emerald-50 to-white">
+              <CardContent className="pt-6">
+                <div className="text-center">
+                  <Star className="h-8 w-8 text-emerald-600 mx-auto mb-2" />
+                  <p className="text-sm text-gray-600 mb-1">Citation Flow</p>
+                  <p className="text-4xl font-black text-emerald-900">{opportunity.citationFlow}</p>
+                </div>
+              </CardContent>
+            </Card>
+          )}
+        </div>
       </div>
 
       {/* Step-by-Step Instructions */}
