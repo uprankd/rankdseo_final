@@ -47,6 +47,16 @@ export default function OpportunitiesPage() {
     return colors[linkType] || 'from-gray-500 to-gray-600';
   };
 
+  // Format large numbers for display
+  const formatNumber = (num: number) => {
+    if (num >= 1000000) {
+      return (num / 1000000).toFixed(1) + 'M';
+    } else if (num >= 1000) {
+      return (num / 1000).toFixed(1) + 'K';
+    }
+    return num.toString();
+  };
+
   return (
     <div className="space-y-6 animate-in fade-in duration-500">
       {/* Header */}
