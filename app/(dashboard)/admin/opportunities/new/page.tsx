@@ -43,12 +43,45 @@ export default function NewOpportunityPage() {
   });
 
   const createOpportunity = trpc.admin.createOpportunity.useMutation({
-    onSuccess: (data) => {
-      router.push(`/admin/opportunities/${data.id}/edit`);
+    onSuccess: () => {
+      toast.success('Opportunity created successfully!');
+      router.push('/admin');
+    },
+    onError: (error) => {
+      toast.error(`Error: ${error.message}`);
     },
   });
 
-  // Removed fetchMetrics functionality since DataForSEO subscription is not active
+  const fetchMetrics = trpc.admin.fetchDomainMetrics.useMutation({
+    onSuccess: (data) => {
+      const metrics = data.metrics;
+      setFormData({
+        ...formData,
+        domainAuthority: metrics.domainAuthority,
+        domainRating: metrics.domainRating,
+        referringDomains: metrics.referringDomains,
+        totalBacklinks: metrics.totalBacklinks,
+        trafficValue: metrics.trafficValue,
+        trustFlow: metrics.trustFlow,
+        citationFlow: metrics.citationFlow,
+      });
+      toast.success('Metrics fetched successfully!');
+      setFetchingMetrics(false);
+    },
+    onError: (error) => {
+      toast.error(`Failed to fetch metrics: ${error.message}`);
+      setFetchingMetrics(false);
+    },
+  });
+
+  const handleFetchMetrics = async () => {
+    if (!formData.url) {
+      toast.error('Please enter a URL first');
+      return;
+    }
+    setFetchingMetrics(true);
+    await fetchMetrics.mutateAsync({ url: formData.url });
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
