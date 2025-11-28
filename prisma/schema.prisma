@@ -332,3 +332,33 @@ model ApiKey {
   @@index([userId])
   @@index([key])
 }
+
+model PaymentTransaction {
+  id                String              @id @default(cuid())
+  userId            String?
+  planId            String?
+  amount            Float
+  currency          String              @default("usd")
+  status            PaymentStatus       @default(PENDING)
+  sessionId         String              @unique
+  paymentIntent     String?
+  stripeInvoiceId   String?
+  receiptUrl        String?
+  metadata          Json?
+  createdAt         DateTime            @default(now())
+  updatedAt         DateTime            @updatedAt
+  
+  user              User?               @relation(fields: [userId], references: [id], onDelete: SetNull)
+  
+  @@index([userId])
+  @@index([sessionId])
+  @@index([status])
+}
+
+enum PaymentStatus {
+  PENDING
+  SUCCEEDED
+  FAILED
+  CANCELED
+  REFUNDED
+}
