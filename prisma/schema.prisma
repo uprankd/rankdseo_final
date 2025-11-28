@@ -37,6 +37,13 @@ enum UserRole {
   ADMIN
 }
 
+enum AccountStatus {
+  PENDING     // Awaiting payment
+  ACTIVE      // Paid and active
+  SUSPENDED   // Account suspended
+  CANCELED    // Account canceled
+}
+
 model Account {
   id                String    @id @default(cuid())
   userId            String
