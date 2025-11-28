@@ -140,15 +140,35 @@ export default function NewOpportunityPage() {
               </div>
               <div>
                 <Label htmlFor="url" className="font-semibold">URL *</Label>
-                <Input
-                  id="url"
-                  type="url"
-                  required
-                  value={formData.url}
-                  onChange={(e) => setFormData({ ...formData, url: e.target.value })}
-                  className="border-2 h-11"
-                  placeholder="https://example.com"
-                />
+                <div className="flex gap-2">
+                  <Input
+                    id="url"
+                    type="url"
+                    required
+                    value={formData.url}
+                    onChange={(e) => setFormData({ ...formData, url: e.target.value })}
+                    className="border-2 h-11 flex-1"
+                    placeholder="https://example.com"
+                  />
+                  <Button
+                    type="button"
+                    onClick={handleFetchMetrics}
+                    disabled={fetchingMetrics || !formData.url}
+                    className="h-11 px-4 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white"
+                  >
+                    {fetchingMetrics ? (
+                      <>
+                        <Sparkles className="h-4 w-4 mr-2 animate-spin" />
+                        Fetching...
+                      </>
+                    ) : (
+                      <>
+                        <Sparkles className="h-4 w-4 mr-2" />
+                        Fetch Metrics
+                      </>
+                    )}
+                  </Button>
+                </div>
               </div>
             </div>
 
