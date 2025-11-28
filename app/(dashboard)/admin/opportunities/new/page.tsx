@@ -55,6 +55,11 @@ export default function NewOpportunityPage() {
       domainRating: formData.domainRating || undefined,
       estimatedTraffic: formData.estimatedTraffic || undefined,
       spamScore: formData.spamScore || undefined,
+      referringDomains: formData.referringDomains || undefined,
+      totalBacklinks: formData.totalBacklinks || undefined,
+      trafficValue: formData.trafficValue || undefined,
+      trustFlow: formData.trustFlow || undefined,
+      citationFlow: formData.citationFlow || undefined,
       country: formData.country || undefined,
       fullDescription: formData.fullDescription || undefined,
     });
