@@ -38,6 +38,16 @@ export const authConfig: NextAuthConfig = {
           return null;
         }
 
+        // Block users with PENDING account status (awaiting payment)
+        if (user.accountStatus === 'PENDING') {
+          throw new Error('PAYMENT_REQUIRED');
+        }
+
+        // Block suspended or canceled accounts
+        if (user.accountStatus === 'SUSPENDED' || user.accountStatus === 'CANCELED') {
+          throw new Error('ACCOUNT_INACTIVE');
+        }
+
         return {
           id: user.id,
           email: user.email,
