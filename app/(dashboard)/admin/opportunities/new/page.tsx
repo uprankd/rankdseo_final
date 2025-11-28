@@ -278,6 +278,70 @@ export default function NewOpportunityPage() {
                 />
               </div>
             </div>
+
+            {/* Additional SEO Metrics */}
+            <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mt-4">
+              <div>
+                <Label htmlFor="referringDomains" className="font-semibold">Referring Domains</Label>
+                <Input
+                  id="referringDomains"
+                  type="number"
+                  min="0"
+                  value={formData.referringDomains}
+                  onChange={(e) => setFormData({ ...formData, referringDomains: parseInt(e.target.value) || 0 })}
+                  className="border-2 h-11"
+                  placeholder="e.g., 5800000"
+                />
+              </div>
+              <div>
+                <Label htmlFor="totalBacklinks" className="font-semibold">Total Backlinks</Label>
+                <Input
+                  id="totalBacklinks"
+                  type="number"
+                  min="0"
+                  value={formData.totalBacklinks}
+                  onChange={(e) => setFormData({ ...formData, totalBacklinks: parseInt(e.target.value) || 0 })}
+                  className="border-2 h-11"
+                  placeholder="e.g., 980000000"
+                />
+              </div>
+              <div>
+                <Label htmlFor="trafficValue" className="font-semibold">Traffic Value ($)</Label>
+                <Input
+                  id="trafficValue"
+                  type="number"
+                  min="0"
+                  value={formData.trafficValue}
+                  onChange={(e) => setFormData({ ...formData, trafficValue: parseInt(e.target.value) || 0 })}
+                  className="border-2 h-11"
+                  placeholder="e.g., 12500000"
+                />
+              </div>
+              <div>
+                <Label htmlFor="trustFlow" className="font-semibold">Trust Flow</Label>
+                <Input
+                  id="trustFlow"
+                  type="number"
+                  min="0"
+                  max="100"
+                  value={formData.trustFlow}
+                  onChange={(e) => setFormData({ ...formData, trustFlow: parseInt(e.target.value) || 0 })}
+                  className="border-2 h-11"
+                />
+              </div>
+              <div>
+                <Label htmlFor="citationFlow" className="font-semibold">Citation Flow</Label>
+                <Input
+                  id="citationFlow"
+                  type="number"
+                  min="0"
+                  max="100"
+                  value={formData.citationFlow}
+                  onChange={(e) => setFormData({ ...formData, citationFlow: parseInt(e.target.value) || 0 })}
+                  className="border-2 h-11"
+                />
+              </div>
+            </div>
           </CardContent>
         </Card>
 
