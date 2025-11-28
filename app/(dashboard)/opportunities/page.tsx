@@ -63,6 +63,26 @@ export default function OpportunitiesPage() {
     return num.toString();
   };
 
+  // Sort opportunities based on selected metric
+  const sortedOpportunities = useMemo(() => {
+    if (!data?.opportunities) return [];
+    
+    const opps = [...data.opportunities];
+    
+    if (sortBy === 'none') return opps;
+    
+    return opps.sort((a, b) => {
+      const aValue = a[sortBy] || 0;
+      const bValue = b[sortBy] || 0;
+      
+      if (sortOrder === 'desc') {
+        return bValue - aValue;
+      } else {
+        return aValue - bValue;
+      }
+    });
+  }, [data?.opportunities, sortBy, sortOrder]);
+
   return (
     <div className="space-y-6 animate-in fade-in duration-500">
       {/* Header */}
