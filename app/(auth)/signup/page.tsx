@@ -98,8 +98,9 @@ export default function SignUpPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-blue-50 to-white px-4">
-      <div className="w-full max-w-md">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-blue-50 to-white px-4 py-8">
+      <div className="w-full max-w-6xl">
+        {/* Header */}
         <div className="text-center mb-8">
           <Link href="/" className="inline-flex items-center space-x-2 mb-6">
             <div className="h-10 w-10 bg-blue-600 rounded flex items-center justify-center">
@@ -109,13 +110,16 @@ export default function SignUpPage() {
           </Link>
         </div>
 
-        <Card>
-          <CardHeader>
-            <CardTitle>Create your account</CardTitle>
-            <CardDescription>Start building better backlinks today</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <form onSubmit={handleSubmit} className="space-y-4">
+        {/* Two Column Layout */}
+        <div className="grid md:grid-cols-2 gap-6">
+          {/* Left Column - Account Creation Form */}
+          <Card>
+            <CardHeader>
+              <CardTitle>Create your account</CardTitle>
+              <CardDescription>Start building better backlinks today</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <form onSubmit={handleSubmit} className="space-y-4">
               <div className="space-y-2">
                 <Label htmlFor="name">Name</Label>
                 <Input
