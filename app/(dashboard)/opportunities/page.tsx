@@ -22,6 +22,8 @@ import {
 export default function OpportunitiesPage() {
   const [search, setSearch] = useState('');
   const [debouncedSearch, setDebouncedSearch] = useState('');
+  const [sortBy, setSortBy] = useState<'domainAuthority' | 'domainRating' | 'referringDomains' | 'totalBacklinks' | 'trustFlow' | 'citationFlow' | 'none'>('none');
+  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
 
   const { data, isLoading } = trpc.opportunity.list.useQuery({
     limit: 50,
