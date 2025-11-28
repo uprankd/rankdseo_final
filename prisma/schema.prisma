@@ -162,6 +162,11 @@ model BacklinkOpportunity {
   domainRating      Int?
   estimatedTraffic  Int?
   spamScore         Int?                        @default(0)
+  referringDomains  Int?
+  totalBacklinks    Int?
+  trafficValue      Int?
+  trustFlow         Int?
+  citationFlow      Int?
   isDofollow        Boolean                     @default(true)
   status            OpportunityStatus           @default(ACTIVE)
   lastCheckedAt     DateTime?
