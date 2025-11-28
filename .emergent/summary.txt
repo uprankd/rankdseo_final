@@ -1,106 +1,94 @@
 <analysis>
-The trajectory details the extensive work of an AI engineer on the RankdSEO SaaS application. The work can be broadly categorized into feature development, critical bug fixing, and UI/UX enhancements based on direct user feedback.
+The trajectory documents an intensive development cycle on the RankdSEO application, focusing on expanding the Admin User Management panel and enhancing the Opportunities feature set. The work began by implementing a user-requested search/filter on the admin users page. This was followed by a series of rapid feature additions to the same page, driven by user requests: canceling subscriptions, restoring subscriptions, resetting user passwords, and editing user names/emails. Each feature involved creating a backend tRPC procedure in  and adding corresponding UI elements (buttons, dialogs, and state management) to .
 
-Initially, the focus was on building core features like a comprehensive **Settings page** (profile, subscriptions, API keys, etc.) and a detailed **Analytics dashboard** with charts and key metrics.
+Subsequently, the focus shifted to the Opportunities pages. Several UI cleanup tasks were performed, removing redundant Progress and Copy URL boxes. A significant effort was made to add more SEO metrics (RD, BL, TF, CF) to the system. This required schema migration, data seeding, and updating multiple frontend pages (, , and admin forms) to display and manage these new metrics. This process introduced several bugs, including data not appearing and forms resetting, which were systematically debugged and fixed.
 
-A significant portion of the work involved resolving persistent infrastructure and database issues. The PostgreSQL database repeatedly failed to persist data or start after container restarts. This led to a series of fixes: reinstalling the database, re-seeding data, adding PostgreSQL to  for automatic startup, creating a startup script () to ensure the database is initialized and seeded, and finally, moving the PostgreSQL data directory to a persistent volume () to guarantee data survival across restarts.
-
-The engineer also implemented numerous user-requested UI/UX improvements. This included updating homepage pricing, implementing multiple color theme changes (to blue, then to gold), converting the opportunities page from a card grid to a list view, and adding a multi-select feature for adding opportunities to projects. Functionality was also enhanced by adding an image upload feature for tutorial steps and implementing a collapsible step-by-step tutorial directly within the project view.
-
-The final major feature implemented was an **Admin User Management** page, allowing admins to view all users and change their subscription plans. The last user request was to add a search filter to this page.
+The engineer then implemented client-side sorting and range filtering on the main opportunities list. The final major task was an attempt to automate metric fetching using the DataForSEO API. This integration was partially built but ultimately halted because the user's API key lacked the necessary subscription. The feature was left in a state where the Fetch Metrics button is present but non-functional. The very last request was to integrate Stripe for payments during signup.
 
 The user's primary language is English. The next agent should respond in English.
 </analysis>
 
 <product_requirements>
-The application, RankdSEO, is a SaaS platform for managing backlink acquisition campaigns.
+The application, RankdSEO, is a SaaS platform for managing backlink acquisition campaigns. The primary goal is to provide users with tools to discover, track, and manage SEO opportunities.
 
-**Core Functionality:**
-*   **User & Project Management:** Users can manage their profiles, and create projects to organize SEO campaigns.
-*   **Opportunity Management:** Users can browse a list of backlink opportunities and add them to projects. The opportunities listing was changed from a card view to a more scannable list view. A bulk-add feature with checkboxes was implemented.
-*   **In-Project Tracking:** Inside a project, users can track an opportunity's status (, , , etc.), add notes, and view a step-by-step tutorial for acquiring the backlink via a collapsible dropdown.
-*   **Settings Page:** A comprehensive settings area allows users to manage their profile (name, email, password), view/change their subscription plan, manage API keys, and handle account deletion/data export.
-*   **Analytics Dashboard:** A dedicated analytics page visualizes key metrics like total backlinks, success rate, and average domain authority using charts. It includes performance optimizations like query aggregation and client-side chart rendering, plus a manual refresh button.
-*   **Admin Panel & User Management:** An  role has exclusive access to a panel for managing application data. This includes a Users page to view all registered users and modify their subscription plans.
-*   **Data Persistence:** The PostgreSQL database and its data are configured to persist across server restarts, ensuring user data (projects, users, etc.) is not lost.
+**Core User-Facing Features:**
+*   **Opportunity Discovery:** Users can browse, search, sort, and filter a list of backlink opportunities. The list displays key SEO metrics (DA, DR, RD, BL, TF, CF).
+*   **Project Management:** Users can create projects and add opportunities to them for tracking.
+*   **In-Project View:** A detailed view for each opportunity within a project, featuring a step-by-step tutorial.
+
+**Admin Panel ():**
+A comprehensive Manage Users dashboard for administrators, which includes the ability to:
+*   View a list of all registered users.
+*   Search for users by name or email (case-insensitive).
+*   Change a user's subscription plan.
+*   Cancel an active user subscription.
+*   Restore a canceled user subscription.
+*   Reset any user's password, generating a new temporary password.
+*   Edit a user's name and email address.
+
+**Signup & Onboarding:**
+*   The user registration/signup page now includes a mandatory subscription plan selection step, where users choose their desired plan before creating an account. The next step is to integrate a payment gateway to process the payment for the selected plan.
 </product_requirements>
 
 <key_technical_concepts>
 - **Framework**: Next.js 14 (App Router)
 - **API**: tRPC for type-safe client-server communication.
-- **Database**: PostgreSQL with Prisma ORM.
-- **Authentication**: NextAuth.js v5 (Auth.js).
-- **Styling**: Tailwind CSS with shadcn/ui and a custom color palette.
-- **Background Jobs & Persistence**:  is used to manage the Next.js and PostgreSQL processes. A custom shell script handles database initialization on startup.
-- **UI Components**:  for analytics visualizations,  for toast notifications.
+- **Database**: PostgreSQL with Prisma ORM for data modeling, migration, and seeding.
+- **Authentication**: NextAuth.js v5 (Auth.js) for user sessions and role-based access control.
+- **Styling**: Tailwind CSS with shadcn/ui components.
+- **State Management**: React state (, ) and server state (, ).
+- **External Integration**: DataForSEO API for fetching SEO metrics (partially implemented, on hold). Stripe for payments (pending).
 </key_technical_concepts>
 
 <code_architecture>
-The application follows a standard Next.js App Router structure, with logic separated into UI, API routes, and library functions. The database state is managed by a PostgreSQL instance configured for data persistence.
+The application uses a standard Next.js App Router structure. Data logic is encapsulated in tRPC routers, which are consumed by client components.
 
 
-- **🔍 Starting database initialization...
-📦 Installing PostgreSQL...
-✅ PostgreSQL installed
-🚀 Starting PostgreSQL...
-🔄 Running migrations...
-✅ Database ready
-🎉 Startup complete!**:
-    - **Importance**: This script is critical for ensuring database availability and persistence. It checks if PostgreSQL is running, creates the database/user if they don't exist, runs migrations, and re-seeds the data (specifically the admin user) if necessary.
-    - **Changes**: Created and modified to handle database initialization, making the application resilient to container restarts. It was updated to point to the persistent data directory .
+- ****
+  - **Importance**: This is the frontend for the entire User Management feature. It's a complex client component that handles displaying all users, searching, and managing state for multiple dialogs (edit user, reset password).
+  - **Changes**: This file was created and heavily modified. It now includes tRPC mutations for updating, canceling, restoring, and resetting user passwords/details. State management () was added for search queries and to control the visibility and data of various dialog modals.
 
-- ** & **:
-    - **Importance**: These supervisor configuration files ensure that the PostgreSQL database and the  script are run automatically when the environment starts.
-    - **Changes**: Created from scratch to solve the recurring problem of the database not running after a server wake-up.
+- ****
+  - **Importance**: This tRPC router contains all backend procedures for admin functionality.
+  - **Changes**: It was significantly expanded to support the User Management page. New procedures were added: , , , , and . The  and  procedures were also updated to include the new SEO metric fields.
 
-- ****:
-    - **Importance**: This tRPC router defines all backend procedures exclusive to admin users.
-    - **Changes**: It was significantly expanded to include procedures for fetching all users () and updating a user's subscription plan (), which powers the new User Management page.
+- ****
+  - **Importance**: Displays the main list of all backlink opportunities for users to browse.
+  - **Changes**: Functionality was added to display the new SEO metrics (RD, BL, TF, CF). Client-side logic using  and  was implemented to add a search input, a Sort By dropdown for all metrics, and a set of range filters for each metric.
 
-- ****:
-    - **Importance**: This is the new frontend page for the Admin User Management feature.
-    - **Changes**: Created from scratch. It fetches the list of all users and their current plans using the  tRPC query. It displays them in a table and provides a dropdown for admins to change any user's plan via the  mutation.
+- ****
+  - **Importance**: Defines the database schema for all models (User, Plan, Opportunity, etc.).
+  - **Changes**: The  model was migrated to include new optional Float fields for , , , and . The  model already had fields to support cancellation.
 
-- ****:
-    - **Importance**: This page displays the details of a single project, including its associated backlink opportunities.
-    - **Changes**: Heavily modified to add a collapsible step-by-step tutorial section under each opportunity. This involved adding state to manage the expanded tutorial, fetching opportunity details with a unique key to avoid caching issues, and creating a  component. A bug was fixed where field names in the component () didn't match the database schema ().
+- ****
+  - **Importance**: The user registration page.
+  - **Changes**: The page was updated to fetch and display subscription plans using a new public tRPC query (). It now includes UI for users to select a plan, and the  is passed to the  mutation.
 
-- ****:
-    - **Importance**: Defines the application's design system and color palette.
-    - **Changes**: Modified multiple times to introduce new color schemes based on user requests. The final version includes custom 'navy', 'sky', 'pale-blue', and 'gold' color palettes that replaced the original purple/pink theme.
+- ****
+  - **Importance**: Handles subscription-related backend logic.
+  - **Changes**: A new  procedure was added to allow unauthenticated users on the signup page to view available subscription plans.
 
-- ****:
-    - **Importance**: Contains the backend logic for the Analytics dashboard.
-    - **Changes**: Created to provide data for the dashboard. It was later heavily optimized by combining multiple database calls into a single aggregation query and simplifying expensive queries, resulting in an 8x performance improvement (from ~4430ms to ~557ms). The tRPC query's  was also reduced to 30 seconds to address data freshness issues.
-
+- ****
+  - **Importance**: A new utility file created to house the client logic for making requests to the DataForSEO API.
+  - **Changes**: This file was created to abstract the API call logic. It was later modified during debugging from TypeScript to plain JavaScript to resolve build errors.
 </code_architecture>
 
 <pending_tasks>
-- **Implement a search filter by email address on the User Management page.**
-- Implement background jobs with a more robust system like BullMQ and Redis.
-- Integrate a real email service (e.g., Resend, SendGrid) to replace the mocked email system.
+- **Implement Stripe Payment System**: Integrate Stripe to handle payments after a user selects a subscription plan during signup. The user's profile should only become active after a successful payment.
+- **Activate DataForSEO API**: The DataForSEO integration is on hold. The Fetch Metrics button is present but non-functional until the user activates the Backlinks API subscription on their DataForSEO account.
 </pending_tasks>
 
 <current_work>
-The most recent work involved building a new feature for administrators: a **User Management dashboard**.
+The immediate last task was to begin the integration of the Stripe payment system. This was a direct request from the user to process payments for the subscription plans selected during the new signup flow.
 
 **Actions Taken:**
-1.  **Sidebar Navigation:** A Users menu item was added to the main navigation layout (), visible only to users with the  role.
-2.  **Backend tRPC Procedures:** The  file was updated with new procedures:
-    *   : Fetches all users from the database, including their subscription plan details.
-    *   : Allows an admin to change the  for a specific user.
-3.  **Frontend Page:** A new page was created at . This page uses the new tRPC procedures to:
-    *   Display a table of all registered users, showing their email, name, current plan, and registration date.
-    *   Provide a dropdown menu next to each user, listing all available subscription plans.
-    *   Allow the admin to select a new plan from the dropdown and trigger a mutation to update the user's subscription in the database.
+1.  **User Request Received**: The user asked to add stripe payment system that after profile creation he can pay for selected membership purchase only after that make profile active.
+2.  **Integration Playbook**: The AI engineer invoked the  agent to get a detailed guide for integrating Stripe with Next.js.
+3.  **API Key Confirmation**: The engineer asked the user for their Stripe API keys. The user responded, use Test keys, explicitly giving permission to proceed with a test environment integration without providing live credentials.
 
-The feature is functionally complete, allowing an admin to view and manage user subscription plans. Immediately after this was implemented, the user requested an enhancement.
+The work concluded at this point, right before any code for the Stripe integration was written. The next step is to begin the implementation based on the playbook and the user's instructions to use test keys.
 </current_work>
 
 <optional_next_step>
-Add an email search filter to the User Management page () as requested.
+Begin implementing the Stripe payment integration using test keys, as per the user's last request and the provided integration playbook. This will involve setting up environment variables, creating a checkout session, and handling webhooks.
 </optional_next_step>
-
-<direct_quotes>
-**User's last request:** create filter in User Management witch can search by e-mail address
-</direct_quotes>
