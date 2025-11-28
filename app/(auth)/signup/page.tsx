@@ -30,10 +30,19 @@ export default function SignUpPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    if (!selectedPlan) {
+      toast.error('Please select a subscription plan');
+      return;
+    }
+    
     setIsLoading(true);
 
     try {
-      await signUpMutation.mutateAsync(formData);
+      await signUpMutation.mutateAsync({
+        ...formData,
+        planId: selectedPlan,
+      });
       toast.success('Account created! Please sign in.');
       router.push('/signin');
     } catch (error: any) {
