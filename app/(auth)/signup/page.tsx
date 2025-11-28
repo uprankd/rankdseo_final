@@ -9,7 +9,7 @@ import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { toast } from 'sonner';
-import { Loader2, Check, Star } from 'lucide-react';
+import { Loader2, Check, CreditCard } from 'lucide-react';
 import { trpc } from '@/lib/api/client';
 
 export default function SignUpPage() {
@@ -27,6 +27,7 @@ export default function SignUpPage() {
   const plans = plansData?.plans || [];
 
   const signUpMutation = trpc.auth.signUp.useMutation();
+  const createCheckoutMutation = trpc.payment.createSignupCheckout.useMutation();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -39,15 +40,59 @@ export default function SignUpPage() {
     setIsLoading(true);
 
     try {
+      // Find the selected plan details
+      const plan = plans.find(p => p.id === selectedPlan);
+      
+      if (!plan) {
+        throw new Error('Plan not found');
+      }
+
+      // If plan is free, create account directly
+      if (plan.price === 0) {
+        await signUpMutation.mutateAsync({
+          ...formData,
+          planId: selectedPlan,
+        });
+        toast.success('Account created! Please sign in.');
+        router.push('/signin');
+        return;
+      }
+
+      // For paid plans, create checkout session first
+      const checkoutResult = await createCheckoutMutation.mutateAsync({
+        email: formData.email,
+        name: formData.name,
+        planId: selectedPlan,
+      });
+
+      if (checkoutResult.isFree) {
+        // This shouldn't happen, but handle just in case
+        await signUpMutation.mutateAsync({
+          ...formData,
+          planId: selectedPlan,
+        });
+        toast.success('Account created! Please sign in.');
+        router.push('/signin');
+        return;
+      }
+
+      // Create user account with PENDING status
       await signUpMutation.mutateAsync({
         ...formData,
         planId: selectedPlan,
+        paymentSessionId: checkoutResult.sessionId!,
       });
-      toast.success('Account created! Please sign in.');
-      router.push('/signin');
+
+      // Redirect to Stripe checkout
+      if (checkoutResult.url) {
+        toast.success('Redirecting to payment...');
+        window.location.href = checkoutResult.url;
+      } else {
+        throw new Error('Failed to create checkout session');
+      }
     } catch (error: any) {
+      console.error('Signup error:', error);
       toast.error(error?.message || 'Failed to create account');
-    } finally {
       setIsLoading(false);
     }
   };
