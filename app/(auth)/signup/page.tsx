@@ -204,8 +204,23 @@ export default function SignUpPage() {
               </div>
 
               <Button type="submit" className="w-full" disabled={isLoading || !selectedPlan}>
-                {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                Create Account
+                {isLoading ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Processing...
+                  </>
+                ) : (
+                  <>
+                    {selectedPlan && plans.find(p => p.id === selectedPlan)?.price === 0 ? (
+                      'Create Free Account'
+                    ) : (
+                      <>
+                        <CreditCard className="mr-2 h-4 w-4" />
+                        Continue to Payment
+                      </>
+                    )}
+                  </>
+                )}
               </Button>
             </form>
 
