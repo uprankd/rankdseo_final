@@ -1,7 +1,16 @@
-import { router, protectedProcedure } from '../trpc';
+import { router, protectedProcedure, publicProcedure } from '../trpc';
 import { z } from 'zod';
 
 export const subscriptionRouter = router({
+  getPublicPlans: publicProcedure.query(async ({ ctx }) => {
+    const plans = await ctx.prisma.plan.findMany({
+      where: { isActive: true },
+      orderBy: { priority: 'asc' },
+    });
+
+    return { plans };
+  }),
+
   getCurrent: protectedProcedure.query(async ({ ctx }) => {
     const subscription = await ctx.prisma.subscription.findUnique({
       where: { userId: ctx.user.id },
