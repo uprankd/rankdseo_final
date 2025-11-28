@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
 """
-Backend API Testing for RankdSEO Admin Panel
-Tests all admin tRPC procedures with proper authentication
+Backend API Testing for RankdSEO Admin Panel & Stripe Payment Integration
+Tests all admin tRPC procedures and payment flow with proper authentication
 """
 
 import requests
 import json
 import sys
+import time
 from typing import Dict, Any, Optional
 
 # Configuration
@@ -16,6 +17,15 @@ TRPC_URL = f"{BASE_URL}/api/trpc"
 # Admin credentials
 ADMIN_EMAIL = "admin@rankseo.com"
 ADMIN_PASSWORD = "Admin123!"
+
+# Test plan IDs (from database)
+PAID_PLAN_ID = "cmifs7pkx0000q72z5od6iqb7"  # Monthly Membership: $34.99
+LIFETIME_PLAN_ID = "cmifs7pl40003q72zuoy5v8wb"  # Lifetime Membership: $179.99
+
+# Test user data for payment testing
+TEST_USER_EMAIL = "testpayment@example.com"
+TEST_USER_NAME = "Test Payment User"
+TEST_USER_PASSWORD = "TestPass123!"
 
 class TRPCClient:
     def __init__(self):
