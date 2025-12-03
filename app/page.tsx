@@ -332,7 +332,7 @@ export default function HomePage() {
       <footer className="py-12 px-4 bg-gray-900 text-gray-400">
         <div className="max-w-7xl mx-auto text-center">
           <div className="flex items-center justify-center space-x-3 mb-6">
-            <img src="/logo.png" alt="RankdSEO" className="h-12 w-auto brightness-200" />
+            <img src="/logo.png" alt="RankdSEO" className="h-24 w-auto brightness-200" />
           </div>
           <div className="mb-4 flex items-center justify-center gap-6">
             <Link href="/privacy-policy" className="text-sm text-gray-400 hover:text-white transition-colors">
