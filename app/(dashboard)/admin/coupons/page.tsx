@@ -416,6 +416,57 @@ export default function AdminCouponsPage() {
               </div>
             </div>
 
+            {/* Recurring Subscription Settings */}
+            <div className="space-y-4 border-t pt-4">
+              <div className="flex items-center space-x-2">
+                <Checkbox
+                  id="applyToRecurring"
+                  checked={formData.applyToRecurring}
+                  onCheckedChange={(checked) => setFormData({ ...formData, applyToRecurring: checked as boolean })}
+                />
+                <label
+                  htmlFor="applyToRecurring"
+                  className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer"
+                >
+                  Apply to Recurring Subscriptions
+                </label>
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="durationType">Discount Duration</Label>
+                <Select
+                  value={formData.durationType}
+                  onValueChange={(value: any) => setFormData({ ...formData, durationType: value })}
+                >
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="ONCE">One-time (First payment only)</SelectItem>
+                    <SelectItem value="REPEATING">Repeating (Limited months)</SelectItem>
+                    <SelectItem value="FOREVER">Forever (All future payments)</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              {formData.durationType === 'REPEATING' && (
+                <div className="space-y-2">
+                  <Label htmlFor="durationInMonths">Duration in Months</Label>
+                  <Input
+                    id="durationInMonths"
+                    type="number"
+                    min="1"
+                    value={formData.durationInMonths}
+                    onChange={(e) => setFormData({ ...formData, durationInMonths: e.target.value })}
+                    placeholder="3"
+                  />
+                  <p className="text-xs text-muted-foreground">
+                    The discount will apply for this many billing cycles
+                  </p>
+                </div>
+              )}
+            </div>
+
             <div className="flex items-center space-x-2">
               <Checkbox
                 id="isActive"
