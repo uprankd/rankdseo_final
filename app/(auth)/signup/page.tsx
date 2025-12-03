@@ -142,7 +142,7 @@ export default function SignUpPage() {
         {/* Header */}
         <div className="text-center mb-8">
           <Link href="/" className="inline-flex items-center space-x-2 mb-6">
-            <img src="/logo.png" alt="RankdSEO" className="h-10 w-auto" />
+            <img src="/logo.png" alt="RankdSEO" className="h-20 w-auto" />
           </Link>
         </div>
 
