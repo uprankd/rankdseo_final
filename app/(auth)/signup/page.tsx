@@ -201,6 +201,68 @@ export default function SignUpPage() {
                 <p className="text-xs text-gray-500">Minimum 8 characters</p>
               </div>
 
+              {/* Coupon Code Section */}
+              {selectedPlan && plans.find(p => p.id === selectedPlan)?.price > 0 && (
+                <div className="space-y-2">
+                  <Label htmlFor="coupon">Have a Coupon Code?</Label>
+                  {!validatedCoupon ? (
+                    <div className="flex gap-2">
+                      <Input
+                        id="coupon"
+                        type="text"
+                        placeholder="DISCOUNT10"
+                        value={couponCode}
+                        onChange={(e) => setCouponCode(e.target.value.toUpperCase())}
+                        disabled={isLoading || isValidatingCoupon}
+                        className="font-mono"
+                      />
+                      <Button
+                        type="button"
+                        variant="outline"
+                        onClick={handleValidateCoupon}
+                        disabled={isLoading || isValidatingCoupon || !couponCode.trim()}
+                      >
+                        {isValidatingCoupon ? (
+                          <Loader2 className="h-4 w-4 animate-spin" />
+                        ) : (
+                          'Apply'
+                        )}
+                      </Button>
+                    </div>
+                  ) : (
+                    <div className="bg-green-50 border border-green-200 rounded-lg p-3">
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <p className="text-sm font-semibold text-green-900">
+                            Coupon Applied: {validatedCoupon.coupon.code}
+                          </p>
+                          <p className="text-xs text-green-700">
+                            Discount: {validatedCoupon.discountType === 'PERCENTAGE' 
+                              ? `${validatedCoupon.coupon.discountValue}%`
+                              : `$${validatedCoupon.coupon.discountValue}`}
+                          </p>
+                          <p className="text-xs text-green-700 mt-1">
+                            Original: ${(validatedCoupon.originalPrice / 100).toFixed(2)} →{' '}
+                            <span className="font-bold">
+                              Final: ${(validatedCoupon.finalPrice / 100).toFixed(2)}
+                            </span>
+                          </p>
+                        </div>
+                        <Button
+                          type="button"
+                          variant="ghost"
+                          size="sm"
+                          onClick={handleRemoveCoupon}
+                          disabled={isLoading}
+                        >
+                          Remove
+                        </Button>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
+
               <Button type="submit" className="w-full" disabled={isLoading || !selectedPlan}>
                 {isLoading ? (
                   <>
