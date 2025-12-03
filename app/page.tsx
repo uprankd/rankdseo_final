@@ -13,7 +13,7 @@ export default function HomePage() {
       <header className="border-b-2 border-navy-200 bg-white/90 backdrop-blur-lg sticky top-0 z-50 shadow-lg">
         <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
           <Link href="/" className="flex items-center space-x-3 group">
-            <img src="/logo.png" alt="RankdSEO" className="h-12 w-auto" />
+            <img src="/logo.png" alt="RankdSEO" className="h-24 w-auto" />
           </Link>
           <nav className="hidden md:flex items-center space-x-6">
             <Link href="#features" className="text-sm font-semibold text-gray-700 hover:text-navy-500 transition-colors">
