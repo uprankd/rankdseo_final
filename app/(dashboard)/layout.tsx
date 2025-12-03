@@ -72,7 +72,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
               {isSidebarOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
             </Button>
             <Link href="/dashboard" className="flex items-center space-x-3">
-              <img src="/logo.png" alt="RankdSEO" className="h-12 w-auto" />
+              <img src="/logo.png" alt="RankdSEO" className="h-24 w-auto" />
             </Link>
           </div>
 
