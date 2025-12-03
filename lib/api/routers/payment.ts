@@ -104,6 +104,10 @@ export const paymentRouter = router({
             planId: plan.id,
             planName: plan.name,
             customerName: name,
+            couponId: couponData?.id || '',
+            couponCode: couponData?.code || '',
+            originalPrice: plan.price.toString(),
+            discountAmount: couponData?.discountAmount.toString() || '0',
           },
           // Enable automatic tax calculation if configured
           automatic_tax: {
