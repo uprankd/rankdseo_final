@@ -23,7 +23,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { toast } from 'sonner';
-import { Plus, Pencil, Trash2, Tag, Calendar, Users, Percent, DollarSign } from 'lucide-react';
+import { Plus, Pencil, Trash2, Tag, Calendar, Users, Percent, DollarSign, Loader2 } from 'lucide-react';
 import { Checkbox } from '@/components/ui/checkbox';
 
 export default function AdminCouponsPage() {
