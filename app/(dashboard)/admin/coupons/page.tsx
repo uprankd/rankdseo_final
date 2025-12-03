@@ -35,7 +35,7 @@ export default function AdminCouponsPage() {
   const { data: couponsData, refetch: refetchCoupons } = trpc.coupon.listCoupons.useQuery();
   const { data: plansData } = trpc.subscription.listPlans.useQuery();
   const coupons = couponsData?.coupons || [];
-  const plans = plansData?.plans || [];
+  const plans = plansData || [];
 
   // Mutations
   const createCouponMutation = trpc.coupon.createCoupon.useMutation();
