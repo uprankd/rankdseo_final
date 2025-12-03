@@ -69,6 +69,9 @@ export default function AdminCouponsPage() {
       maxUses: '',
       expiresAt: '',
       applicablePlans: [],
+      applyToRecurring: false,
+      durationType: 'ONCE',
+      durationInMonths: '',
     });
   };
 
