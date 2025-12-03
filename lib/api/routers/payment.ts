@@ -29,12 +29,50 @@ export const paymentRouter = router({
         });
       }
 
-      // Check if plan is free - no payment needed
-      if (plan.price === 0) {
+      // Validate and apply coupon if provided
+      let finalPrice = plan.price;
+      let couponData = null;
+
+      if (couponCode) {
+        const coupon = await ctx.prisma.coupon.findUnique({
+          where: { code: couponCode.toUpperCase() },
+        });
+
+        if (coupon && coupon.isActive) {
+          // Check expiration
+          const isExpired = coupon.expiresAt && new Date(coupon.expiresAt) < new Date();
+          // Check max uses
+          const hasReachedLimit = coupon.maxUses && coupon.usedCount >= coupon.maxUses;
+          // Check applicable plans
+          const isApplicable = coupon.applicablePlans.length === 0 || coupon.applicablePlans.includes(planId);
+
+          if (!isExpired && !hasReachedLimit && isApplicable) {
+            // Calculate discount
+            let discountAmount = 0;
+            if (coupon.discountType === 'PERCENTAGE') {
+              discountAmount = (plan.price * coupon.discountValue) / 100;
+            } else {
+              // FIXED_AMOUNT (convert dollars to cents)
+              discountAmount = coupon.discountValue * 100;
+            }
+
+            finalPrice = Math.max(0, plan.price - discountAmount);
+            couponData = {
+              id: coupon.id,
+              code: coupon.code,
+              discountAmount,
+            };
+          }
+        }
+      }
+
+      // Check if plan is free after discount
+      if (finalPrice === 0) {
         return {
           isFree: true,
           url: null,
           sessionId: null,
+          coupon: couponData,
         };
       }
 
@@ -52,9 +90,11 @@ export const paymentRouter = router({
                 currency: 'usd',
                 product_data: {
                   name: plan.name,
-                  description: plan.description,
+                  description: couponData 
+                    ? `${plan.description} (Discount: ${couponData.code})`
+                    : plan.description,
                 },
-                unit_amount: plan.price, // Already in cents
+                unit_amount: finalPrice, // Price after discount in cents
               },
               quantity: 1,
             },
