@@ -366,22 +366,33 @@ export default function AdminCouponsPage() {
 
             <div className="space-y-2">
               <Label>Applicable Plans (Leave empty for all plans)</Label>
-              <div className="space-y-2 border rounded-md p-4">
-                {plans.map((plan: any) => (
-                  <div key={plan.id} className="flex items-center space-x-2">
-                    <Checkbox
-                      id={`plan-${plan.id}`}
-                      checked={formData.applicablePlans.includes(plan.id)}
-                      onCheckedChange={() => togglePlanSelection(plan.id)}
-                    />
-                    <label
-                      htmlFor={`plan-${plan.id}`}
-                      className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer"
-                    >
-                      {plan.name} (${(plan.price / 100).toFixed(2)})
-                    </label>
+              <div className="space-y-2 border rounded-md p-4 min-h-[100px]">
+                {plansLoading ? (
+                  <div className="flex items-center justify-center py-4">
+                    <Loader2 className="h-6 w-6 animate-spin text-gray-400" />
+                    <span className="ml-2 text-sm text-gray-500">Loading plans...</span>
                   </div>
-                ))}
+                ) : plans.length === 0 ? (
+                  <div className="text-center py-4 text-sm text-gray-500">
+                    No plans available
+                  </div>
+                ) : (
+                  plans.map((plan: any) => (
+                    <div key={plan.id} className="flex items-center space-x-2">
+                      <Checkbox
+                        id={`plan-${plan.id}`}
+                        checked={formData.applicablePlans.includes(plan.id)}
+                        onCheckedChange={() => togglePlanSelection(plan.id)}
+                      />
+                      <label
+                        htmlFor={`plan-${plan.id}`}
+                        className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer"
+                      >
+                        {plan.name} (${(plan.price / 100).toFixed(2)})
+                      </label>
+                    </div>
+                  ))
+                )}
               </div>
             </div>
 
