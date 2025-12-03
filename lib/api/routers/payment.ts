@@ -138,6 +138,7 @@ export const paymentRouter = router({
           isFree: false,
           url: session.url,
           sessionId: session.id,
+          coupon: couponData,
         };
       } catch (error: any) {
         console.error('Stripe checkout error:', error);
