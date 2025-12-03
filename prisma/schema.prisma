@@ -370,24 +370,33 @@ enum DiscountType {
 }
 
 model Coupon {
-  id              String        @id @default(cuid())
-  code            String        @unique
-  description     String?
-  discountType    DiscountType
-  discountValue   Float
-  isActive        Boolean       @default(true)
-  maxUses         Int?
-  usedCount       Int           @default(0)
-  expiresAt       DateTime?
-  applicablePlans String[]
-  createdAt       DateTime      @default(now())
-  updatedAt       DateTime      @updatedAt
-  createdBy       String?
+  id                String            @id @default(cuid())
+  code              String            @unique
+  description       String?
+  discountType      DiscountType
+  discountValue     Float
+  isActive          Boolean           @default(true)
+  maxUses           Int?
+  usedCount         Int               @default(0)
+  expiresAt         DateTime?
+  applicablePlans   String[]
+  applyToRecurring  Boolean           @default(false)
+  durationType      CouponDurationType @default(ONCE)
+  durationInMonths  Int?
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt
+  createdBy         String?
   
-  usages          CouponUsage[]
+  usages            CouponUsage[]
   
   @@index([code])
   @@index([isActive])
+}
+
+enum CouponDurationType {
+  ONCE        // Apply discount only on first payment
+  REPEATING   // Apply for X number of billing cycles
+  FOREVER     // Apply to all future payments
 }
 
 model CouponUsage {
