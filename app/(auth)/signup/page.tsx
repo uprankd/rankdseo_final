@@ -101,7 +101,7 @@ export default function SignUpPage() {
         email: formData.email,
         name: formData.name,
         planId: selectedPlan,
-        couponCode: validatedCoupon?.coupon?.code,
+        couponCode: couponCode.trim() || undefined,
       });
 
       if (checkoutResult.isFree) {
