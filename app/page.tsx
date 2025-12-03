@@ -107,7 +107,7 @@ export default function HomePage() {
                 </div>
                 <h3 className="text-2xl font-bold mb-3 text-gray-800">Curated Opportunities</h3>
                 <p className="text-gray-600 leading-relaxed">
-                  Access 10,000+ verified backlink opportunities across all niches and industries.
+                  Access 1,000+ verified backlink opportunities across all niches and industries.
                 </p>
               </CardContent>
             </Card>
