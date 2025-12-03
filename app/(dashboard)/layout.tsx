@@ -50,7 +50,8 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     { href: '/analytics', icon: TrendingUp, label: 'Analytics', gradient: 'from-gold-500 to-yellow-500' },
     ...(session?.user?.role === 'ADMIN' ? [
       { href: '/admin', icon: Shield, label: 'Admin Panel', gradient: 'from-red-500 to-gold-500' },
-      { href: '/admin/users', icon: Users, label: 'Manage Users', gradient: 'from-purple-500 to-pink-500' }
+      { href: '/admin/users', icon: Users, label: 'Manage Users', gradient: 'from-purple-500 to-pink-500' },
+      { href: '/admin/coupons', icon: Tag, label: 'Coupons', gradient: 'from-orange-500 to-red-500' }
     ] : []),
   ];
 
