@@ -143,6 +143,9 @@ export const couponRouter = router({
           maxUses: input.maxUses,
           expiresAt: input.expiresAt ? new Date(input.expiresAt) : null,
           applicablePlans: input.applicablePlans,
+          applyToRecurring: input.applyToRecurring,
+          durationType: input.durationType,
+          durationInMonths: input.durationInMonths,
           createdBy: user.id,
         },
       });
