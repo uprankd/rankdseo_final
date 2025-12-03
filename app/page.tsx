@@ -332,10 +332,7 @@ export default function HomePage() {
       <footer className="py-12 px-4 bg-gray-900 text-gray-400">
         <div className="max-w-7xl mx-auto text-center">
           <div className="flex items-center justify-center space-x-3 mb-6">
-            <div className="h-12 w-12 bg-gradient-to-br from-navy-500 via-sky-500 to-sky-600 rounded-2xl flex items-center justify-center shadow-xl">
-              <Crown className="h-7 w-7 text-white" />
-            </div>
-            <span className="text-2xl font-black bg-gradient-to-r from-navy-100 via-sky-100 to-sky-200 bg-clip-text text-transparent">RankdSEO</span>
+            <img src="/logo.png" alt="RankdSEO" className="h-12 w-auto brightness-200" />
           </div>
           <div className="mb-4 flex items-center justify-center gap-6">
             <Link href="/privacy-policy" className="text-sm text-gray-400 hover:text-white transition-colors">
