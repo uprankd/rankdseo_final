@@ -343,9 +343,13 @@ export default function HomePage() {
             </div>
             <span className="text-2xl font-black bg-gradient-to-r from-navy-100 via-sky-100 to-sky-200 bg-clip-text text-transparent">RankdSEO</span>
           </div>
-          <div className="mb-4">
+          <div className="mb-4 flex items-center justify-center gap-6">
             <Link href="/privacy-policy" className="text-sm text-gray-400 hover:text-white transition-colors">
               Privacy Policy
+            </Link>
+            <span className="text-gray-600">|</span>
+            <Link href="/terms-and-conditions" className="text-sm text-gray-400 hover:text-white transition-colors">
+              Terms and Conditions
             </Link>
           </div>
           <p className="text-sm">© 2024 RankdSEO. All rights reserved.</p>
