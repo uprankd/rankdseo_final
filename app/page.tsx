@@ -47,7 +47,7 @@ export default function HomePage() {
           <div className="flex justify-center mb-6">
             <Badge className="bg-gradient-to-r from-navy-500 to-sky-500 text-white border-0 px-6 py-2 text-base font-bold shadow-xl">
               <Sparkles className="h-4 w-4 mr-2" />
-              10,000+ Curated Backlink Opportunities
+              1,000+ Curated Backlink Opportunities
             </Badge>
           </div>
           <h1 className="text-6xl md:text-7xl font-black mb-6 leading-tight">
