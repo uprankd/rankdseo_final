@@ -86,6 +86,9 @@ export default function AdminCouponsPage() {
         maxUses: formData.maxUses ? parseInt(formData.maxUses) : undefined,
         expiresAt: formData.expiresAt ? new Date(formData.expiresAt).toISOString() : undefined,
         applicablePlans: formData.applicablePlans,
+        applyToRecurring: formData.applyToRecurring,
+        durationType: formData.durationType,
+        durationInMonths: formData.durationInMonths ? parseInt(formData.durationInMonths) : undefined,
       });
 
       toast.success('Coupon created successfully!');
