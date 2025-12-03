@@ -60,16 +60,17 @@ export const paymentRouter = router({
               discountAmount = coupon.discountValue * 100;
             }
 
-            finalPrice = Math.max(0, plan.price - discountAmount);
+            // Round to nearest cent to avoid decimal issues with Stripe
+            finalPrice = Math.round(Math.max(0, plan.price - discountAmount));
             couponData = {
               id: coupon.id,
               code: coupon.code,
-              discountAmount,
+              discountAmount: Math.round(discountAmount),
             };
             
             console.log('💰 Price calculation:', {
               originalPrice: plan.price,
-              discountAmount,
+              discountAmount: couponData.discountAmount,
               finalPrice,
               couponCode: coupon.code,
             });
