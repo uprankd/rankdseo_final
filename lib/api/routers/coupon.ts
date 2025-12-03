@@ -192,6 +192,9 @@ export const couponRouter = router({
         maxUses: z.number().int().positive().optional(),
         expiresAt: z.string().datetime().optional().nullable(),
         applicablePlans: z.array(z.string()).optional(),
+        applyToRecurring: z.boolean().optional(),
+        durationType: z.enum(['ONCE', 'REPEATING', 'FOREVER']).optional(),
+        durationInMonths: z.number().int().positive().optional().nullable(),
       })
     )
     .mutation(async ({ ctx, input }) => {
