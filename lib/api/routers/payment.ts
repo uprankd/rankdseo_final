@@ -33,10 +33,14 @@ export const paymentRouter = router({
       let finalPrice = plan.price;
       let couponData = null;
 
+      console.log('🎟️ Coupon code received:', couponCode);
+
       if (couponCode) {
         const coupon = await ctx.prisma.coupon.findUnique({
           where: { code: couponCode.toUpperCase() },
         });
+
+        console.log('🎟️ Coupon found:', coupon ? coupon.code : 'NOT FOUND');
 
         if (coupon && coupon.isActive) {
           // Check expiration
