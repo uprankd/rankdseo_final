@@ -261,3 +261,41 @@ async function activateUserAccount(userId: string, planId: string) {
     },
   });
 }
+
+// Record coupon usage
+async function recordCouponUsage(
+  couponId: string,
+  userId: string,
+  planId: string,
+  originalPrice: number,
+  discountAmount: number,
+  finalPrice: number
+) {
+  try {
+    // Create coupon usage record
+    await prisma.couponUsage.create({
+      data: {
+        couponId,
+        userId,
+        planId,
+        originalPrice: originalPrice / 100, // Convert cents to dollars
+        discountAmount: discountAmount / 100,
+        finalPrice: finalPrice / 100,
+      },
+    });
+
+    // Increment coupon usage count
+    await prisma.coupon.update({
+      where: { id: couponId },
+      data: {
+        usedCount: {
+          increment: 1,
+        },
+      },
+    });
+
+    console.log('✅ Coupon usage recorded:', couponId);
+  } catch (error) {
+    console.error('❌ Failed to record coupon usage:', error);
+  }
+}
