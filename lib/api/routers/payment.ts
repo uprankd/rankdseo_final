@@ -66,9 +66,18 @@ export const paymentRouter = router({
               code: coupon.code,
               discountAmount,
             };
+            
+            console.log('💰 Price calculation:', {
+              originalPrice: plan.price,
+              discountAmount,
+              finalPrice,
+              couponCode: coupon.code,
+            });
           }
         }
       }
+
+      console.log('💵 Final checkout price:', finalPrice);
 
       // Check if plan is free after discount
       if (finalPrice === 0) {
