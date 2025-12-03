@@ -16,6 +16,9 @@ export default function SignUpPage() {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState<string>('');
+  const [couponCode, setCouponCode] = useState('');
+  const [validatedCoupon, setValidatedCoupon] = useState<any>(null);
+  const [isValidatingCoupon, setIsValidatingCoupon] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -28,6 +31,7 @@ export default function SignUpPage() {
 
   const signUpMutation = trpc.auth.signUp.useMutation();
   const createCheckoutMutation = trpc.payment.createSignupCheckout.useMutation();
+  const validateCouponMutation = trpc.coupon.validateCoupon.useMutation();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
