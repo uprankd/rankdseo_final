@@ -33,6 +33,40 @@ export default function SignUpPage() {
   const createCheckoutMutation = trpc.payment.createSignupCheckout.useMutation();
   const validateCouponMutation = trpc.coupon.validateCoupon.useMutation();
 
+  const handleValidateCoupon = async () => {
+    if (!couponCode.trim()) {
+      toast.error('Please enter a coupon code');
+      return;
+    }
+
+    if (!selectedPlan) {
+      toast.error('Please select a plan first');
+      return;
+    }
+
+    setIsValidatingCoupon(true);
+
+    try {
+      const result = await validateCouponMutation.mutateAsync({
+        code: couponCode,
+        planId: selectedPlan,
+      });
+
+      setValidatedCoupon(result);
+      toast.success('Coupon applied successfully!');
+    } catch (error: any) {
+      toast.error(error.message || 'Invalid coupon code');
+      setValidatedCoupon(null);
+    } finally {
+      setIsValidatingCoupon(false);
+    }
+  };
+
+  const handleRemoveCoupon = () => {
+    setCouponCode('');
+    setValidatedCoupon(null);
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
