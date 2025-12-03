@@ -111,6 +111,9 @@ export default function AdminCouponsPage() {
       maxUses: coupon.maxUses?.toString() || '',
       expiresAt: coupon.expiresAt ? new Date(coupon.expiresAt).toISOString().slice(0, 16) : '',
       applicablePlans: coupon.applicablePlans || [],
+      applyToRecurring: coupon.applyToRecurring || false,
+      durationType: coupon.durationType || 'ONCE',
+      durationInMonths: coupon.durationInMonths?.toString() || '',
     });
     setIsEditDialogOpen(true);
   };
