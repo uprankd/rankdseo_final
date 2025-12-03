@@ -72,21 +72,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
               {isSidebarOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
             </Button>
             <Link href="/dashboard" className="flex items-center space-x-3">
-              <div className="relative">
-                <div className="h-12 w-12 bg-gradient-to-br from-navy-500 via-sky-500 to-sky-600 rounded-2xl flex items-center justify-center shadow-xl transform hover:rotate-6 transition-transform">
-                  <Crown className="h-7 w-7 text-white" />
-                </div>
-                <div className="absolute -top-1 -right-1 h-4 w-4 bg-yellow-400 rounded-full border-2 border-white animate-pulse"></div>
-              </div>
-              <div className="hidden sm:block">
-                <span className="text-2xl font-black bg-gradient-to-r from-navy-500 via-sky-500 to-sky-600 bg-clip-text text-transparent">
-                  RankdSEO
-                </span>
-                <div className="flex items-center gap-1">
-                  <Sparkles className="h-3 w-3 text-yellow-500" />
-                  <span className="text-xs font-bold bg-gradient-to-r from-navy-500 to-sky-500 bg-clip-text text-transparent">Premium Platform</span>
-                </div>
-              </div>
+              <img src="/logo.png" alt="RankdSEO" className="h-12 w-auto" />
             </Link>
           </div>
 
