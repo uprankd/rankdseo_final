@@ -251,12 +251,17 @@ export default function AdminCouponsPage() {
                   </div>
                   <div className="flex items-center gap-2">
                     <Tag className="h-4 w-4 text-muted-foreground" />
-                    <div>
+                    <div className="flex-1">
                       <p className="text-sm text-muted-foreground">Applicable Plans</p>
-                      <p className="font-semibold">
+                      <p className="font-semibold text-sm">
                         {coupon.applicablePlans.length === 0
                           ? 'All Plans'
-                          : `${coupon.applicablePlans.length} Plan(s)`}
+                          : coupon.applicablePlans
+                              .map((planId: string) => {
+                                const plan = plans.find((p: any) => p.id === planId);
+                                return plan ? plan.name : planId;
+                              })
+                              .join(', ')}
                       </p>
                     </div>
                   </div>
