@@ -138,6 +138,19 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session) {
 
       // Activate user account
       await activateUserAccount(user.id, planId);
+      
+      // Record coupon usage if applicable
+      if (session.metadata?.couponId && session.metadata?.couponCode) {
+        await recordCouponUsage(
+          session.metadata.couponId,
+          user.id,
+          planId,
+          parseInt(session.metadata.originalPrice || '0'),
+          parseInt(session.metadata.discountAmount || '0'),
+          session.amount_total || 0
+        );
+      }
+      
       console.log('✅ User account activated:', user.email);
     }
     return;
@@ -158,6 +171,19 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session) {
   // Activate user account if still pending
   if (transaction.user && transaction.user.accountStatus === 'PENDING') {
     await activateUserAccount(transaction.userId!, transaction.planId!);
+    
+    // Record coupon usage if applicable
+    if (session.metadata?.couponId && session.metadata?.couponCode) {
+      await recordCouponUsage(
+        session.metadata.couponId,
+        transaction.userId!,
+        transaction.planId!,
+        parseInt(session.metadata.originalPrice || '0'),
+        parseInt(session.metadata.discountAmount || '0'),
+        session.amount_total || 0
+      );
+    }
+    
     console.log('✅ User account activated:', transaction.user.email);
   }
 
