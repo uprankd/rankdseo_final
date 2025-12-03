@@ -12,15 +12,9 @@ export default function HomePage() {
       {/* Header */}
       <header className="border-b-2 border-navy-200 bg-white/90 backdrop-blur-lg sticky top-0 z-50 shadow-lg">
         <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
-          <div className="flex items-center space-x-3">
-            <div className="relative">
-              <div className="h-12 w-12 bg-gradient-to-br from-navy-500 via-sky-500 to-sky-600 rounded-2xl flex items-center justify-center shadow-xl">
-                <Crown className="h-7 w-7 text-white" />
-              </div>
-              <div className="absolute -top-1 -right-1 h-4 w-4 bg-yellow-400 rounded-full border-2 border-white animate-pulse"></div>
-            </div>
-            <span className="text-2xl font-black bg-gradient-to-r from-navy-500 via-sky-500 to-sky-600 bg-clip-text text-transparent">RankdSEO</span>
-          </div>
+          <Link href="/" className="flex items-center space-x-3 group">
+            <img src="/logo.png" alt="RankdSEO" className="h-12 w-auto" />
+          </Link>
           <nav className="hidden md:flex items-center space-x-6">
             <Link href="#features" className="text-sm font-semibold text-gray-700 hover:text-navy-500 transition-colors">
               Features
