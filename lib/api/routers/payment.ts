@@ -11,10 +11,11 @@ export const paymentRouter = router({
         email: z.string().email(),
         name: z.string(),
         planId: z.string(),
+        couponCode: z.string().optional(),
       })
     )
     .mutation(async ({ ctx, input }) => {
-      const { email, name, planId } = input;
+      const { email, name, planId, couponCode } = input;
 
       // Get plan details
       const plan = await ctx.prisma.plan.findUnique({
