@@ -54,6 +54,9 @@ export default function AdminCouponsPage() {
     maxUses: '',
     expiresAt: '',
     applicablePlans: [] as string[],
+    applyToRecurring: false,
+    durationType: 'ONCE' as 'ONCE' | 'REPEATING' | 'FOREVER',
+    durationInMonths: '',
   });
 
   const resetForm = () => {
