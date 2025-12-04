@@ -92,7 +92,7 @@ export default function ProjectsPage() {
     onSuccess: () => {
       toast.success('🎉 Project created successfully!');
       setIsDialogOpen(false);
-      setFormData({ name: '', domain: '', niche: '', description: '' });
+      setFormData({ name: '', domain: '', description: '' });
       utils.project.list.invalidate();
     },
     onError: (error) => {
@@ -105,7 +105,7 @@ export default function ProjectsPage() {
       toast.success('✅ Project updated successfully!');
       setIsDialogOpen(false);
       setEditingProject(null);
-      setFormData({ name: '', domain: '', niche: '', description: '' });
+      setFormData({ name: '', domain: '', description: '' });
       utils.project.list.invalidate();
     },
     onError: (error) => {
@@ -153,7 +153,7 @@ export default function ProjectsPage() {
     setIsDialogOpen(open);
     if (!open) {
       setEditingProject(null);
-      setFormData({ name: '', domain: '', niche: '', description: '' });
+      setFormData({ name: '', domain: '', description: '' });
     }
   };
 
