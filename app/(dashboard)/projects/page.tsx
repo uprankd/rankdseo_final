@@ -228,16 +228,6 @@ export default function ProjectsPage() {
                 />
               </div>
               <div>
-                <Label htmlFor="niche" className="text-sm font-medium">Niche</Label>
-                <Input
-                  id="niche"
-                  placeholder="Technology, Health, Finance..."
-                  value={formData.niche}
-                  onChange={(e) => setFormData({ ...formData, niche: e.target.value })}
-                  className="mt-1"
-                />
-              </div>
-              <div>
                 <Label htmlFor="description" className="text-sm font-medium">Description</Label>
                 <Input
                   id="description"
