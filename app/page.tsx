@@ -345,7 +345,7 @@ export default function HomePage() {
               Terms and Conditions
             </Link>
           </div>
-          <p className="text-sm">© 2024 RankdSEO. All rights reserved.</p>
+          <p className="text-sm">© 2026 RankdSEO. All rights reserved.</p>
         </div>
       </footer>
 
