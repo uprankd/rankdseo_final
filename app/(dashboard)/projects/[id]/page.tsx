@@ -221,7 +221,6 @@ const DEMO_PROJECT_DATA: Record<string, any> = {
     id: 'demo-2',
     name: 'E-Commerce Store',
     domain: 'mystore.com',
-    niche: 'E-commerce',
     targetCountry: 'United States',
     targetLanguage: 'English',
     color: '#8b5cf6',
