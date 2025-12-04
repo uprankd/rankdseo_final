@@ -125,8 +125,23 @@ export default function AdminStatisticsPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold">Statistics Dashboard</h1>
-          <p className="text-muted-foreground">Overview of sales, revenue, and membership • Auto-refreshes every 5s</p>
+          <h1 className="text-3xl font-bold flex items-center gap-3">
+            Statistics Dashboard
+            {isFetching && !isRefreshing && (
+              <span className="inline-flex items-center gap-2 text-sm font-normal text-muted-foreground">
+                <RefreshCw className="h-3 w-3 animate-spin" />
+                <span className="text-xs">Updating...</span>
+              </span>
+            )}
+          </h1>
+          <p className="text-muted-foreground">
+            Overview of sales, revenue, and membership • Auto-refreshes every 5s
+            {users.length > 0 && (
+              <span className="ml-2 text-green-600 font-medium">
+                • {users.length} registered user{users.length !== 1 ? 's' : ''}
+              </span>
+            )}
+          </p>
         </div>
         <div className="flex items-center gap-3">
           <Button
