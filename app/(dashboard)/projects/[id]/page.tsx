@@ -47,7 +47,6 @@ const DEMO_PROJECT_DATA: Record<string, any> = {
     id: 'demo-1',
     name: 'TechStartup Website',
     domain: 'techstartup.io',
-    niche: 'Technology',
     targetCountry: 'United States',
     targetLanguage: 'English',
     color: '#3b82f6',
