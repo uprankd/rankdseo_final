@@ -465,7 +465,6 @@ const DEMO_PROJECT_DATA: Record<string, any> = {
     id: 'demo-3',
     name: 'Health Blog',
     domain: 'healthblog.net',
-    niche: 'Health & Wellness',
     targetCountry: 'United States',
     targetLanguage: 'English',
     color: '#10b981',
