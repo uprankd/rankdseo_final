@@ -465,7 +465,17 @@ export default function AdminStatisticsPage() {
               <p className="text-sm text-muted-foreground text-center py-4">No orders in this period</p>
             ) : (
               <div className="space-y-3 max-h-[400px] overflow-y-auto">
-                {recentOrders.slice(0, 15).map((transaction) => (
+                {recentOrders.slice(0, 15).map((transaction) => {
+                  // Debug: Log transaction data to console
+                  if (typeof window !== 'undefined') {
+                    console.log('Transaction:', {
+                      id: transaction.id,
+                      couponCode: (transaction as any).couponCode,
+                      metadata: transaction.metadata,
+                      user: transaction.user?.email
+                    });
+                  }
+                  return (
                   <div key={transaction.id} className="flex items-center justify-between border-b pb-3 last:border-0">
                     <div className="flex items-center gap-3">
                       <div className="h-10 w-10 rounded-full bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center text-white font-bold shrink-0">
