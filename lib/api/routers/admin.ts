@@ -580,6 +580,15 @@ export const adminRouter = router({
                 plan: true,
               },
             },
+            couponUsages: {
+              include: {
+                coupon: true,
+              },
+              orderBy: {
+                usedAt: 'desc',
+              },
+              take: 1, // Get most recent coupon usage
+            },
           },
         },
       },
@@ -589,6 +598,24 @@ export const adminRouter = router({
       take: 100, // Get last 100 transactions
     });
 
-    return { transactions };
+    // Enrich transactions with coupon information from metadata or usage
+    const enrichedTransactions = transactions.map(transaction => {
+      // Check if coupon code is in metadata (from Stripe checkout)
+      const couponCode = transaction.metadata && 
+        typeof transaction.metadata === 'object' && 
+        'couponCode' in transaction.metadata 
+        ? (transaction.metadata as any).couponCode 
+        : null;
+      
+      // If not in metadata, check recent coupon usage for this user
+      const recentCouponUsage = transaction.user?.couponUsages?.[0];
+      
+      return {
+        ...transaction,
+        couponCode: couponCode || recentCouponUsage?.coupon?.code || null,
+      };
+    });
+
+    return { transactions: enrichedTransactions };
   }),
 });
