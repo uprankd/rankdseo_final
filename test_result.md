@@ -665,9 +665,21 @@ cacheTime: 0,                 // No caching
 - Responsive layout with proper overflow handling
 - Consistent styling with the rest of the dashboard
 
+**Additional Features Added**:
+- ✅ **Visual "Updating..." indicator** - Shows spinning icon during background refresh
+- ✅ **Registered users count** - Header displays total count (e.g., "• 25 registered users")
+- ✅ **Real-time user lists** - All four categories update automatically
+- ✅ **Manual refresh button** - On-demand refresh with loading state
+
+**Files Modified**:
+1. `/app/lib/api/providers.tsx` - Updated QueryClient configuration with aggressive refetch settings
+2. `/app/app/(dashboard)/admin/statistics/page.tsx` - Added visual indicators and user count display
+
 ## Action Items
 - ✅ **Backend payment integration testing completed successfully**
 - ✅ **All critical payment flow functionality verified**
 - ✅ **Database operations working correctly**
 - ✅ **Error handling implemented properly**
 - ✅ **Statistics Dashboard User Lists - Implemented and Verified**
+- ✅ **Real-Time Auto-Refresh - FULLY WORKING (5-second intervals)**
+- ✅ **Global QueryClient caching disabled for live data**
