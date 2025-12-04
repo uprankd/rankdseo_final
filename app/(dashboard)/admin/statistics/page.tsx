@@ -442,28 +442,31 @@ export default function AdminStatisticsPage() {
               <p className="text-sm text-muted-foreground text-center py-4">No orders in this period</p>
             ) : (
               <div className="space-y-3 max-h-[400px] overflow-y-auto">
-                {recentOrders.slice(0, 15).map((user) => (
-                  <div key={user.id} className="flex items-center justify-between border-b pb-3 last:border-0">
+                {recentOrders.slice(0, 15).map((transaction) => (
+                  <div key={transaction.id} className="flex items-center justify-between border-b pb-3 last:border-0">
                     <div className="flex items-center gap-3">
                       <div className="h-10 w-10 rounded-full bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center text-white font-bold shrink-0">
-                        {user.name?.charAt(0).toUpperCase() || 'U'}
+                        {transaction.user?.name?.charAt(0).toUpperCase() || 'U'}
                       </div>
                       <div className="min-w-0">
-                        <p className="font-semibold truncate">{user.name || 'Unknown User'}</p>
-                        <p className="text-xs text-muted-foreground truncate">{user.email}</p>
+                        <p className="font-semibold truncate">{transaction.user?.name || 'Unknown User'}</p>
+                        <p className="text-xs text-muted-foreground truncate">{transaction.user?.email}</p>
                         <p className="text-xs text-blue-600 font-medium truncate">
-                          {user.subscription?.plan?.name || 'Unknown Plan'}
+                          {transaction.user?.subscription?.plan?.name || 'Unknown Plan'}
                         </p>
+                        {transaction.metadata && (transaction.metadata as any).source === 'admin_update' && (
+                          <p className="text-xs text-orange-600 font-medium">
+                            Updated by admin
+                          </p>
+                        )}
                       </div>
                     </div>
                     <div className="text-right shrink-0 ml-2">
                       <p className="font-bold text-green-600 whitespace-nowrap">
-                        ${user.subscription?.plan?.price 
-                          ? (user.subscription.plan.price / 100).toFixed(2) 
-                          : '0.00'}
+                        ${transaction.amount.toFixed(2)}
                       </p>
                       <p className="text-xs text-muted-foreground whitespace-nowrap">
-                        {new Date(user.createdAt).toLocaleDateString()}
+                        {new Date(transaction.createdAt).toLocaleDateString()}
                       </p>
                     </div>
                   </div>
