@@ -227,10 +227,10 @@ export default function AdminStatisticsPage() {
               <div className="flex items-center justify-between">
                 <div>
                   <div className="text-3xl font-bold">
-                    ${currentStats.revenue.toLocaleString()}
+                    ${totalStats.totalRevenue.toFixed(2)}
                   </div>
                   <p className="text-xs text-muted-foreground mt-1">
-                    {timeRange === 'today' ? 'today' : `this ${timeRange}`}
+                    all time • {totalStats.allTransactions} orders
                   </p>
                 </div>
                 <div className="h-12 w-12 rounded-full bg-green-100 flex items-center justify-center">
@@ -238,9 +238,12 @@ export default function AdminStatisticsPage() {
                 </div>
               </div>
               <div className="mt-3 flex items-center text-xs">
-                <ArrowUpRight className="h-3 w-3 text-green-600 mr-1" />
-                <span className="text-green-600 font-medium">+18.2%</span>
-                <span className="text-muted-foreground ml-2">vs previous period</span>
+                <span className="text-blue-600 font-medium">
+                  ${currentStats.revenue.toFixed(2)}
+                </span>
+                <span className="text-muted-foreground ml-2">
+                  {timeRange === 'today' ? 'today' : `this ${timeRange}`}
+                </span>
               </div>
             </CardContent>
           </Card>
