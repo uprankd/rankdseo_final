@@ -683,6 +683,8 @@ cacheTime: 0,                 // No caching
 - `/app/lib/api/routers/admin.ts` - `listUsers` query was returning raw array instead of `{ users: [] }` object
 - This caused statistics page to show 0 users everywhere
 - Fixed by wrapping return: `return { users };`
+- Updated `/app/app/(dashboard)/admin/users/page.tsx` to handle new return format
+- Changed from `const { data: users }` to `const { data: usersData }` + `const users = usersData?.users || []`
 
 ## Action Items
 - ✅ **Backend payment integration testing completed successfully**
