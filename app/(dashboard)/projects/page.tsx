@@ -125,6 +125,17 @@ export default function ProjectsPage() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Validate required fields
+    if (!formData.name.trim()) {
+      toast.error('Project Name is required');
+      return;
+    }
+    if (!formData.domain.trim()) {
+      toast.error('Domain is required');
+      return;
+    }
+    
     if (editingProject) {
       updateMutation.mutate({ id: editingProject.id, ...formData });
     } else {
