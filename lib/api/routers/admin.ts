@@ -565,4 +565,30 @@ export const adminRouter = router({
         });
       }
     }),
+
+  // Get recent payment transactions (for statistics)
+  getRecentTransactions: adminProcedure.query(async ({ ctx }) => {
+    const transactions = await ctx.prisma.paymentTransaction.findMany({
+      where: {
+        status: 'SUCCEEDED',
+      },
+      include: {
+        user: {
+          include: {
+            subscription: {
+              include: {
+                plan: true,
+              },
+            },
+          },
+        },
+      },
+      orderBy: {
+        createdAt: 'desc',
+      },
+      take: 100, // Get last 100 transactions
+    });
+
+    return { transactions };
+  }),
 });
