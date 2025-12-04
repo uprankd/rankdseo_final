@@ -132,7 +132,6 @@ export default function EditProjectPage() {
     setFormData({
       name: project.name,
       domain: project.domain || '',
-      niche: project.niche || '',
       description: project.description || '',
     });
   }
