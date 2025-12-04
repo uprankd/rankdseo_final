@@ -124,7 +124,6 @@ export default function EditProjectPage() {
   const [formData, setFormData] = useState({
     name: '',
     domain: '',
-    niche: '',
     description: '',
   });
 
