@@ -1086,7 +1086,7 @@ export default function ProjectDetailPage() {
 
                           {/* Notes Input */}
                           <div className="flex items-start gap-3">
-                            <Label className="text-sm font-semibold w-20 pt-2">Notes:</Label>
+                            <Label className="text-sm font-semibold w-20 pt-2">Internal notes:</Label>
                             <div className="flex-1 flex gap-2">
                               <Textarea
                                 placeholder="Add notes about progress, issues, or next steps..."
