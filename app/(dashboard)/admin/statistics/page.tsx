@@ -78,23 +78,16 @@ export default function AdminStatisticsPage() {
     .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
     .slice(0, 10);
 
-  // Mock data for sales/revenue (you can replace with actual payment data)
-  const stats = {
-    today: { sales: 12, revenue: 2450 },
-    week: { sales: 48, revenue: 9800 },
-    month: { sales: 187, revenue: 38500 },
-    year: { sales: 2048, revenue: 425000 },
+  // Calculate real stats based on filtered data
+  const currentStats = {
+    sales: recentOrders.length,
+    revenue: recentOrders.reduce((sum, u) => sum + (u.subscription?.plan?.price || 0), 0),
   };
 
-  const membershipStats = {
-    today: { signups: 5, cancellations: 1 },
-    week: { signups: 23, cancellations: 4 },
-    month: { signups: 89, cancellations: 12 },
-    year: { signups: 856, cancellations: 143 },
+  const currentMembership = {
+    signups: newSignups.length,
+    cancellations: cancelledUsers.length,
   };
-
-  const currentStats = stats[timeRange];
-  const currentMembership = membershipStats[timeRange];
 
   return (
     <div className="space-y-6">
