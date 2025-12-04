@@ -511,7 +511,8 @@ export default function AdminStatisticsPage() {
                       </p>
                     </div>
                   </div>
-                ))}
+                  );
+                })}
               </div>
             )}
           </CardContent>
