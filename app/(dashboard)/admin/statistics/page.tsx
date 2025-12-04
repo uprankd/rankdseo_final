@@ -35,7 +35,7 @@ export default function AdminStatisticsPage() {
   const { toast } = useToast();
 
   // Fetch statistics data with aggressive refresh settings
-  const { data: usersData, refetch } = trpc.admin.listUsers.useQuery(undefined, {
+  const { data: usersData, refetch, isLoading, isFetching } = trpc.admin.listUsers.useQuery(undefined, {
     refetchInterval: 5000, // Auto-refresh every 5 seconds for real-time updates
     refetchOnWindowFocus: true, // Refresh when window regains focus
     refetchOnMount: true, // Always refetch when component mounts
