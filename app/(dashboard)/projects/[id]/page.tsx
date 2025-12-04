@@ -805,11 +805,6 @@ export default function ProjectDetailPage() {
                     {projectData.domain}
                   </span>
                 )}
-                {projectData.niche && (
-                  <Badge className="bg-gradient-to-r from-navy-500 to-sky-500 text-white border-0">
-                    {projectData.niche}
-                  </Badge>
-                )}
                 {isDemoProject && (
                   <Badge variant="secondary" className="bg-yellow-100 text-yellow-700 border-2 border-yellow-300 font-semibold">
                     Demo Project
