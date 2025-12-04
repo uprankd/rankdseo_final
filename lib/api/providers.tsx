@@ -7,7 +7,24 @@ import { trpc } from './client';
 import superjson from 'superjson';
 
 export function TRPCProvider({ children }: { children: React.ReactNode }) {
-  const [queryClient] = useState(() => new QueryClient());
+  const [queryClient] = useState(
+    () =>
+      new QueryClient({
+        defaultOptions: {
+          queries: {
+            // Disable caching for real-time updates
+            staleTime: 0,
+            cacheTime: 1000 * 10, // Keep in cache for 10 seconds only
+            refetchOnWindowFocus: true,
+            refetchOnMount: true,
+            refetchOnReconnect: true,
+            // Retry failed queries
+            retry: 1,
+          },
+        },
+      })
+  );
+  
   const [trpcClient] = useState(() =>
     trpc.createClient({
       links: [
