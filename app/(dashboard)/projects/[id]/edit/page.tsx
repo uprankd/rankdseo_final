@@ -247,16 +247,6 @@ export default function EditProjectPage() {
             </div>
           </div>
           <div>
-            <Label htmlFor="niche" className="font-semibold">Niche</Label>
-            <Input
-              id="niche"
-              value={formData.niche}
-              onChange={(e) => setFormData({ ...formData, niche: e.target.value })}
-              className="border-2 h-11"
-              placeholder="Technology, Health, Finance..."
-            />
-          </div>
-          <div>
             <Label htmlFor="description" className="font-semibold">Description</Label>
             <Textarea
               id="description"
