@@ -161,6 +161,88 @@ export default function AdminStatisticsPage() {
     allActiveUsers: users.filter(u => u.subscription?.status === 'ACTIVE').length,
   };
 
+  // Prepare chart data
+  const chartData = useMemo(() => {
+    // 1. Revenue Over Time (last 7 days/weeks/months)
+    const revenueByPeriod: { [key: string]: number } = {};
+    transactions.forEach(t => {
+      const date = new Date(t.createdAt);
+      let key = '';
+      if (timeRange === 'today' || timeRange === 'week') {
+        key = date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+      } else if (timeRange === 'month') {
+        key = date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+      } else {
+        key = date.toLocaleDateString('en-US', { month: 'short', year: '2-digit' });
+      }
+      revenueByPeriod[key] = (revenueByPeriod[key] || 0) + t.amount;
+    });
+
+    const revenueData = Object.entries(revenueByPeriod)
+      .map(([date, revenue]) => ({ date, revenue: Number(revenue.toFixed(2)) }))
+      .slice(-10); // Last 10 periods
+
+    // 2. Sales by Plan
+    const salesByPlan: { [key: string]: number } = {};
+    transactions.forEach(t => {
+      const planName = t.user?.subscription?.plan?.name || 'Unknown';
+      salesByPlan[planName] = (salesByPlan[planName] || 0) + 1;
+    });
+
+    const planData = Object.entries(salesByPlan).map(([name, value]) => ({
+      name,
+      value,
+      percentage: ((value / transactions.length) * 100).toFixed(1)
+    }));
+
+    // 3. User Growth Over Time
+    const usersByPeriod: { [key: string]: number } = {};
+    users.forEach(u => {
+      const date = new Date(u.createdAt);
+      let key = '';
+      if (timeRange === 'today' || timeRange === 'week') {
+        key = date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+      } else if (timeRange === 'month') {
+        key = date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+      } else {
+        key = date.toLocaleDateString('en-US', { month: 'short', year: '2-digit' });
+      }
+      usersByPeriod[key] = (usersByPeriod[key] || 0) + 1;
+    });
+
+    const userGrowthData = Object.entries(usersByPeriod)
+      .map(([date, users]) => ({ date, users }))
+      .slice(-10);
+
+    // 4. Subscription Status Distribution
+    const statusData = [
+      { name: 'Active', value: users.filter(u => u.subscription?.status === 'ACTIVE').length, color: '#10b981' },
+      { name: 'Canceled', value: users.filter(u => u.subscription?.status === 'CANCELED').length, color: '#ef4444' },
+      { name: 'Pending', value: users.filter(u => u.accountStatus === 'PENDING').length, color: '#f59e0b' },
+      { name: 'No Subscription', value: users.filter(u => !u.subscription).length, color: '#6b7280' },
+    ].filter(item => item.value > 0);
+
+    // 5. Revenue by Plan
+    const revenueByPlan: { [key: string]: number } = {};
+    transactions.forEach(t => {
+      const planName = t.user?.subscription?.plan?.name || 'Unknown';
+      revenueByPlan[planName] = (revenueByPlan[planName] || 0) + t.amount;
+    });
+
+    const planRevenueData = Object.entries(revenueByPlan).map(([name, revenue]) => ({
+      name,
+      revenue: Number(revenue.toFixed(2))
+    }));
+
+    return {
+      revenueData,
+      planData,
+      userGrowthData,
+      statusData,
+      planRevenueData
+    };
+  }, [transactions, users, timeRange]);
+
   return (
     <div className="space-y-6">
       {/* Header */}
