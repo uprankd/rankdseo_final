@@ -44,6 +44,16 @@ export default function AdminStatisticsPage() {
   });
   const users = usersData?.users || [];
 
+  // Fetch payment transactions for Recent Orders
+  const { data: transactionsData } = trpc.admin.getRecentTransactions.useQuery(undefined, {
+    refetchInterval: 5000,
+    refetchOnWindowFocus: true,
+    refetchOnMount: true,
+    staleTime: 0,
+    cacheTime: 0,
+  });
+  const transactions = transactionsData?.transactions || [];
+
   // Manual refresh handler
   const handleRefresh = async () => {
     setIsRefreshing(true);
