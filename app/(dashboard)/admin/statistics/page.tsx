@@ -120,10 +120,10 @@ export default function AdminStatisticsPage() {
     .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
     .slice(0, 10);
 
-  // Calculate real stats based on filtered data
+  // Calculate real stats based on filtered transactions
   const currentStats = {
     sales: recentOrders.length,
-    revenue: recentOrders.reduce((sum, u) => sum + (u.subscription?.plan?.price || 0), 0),
+    revenue: recentOrders.reduce((sum, t) => sum + t.amount, 0),
   };
 
   const currentMembership = {
