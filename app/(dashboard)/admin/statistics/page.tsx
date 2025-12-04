@@ -370,11 +370,19 @@ export default function AdminStatisticsPage() {
               <UserPlus className="h-5 w-5 text-green-600" />
               New Signups
             </CardTitle>
-            <CardDescription>Users who recently joined ({newSignups.length} total)</CardDescription>
+            <CardDescription>
+              Users who joined in selected period ({newSignups.length} {timeRange === 'today' ? 'today' : `this ${timeRange}`})
+              {users.length > 0 && (
+                <span className="ml-2 text-blue-600">• Total: {users.length} users</span>
+              )}
+            </CardDescription>
           </CardHeader>
           <CardContent>
             {newSignups.length === 0 ? (
-              <p className="text-sm text-muted-foreground text-center py-4">No new signups in this period</p>
+              <div className="text-sm text-center py-4">
+                <p className="text-muted-foreground mb-2">No new signups in this period</p>
+                <p className="text-xs text-blue-600">Try changing the time range filter above</p>
+              </div>
             ) : (
               <div className="space-y-3 max-h-[400px] overflow-y-auto">
                 {newSignups.slice(0, 15).map((user) => (
