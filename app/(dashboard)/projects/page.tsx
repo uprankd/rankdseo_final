@@ -137,7 +137,6 @@ export default function ProjectsPage() {
     setFormData({
       name: project.name,
       domain: project.domain || '',
-      niche: project.niche || '',
       description: project.description || '',
     });
     setIsDialogOpen(true);
