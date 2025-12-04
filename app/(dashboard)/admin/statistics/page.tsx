@@ -495,7 +495,7 @@ export default function AdminStatisticsPage() {
               <Users className="h-5 w-5 text-purple-600" />
               Recent Members
             </CardTitle>
-            <CardDescription>Most recent active members ({recentMembers.length} total)</CardDescription>
+            <CardDescription>All registered members ({recentMembers.length} total)</CardDescription>
           </CardHeader>
           <CardContent>
             {recentMembers.length === 0 ? (
