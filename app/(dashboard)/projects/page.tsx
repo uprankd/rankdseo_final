@@ -216,12 +216,13 @@ export default function ProjectsPage() {
                 />
               </div>
               <div>
-                <Label htmlFor="domain" className="text-sm font-medium">Domain</Label>
+                <Label htmlFor="domain" className="text-sm font-medium">Domain *</Label>
                 <Input
                   id="domain"
                   placeholder="example.com"
                   value={formData.domain}
                   onChange={(e) => setFormData({ ...formData, domain: e.target.value })}
+                  required
                   className="mt-1"
                 />
               </div>
