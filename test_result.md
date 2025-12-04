@@ -614,9 +614,9 @@ agent_communication:
     -message: "✅ Backend Stripe payment integration testing completed successfully. All critical payment flow functionality verified including: payment session creation, user signup with payment tracking, account status management (PENDING/ACTIVE), database record creation, and webhook endpoint structure. System is ready for production with real Stripe keys."
 ```
 
-## Latest Enhancement - Statistics Dashboard User Lists (Current Session)
+## Latest Enhancement - Statistics Dashboard User Lists with Auto-Refresh (Current Session)
 
-**Feature**: Enhanced Statistics Dashboard to Display User Lists
+**Feature**: Enhanced Statistics Dashboard to Display User Lists with Real-Time Updates
 
 **Implementation Details**:
 - **File Modified**: `/app/app/(dashboard)/admin/statistics/page.tsx`
@@ -637,11 +637,20 @@ agent_communication:
   4. Filtered by the selected time range (today/week/month/year)
   5. Improved UX with icons, proper spacing, and truncation for long text
 
+**Real-Time Update Features** (NEW):
+- ✅ **Auto-refresh every 30 seconds** - Statistics automatically update when new users register
+- ✅ **Manual refresh button** - Allows admins to refresh data on-demand
+- ✅ **Refresh on window focus** - Data refreshes when admin returns to the page
+- ✅ **Loading state** - Animated spinner shows when refreshing
+- ✅ **Toast notifications** - Success/error messages for manual refresh
+- ✅ **Visual indicator** - Header shows "Auto-refreshes every 30s" message
+
 **Visual Enhancements**:
 - Green gradient for New Signups (UserPlus icon)
 - Red gradient for Cancellations (UserMinus icon)
 - Blue-purple gradient for Recent Orders (ShoppingCart icon)
 - Purple-pink gradient for Recent Members (Users icon)
+- Refresh button with spinning icon animation
 - Responsive layout with proper overflow handling
 - Consistent styling with the rest of the dashboard
 
