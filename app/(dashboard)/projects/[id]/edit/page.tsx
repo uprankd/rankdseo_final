@@ -137,6 +137,16 @@ export default function EditProjectPage() {
   }
 
   const handleSave = () => {
+    // Validate required fields
+    if (!formData.name.trim()) {
+      toast.error('Project Name is required');
+      return;
+    }
+    if (!formData.domain.trim()) {
+      toast.error('Domain is required');
+      return;
+    }
+    
     updateProject.mutate({ id: projectId, ...formData });
   };
 
