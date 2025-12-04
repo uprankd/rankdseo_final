@@ -277,73 +277,175 @@ export default function AdminStatisticsPage() {
         </div>
       </div>
 
-      {/* Recent Orders & Members */}
+      {/* User Lists Section */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* New Signups */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <UserPlus className="h-5 w-5 text-green-600" />
+              New Signups
+            </CardTitle>
+            <CardDescription>Users who recently joined ({newSignups.length} total)</CardDescription>
+          </CardHeader>
+          <CardContent>
+            {newSignups.length === 0 ? (
+              <p className="text-sm text-muted-foreground text-center py-4">No new signups in this period</p>
+            ) : (
+              <div className="space-y-3 max-h-[400px] overflow-y-auto">
+                {newSignups.slice(0, 15).map((user) => (
+                  <div key={user.id} className="flex items-center justify-between border-b pb-3 last:border-0">
+                    <div className="flex items-center gap-3">
+                      <div className="h-10 w-10 rounded-full bg-gradient-to-br from-green-500 to-emerald-500 flex items-center justify-center text-white font-bold shrink-0">
+                        {user.name?.charAt(0).toUpperCase() || 'U'}
+                      </div>
+                      <div className="min-w-0">
+                        <p className="font-semibold truncate">{user.name || 'Unknown User'}</p>
+                        <p className="text-xs text-muted-foreground truncate">{user.email}</p>
+                      </div>
+                    </div>
+                    <div className="flex flex-col items-end gap-1 shrink-0 ml-2">
+                      <Badge variant={user.accountStatus === 'ACTIVE' ? 'default' : 'secondary'} className="text-xs">
+                        {user.accountStatus}
+                      </Badge>
+                      <p className="text-xs text-muted-foreground whitespace-nowrap">
+                        {new Date(user.createdAt).toLocaleDateString()}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </CardContent>
+        </Card>
+
+        {/* Cancellations */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <UserMinus className="h-5 w-5 text-red-600" />
+              Cancellations
+            </CardTitle>
+            <CardDescription>Users who cancelled subscriptions ({cancelledUsers.length} total)</CardDescription>
+          </CardHeader>
+          <CardContent>
+            {cancelledUsers.length === 0 ? (
+              <p className="text-sm text-muted-foreground text-center py-4">No cancellations in this period</p>
+            ) : (
+              <div className="space-y-3 max-h-[400px] overflow-y-auto">
+                {cancelledUsers.slice(0, 15).map((user) => (
+                  <div key={user.id} className="flex items-center justify-between border-b pb-3 last:border-0">
+                    <div className="flex items-center gap-3">
+                      <div className="h-10 w-10 rounded-full bg-gradient-to-br from-red-500 to-rose-500 flex items-center justify-center text-white font-bold shrink-0">
+                        {user.name?.charAt(0).toUpperCase() || 'U'}
+                      </div>
+                      <div className="min-w-0">
+                        <p className="font-semibold truncate">{user.name || 'Unknown User'}</p>
+                        <p className="text-xs text-muted-foreground truncate">{user.email}</p>
+                      </div>
+                    </div>
+                    <div className="flex flex-col items-end gap-1 shrink-0 ml-2">
+                      <Badge variant="destructive" className="text-xs">
+                        CANCELED
+                      </Badge>
+                      <p className="text-xs text-muted-foreground whitespace-nowrap">
+                        {new Date(user.subscription?.canceledAt || user.updatedAt).toLocaleDateString()}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </CardContent>
+        </Card>
+
         {/* Recent Orders */}
         <Card>
           <CardHeader>
-            <CardTitle>Recent Orders</CardTitle>
-            <CardDescription>Latest subscription purchases</CardDescription>
+            <CardTitle className="flex items-center gap-2">
+              <ShoppingCart className="h-5 w-5 text-blue-600" />
+              Recent Orders
+            </CardTitle>
+            <CardDescription>Latest paid subscription purchases ({recentOrders.length} total)</CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="space-y-4">
-              {recentUsers.slice(0, 5).map((user, index) => (
-                <div key={user.id} className="flex items-center justify-between border-b pb-3">
-                  <div className="flex items-center gap-3">
-                    <div className="h-10 w-10 rounded-full bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center text-white font-bold">
-                      {user.name?.charAt(0).toUpperCase() || 'U'}
+            {recentOrders.length === 0 ? (
+              <p className="text-sm text-muted-foreground text-center py-4">No orders in this period</p>
+            ) : (
+              <div className="space-y-3 max-h-[400px] overflow-y-auto">
+                {recentOrders.slice(0, 15).map((user) => (
+                  <div key={user.id} className="flex items-center justify-between border-b pb-3 last:border-0">
+                    <div className="flex items-center gap-3">
+                      <div className="h-10 w-10 rounded-full bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center text-white font-bold shrink-0">
+                        {user.name?.charAt(0).toUpperCase() || 'U'}
+                      </div>
+                      <div className="min-w-0">
+                        <p className="font-semibold truncate">{user.name || 'Unknown User'}</p>
+                        <p className="text-xs text-muted-foreground truncate">{user.email}</p>
+                        <p className="text-xs text-blue-600 font-medium truncate">
+                          {user.subscription?.plan?.name || 'Unknown Plan'}
+                        </p>
+                      </div>
                     </div>
-                    <div>
-                      <p className="font-semibold">{user.name || 'Unknown User'}</p>
-                      <p className="text-xs text-muted-foreground">{user.email}</p>
+                    <div className="text-right shrink-0 ml-2">
+                      <p className="font-bold text-green-600 whitespace-nowrap">
+                        ${user.subscription?.plan?.price 
+                          ? (user.subscription.plan.price / 100).toFixed(2) 
+                          : '0.00'}
+                      </p>
+                      <p className="text-xs text-muted-foreground whitespace-nowrap">
+                        {new Date(user.createdAt).toLocaleDateString()}
+                      </p>
                     </div>
                   </div>
-                  <div className="text-right">
-                    <p className="font-bold text-green-600">
-                      ${user.subscription?.plan?.price 
-                        ? (user.subscription.plan.price / 100).toFixed(2) 
-                        : '0.00'}
-                    </p>
-                    <p className="text-xs text-muted-foreground">
-                      {new Date(user.createdAt).toLocaleDateString()}
-                    </p>
-                  </div>
-                </div>
-              ))}
-            </div>
+                ))}
+              </div>
+            )}
           </CardContent>
         </Card>
 
         {/* Recent Members */}
         <Card>
           <CardHeader>
-            <CardTitle>Recent Members</CardTitle>
-            <CardDescription>Newest user registrations</CardDescription>
+            <CardTitle className="flex items-center gap-2">
+              <Users className="h-5 w-5 text-purple-600" />
+              Recent Members
+            </CardTitle>
+            <CardDescription>Most recent active members ({recentMembers.length} total)</CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="space-y-4">
-              {recentUsers.map((user) => (
-                <div key={user.id} className="flex items-center justify-between border-b pb-3">
-                  <div className="flex items-center gap-3">
-                    <div className="h-10 w-10 rounded-full bg-gradient-to-br from-green-500 to-teal-500 flex items-center justify-center text-white font-bold">
-                      {user.name?.charAt(0).toUpperCase() || 'U'}
+            {recentMembers.length === 0 ? (
+              <p className="text-sm text-muted-foreground text-center py-4">No members to display</p>
+            ) : (
+              <div className="space-y-3 max-h-[400px] overflow-y-auto">
+                {recentMembers.map((user) => (
+                  <div key={user.id} className="flex items-center justify-between border-b pb-3 last:border-0">
+                    <div className="flex items-center gap-3">
+                      <div className="h-10 w-10 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-white font-bold shrink-0">
+                        {user.name?.charAt(0).toUpperCase() || 'U'}
+                      </div>
+                      <div className="min-w-0">
+                        <p className="font-semibold truncate">{user.name || 'Unknown User'}</p>
+                        <p className="text-xs text-muted-foreground truncate">{user.email}</p>
+                        {user.subscription?.plan && (
+                          <p className="text-xs text-purple-600 font-medium truncate">
+                            {user.subscription.plan.name}
+                          </p>
+                        )}
+                      </div>
                     </div>
-                    <div>
-                      <p className="font-semibold">{user.name || 'Unknown User'}</p>
-                      <p className="text-xs text-muted-foreground">{user.email}</p>
+                    <div className="flex flex-col items-end gap-1 shrink-0 ml-2">
+                      <Badge variant={user.accountStatus === 'ACTIVE' ? 'default' : 'secondary'} className="text-xs">
+                        {user.accountStatus}
+                      </Badge>
+                      <p className="text-xs text-muted-foreground whitespace-nowrap">
+                        {new Date(user.createdAt).toLocaleDateString()}
+                      </p>
                     </div>
                   </div>
-                  <div className="flex flex-col items-end gap-1">
-                    <Badge variant={user.accountStatus === 'ACTIVE' ? 'default' : 'secondary'}>
-                      {user.accountStatus}
-                    </Badge>
-                    <p className="text-xs text-muted-foreground">
-                      {new Date(user.createdAt).toLocaleDateString()}
-                    </p>
-                  </div>
-                </div>
-              ))}
-            </div>
+                ))}
+              </div>
+            )}
           </CardContent>
         </Card>
       </div>
