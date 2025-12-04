@@ -637,13 +637,24 @@ agent_communication:
   4. Filtered by the selected time range (today/week/month/year)
   5. Improved UX with icons, proper spacing, and truncation for long text
 
-**Real-Time Update Features** (NEW):
-- ✅ **Auto-refresh every 30 seconds** - Statistics automatically update when new users register
+**Real-Time Update Features** (ENHANCED):
+- ✅ **Auto-refresh every 5 seconds** - Statistics update almost instantly when new users register
+- ✅ **Zero caching** - `cacheTime: 0` and `staleTime: 0` ensures fresh data every time
+- ✅ **Aggressive refetching** - `refetchOnMount: true` ensures data is fresh on page load
 - ✅ **Manual refresh button** - Allows admins to refresh data on-demand
 - ✅ **Refresh on window focus** - Data refreshes when admin returns to the page
 - ✅ **Loading state** - Animated spinner shows when refreshing
 - ✅ **Toast notifications** - Success/error messages for manual refresh
-- ✅ **Visual indicator** - Header shows "Auto-refreshes every 30s" message
+- ✅ **Visual indicator** - Header shows "Auto-refreshes every 5s" message
+
+**Performance Configuration**:
+```typescript
+refetchInterval: 5000,        // Every 5 seconds
+refetchOnWindowFocus: true,   // On window focus
+refetchOnMount: true,         // Always on mount
+staleTime: 0,                 // No stale data
+cacheTime: 0,                 // No caching
+```
 
 **Visual Enhancements**:
 - Green gradient for New Signups (UserPlus icon)
