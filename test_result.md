@@ -673,6 +673,7 @@ cacheTime: 0,                 // No caching
 - ✅ **Admin plan changes tracked** - When admin changes user's plan, it appears in Recent Orders
 - ✅ **PaymentTransaction created** - Admin plan changes create transaction records automatically
 - ✅ **"Updated by admin" label** - Recent Orders shows which transactions were admin-initiated
+- ✅ **Coupon code display** - Recent Orders shows which coupon code was used (if any) with ticket emoji 🎟️
 
 **Files Modified**:
 1. `/app/lib/api/providers.tsx` - Updated QueryClient configuration with aggressive refetch settings
