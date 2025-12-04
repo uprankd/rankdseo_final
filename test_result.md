@@ -676,8 +676,13 @@ cacheTime: 0,                 // No caching
 
 **Files Modified**:
 1. `/app/lib/api/providers.tsx` - Updated QueryClient configuration with aggressive refetch settings
-2. `/app/app/(dashboard)/admin/statistics/page.tsx` - Added visual indicators, user count display, and transaction-based Recent Orders
-3. `/app/lib/api/routers/admin.ts` - Added PaymentTransaction creation on plan updates and new getRecentTransactions query
+2. `/app/app/(dashboard)/admin/statistics/page.tsx` - Added visual indicators, user count display, transaction-based Recent Orders, and improved time filters
+3. `/app/lib/api/routers/admin.ts` - Added PaymentTransaction creation on plan updates, new getRecentTransactions query, and **FIXED listUsers return format**
+
+**Critical Bug Fixed**:
+- `/app/lib/api/routers/admin.ts` - `listUsers` query was returning raw array instead of `{ users: [] }` object
+- This caused statistics page to show 0 users everywhere
+- Fixed by wrapping return: `return { users };`
 
 ## Action Items
 - ✅ **Backend payment integration testing completed successfully**
