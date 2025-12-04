@@ -83,14 +83,17 @@ export default function AdminStatisticsPage() {
   const filterByTimeRange = (date: string) => {
     const userDate = new Date(date);
     const now = new Date();
-    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-    const weekAgo = new Date(today.getTime() - 7 * 24 * 60 * 60 * 1000);
-    const monthAgo = new Date(today.getTime() - 30 * 24 * 60 * 60 * 1000);
-    const yearAgo = new Date(today.getTime() - 365 * 24 * 60 * 60 * 1000);
+    
+    // Set to start of today (00:00:00) in UTC to avoid timezone issues
+    const today = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()));
+    const weekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+    const monthAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
+    const yearAgo = new Date(now.getTime() - 365 * 24 * 60 * 60 * 1000);
 
     switch (timeRange) {
       case 'today':
-        return userDate >= today;
+        // Use a more lenient check - last 24 hours from now
+        return userDate >= new Date(now.getTime() - 24 * 60 * 60 * 1000);
       case 'week':
         return userDate >= weekAgo;
       case 'month':
