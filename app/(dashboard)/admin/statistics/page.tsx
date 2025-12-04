@@ -37,7 +37,46 @@ export default function AdminStatisticsPage() {
   const totalUsers = users.length;
   const activeUsers = users.filter(u => u.subscription?.status === 'ACTIVE').length;
   const pendingUsers = users.filter(u => u.accountStatus === 'PENDING').length;
-  const recentUsers = users.slice(0, 5);
+
+  // Filter users by time range
+  const filterByTimeRange = (date: string) => {
+    const userDate = new Date(date);
+    const now = new Date();
+    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const weekAgo = new Date(today.getTime() - 7 * 24 * 60 * 60 * 1000);
+    const monthAgo = new Date(today.getTime() - 30 * 24 * 60 * 60 * 1000);
+    const yearAgo = new Date(today.getTime() - 365 * 24 * 60 * 60 * 1000);
+
+    switch (timeRange) {
+      case 'today':
+        return userDate >= today;
+      case 'week':
+        return userDate >= weekAgo;
+      case 'month':
+        return userDate >= monthAgo;
+      case 'year':
+        return userDate >= yearAgo;
+      default:
+        return true;
+    }
+  };
+
+  // Get users by category
+  const newSignups = users
+    .filter(u => filterByTimeRange(u.createdAt))
+    .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+
+  const cancelledUsers = users
+    .filter(u => u.subscription?.status === 'CANCELED' && filterByTimeRange(u.subscription.updatedAt || u.updatedAt))
+    .sort((a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime());
+
+  const recentOrders = users
+    .filter(u => u.subscription?.plan && u.subscription.plan.price > 0 && filterByTimeRange(u.createdAt))
+    .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+
+  const recentMembers = users
+    .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+    .slice(0, 10);
 
   // Mock data for sales/revenue (you can replace with actual payment data)
   const stats = {
