@@ -116,9 +116,9 @@ export default function AdminStatisticsPage() {
     .filter(t => filterByTimeRange(t.createdAt))
     .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
 
+  // Show ALL members, sorted by creation date
   const recentMembers = users
-    .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
-    .slice(0, 10);
+    .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
 
   // Calculate stats for the selected time period (for cards)
   const currentStats = {
