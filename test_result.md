@@ -670,10 +670,14 @@ cacheTime: 0,                 // No caching
 - ✅ **Registered users count** - Header displays total count (e.g., "• 25 registered users")
 - ✅ **Real-time user lists** - All four categories update automatically
 - ✅ **Manual refresh button** - On-demand refresh with loading state
+- ✅ **Admin plan changes tracked** - When admin changes user's plan, it appears in Recent Orders
+- ✅ **PaymentTransaction created** - Admin plan changes create transaction records automatically
+- ✅ **"Updated by admin" label** - Recent Orders shows which transactions were admin-initiated
 
 **Files Modified**:
 1. `/app/lib/api/providers.tsx` - Updated QueryClient configuration with aggressive refetch settings
-2. `/app/app/(dashboard)/admin/statistics/page.tsx` - Added visual indicators and user count display
+2. `/app/app/(dashboard)/admin/statistics/page.tsx` - Added visual indicators, user count display, and transaction-based Recent Orders
+3. `/app/lib/api/routers/admin.ts` - Added PaymentTransaction creation on plan updates and new getRecentTransactions query
 
 ## Action Items
 - ✅ **Backend payment integration testing completed successfully**
