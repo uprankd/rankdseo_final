@@ -24,7 +24,8 @@ export default function AdminUsersPage() {
   const [editName, setEditName] = useState('');
   const [editEmail, setEditEmail] = useState('');
   
-  const { data: users, isLoading, refetch } = trpc.admin.listUsers.useQuery();
+  const { data: usersData, isLoading, refetch } = trpc.admin.listUsers.useQuery();
+  const users = usersData?.users || [];
   const { data: plans } = trpc.subscription.listPlans.useQuery();
   const updatePlan = trpc.admin.updateUserPlan.useMutation({
     onSuccess: () => {
