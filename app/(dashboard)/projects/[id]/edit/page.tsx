@@ -236,13 +236,14 @@ export default function EditProjectPage() {
               />
             </div>
             <div>
-              <Label htmlFor="domain" className="font-semibold">Domain</Label>
+              <Label htmlFor="domain" className="font-semibold">Domain *</Label>
               <Input
                 id="domain"
                 value={formData.domain}
                 onChange={(e) => setFormData({ ...formData, domain: e.target.value })}
                 className="border-2 h-11"
                 placeholder="example.com"
+                required
               />
             </div>
           </div>
