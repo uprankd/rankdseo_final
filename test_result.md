@@ -614,8 +614,40 @@ agent_communication:
     -message: "✅ Backend Stripe payment integration testing completed successfully. All critical payment flow functionality verified including: payment session creation, user signup with payment tracking, account status management (PENDING/ACTIVE), database record creation, and webhook endpoint structure. System is ready for production with real Stripe keys."
 ```
 
+## Latest Enhancement - Statistics Dashboard User Lists (Current Session)
+
+**Feature**: Enhanced Statistics Dashboard to Display User Lists
+
+**Implementation Details**:
+- **File Modified**: `/app/app/(dashboard)/admin/statistics/page.tsx`
+- **Changes Made**:
+  1. Added detailed user lists for all four categories:
+     - **New Signups**: Shows users who recently joined with their account status and signup date
+     - **Cancellations**: Displays users who cancelled subscriptions with cancellation dates
+     - **Recent Orders**: Lists users who made paid subscription purchases with plan names and amounts
+     - **Recent Members**: Shows most recent active members with their plan details
+  2. Each list card includes:
+     - Color-coded avatar circles (different gradient for each category)
+     - User name and email
+     - Relevant status badges
+     - Date information (signup, cancellation, or order date)
+     - Plan information for orders and members
+     - Scrollable view (max height 400px) with up to 15 users per category
+  3. Empty state messages for periods with no data
+  4. Filtered by the selected time range (today/week/month/year)
+  5. Improved UX with icons, proper spacing, and truncation for long text
+
+**Visual Enhancements**:
+- Green gradient for New Signups (UserPlus icon)
+- Red gradient for Cancellations (UserMinus icon)
+- Blue-purple gradient for Recent Orders (ShoppingCart icon)
+- Purple-pink gradient for Recent Members (Users icon)
+- Responsive layout with proper overflow handling
+- Consistent styling with the rest of the dashboard
+
 ## Action Items
 - ✅ **Backend payment integration testing completed successfully**
 - ✅ **All critical payment flow functionality verified**
 - ✅ **Database operations working correctly**
 - ✅ **Error handling implemented properly**
+- ✅ **Statistics Dashboard User Lists - Implemented and Verified**
