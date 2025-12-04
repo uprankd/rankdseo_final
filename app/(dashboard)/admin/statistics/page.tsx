@@ -111,8 +111,9 @@ export default function AdminStatisticsPage() {
     .filter(u => u.subscription?.status === 'CANCELED' && filterByTimeRange(u.subscription.updatedAt || u.updatedAt))
     .sort((a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime());
 
-  const recentOrders = users
-    .filter(u => u.subscription?.plan && u.subscription.plan.price > 0 && filterByTimeRange(u.createdAt))
+  // Recent Orders - use payment transactions instead of user creation dates
+  const recentOrders = transactions
+    .filter(t => filterByTimeRange(t.createdAt))
     .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
 
   const recentMembers = users
