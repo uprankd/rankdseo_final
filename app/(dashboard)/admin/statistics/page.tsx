@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { trpc } from '@/lib/api/client';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import {
   Select,
   SelectContent,
@@ -21,17 +22,44 @@ import {
   UserMinus,
   Calendar,
   ArrowUpRight,
-  ArrowDownRight
+  ArrowDownRight,
+  RefreshCw
 } from 'lucide-react';
+import { useToast } from '@/hooks/use-toast';
 
 type TimeRange = 'today' | 'week' | 'month' | 'year';
 
 export default function AdminStatisticsPage() {
   const [timeRange, setTimeRange] = useState<TimeRange>('month');
+  const [isRefreshing, setIsRefreshing] = useState(false);
+  const { toast } = useToast();
 
-  // Fetch statistics data
-  const { data: usersData } = trpc.admin.listUsers.useQuery();
+  // Fetch statistics data with auto-refresh every 30 seconds
+  const { data: usersData, refetch } = trpc.admin.listUsers.useQuery(undefined, {
+    refetchInterval: 30000, // Auto-refresh every 30 seconds
+    refetchOnWindowFocus: true, // Refresh when window regains focus
+  });
   const users = usersData?.users || [];
+
+  // Manual refresh handler
+  const handleRefresh = async () => {
+    setIsRefreshing(true);
+    try {
+      await refetch();
+      toast({
+        title: 'Statistics Updated',
+        description: 'The latest data has been loaded successfully.',
+      });
+    } catch (error) {
+      toast({
+        title: 'Refresh Failed',
+        description: 'Failed to refresh statistics. Please try again.',
+        variant: 'destructive',
+      });
+    } finally {
+      setIsRefreshing(false);
+    }
+  };
 
   // Calculate statistics
   const totalUsers = users.length;
