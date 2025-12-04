@@ -82,7 +82,6 @@ export default function ProjectsPage() {
   const [formData, setFormData] = useState({
     name: '',
     domain: '',
-    niche: '',
     description: '',
   });
 
