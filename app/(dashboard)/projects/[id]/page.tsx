@@ -1134,7 +1134,7 @@ export default function ProjectDetailPage() {
                           {getStatusBadge(opp.status)}
                           {opp.notes && (
                             <p className="text-sm text-gray-700 bg-blue-50 rounded-lg p-3 border-2 border-blue-200">
-                              📝 <span className="font-semibold">Notes:</span> {opp.notes}
+                              📝 <span className="font-semibold">Internal notes:</span> {opp.notes}
                             </p>
                           )}
                           {opp.linkUrl && (
