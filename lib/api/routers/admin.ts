@@ -301,7 +301,7 @@ export const adminRouter = router({
       orderBy: { createdAt: 'desc' },
     });
 
-    return users;
+    return { users };
   }),
 
   updateUserPlan: adminProcedure
