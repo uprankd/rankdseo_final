@@ -312,6 +312,18 @@ export const adminRouter = router({
       })
     )
     .mutation(async ({ ctx, input }) => {
+      // Get the plan details
+      const plan = await ctx.prisma.plan.findUnique({
+        where: { id: input.planId },
+      });
+
+      if (!plan) {
+        throw new TRPCError({
+          code: 'NOT_FOUND',
+          message: 'Plan not found',
+        });
+      }
+
       // Check if user already has a subscription
       const existingSubscription = await ctx.prisma.subscription.findUnique({
         where: { userId: input.userId },
@@ -340,6 +352,35 @@ export const adminRouter = router({
           },
         });
       }
+
+      // Create a PaymentTransaction record for paid plans (for statistics tracking)
+      if (plan.price > 0) {
+        await ctx.prisma.paymentTransaction.create({
+          data: {
+            userId: input.userId,
+            planId: input.planId,
+            amount: plan.price / 100, // Convert cents to dollars
+            currency: 'usd',
+            status: 'SUCCEEDED',
+            sessionId: `admin_plan_change_${Date.now()}_${input.userId}`,
+            metadata: {
+              source: 'admin_update',
+              adminId: ctx.session?.user?.id,
+              adminEmail: ctx.session?.user?.email,
+              planName: plan.name,
+              note: 'Plan updated by admin',
+            },
+          },
+        });
+      }
+
+      // Update user account status to ACTIVE if it was PENDING
+      await ctx.prisma.user.update({
+        where: { id: input.userId },
+        data: {
+          accountStatus: 'ACTIVE',
+        },
+      });
 
       return { success: true };
     }),
