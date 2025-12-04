@@ -482,6 +482,14 @@ export default function AdminStatisticsPage() {
                             Updated by admin
                           </p>
                         )}
+                        {(transaction as any).couponCode && (
+                          <p className="text-xs text-purple-600 font-medium flex items-center gap-1">
+                            <span className="inline-block w-3 h-3 rounded-full bg-purple-100 flex items-center justify-center">
+                              🎟️
+                            </span>
+                            Coupon: {(transaction as any).couponCode}
+                          </p>
+                        )}
                       </div>
                     </div>
                     <div className="text-right shrink-0 ml-2">
