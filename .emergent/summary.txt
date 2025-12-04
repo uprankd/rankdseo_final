@@ -1,94 +1,86 @@
 <analysis>
-The trajectory documents an intensive development cycle on the RankdSEO application, focusing on expanding the Admin User Management panel and enhancing the Opportunities feature set. The work began by implementing a user-requested search/filter on the admin users page. This was followed by a series of rapid feature additions to the same page, driven by user requests: canceling subscriptions, restoring subscriptions, resetting user passwords, and editing user names/emails. Each feature involved creating a backend tRPC procedure in  and adding corresponding UI elements (buttons, dialogs, and state management) to .
+The trajectory documents an extensive, multi-feature development cycle for the RankdSEO application. The work began with a major feature: integrating the Stripe payment system. This involved modifying the database schema, creating backend tRPC procedures and webhook handlers, and updating the signup/signin flow to manage user account status based on payment. A test key was provided by the user, and the integration was debugged and successfully tested.
 
-Subsequently, the focus shifted to the Opportunities pages. Several UI cleanup tasks were performed, removing redundant Progress and Copy URL boxes. A significant effort was made to add more SEO metrics (RD, BL, TF, CF) to the system. This required schema migration, data seeding, and updating multiple frontend pages (, , and admin forms) to display and manage these new metrics. This process introduced several bugs, including data not appearing and forms resetting, which were systematically debugged and fixed.
+Building on this, a comprehensive coupon/discount system was implemented. This included a new database model, an admin management panel for creating/editing coupons (with features like percentage/fixed discounts, plan applicability, and recurring subscription rules), and integration into the checkout flow. This feature was highly iterative, with multiple rounds of user feedback leading to bug fixes (e.g., price calculation for Stripe, missing UI components) and enhancements (e.g., showing plan names, adding recurring options).
 
-The engineer then implemented client-side sorting and range filtering on the main opportunities list. The final major task was an attempt to automate metric fetching using the DataForSEO API. This integration was partially built but ultimately halted because the user's API key lacked the necessary subscription. The feature was left in a state where the Fetch Metrics button is present but non-functional. The very last request was to integrate Stripe for payments during signup.
+Numerous UI/UX improvements were also made based on direct user requests. These included redesigning the signup page layout, adding Privacy and Terms pages, creating a new admin Statistics dashboard, repeatedly updating the site logo and favicon, and making various text and layout adjustments across the application, such as removing the Niche field from project forms. The most recent task was to enhance the newly created Statistics dashboard by populating it with lists of specific users.
 
-The user's primary language is English. The next agent should respond in English.
+The user's primary language is English. The next agent must respond in English.
 </analysis>
-
 <product_requirements>
 The application, RankdSEO, is a SaaS platform for managing backlink acquisition campaigns. The primary goal is to provide users with tools to discover, track, and manage SEO opportunities.
 
-**Core User-Facing Features:**
-*   **Opportunity Discovery:** Users can browse, search, sort, and filter a list of backlink opportunities. The list displays key SEO metrics (DA, DR, RD, BL, TF, CF).
-*   **Project Management:** Users can create projects and add opportunities to them for tracking.
-*   **In-Project View:** A detailed view for each opportunity within a project, featuring a step-by-step tutorial.
+**Implemented Features in this Trajectory:**
 
-**Admin Panel ():**
-A comprehensive Manage Users dashboard for administrators, which includes the ability to:
-*   View a list of all registered users.
-*   Search for users by name or email (case-insensitive).
-*   Change a user's subscription plan.
-*   Cancel an active user subscription.
-*   Restore a canceled user subscription.
-*   Reset any user's password, generating a new temporary password.
-*   Edit a user's name and email address.
-
-**Signup & Onboarding:**
-*   The user registration/signup page now includes a mandatory subscription plan selection step, where users choose their desired plan before creating an account. The next step is to integrate a payment gateway to process the payment for the selected plan.
+*   **Stripe Payment Integration:** Users must select a subscription plan and complete payment via Stripe during signup. Their account is set to  until payment is successful, at which point it becomes .
+*   **Coupon & Discount System:**
+    *   **Admin Management:** Admins can create, view, edit, and delete coupon codes from a dedicated  panel.
+    *   **Coupon Properties:** Coupons can have a percentage or fixed amount discount, an expiration date, max usage limits, and can be applied to all or specific subscription plans. Advanced options include applying discounts to recurring subscriptions for a specified duration (one-time, forever, or a limited number of months).
+    *   **User Application:** Users can apply a valid coupon code on the signup page to receive a discount on their chosen plan.
+*   **Admin Statistics Dashboard:** A new page at  provides an overview of key business metrics, including sales, revenue, and membership stats. The user has requested this be enhanced to show lists of specific users for new signups, cancellations, and recent orders.
+*   **Branding and UI:** The application's logo and favicon were updated multiple times. The signup page was redesigned into a two-column layout. Legal pages (Privacy Policy, Terms & Conditions) were created and linked in the site-wide footer.
 </product_requirements>
-
 <key_technical_concepts>
-- **Framework**: Next.js 14 (App Router)
+- **Framework**: Next.js (App Router)
 - **API**: tRPC for type-safe client-server communication.
-- **Database**: PostgreSQL with Prisma ORM for data modeling, migration, and seeding.
-- **Authentication**: NextAuth.js v5 (Auth.js) for user sessions and role-based access control.
+- **Database**: PostgreSQL with Prisma ORM.
+- **Authentication**: NextAuth.js, modified to block login for users with  account status.
+- **Payments**: Stripe integration for checkout sessions and webhook handling for payment confirmation.
 - **Styling**: Tailwind CSS with shadcn/ui components.
-- **State Management**: React state (, ) and server state (, ).
-- **External Integration**: DataForSEO API for fetching SEO metrics (partially implemented, on hold). Stripe for payments (pending).
+- **State Management**: React client-side state () and server state via tRPC hooks.
 </key_technical_concepts>
-
 <code_architecture>
-The application uses a standard Next.js App Router structure. Data logic is encapsulated in tRPC routers, which are consumed by client components.
+The application follows a standard Next.js App Router structure, with tRPC handling the API layer and Prisma managing database interactions.
 
 
-- ****
-  - **Importance**: This is the frontend for the entire User Management feature. It's a complex client component that handles displaying all users, searching, and managing state for multiple dialogs (edit user, reset password).
-  - **Changes**: This file was created and heavily modified. It now includes tRPC mutations for updating, canceling, restoring, and resetting user passwords/details. State management () was added for search queries and to control the visibility and data of various dialog modals.
 
 - ****
-  - **Importance**: This tRPC router contains all backend procedures for admin functionality.
-  - **Changes**: It was significantly expanded to support the User Management page. New procedures were added: , , , , and . The  and  procedures were also updated to include the new SEO metric fields.
+  - **Importance**: Defines the entire database structure.
+  - **Changes**: Heavily modified to support payments and coupons. Added  enum to the  model. Created new models: , , and . The  model was later enhanced with fields for recurring subscriptions (, , ).
 
 - ****
-  - **Importance**: Displays the main list of all backlink opportunities for users to browse.
-  - **Changes**: Functionality was added to display the new SEO metrics (RD, BL, TF, CF). Client-side logic using  and  was implemented to add a search input, a Sort By dropdown for all metrics, and a set of range filters for each metric.
+  - **Importance**: Contains the core backend logic for creating Stripe checkout sessions.
+  - **Changes**: Created to handle the  tRPC mutation. It validates the selected plan, applies coupon discounts (including a bug fix to round the final price to an integer for Stripe's API), and creates a Stripe Checkout Session with appropriate metadata (userId, planId, couponCode).
 
 - ****
-  - **Importance**: Defines the database schema for all models (User, Plan, Opportunity, etc.).
-  - **Changes**: The  model was migrated to include new optional Float fields for , , , and . The  model already had fields to support cancellation.
+  - **Importance**: Handles incoming webhooks from Stripe to confirm payment success.
+  - **Changes**: Created to listen for  events. Upon successful payment, it updates the corresponding  account status to , creates a , and records any .
 
 - ****
-  - **Importance**: The user registration page.
-  - **Changes**: The page was updated to fetch and display subscription plans using a new public tRPC query (). It now includes UI for users to select a plan, and the  is passed to the  mutation.
+  - **Importance**: The user registration page, which now includes plan selection and payment.
+  - **Changes**: Rewritten to have a two-column layout. It fetches subscription plans, includes an input for applying coupon codes, and calls the  mutation. Upon a successful response, it redirects the user to the Stripe checkout page.
 
 - ****
-  - **Importance**: Handles subscription-related backend logic.
-  - **Changes**: A new  procedure was added to allow unauthenticated users on the signup page to view available subscription plans.
+  - **Importance**: The admin UI for managing all aspects of the coupon system.
+  - **Changes**: Created from scratch. It provides a full CRUD interface for coupons, including a dialog form with fields for code, discount type/value, expiration, usage limits, plan applicability, and recurring subscription settings. It uses various tRPC mutations from the  router.
 
 - ****
-  - **Importance**: A new utility file created to house the client logic for making requests to the DataForSEO API.
-  - **Changes**: This file was created to abstract the API call logic. It was later modified during debugging from TypeScript to plain JavaScript to resolve build errors.
+  - **Importance**: A new dashboard for admins to view business metrics.
+  - **Changes**: Newly created page to display stats like total revenue, active members, and new signups. The last request was to enhance this page to show lists of specific users in each category.
+
+- ****
+  - **Importance**: The main layout for the authenticated user dashboard, containing the sidebar navigation.
+  - **Changes**: Modified to add navigation links for the new admin pages: Coupons and Statistics.
+
+- ****
+  - **Importance**: The public-facing landing page.
+  - **Changes**: The footer was modified to add links to the new Privacy Policy and Terms and Conditions pages, and the copyright year was updated. The logo in the header and footer was also updated.
 </code_architecture>
-
 <pending_tasks>
-- **Implement Stripe Payment System**: Integrate Stripe to handle payments after a user selects a subscription plan during signup. The user's profile should only become active after a successful payment.
-- **Activate DataForSEO API**: The DataForSEO integration is on hold. The Fetch Metrics button is present but non-functional until the user activates the Backlinks API subscription on their DataForSEO account.
+- **SEOBot AI Integration**: The user expressed interest in integrating  to automate opportunity population and tutorial creation. This needs further scoping and implementation.
 </pending_tasks>
-
 <current_work>
-The immediate last task was to begin the integration of the Stripe payment system. This was a direct request from the user to process payments for the subscription plans selected during the new signup flow.
+The most recent task was the creation and enhancement of the admin Statistics dashboard.
 
-**Actions Taken:**
-1.  **User Request Received**: The user asked to add stripe payment system that after profile creation he can pay for selected membership purchase only after that make profile active.
-2.  **Integration Playbook**: The AI engineer invoked the  agent to get a detailed guide for integrating Stripe with Next.js.
-3.  **API Key Confirmation**: The engineer asked the user for their Stripe API keys. The user responded, use Test keys, explicitly giving permission to proceed with a test environment integration without providing live credentials.
+1.  **Initial Creation**: Per the user's request, a new page was created at . A corresponding Statistics link was added to the admin sidebar in . The initial version of the statistics page included placeholder UI for stats like Sales and Revenue, Membership Stats, Recent Orders, and Recent Members, backed by basic tRPC queries to fetch aggregate data (e.g., counts and sums).
 
-The work concluded at this point, right before any code for the Stripe integration was written. The next step is to begin the implementation based on the playbook and the user's instructions to use test keys.
+2.  **User Enhancement Request**: The user then provided feedback, asking for more detail: add which users have New SIgnups, Cancelleations, Recent Orders, Recent Members - like list of users in proper box.
+
+3.  **Work in Progress**: The AI engineer acknowledged the request and began modifying the statistics page () to implement this. The last action was editing this file to expand the UI and backend logic to fetch and display lists of actual users for each category, instead of just showing numerical counts. The work stopped immediately after the file edit, before any testing or verification of the new user lists.
 </current_work>
-
 <optional_next_step>
-Begin implementing the Stripe payment integration using test keys, as per the user's last request and the provided integration playbook. This will involve setting up environment variables, creating a checkout session, and handling webhooks.
+Continue implementing the user lists on the Statistics page. This involves updating the tRPC procedures to fetch the user data and rendering it in the UI boxes for New Signups, Cancellations, etc.
 </optional_next_step>
+<direct_quotes>
+add which users have New SIgnups, Cancelleations, Recent Orders, Recent Members - like list of users in proper box
+</direct_quotes>

@@ -11,7 +11,7 @@ import time
 from typing import Dict, Any, Optional
 
 # Configuration
-BASE_URL = "https://seorank-manage.preview.emergentagent.com"
+BASE_URL = "https://rankd-seo.preview.emergentagent.com"
 TRPC_URL = f"{BASE_URL}/api/trpc"
 
 # Admin credentials
