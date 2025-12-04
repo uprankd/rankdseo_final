@@ -120,7 +120,7 @@ export default function AdminStatisticsPage() {
     .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
     .slice(0, 10);
 
-  // Calculate real stats based on filtered transactions
+  // Calculate stats for the selected time period (for cards)
   const currentStats = {
     sales: recentOrders.length,
     revenue: recentOrders.reduce((sum, t) => sum + t.amount, 0),
@@ -129,6 +129,14 @@ export default function AdminStatisticsPage() {
   const currentMembership = {
     signups: newSignups.length,
     cancellations: cancelledUsers.length,
+  };
+
+  // Calculate TOTAL stats (all time - for display purposes)
+  const totalStats = {
+    allUsers: users.length,
+    allTransactions: transactions.length,
+    totalRevenue: transactions.reduce((sum, t) => sum + t.amount, 0),
+    allActiveUsers: users.filter(u => u.subscription?.status === 'ACTIVE').length,
   };
 
   return (
