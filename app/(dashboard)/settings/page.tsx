@@ -598,25 +598,6 @@ export default function SettingsPage() {
 
         {/* Account Tab */}
         <TabsContent value="account" className="space-y-6">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Download className="h-5 w-5" />
-                Export Data
-              </CardTitle>
-              <CardDescription>Download all your data in CSV format (projects, opportunities, and links as separate files)</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Button onClick={handleExportData} variant="outline">
-                <Download className="mr-2 h-4 w-4" />
-                Export All Data as CSV
-              </Button>
-              <p className="text-sm text-muted-foreground mt-2">
-                💡 Multiple CSV files will be downloaded - one for each data type
-              </p>
-            </CardContent>
-          </Card>
-
           <Card className="border-red-200">
             <CardHeader>
               <CardTitle className="flex items-center gap-2 text-red-600">
