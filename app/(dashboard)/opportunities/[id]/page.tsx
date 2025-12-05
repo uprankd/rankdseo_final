@@ -558,7 +558,6 @@ export default function OpportunityDetailPage({ params }: { params: { id: string
                         src={instruction.screenshotUrl} 
                         alt={`Step ${instruction.stepOrder}: ${instruction.stepTitle}`}
                         className="w-full rounded-xl border-4 border-navy-200 shadow-2xl hover:shadow-3xl transition-shadow cursor-pointer"
-                        onClick={() => window.open(instruction.screenshotUrl, '_blank')}
                       />
                     </div>
                   ) : (
