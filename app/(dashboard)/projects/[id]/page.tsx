@@ -14,6 +14,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { trpc } from '@/lib/api/client';
+import WatermarkedImage from '@/components/WatermarkedImage';
 import {
   ArrowLeft,
   Globe,
