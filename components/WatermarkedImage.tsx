@@ -186,7 +186,7 @@ export default function WatermarkedImage({ src, alt, className, onClick }: Water
         src={watermarkedSrc}
         alt={alt}
         className={className}
-        onClick={onClick}
+        onClick={handleClick}
         style={{ display: isProcessing ? 'none' : 'block' }}
       />
       <canvas ref={canvasRef} style={{ display: 'none' }} />
