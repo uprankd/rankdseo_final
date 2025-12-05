@@ -194,6 +194,83 @@ export default function EditOpportunityPage() {
     }
   };
 
+  const applyWatermark = async (imageDataUrl: string): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      try {
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        if (!ctx) {
+          reject('Canvas not supported');
+          return;
+        }
+
+        const img = new window.Image();
+        img.onload = () => {
+          // Set canvas dimensions
+          canvas.width = img.width;
+          canvas.height = img.height;
+
+          // Draw original image
+          ctx.drawImage(img, 0, 0);
+
+          const watermarkText = 'RankdSEO';
+          const fontSize = Math.min(img.width, img.height) * 0.15;
+          ctx.font = `bold ${fontSize}px Arial`;
+
+          // Measure text
+          const textMetrics = ctx.measureText(watermarkText);
+          const textWidth = textMetrics.width;
+          const textHeight = fontSize;
+          const x = (img.width - textWidth) / 2;
+          const y = (img.height + textHeight) / 2;
+
+          // Add overlay
+          ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
+          ctx.fillRect(0, 0, img.width, img.height);
+
+          // Draw center watermark
+          ctx.strokeStyle = 'rgba(0, 0, 0, 0.4)';
+          ctx.lineWidth = fontSize * 0.05;
+          ctx.strokeText(watermarkText, x, y);
+          ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
+          ctx.fillText(watermarkText, x, y);
+
+          // Helper function for corner watermarks
+          const drawCorner = (x: number, y: number, rotation: number) => {
+            ctx.save();
+            ctx.translate(x, y);
+            ctx.rotate((rotation * Math.PI) / 180);
+            ctx.font = `bold ${fontSize * 0.3}px Arial`;
+            const cornerText = watermarkText;
+            const cornerWidth = ctx.measureText(cornerText).width;
+            
+            ctx.strokeStyle = 'rgba(0, 0, 0, 0.5)';
+            ctx.lineWidth = fontSize * 0.015;
+            ctx.strokeText(cornerText, -cornerWidth / 2, 0);
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.4)';
+            ctx.fillText(cornerText, -cornerWidth / 2, 0);
+            ctx.restore();
+          };
+
+          // Draw corner watermarks
+          drawCorner(img.width * 0.15, img.height * 0.15, -45);
+          drawCorner(img.width * 0.85, img.height * 0.15, 45);
+          drawCorner(img.width * 0.15, img.height * 0.85, 45);
+          drawCorner(img.width * 0.85, img.height * 0.85, -45);
+
+          // Convert to data URL
+          const watermarkedDataUrl = canvas.toDataURL('image/png');
+          resolve(watermarkedDataUrl);
+        };
+
+        img.onerror = () => reject('Failed to load image');
+        img.src = imageDataUrl;
+      } catch (error) {
+        reject(error);
+      }
+    });
+  };
+
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -214,11 +291,22 @@ export default function EditOpportunityPage() {
     try {
       // Convert to base64
       const reader = new FileReader();
-      reader.onloadend = () => {
+      reader.onloadend = async () => {
         const base64String = reader.result as string;
-        setImagePreview(base64String);
-        setNewInstruction({ ...newInstruction, screenshotUrl: base64String });
-        toast.success('Image uploaded successfully!');
+        
+        // Apply watermark
+        try {
+          const watermarkedImage = await applyWatermark(base64String);
+          setImagePreview(watermarkedImage);
+          setNewInstruction({ ...newInstruction, screenshotUrl: watermarkedImage });
+          toast.success('Image uploaded and watermarked successfully!');
+        } catch (error) {
+          console.error('Watermark error:', error);
+          // Fall back to original image if watermarking fails
+          setImagePreview(base64String);
+          setNewInstruction({ ...newInstruction, screenshotUrl: base64String });
+          toast.success('Image uploaded successfully!');
+        }
         setUploadingImage(false);
       };
       reader.onerror = () => {
