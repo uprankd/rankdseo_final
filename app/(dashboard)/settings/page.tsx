@@ -41,7 +41,6 @@ export default function SettingsPage() {
 
   // Queries
   const { data: preferences, refetch: refetchPreferences } = trpc.settings.getPreferences.useQuery();
-  const { data: apiKeys, refetch: refetchApiKeys } = trpc.settings.listApiKeys.useQuery();
   const { data: subscription } = trpc.subscription.getCurrent.useQuery();
   const { data: plans } = trpc.subscription.listPlans.useQuery();
 
