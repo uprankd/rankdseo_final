@@ -361,7 +361,10 @@ export default function OpportunityDetailPage({ params }: { params: { id: string
               <Button
                 size="lg"
                 className="bg-white text-gray-900 hover:bg-gray-100 shadow-xl font-bold text-lg"
-                onClick={() => window.open(opportunity.url, '_blank')}
+                onClick={() => {
+                  const url = opportunity.url.startsWith('http') ? opportunity.url : `https://${opportunity.url}`;
+                  window.open(url, '_blank');
+                }}
               >
                 Visit Website
                 <ExternalLink className="h-5 w-5 ml-2" />
