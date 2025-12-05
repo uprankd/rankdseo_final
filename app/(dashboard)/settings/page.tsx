@@ -145,18 +145,84 @@ export default function SettingsPage() {
     toast.success('API key copied to clipboard');
   };
 
-  const handleExportData = async () => {
-    const { refetch } = exportData;
-    const { data } = await refetch();
+  // Convert object to CSV format
+  const convertToCSV = (data: any, filename: string) => {
+    if (!data || (Array.isArray(data) && data.length === 0)) {
+      return '';
+    }
+
+    const items = Array.isArray(data) ? data : [data];
+    const headers = Object.keys(items[0]);
     
-    if (data) {
-      const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `rankdseo-data-${new Date().toISOString()}.json`;
-      a.click();
-      toast.success('Data exported successfully');
+    // Create header row
+    const csvHeaders = headers.join(',');
+    
+    // Create data rows
+    const csvRows = items.map(item => {
+      return headers.map(header => {
+        const value = item[header];
+        // Handle different data types
+        if (value === null || value === undefined) return '';
+        if (typeof value === 'object') return `"${JSON.stringify(value).replace(/"/g, '""')}"`;
+        if (typeof value === 'string' && value.includes(',')) return `"${value.replace(/"/g, '""')}"`;
+        return value;
+      }).join(',');
+    }).join('\n');
+    
+    return `${csvHeaders}\n${csvRows}`;
+  };
+
+  const handleExportData = async () => {
+    try {
+      toast.info('Preparing your data export...');
+      const { refetch } = exportData;
+      const { data } = await refetch();
+      
+      if (data) {
+        // Create a zip-like structure by exporting multiple CSV files
+        const timestamp = new Date().toISOString().split('T')[0];
+        
+        // Export Projects
+        if (data.projects && data.projects.length > 0) {
+          const projectsCSV = convertToCSV(data.projects, 'projects');
+          const blob = new Blob([projectsCSV], { type: 'text/csv' });
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = `rankdseo-projects-${timestamp}.csv`;
+          a.click();
+          URL.revokeObjectURL(url);
+        }
+        
+        // Export Opportunities
+        if (data.opportunities && data.opportunities.length > 0) {
+          const opportunitiesCSV = convertToCSV(data.opportunities, 'opportunities');
+          const blob = new Blob([opportunitiesCSV], { type: 'text/csv' });
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = `rankdseo-opportunities-${timestamp}.csv`;
+          a.click();
+          URL.revokeObjectURL(url);
+        }
+        
+        // Export Links
+        if (data.links && data.links.length > 0) {
+          const linksCSV = convertToCSV(data.links, 'links');
+          const blob = new Blob([linksCSV], { type: 'text/csv' });
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = `rankdseo-links-${timestamp}.csv`;
+          a.click();
+          URL.revokeObjectURL(url);
+        }
+        
+        toast.success('Data exported successfully as CSV files!');
+      }
+    } catch (error) {
+      toast.error('Failed to export data');
+      console.error('Export error:', error);
     }
   };
 
