@@ -1271,11 +1271,10 @@ function TutorialSection({ opportunityId }: { opportunityId: string }) {
                 {/* Screenshot */}
                 {instruction.screenshotUrl && (
                   <div className="mt-3">
-                    <img 
+                    <WatermarkedImage
                       src={instruction.screenshotUrl} 
                       alt={`Step ${instruction.stepOrder}: ${instruction.stepTitle}`}
                       className="w-full rounded-lg border-2 border-navy-200 shadow-md hover:shadow-xl transition-shadow cursor-pointer"
-                      onClick={() => window.open(instruction.screenshotUrl, '_blank')}
                     />
                   </div>
                 )}
