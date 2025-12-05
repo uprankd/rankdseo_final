@@ -50,6 +50,8 @@ export default function WatermarkedImage({ src, alt, className, onClick }: Water
           </html>
         `);
         newWindow.document.close();
+        // Switch focus to the new tab
+        newWindow.focus();
       }
     }
   };
