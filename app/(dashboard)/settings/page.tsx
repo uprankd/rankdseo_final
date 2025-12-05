@@ -39,9 +39,6 @@ export default function SettingsPage() {
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
 
-  // API Key state
-  const [newKeyName, setNewKeyName] = useState('');
-
   // Queries
   const { data: preferences, refetch: refetchPreferences } = trpc.settings.getPreferences.useQuery();
   const { data: apiKeys, refetch: refetchApiKeys } = trpc.settings.listApiKeys.useQuery();
