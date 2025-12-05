@@ -323,8 +323,8 @@ export default function OpportunityDetailPage({ params }: { params: { id: string
                 <div>
                   <h1 className="text-4xl font-black">{opportunity.siteName}</h1>
                   <div className="flex items-center gap-2 mt-2 text-white/90">
-                    <a href={opportunity.websiteUrl} target="_blank" rel="noopener noreferrer" className="hover:underline">
-                      {opportunity.websiteUrl}
+                    <a href={opportunity.url} target="_blank" rel="noopener noreferrer" className="hover:underline">
+                      {opportunity.url}
                     </a>
                   </div>
                 </div>
