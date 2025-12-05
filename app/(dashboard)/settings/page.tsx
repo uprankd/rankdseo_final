@@ -17,7 +17,6 @@ import {
   Bell, 
   Key, 
   Trash2, 
-  Download, 
   CreditCard, 
   Crown,
   Plus,
