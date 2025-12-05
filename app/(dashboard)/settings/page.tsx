@@ -97,10 +97,6 @@ export default function SettingsPage() {
     },
   });
 
-  const exportData = trpc.settings.exportData.useQuery(undefined, {
-    enabled: false,
-  });
-
   const deleteAccount = trpc.settings.deleteAccount.useMutation({
     onSuccess: async () => {
       toast.success('Account deleted successfully');
