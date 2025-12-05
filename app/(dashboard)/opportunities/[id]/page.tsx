@@ -554,7 +554,7 @@ export default function OpportunityDetailPage({ params }: { params: { id: string
                   {/* Screenshot */}
                   {instruction.screenshotUrl ? (
                     <div className="mt-4">
-                      <img 
+                      <WatermarkedImage
                         src={instruction.screenshotUrl} 
                         alt={`Step ${instruction.stepOrder}: ${instruction.stepTitle}`}
                         className="w-full rounded-xl border-4 border-navy-200 shadow-2xl hover:shadow-3xl transition-shadow cursor-pointer"
