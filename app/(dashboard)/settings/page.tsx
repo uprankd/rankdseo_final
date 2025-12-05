@@ -107,18 +107,7 @@ export default function SettingsPage() {
     changePassword.mutate({ currentPassword, newPassword });
   };
 
-  const handleGenerateApiKey = () => {
-    if (!newKeyName.trim()) {
-      toast.error('Please enter a name for the API key');
-      return;
-    }
-    generateApiKey.mutate({ name: newKeyName });
-  };
-
-  const handleCopyKey = (key: string) => {
-    navigator.clipboard.writeText(key);
-    toast.success('API key copied to clipboard');
-  };
+  // API key handlers removed
 
   const handleDeleteAccount = () => {
     deleteAccount.mutate();
