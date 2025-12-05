@@ -43,7 +43,7 @@ export default function WatermarkedImage({ src, alt, className, onClick }: Water
         ctx.drawImage(img, 0, 0);
 
         // Create watermark text
-        const watermarkText = 'RankdsSEO';
+        const watermarkText = 'RankdSEO';
         
         // Calculate font size based on image dimensions (make it large)
         const fontSize = Math.min(img.width, img.height) * 0.15; // 15% of smallest dimension
@@ -58,18 +58,18 @@ export default function WatermarkedImage({ src, alt, className, onClick }: Water
         const x = (img.width - textWidth) / 2;
         const y = (img.height + textHeight) / 2;
 
-        // Add semi-transparent overlay for better readability
-        ctx.fillStyle = 'rgba(0, 0, 0, 0.2)';
+        // Add semi-transparent overlay for better readability (lighter overlay)
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
         ctx.fillRect(0, 0, img.width, img.height);
 
-        // Draw watermark text with outline
+        // Draw watermark text with outline (more transparent)
         // Outline (stroke)
-        ctx.strokeStyle = 'rgba(0, 0, 0, 0.8)';
+        ctx.strokeStyle = 'rgba(0, 0, 0, 0.4)';
         ctx.lineWidth = fontSize * 0.05;
         ctx.strokeText(watermarkText, x, y);
         
-        // Fill text
-        ctx.fillStyle = 'rgba(255, 255, 255, 0.6)';
+        // Fill text (much more transparent)
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
         ctx.fillText(watermarkText, x, y);
 
         // Add rotated watermarks in corners and center
