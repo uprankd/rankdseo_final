@@ -20,6 +20,7 @@ import {
   FileText
 } from 'lucide-react';
 import { trpc } from '@/lib/api/client';
+import WatermarkedImage from '@/components/WatermarkedImage';
 
 // Fake opportunity data with detailed tutorials
 const OPPORTUNITIES = {
