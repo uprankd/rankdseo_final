@@ -419,93 +419,27 @@ export default function SettingsPage() {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Key className="h-5 w-5" />
-                API Keys
+                API Access
               </CardTitle>
               <CardDescription>
-                {subscription?.plan.allowApiAccess 
-                  ? 'Manage your API keys for programmatic access'
-                  : 'API access is not available on your current plan'
-                }
+                Programmatic access to RankdSEO features
               </CardDescription>
             </CardHeader>
-            <CardContent className="space-y-6">
-              {subscription?.plan.allowApiAccess ? (
-                <>
-                  <div className="flex gap-2">
-                    <Input
-                      placeholder="API Key Name (e.g., Production Key)"
-                      value={newKeyName}
-                      onChange={(e) => setNewKeyName(e.target.value)}
-                    />
-                    <Button 
-                      onClick={handleGenerateApiKey}
-                      disabled={generateApiKey.isPending}
-                      className="bg-gradient-to-r from-navy-500 to-sky-500 hover:from-purple-700 hover:to-sky-600 whitespace-nowrap"
-                    >
-                      {generateApiKey.isPending ? (
-                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                      ) : (
-                        <Plus className="mr-2 h-4 w-4" />
-                      )}
-                      Generate
-                    </Button>
-                  </div>
-
-                  <Separator />
-
-                  <div className="space-y-4">
-                    {apiKeys && apiKeys.length > 0 ? (
-                      apiKeys.map((key) => (
-                        <div key={key.id} className="flex items-center justify-between p-4 border-2 rounded-lg">
-                          <div className="flex-1">
-                            <h4 className="font-semibold">{key.name}</h4>
-                            <div className="flex items-center gap-2 mt-2">
-                              <code className="text-sm bg-gray-100 px-3 py-1 rounded font-mono">
-                                {key.key.substring(0, 20)}...{key.key.substring(key.key.length - 8)}
-                              </code>
-                              <Button
-                                size="sm"
-                                variant="ghost"
-                                onClick={() => handleCopyKey(key.key)}
-                              >
-                                <Copy className="h-4 w-4" />
-                              </Button>
-                            </div>
-                            <p className="text-xs text-gray-600 mt-2">
-                              Created: {new Date(key.createdAt).toLocaleDateString()}
-                              {key.lastUsedAt && ` • Last used: ${new Date(key.lastUsedAt).toLocaleDateString()}`}
-                            </p>
-                          </div>
-                          <Button
-                            variant="destructive"
-                            size="sm"
-                            onClick={() => deleteApiKey.mutate({ id: key.id })}
-                            disabled={deleteApiKey.isPending}
-                          >
-                            {deleteApiKey.isPending ? (
-                              <Loader2 className="h-4 w-4 animate-spin" />
-                            ) : (
-                              <Trash2 className="h-4 w-4" />
-                            )}
-                          </Button>
-                        </div>
-                      ))
-                    ) : (
-                      <p className="text-center text-gray-600 py-8">No API keys generated yet</p>
-                    )}
-                  </div>
-                </>
-              ) : (
-                <div className="text-center py-8">
-                  <p className="text-gray-600 mb-4">Upgrade your plan to get API access</p>
-                  <Button 
-                    onClick={() => setActiveTab('subscription')}
-                    className="bg-gradient-to-r from-navy-500 to-sky-500 hover:from-purple-700 hover:to-sky-600"
-                  >
-                    View Plans
-                  </Button>
+            <CardContent>
+              <div className="flex flex-col items-center justify-center py-16 text-center">
+                <div className="mb-6 rounded-full bg-gradient-to-br from-blue-100 to-purple-100 p-6">
+                  <Key className="h-12 w-12 text-blue-600" />
                 </div>
-              )}
+                <h3 className="text-2xl font-bold mb-3">Coming Soon</h3>
+                <p className="text-gray-600 max-w-md mb-6">
+                  We're working on bringing you powerful API access to integrate RankdSEO into your workflows. 
+                  Stay tuned for updates!
+                </p>
+                <div className="flex items-center gap-2 text-sm text-gray-500">
+                  <span className="inline-block w-2 h-2 bg-blue-500 rounded-full animate-pulse"></span>
+                  <span>In Development</span>
+                </div>
+              </div>
             </CardContent>
           </Card>
         </TabsContent>
