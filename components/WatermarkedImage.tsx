@@ -15,6 +15,45 @@ export default function WatermarkedImage({ src, alt, className, onClick }: Water
   const [isProcessing, setIsProcessing] = useState(true);
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
+  const handleClick = () => {
+    if (onClick) {
+      onClick();
+    } else {
+      // Open watermarked image in new tab
+      const newWindow = window.open();
+      if (newWindow) {
+        newWindow.document.write(`
+          <!DOCTYPE html>
+          <html>
+            <head>
+              <title>${alt}</title>
+              <style>
+                body {
+                  margin: 0;
+                  padding: 20px;
+                  background: #000;
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+                  min-height: 100vh;
+                }
+                img {
+                  max-width: 100%;
+                  max-height: 100vh;
+                  object-fit: contain;
+                }
+              </style>
+            </head>
+            <body>
+              <img src="${watermarkedSrc}" alt="${alt}" />
+            </body>
+          </html>
+        `);
+        newWindow.document.close();
+      }
+    }
+  };
+
   useEffect(() => {
     const addWatermark = async () => {
       try {
