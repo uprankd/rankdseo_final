@@ -75,23 +75,7 @@ export default function SettingsPage() {
     },
   });
 
-  const generateApiKey = trpc.settings.generateApiKey.useMutation({
-    onSuccess: () => {
-      toast.success('API key generated successfully');
-      setNewKeyName('');
-      refetchApiKeys();
-    },
-    onError: (error) => {
-      toast.error(error.message);
-    },
-  });
-
-  const deleteApiKey = trpc.settings.deleteApiKey.useMutation({
-    onSuccess: () => {
-      toast.success('API key deleted');
-      refetchApiKeys();
-    },
-  });
+  // API key mutations removed
 
   const deleteAccount = trpc.settings.deleteAccount.useMutation({
     onSuccess: async () => {
