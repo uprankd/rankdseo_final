@@ -1,86 +1,165 @@
 <analysis>
-The trajectory documents an extensive, multi-feature development cycle for the RankdSEO application. The work began with a major feature: integrating the Stripe payment system. This involved modifying the database schema, creating backend tRPC procedures and webhook handlers, and updating the signup/signin flow to manage user account status based on payment. A test key was provided by the user, and the integration was debugged and successfully tested.
 
-Building on this, a comprehensive coupon/discount system was implemented. This included a new database model, an admin management panel for creating/editing coupons (with features like percentage/fixed discounts, plan applicability, and recurring subscription rules), and integration into the checkout flow. This feature was highly iterative, with multiple rounds of user feedback leading to bug fixes (e.g., price calculation for Stripe, missing UI components) and enhancements (e.g., showing plan names, adding recurring options).
+**original_problem_statement**: The user's initial request was to enhance the admin Statistics dashboard () by displaying lists of users for categories like New Signups, Cancellations, Recent Orders, and Recent Members. This evolved into a series of iterative improvements, bug fixes, and new feature requests across the application, including:
+- Implementing real-time updates and charts for the statistics page.
+- Creating a watermarking system for tutorial images.
+- Adding and fixing numerous filters on the Backlink Opportunities page.
+- Disabling the API Key functionality.
+- Adding an FAQ section to the homepage.
+- Removing the data export feature.
 
-Numerous UI/UX improvements were also made based on direct user requests. These included redesigning the signup page layout, adding Privacy and Terms pages, creating a new admin Statistics dashboard, repeatedly updating the site logo and favicon, and making various text and layout adjustments across the application, such as removing the Niche field from project forms. The most recent task was to enhance the newly created Statistics dashboard by populating it with lists of specific users.
+**User's preferred language**: English
 
-The user's primary language is English. The next agent must respond in English.
-</analysis>
-<product_requirements>
-The application, RankdSEO, is a SaaS platform for managing backlink acquisition campaigns. The primary goal is to provide users with tools to discover, track, and manage SEO opportunities.
+**what currently exists?**: The RankdSEO application is a full-stack Next.js SaaS platform. It uses tRPC for the API layer, Prisma with a PostgreSQL database, and NextAuth for authentication. Key features include Stripe integration for subscriptions, a coupon management system for admins, a project and backlink opportunity management system, and an admin dashboard with statistics and user management. The UI is built with Tailwind CSS and shadcn/ui.
 
-**Implemented Features in this Trajectory:**
+**Last working item**:
+    - Last item agent was working: The agent was about to fix a bug on the Backlink Opportunities page (). The user reported that when all filters are cleared, the page only shows a small subset of opportunities (e.g., 9 out of 50) instead of all available ones. The agent diagnosed that the cause is likely overly restrictive default filter values or improper handling of null values in the client-side filtering logic.
+    - Status: IN PROGRESS
+    - Agent Testing Done: N
+    - Which testing method agent to use? backend testing agent
+    - User Testing Done: N
 
-*   **Stripe Payment Integration:** Users must select a subscription plan and complete payment via Stripe during signup. Their account is set to  until payment is successful, at which point it becomes .
-*   **Coupon & Discount System:**
-    *   **Admin Management:** Admins can create, view, edit, and delete coupon codes from a dedicated  panel.
-    *   **Coupon Properties:** Coupons can have a percentage or fixed amount discount, an expiration date, max usage limits, and can be applied to all or specific subscription plans. Advanced options include applying discounts to recurring subscriptions for a specified duration (one-time, forever, or a limited number of months).
-    *   **User Application:** Users can apply a valid coupon code on the signup page to receive a discount on their chosen plan.
-*   **Admin Statistics Dashboard:** A new page at  provides an overview of key business metrics, including sales, revenue, and membership stats. The user has requested this be enhanced to show lists of specific users for new signups, cancellations, and recent orders.
-*   **Branding and UI:** The application's logo and favicon were updated multiple times. The signup page was redesigned into a two-column layout. Legal pages (Privacy Policy, Terms & Conditions) were created and linked in the site-wide footer.
-</product_requirements>
-<key_technical_concepts>
+**All Pending/In progress Issue list**:
+  - Issue 1: Opportunities page filter doesn't show all items when cleared (P0)
+
+  Issues Detail:
+  - Issue 1:
+     - **Description**: On the  page, when the user clears all filters, the list of opportunities is still filtered, showing only a fraction of the total available items instead of the complete list.
+     - **Attempted fixes**: The agent correctly identified that the issue is likely within the client-side filtering logic, specifically with how initial/default filter values are set or how records with  fields are handled, but no code fix has been implemented yet.
+     - **Next debug checklist**:
+       1.  **Examine Initial State**: In , inspect the  hook for the  object. The initial values for range sliders (e.g., , ) might be set to a narrow range (like ) instead of the widest possible range (e.g., ). Text inputs might default to a non-empty string.
+       2.  **Review Filtering Logic**: Check the  calculation which uses . The logic must be updated to ignore a filter if it is in its cleared or default state. For numeric ranges, if  is , a check like  will evaluate to false, incorrectly filtering it out. The logic should be . A similar permissive check is needed for all filters.
+       3.  **Implement Fix**: Adjust the initial state of the filters to be as permissive as possible (e.g., empty strings for text, full range for sliders). Modify the  conditions to explicitly handle / data and to ignore filters when they are set to their default/cleared values.
+     - **Why fix this issue and what will be achieved with the fix?**: Fixing this will ensure that users can see all available backlink opportunities by default, which is the expected behavior for a filterable list. It restores core functionality and user trust in the filtering system.
+     - **Status**: IN PROGRESS
+     - **Is recurring issue?**: N
+     - **Should Test frontend/backend/both after fix?**: backend
+     - **Blocked on other issue**: None
+
+**In progress Task List**: None
+
+**Upcoming and Future Tasks**
+    Upcoming Tasks:
+    - **Refactor Opportunity Filtering (P1)**: The current filtering logic on  is performed on the client side. This is inefficient and will not scale. The filtering should be moved to the backend tRPC procedure () using Prisma's  clause to filter at the database level.
+    - **Cleanup  tRPC endpoint (P2)**: The frontend UI for data export was removed from , but the corresponding tRPC mutation  might still exist in . This should be removed to clean up dead code.
+
+    Future Tasks:
+    - **SEOBot AI Integration (P2)**: The user expressed interest in integrating  to automate opportunity population. This requires further planning, investigation of the SEOBot AI API, and implementation.
+
+**Completed work in this session**
+- **Admin Statistics Dashboard Revamp**:
+  - Implemented real-time auto-refreshing (every 5 seconds) and fixed tRPC caching issues to ensure live data.
+  - Added user lists for New Signups, Recent Orders, and Recent Members.
+  - Integrated  to display charts for revenue, new users, and plan distribution.
+  - Fixed logic to correctly track admin-initiated plan changes as Recent Orders.
+  - Added all-time stats alongside time-period-filtered stats.
+  - Resolved a critical bug where stats showed '0' due to an incorrect API response format from . This fix was also applied to the Manage Users page, which was suffering from the same regression.
+
+- **Image Watermarking System**:
+  - Created a reusable  React component () that applies a dynamic RankdSEO watermark to images.
+  - Integrated this component into the opportunity details page and the project tutorials view.
+  - Implemented automatic watermarking on the server-side for all new tutorial image uploads.
+  - Fixed image click behavior to open the full-size watermarked image in a new, focused browser tab.
+
+- **Backlink Opportunities Page Enhancements**:
+  - Added 10+ new filter options (e.g., Difficulty, Est. Traffic, Category, Link Language) to the UI.
+  - Fixed multiple bugs in the filtering logic to ensure all filters work correctly.
+
+- **General UI/UX and Feature Changes**:
+  - Added a collapsible FAQ section to the main landing page ().
+  - Fixed the Visit Website button on the opportunity details page to link to the correct URL.
+  - Removed the Export Data functionality from the Settings page as requested by the user.
+  - Disabled the API Keys feature in Settings and replaced it with a Coming Soon message.
+
+**Earlier issues found/mentioned but not fixed**
+   - None. All issues raised during the session were addressed, with the exception of the currently pending issue.
+
+**Known issue recurrence from previous fork**
+  - **Issue recurrence**: The Statistics page not updating correctly was a recurring theme. It was addressed in multiple steps: first by adding polling, then by disabling global tRPC caching, and finally by fixing the underlying data query. A data structure change in an API endpoint () caused a regression that broke two separate pages (Statistics and User Management).
+  - **Recurrence count**: 3+ times for the statistics refresh issue.
+  - **Status**: RESOLVED
+
+**Code Architecture**
+
+
+**Key Technical Concepts**
 - **Framework**: Next.js (App Router)
-- **API**: tRPC for type-safe client-server communication.
-- **Database**: PostgreSQL with Prisma ORM.
-- **Authentication**: NextAuth.js, modified to block login for users with  account status.
-- **Payments**: Stripe integration for checkout sessions and webhook handling for payment confirmation.
-- **Styling**: Tailwind CSS with shadcn/ui components.
-- **State Management**: React client-side state () and server state via tRPC hooks.
-</key_technical_concepts>
-<code_architecture>
-The application follows a standard Next.js App Router structure, with tRPC handling the API layer and Prisma managing database interactions.
+- **API**: tRPC
+- **Database**: PostgreSQL with Prisma ORM
+- **Authentication**: NextAuth.js
+- **Payments**: Stripe
+- **Styling**: Tailwind CSS with shadcn/ui
+- **Charting**: Recharts
 
+**key DB schema**
+  - **BacklinkOpportunity**: 
+  - **PaymentTransaction**: 
+  - **CouponUsage**: 
+  - **User**: 
 
+**changes in tech stack**
+  - None.
 
-- ****
-  - **Importance**: Defines the entire database structure.
-  - **Changes**: Heavily modified to support payments and coupons. Added  enum to the  model. Created new models: , , and . The  model was later enhanced with fields for recurring subscriptions (, , ).
+**All files of reference**
+- ****: Contains the client-side filtering logic that is currently broken and needs fixing.
+- ****: Core page for the statistics dashboard; heavily modified with real-time updates and charts.
+- ****: Backend logic for statistics and user management; contains the  query whose response format was changed.
+- ****: New reusable component created for applying watermarks to tutorial images.
+- ****: Modified to disable tRPC client-side caching globally, which was a key fix for the real-time stats.
+- ****: Modified to disable API functionality and remove data export.
+- ****: Was broken by a regression and subsequently fixed.
 
-- ****
-  - **Importance**: Contains the core backend logic for creating Stripe checkout sessions.
-  - **Changes**: Created to handle the  tRPC mutation. It validates the selected plan, applies coupon discounts (including a bug fix to round the final price to an integer for Stripe's API), and creates a Stripe Checkout Session with appropriate metadata (userId, planId, couponCode).
+**Areas that need refactoring**:
+- The filtering on the **** page is done entirely on the client side. This is a major performance concern that will not scale as the number of opportunities increases. This logic should be migrated to the backend tRPC router () to perform filtering at the database level using Prisma.
 
-- ****
-  - **Importance**: Handles incoming webhooks from Stripe to confirm payment success.
-  - **Changes**: Created to listen for  events. Upon successful payment, it updates the corresponding  account status to , creates a , and records any .
+**key api endpoints**
+- ****: Fetches users. **Crucially, its response was changed to  from **.
+- ****: Fetches payment transactions, now includes related  and  data.
+- ****: Fetches all opportunities for the main list view. Filtering is currently done on the client after this query resolves.
 
-- ****
-  - **Importance**: The user registration page, which now includes plan selection and payment.
-  - **Changes**: Rewritten to have a two-column layout. It fetches subscription plans, includes an input for applying coupon codes, and calls the  mutation. Upon a successful response, it redirects the user to the Stripe checkout page.
+**Critical Info for New Agent**
+- **API Response Change**: The  tRPC query now returns an object  instead of a direct array. This change previously caused regressions on two pages. Any new feature using this endpoint must account for this structure.
+- **Global Cache Disabled**: Client-side tRPC caching was disabled globally in  to fix real-time updates on the statistics page. This has performance implications for the entire app. A more granular caching strategy might be needed in the future.
+- **Client-Side Filtering**: All filtering for the main Backlink Opportunities list is currently done on the client. This is a performance bottleneck and a prime candidate for refactoring to a backend implementation.
 
-- ****
-  - **Importance**: The admin UI for managing all aspects of the coupon system.
-  - **Changes**: Created from scratch. It provides a full CRUD interface for coupons, including a dialog form with fields for code, discount type/value, expiration, usage limits, plan applicability, and recurring subscription settings. It uses various tRPC mutations from the  router.
+**documents created in this job**
+  -  was updated multiple times.
+  - A temporary script was created and executed at  to generate a test user with a coupon.
 
-- ****
-  - **Importance**: A new dashboard for admins to view business metrics.
-  - **Changes**: Newly created page to display stats like total revenue, active members, and new signups. The last request was to enhance this page to show lists of specific users in each category.
+**Last 10 User Messages and any pending user messages**
+- **why only showing 9 out of 50 Opportunities, when filter is cleared I want to see all Opportunities**: User reported the current bug. (Status: PENDING FIX)
+- **Link Type filtering not working**: User reported a specific filter bug. (Status: COMPLETED)
+- **Check and test all these filters...**: User requested verification of all new filters. (Status: COMPLETED)
+- **filter section in Opportunities not working...**: User reported new filters were not functional. (Status: COMPLETED)
+- **create dropdown with title FAQ...**: User requested a new FAQ section on the homepage. (Status: COMPLETED)
+- **is API even working? if yes, disable it...**: User asked to disable the API Key feature. (Status: COMPLETED)
+- **what is purpose from API Keys generation ?**: User asked for an explanation of the API Key feature. (Status: COMPLETED)
+- **Remove Export Data functionality**: User requested removal of the data export feature. (Status: COMPLETED)
+- **when in Projects pressing on dropdown...open in new tab**: User requested image-click functionality in the Projects view. (Status: COMPLETED)
+- **Create possibility to export data to CSV not to JSON format**: User requested a change to the data export format. (Status: COMPLETED, then reversed by removal request).
 
-- ****
-  - **Importance**: The main layout for the authenticated user dashboard, containing the sidebar navigation.
-  - **Changes**: Modified to add navigation links for the new admin pages: Coupons and Statistics.
+**Project Health Check:**
+- **Broken**: The filtering on the Backlink Opportunities page is not working correctly when filters are cleared.
+- **Mocked**: None.
 
-- ****
-  - **Importance**: The public-facing landing page.
-  - **Changes**: The footer was modified to add links to the new Privacy Policy and Terms and Conditions pages, and the copyright year was updated. The logo in the header and footer was also updated.
-</code_architecture>
-<pending_tasks>
-- **SEOBot AI Integration**: The user expressed interest in integrating  to automate opportunity population and tutorial creation. This needs further scoping and implementation.
-</pending_tasks>
-<current_work>
-The most recent task was the creation and enhancement of the admin Statistics dashboard.
+**3rd Party Integrations**
+- **Stripe** (Payments) — requires User API Key.
+- **Recharts** (Charting Library) — installed via yarn install v1.22.22
+[1/4] Resolving packages...
+success Already up-to-date.
+Done in 0.30s..
 
-1.  **Initial Creation**: Per the user's request, a new page was created at . A corresponding Statistics link was added to the admin sidebar in . The initial version of the statistics page included placeholder UI for stats like Sales and Revenue, Membership Stats, Recent Orders, and Recent Members, backed by basic tRPC queries to fetch aggregate data (e.g., counts and sums).
+**Testing status**
+  - Testing agent used after significant changes: YES (for backend filter logic)
+  - Troubleshoot agent used after agent stuck in loop: NO
+  - Test files created: A temporary test script was created to seed a user with a coupon.
+  - Known regressions: A change to the  tRPC endpoint broke the Manage Users page, which was subsequently fixed.
 
-2.  **User Enhancement Request**: The user then provided feedback, asking for more detail: add which users have New SIgnups, Cancelleations, Recent Orders, Recent Members - like list of users in proper box.
+**Credentials to test flow:**
+None required; handled by the environment.
 
-3.  **Work in Progress**: The AI engineer acknowledged the request and began modifying the statistics page () to implement this. The last action was editing this file to expand the UI and backend logic to fetch and display lists of actual users for each category, instead of just showing numerical counts. The work stopped immediately after the file edit, before any testing or verification of the new user lists.
-</current_work>
-<optional_next_step>
-Continue implementing the user lists on the Statistics page. This involves updating the tRPC procedures to fetch the user data and rendering it in the UI boxes for New Signups, Cancellations, etc.
-</optional_next_step>
-<direct_quotes>
-add which users have New SIgnups, Cancelleations, Recent Orders, Recent Members - like list of users in proper box
-</direct_quotes>
+**What agent forgot to execute**
+- The agent was interrupted before it could implement the fix for the main pending issue (opportunities filter showing a subset of items).
+- The  tRPC endpoint in  was likely not removed after its corresponding UI was deleted. This is a minor code cleanup task.
+
+</analysis>

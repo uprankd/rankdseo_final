@@ -10,7 +10,7 @@ import sys
 from typing import Dict, List, Any, Optional
 
 # Configuration
-BASE_URL = "https://rankd-seo.preview.emergentagent.com"
+BASE_URL = "https://seo-opportunity.preview.emergentagent.com"
 API_URL = f"{BASE_URL}/api"
 
 class BacklinkFilterTester:
