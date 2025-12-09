@@ -106,10 +106,10 @@ export default function OpportunitiesPage() {
       const bl = opp.totalBacklinks || 0;
       const tf = opp.trustFlow || 0;
       const cf = opp.citationFlow || 0;
-      const difficulty = opp.difficulty || 1;
+      const difficulty = opp.difficultyLevel || 1; // Note: field is difficultyLevel in DB
       const spamScore = opp.spamScore || 0;
       const trafficValue = opp.trafficValue || 0;
-      const estTraffic = opp.estTraffic || 0;
+      const estTraffic = opp.estimatedTraffic || 0; // Note: field is estimatedTraffic in DB
       const cost = opp.cost || 0;
       
       const rangeMatch = (
@@ -130,7 +130,7 @@ export default function OpportunitiesPage() {
       const categoryMatch = selectFilters.category === 'all' || opp.category === selectFilters.category;
       const linkTypeMatch = selectFilters.linkType === 'all' || opp.linkType === selectFilters.linkType;
       const languageMatch = selectFilters.language === 'all' || opp.language === selectFilters.language;
-      const countryMatch = selectFilters.country === 'all' || opp.country === selectFilters.country;
+      const countryMatch = selectFilters.country === 'all' || !opp.country || opp.country === selectFilters.country;
       const statusMatch = selectFilters.status === 'all' || opp.status === selectFilters.status;
       const freeMatch = !selectFilters.isFree || opp.isFree === true;
       const dofollowMatch = !selectFilters.isDofollow || opp.isDofollow === true;
