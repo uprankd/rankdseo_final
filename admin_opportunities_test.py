@@ -139,7 +139,12 @@ class AdminOpportunitiesTester:
                             'response_data': data
                         }
                     
-                    result = data[0].get('result', {}).get('data', {})
+                    # Handle nested JSON structure in tRPC response
+                    result_data = data[0].get('result', {}).get('data', {})
+                    if 'json' in result_data:
+                        result = result_data['json']
+                    else:
+                        result = result_data
                     
                     opportunities = result.get('opportunities', [])
                     plan_limit = result.get('planLimit')
