@@ -334,6 +334,96 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* FAQ Section */}
+      <section className="py-20 px-4 bg-gradient-to-b from-white to-gray-50">
+        <div className="max-w-4xl mx-auto">
+          <div className="text-center mb-12">
+            <div className="flex items-center justify-center gap-3 mb-4">
+              <HelpCircle className="h-8 w-8 text-blue-600" />
+              <h2 className="text-4xl font-bold text-gray-900">
+                Frequently Asked Questions
+              </h2>
+            </div>
+            <p className="text-lg text-gray-600">
+              Everything you need to know about RankdSEO
+            </p>
+          </div>
+
+          <Accordion type="single" collapsible className="space-y-4">
+            <AccordionItem value="item-1" className="bg-white rounded-lg shadow-md border-2 border-gray-200 px-6">
+              <AccordionTrigger className="text-left font-semibold text-gray-900 hover:text-blue-600">
+                What is your refund policy?
+              </AccordionTrigger>
+              <AccordionContent className="text-gray-700 pt-2 pb-4">
+                There are no refunds once the payment is made, due to the nature of the site.
+              </AccordionContent>
+            </AccordionItem>
+
+            <AccordionItem value="item-2" className="bg-white rounded-lg shadow-md border-2 border-gray-200 px-6">
+              <AccordionTrigger className="text-left font-semibold text-gray-900 hover:text-blue-600">
+                Can I cancel my subscription when I wish to do so?
+              </AccordionTrigger>
+              <AccordionContent className="text-gray-700 pt-2 pb-4">
+                You can cancel the subscription at any time.
+              </AccordionContent>
+            </AccordionItem>
+
+            <AccordionItem value="item-3" className="bg-white rounded-lg shadow-md border-2 border-gray-200 px-6">
+              <AccordionTrigger className="text-left font-semibold text-gray-900 hover:text-blue-600">
+                What kind of backlinks are in the database?
+              </AccordionTrigger>
+              <AccordionContent className="text-gray-700 pt-2 pb-4">
+                Mixed. There are profile links, website builders, posts, bookmarks, social posts, article submissions, etc.
+              </AccordionContent>
+            </AccordionItem>
+
+            <AccordionItem value="item-4" className="bg-white rounded-lg shadow-md border-2 border-gray-200 px-6">
+              <AccordionTrigger className="text-left font-semibold text-gray-900 hover:text-blue-600">
+                Can I use the database as a guide for my VA (Virtual assistant) to build backlinks for me?
+              </AccordionTrigger>
+              <AccordionContent className="text-gray-700 pt-2 pb-4">
+                That is a great idea since even a complete beginner could build backlinks with the help of our guides.
+              </AccordionContent>
+            </AccordionItem>
+
+            <AccordionItem value="item-5" className="bg-white rounded-lg shadow-md border-2 border-gray-200 px-6">
+              <AccordionTrigger className="text-left font-semibold text-gray-900 hover:text-blue-600">
+                Are there any extra costs after buying the access?
+              </AccordionTrigger>
+              <AccordionContent className="text-gray-700 pt-2 pb-4">
+                No. All the links on our database can be acquired for FREE.
+              </AccordionContent>
+            </AccordionItem>
+
+            <AccordionItem value="item-6" className="bg-white rounded-lg shadow-md border-2 border-gray-200 px-6">
+              <AccordionTrigger className="text-left font-semibold text-gray-900 hover:text-blue-600">
+                Will there be new links added in time?
+              </AccordionTrigger>
+              <AccordionContent className="text-gray-700 pt-2 pb-4">
+                Links are added on a regular basis.
+              </AccordionContent>
+            </AccordionItem>
+
+            <AccordionItem value="item-7" className="bg-white rounded-lg shadow-md border-2 border-gray-200 px-6">
+              <AccordionTrigger className="text-left font-semibold text-gray-900 hover:text-blue-600">
+                Why would I pay for more than one month? Wouldn't I be able to build links within a month?
+              </AccordionTrigger>
+              <AccordionContent className="text-gray-700 pt-2 pb-4">
+                <p className="mb-3">
+                  If you got only one website, then you definitely can build the links in time. If you got more than one website, then you might not be able to make it in time.
+                </p>
+                <p className="mb-3">
+                  The second benefit of having long-term access is to receive the latest link building opportunities and guides when they get published.
+                </p>
+                <p className="font-semibold text-blue-600">
+                  For link sellers and agencies, long-term membership is the Best Option.
+                </p>
+              </AccordionContent>
+            </AccordionItem>
+          </Accordion>
+        </div>
+      </section>
+
       {/* Footer */}
       <footer className="py-12 px-4 bg-gray-900 text-gray-400">
         <div className="max-w-7xl mx-auto text-center">
