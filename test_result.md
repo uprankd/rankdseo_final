@@ -15,6 +15,13 @@ Build an admin panel for RankdSEO that allows admin users to:
 - Delete opportunities
 
 **Latest Feature Implementation:**
+- 🔧 Opportunities Filter Bug Fix (CURRENT)
+  - Fixed filtering issue where only 9 out of 50+ opportunities were showing when filters cleared
+  - Root cause: Missing `selectFilters` in useMemo dependency array
+  - Now all opportunities (64 total in DB) show correctly when filters are reset
+  - Fixed: Line 154 in `/app/(dashboard)/opportunities/page.tsx`
+
+**Previous Feature Implementations:**
 - ✅ Stripe Payment Integration
   - Process payments during signup for paid plans
   - User accounts remain PENDING until payment is successful
