@@ -98,10 +98,6 @@ export default function OpportunitiesPage() {
     
     let opps = [...data.opportunities];
     
-    console.log('Total opportunities fetched:', opps.length);
-    console.log('Current filters:', filters);
-    console.log('Current selectFilters:', selectFilters);
-    
     // Apply range filters
     opps = opps.filter(opp => {
       const da = opp.domainAuthority || 0;
@@ -116,25 +112,19 @@ export default function OpportunitiesPage() {
       const estTraffic = opp.estimatedTraffic || 0; // Note: field is estimatedTraffic in DB
       const cost = opp.cost || 0;
       
-      const checks = {
-        da: da >= filters.domainAuthority.min && da <= filters.domainAuthority.max,
-        dr: dr >= filters.domainRating.min && dr <= filters.domainRating.max,
-        rd: rd >= filters.referringDomains.min && rd <= filters.referringDomains.max,
-        bl: bl >= filters.totalBacklinks.min && bl <= filters.totalBacklinks.max,
-        tf: tf >= filters.trustFlow.min && tf <= filters.trustFlow.max,
-        cf: cf >= filters.citationFlow.min && cf <= filters.citationFlow.max,
-        difficulty: difficulty >= filters.difficulty.min && difficulty <= filters.difficulty.max,
-        spamScore: spamScore >= filters.spamScore.min && spamScore <= filters.spamScore.max,
-        trafficValue: trafficValue >= filters.trafficValue.min && trafficValue <= filters.trafficValue.max,
-        estTraffic: estTraffic >= filters.estTraffic.min && estTraffic <= filters.estTraffic.max,
-        cost: cost >= filters.cost.min && cost <= filters.cost.max,
-      };
-      
-      const rangeMatch = Object.values(checks).every(v => v);
-      
-      if (!rangeMatch) {
-        console.log(`Filtered out "${opp.siteName}":`, checks);
-      }
+      const rangeMatch = (
+        da >= filters.domainAuthority.min && da <= filters.domainAuthority.max &&
+        dr >= filters.domainRating.min && dr <= filters.domainRating.max &&
+        rd >= filters.referringDomains.min && rd <= filters.referringDomains.max &&
+        bl >= filters.totalBacklinks.min && bl <= filters.totalBacklinks.max &&
+        tf >= filters.trustFlow.min && tf <= filters.trustFlow.max &&
+        cf >= filters.citationFlow.min && cf <= filters.citationFlow.max &&
+        difficulty >= filters.difficulty.min && difficulty <= filters.difficulty.max &&
+        spamScore >= filters.spamScore.min && spamScore <= filters.spamScore.max &&
+        trafficValue >= filters.trafficValue.min && trafficValue <= filters.trafficValue.max &&
+        estTraffic >= filters.estTraffic.min && estTraffic <= filters.estTraffic.max &&
+        cost >= filters.cost.min && cost <= filters.cost.max
+      );
 
       // Apply select/checkbox filters
       const categoryMatch = selectFilters.category === 'all' || opp.category === selectFilters.category;
