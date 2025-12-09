@@ -63,6 +63,9 @@ export default function OpportunitiesPage() {
     search: debouncedSearch || undefined,
   });
 
+  // Get current subscription to check if user has unlimited access
+  const { data: subscriptionData } = trpc.subscription.getCurrent.useQuery();
+
   const handleSearchChange = (value: string) => {
     setSearch(value);
     setTimeout(() => setDebouncedSearch(value), 500);
