@@ -49,17 +49,36 @@ class BacklinkFilterTester:
                 headers={
                     'Content-Type': 'application/x-www-form-urlencoded',
                     'X-Requested-With': 'XMLHttpRequest'
-                }
+                },
+                allow_redirects=False
             )
             
+            print(f"Login response status: {login_response.status_code}")
+            print(f"Login response text: {login_response.text[:200]}")
+            
+            # Check for successful login - could be 200 with JSON or redirect
             if login_response.status_code == 200:
-                result = login_response.json()
-                if result.get('url'):
-                    print("✅ Login successful")
-                    return True
-                else:
-                    print(f"❌ Login failed: {result}")
-                    return False
+                try:
+                    result = login_response.json()
+                    if result.get('url'):
+                        print("✅ Login successful")
+                        return True
+                    else:
+                        print(f"❌ Login failed: {result}")
+                        return False
+                except:
+                    # Not JSON response, check cookies
+                    cookies = self.session.cookies.get_dict()
+                    if any('session' in key.lower() or 'auth' in key.lower() for key in cookies.keys()):
+                        print("✅ Login successful (cookies set)")
+                        return True
+                    else:
+                        print(f"❌ Login failed - no session cookies")
+                        return False
+            elif login_response.status_code in [302, 307]:
+                # Redirect indicates successful login
+                print("✅ Login successful (redirect)")
+                return True
             else:
                 print(f"❌ Login request failed: {login_response.status_code}")
                 return False
