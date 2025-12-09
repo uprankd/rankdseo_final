@@ -261,14 +261,30 @@ export default function OpportunitiesPage() {
               <Button
                 variant="outline"
                 size="sm"
-                onClick={() => setFilters({
-                  domainAuthority: { min: 0, max: 100 },
-                  domainRating: { min: 0, max: 100 },
-                  referringDomains: { min: 0, max: 10000000 },
-                  totalBacklinks: { min: 0, max: 1000000000 },
-                  trustFlow: { min: 0, max: 100 },
-                  citationFlow: { min: 0, max: 100 },
-                })}
+                onClick={() => {
+                  setFilters({
+                    domainAuthority: { min: 0, max: 100 },
+                    domainRating: { min: 0, max: 100 },
+                    referringDomains: { min: 0, max: 10000000 },
+                    totalBacklinks: { min: 0, max: 1000000000 },
+                    trustFlow: { min: 0, max: 100 },
+                    citationFlow: { min: 0, max: 100 },
+                    difficulty: { min: 1, max: 5 },
+                    spamScore: { min: 0, max: 100 },
+                    trafficValue: { min: 0, max: 10000000 },
+                    estTraffic: { min: 0, max: 10000000 },
+                    cost: { min: 0, max: 10000 },
+                  });
+                  setSelectFilters({
+                    category: 'all',
+                    linkType: 'all',
+                    language: 'all',
+                    country: 'all',
+                    status: 'all',
+                    isFree: false,
+                    isDofollow: false,
+                  });
+                }}
                 className="ml-auto"
               >
                 <X className="h-4 w-4 mr-2" />
