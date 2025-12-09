@@ -64,9 +64,19 @@ export const opportunityRouter = router({
       if (input.sortBy === 'traffic') orderBy = { estimatedTraffic: 'desc' };
       if (input.sortBy === 'date') orderBy = { createdAt: 'desc' };
 
+      // Admin users and lifetime subscribers get unlimited access
+      const isAdmin = ctx.user.role === 'ADMIN';
+      const isLifetime = subscription.plan.interval === 'lifetime';
+      const shouldHaveUnlimitedAccess = isAdmin || isLifetime;
+      
+      // Calculate take limit: unlimited for admins/lifetime, otherwise respect plan limits
+      const takeLimit = shouldHaveUnlimitedAccess 
+        ? input.limit + 1 
+        : Math.min(input.limit + 1, subscription.plan.maxOpportunities);
+
       const opportunities = await ctx.prisma.backlinkOpportunity.findMany({
         where,
-        take: Math.min(input.limit + 1, subscription.plan.maxOpportunities),
+        take: takeLimit,
         cursor: input.cursor ? { id: input.cursor } : undefined,
         orderBy,
         include: {
@@ -86,7 +96,7 @@ export const opportunityRouter = router({
         opportunities,
         nextCursor,
         hasMore: !!nextCursor,
-        planLimit: subscription.plan.maxOpportunities,
+        planLimit: shouldHaveUnlimitedAccess ? 999999 : subscription.plan.maxOpportunities,
       };
     }),
 
