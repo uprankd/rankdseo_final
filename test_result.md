@@ -612,11 +612,7 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Stripe Payment Integration - createSignupCheckout"
-    - "Stripe Payment Integration - getCheckoutStatus"
-    - "Auth SignUp with Payment Integration"
-    - "Stripe Webhook Handler"
-    - "Database Payment Integration"
+    - "Backlink Opportunities Filtering System"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
