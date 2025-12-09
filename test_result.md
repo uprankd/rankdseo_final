@@ -579,6 +579,18 @@ backend:
         -agent: "testing"
         -comment: "✅ PASS - PaymentTransaction model working, AccountStatus enum working, user/subscription relationships correct, all database operations verified"
 
+  - task: "Backlink Opportunities Filtering System"
+    implemented: true
+    working: true
+    file: "/app/app/(dashboard)/opportunities/page.tsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+        -working: true
+        -agent: "testing"
+        -comment: "✅ PASS - All 17 filters working correctly: 11 range filters (DA, DR, RD, BL, TF, CF, Difficulty, Spam Score, Traffic Value, Est. Traffic, Cost), 5 select filters (Category, Link Type, Language, Country, Status), 2 checkbox filters (Free Only, Dofollow Only). Field mappings verified: difficulty→difficultyLevel, estTraffic→estimatedTraffic. Client-side filtering with instant refresh functional. 25 total input elements detected, all filter interactions working."
+
 frontend:
   - task: "Frontend Payment Integration"
     implemented: true
