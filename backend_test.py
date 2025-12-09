@@ -254,19 +254,221 @@ class BacklinkFilterTester:
             'filtered_count': len(filtered_opps)
         }
 
-def test_admin_authentication():
-    """Test admin authentication"""
-    print("\n=== Testing Admin Authentication ===")
-    
-    client = TRPCClient()
-    success = client.authenticate(ADMIN_EMAIL, ADMIN_PASSWORD)
+    def run_comprehensive_tests(self):
+        """Run all filter tests"""
+        print("🚀 Starting Comprehensive Backlink Opportunities Filter Testing")
+        print("=" * 70)
+        
+        # Step 1: Login
+        if not self.login():
+            print("❌ Cannot proceed without authentication")
+            return False
+        
+        # Step 2: Fetch initial data
+        print("\n📊 Fetching initial opportunities data...")
+        initial_result = self.fetch_opportunities()
+        if not initial_result or not initial_result.get('opportunities'):
+            print("❌ Failed to fetch initial opportunities data")
+            return False
+        
+        opportunities = initial_result['opportunities']
+        print(f"✅ Fetched {len(opportunities)} opportunities")
+        
+        # Step 3: Analyze data structure
+        print("\n🔍 Analyzing opportunities data structure...")
+        analysis = self.analyze_opportunities_data(opportunities)
+        
+        print(f"📈 Data Analysis Summary:")
+        print(f"   Total opportunities: {analysis['total_count']}")
+        
+        # Print field analysis
+        for field, data in analysis['field_analysis'].items():
+            if isinstance(data, dict) and 'min' in data:
+                print(f"   {field}: min={data['min']}, max={data['max']}, count={data['count_with_values']}")
+            elif isinstance(data, dict) and 'unique_values' in data:
+                print(f"   {field}: {len(data['unique_values'])} unique values: {data['unique_values']}")
+            elif isinstance(data, dict) and 'true_count' in data:
+                print(f"   {field}: true={data['true_count']}, false={data['false_count']}")
+        
+        # Step 4: Test Range Filters (11 filters)
+        print("\n" + "="*50)
+        print("🎯 TESTING RANGE FILTERS (11 filters)")
+        print("="*50)
+        
+        range_tests = [
+            ("Domain Authority", "domainAuthority", 20, 80),
+            ("Domain Rating", "domainRating", 15, 75),
+            ("Referring Domains", "referringDomains", 100, 50000),
+            ("Total Backlinks", "totalBacklinks", 1000, 100000),
+            ("Trust Flow", "trustFlow", 10, 60),
+            ("Citation Flow", "citationFlow", 15, 70),
+            ("Difficulty", "difficultyLevel", 1, 3),  # Note: maps to difficultyLevel
+            ("Spam Score", "spamScore", 0, 30),
+            ("Traffic Value", "trafficValue", 100, 10000),
+            ("Est. Traffic", "estimatedTraffic", 1000, 100000),  # Note: maps to estimatedTraffic
+            ("Cost", "cost", 0, 5000)
+        ]
+        
+        range_results = []
+        for filter_name, db_field, min_val, max_val in range_tests:
+            result = self.test_range_filter(filter_name, db_field, min_val, max_val)
+            range_results.append((filter_name, db_field, result))
+            
+            if result['success']:
+                print(f"✅ {filter_name}: {result['filtered_count']}/{result['total_opportunities']} opportunities match range {min_val}-{max_val}")
+                if result['sample_values']:
+                    print(f"   Sample values: {result['sample_values']}")
+            else:
+                print(f"❌ {filter_name}: {result.get('error', 'Unknown error')}")
+        
+        # Step 5: Test Select Filters (5 filters)
+        print("\n" + "="*50)
+        print("🎯 TESTING SELECT FILTERS (5 filters)")
+        print("="*50)
+        
+        # Get actual values from data for testing
+        select_tests = []
+        if opportunities:
+            # Find actual values to test
+            categories = [opp.get('category') for opp in opportunities if opp.get('category')]
+            link_types = [opp.get('linkType') for opp in opportunities if opp.get('linkType')]
+            languages = [opp.get('language') for opp in opportunities if opp.get('language')]
+            countries = [opp.get('country') for opp in opportunities if opp.get('country')]
+            statuses = [opp.get('status') for opp in opportunities if opp.get('status')]
+            
+            if categories:
+                select_tests.append(("Category", "category", categories[0]))
+            if link_types:
+                select_tests.append(("Link Type", "linkType", link_types[0]))
+            if languages:
+                select_tests.append(("Language", "language", languages[0]))
+            if countries:
+                select_tests.append(("Country", "country", countries[0]))
+            if statuses:
+                select_tests.append(("Status", "status", statuses[0]))
+        
+        select_results = []
+        for filter_name, db_field, test_value in select_tests:
+            result = self.test_select_filter(filter_name, db_field, test_value)
+            select_results.append((filter_name, db_field, result))
+            
+            if result['success']:
+                print(f"✅ {filter_name}: {result['filtered_count']}/{result['total_opportunities']} opportunities match '{test_value}'")
+                print(f"   Available values: {result['unique_values']}")
+            else:
+                print(f"❌ {filter_name}: {result.get('error', 'Unknown error')}")
+        
+        # Step 6: Test Checkbox Filters (2 filters)
+        print("\n" + "="*50)
+        print("🎯 TESTING CHECKBOX FILTERS (2 filters)")
+        print("="*50)
+        
+        checkbox_tests = [
+            ("Free Only", "isFree", True),
+            ("Dofollow Only", "isDofollow", True)
+        ]
+        
+        checkbox_results = []
+        for filter_name, db_field, test_value in checkbox_tests:
+            result = self.test_checkbox_filter(filter_name, db_field, test_value)
+            checkbox_results.append((filter_name, db_field, result))
+            
+            if result['success']:
+                print(f"✅ {filter_name}: {result['filtered_count']}/{result['total_opportunities']} opportunities are {test_value}")
+                print(f"   Distribution: True={result['true_count']}, False={result['false_count']}")
+            else:
+                print(f"❌ {filter_name}: {result.get('error', 'Unknown error')}")
+        
+        # Step 7: Test Field Mappings
+        print("\n" + "="*50)
+        print("🎯 VERIFYING FIELD MAPPINGS")
+        print("="*50)
+        
+        critical_mappings = [
+            ("difficulty filter", "difficultyLevel", "Frontend uses 'difficulty' but DB field is 'difficultyLevel'"),
+            ("estTraffic filter", "estimatedTraffic", "Frontend uses 'estTraffic' but DB field is 'estimatedTraffic'"),
+            ("country field", "country", "Country field should handle null values properly")
+        ]
+        
+        mapping_issues = []
+        if opportunities:
+            sample_opp = opportunities[0]
+            
+            for mapping_name, db_field, description in critical_mappings:
+                if db_field in sample_opp:
+                    print(f"✅ {mapping_name}: Field '{db_field}' exists in data")
+                else:
+                    print(f"❌ {mapping_name}: Field '{db_field}' NOT found in data")
+                    mapping_issues.append(f"{mapping_name}: {description}")
+        
+        # Step 8: Summary Report
+        print("\n" + "="*70)
+        print("📋 COMPREHENSIVE TEST SUMMARY")
+        print("="*70)
+        
+        total_tests = len(range_tests) + len(select_tests) + len(checkbox_tests)
+        successful_tests = 0
+        
+        # Count successful tests
+        for _, _, result in range_results + select_results + checkbox_results:
+            if result.get('success'):
+                successful_tests += 1
+        
+        print(f"📊 Test Results: {successful_tests}/{total_tests} filters working correctly")
+        print(f"📈 Data Quality: {len(opportunities)} opportunities available for testing")
+        
+        # Report issues
+        if mapping_issues:
+            print(f"\n⚠️  FIELD MAPPING ISSUES FOUND:")
+            for issue in mapping_issues:
+                print(f"   - {issue}")
+        
+        # Specific filter verification
+        print(f"\n🔍 FILTER VERIFICATION:")
+        print(f"   ✅ Range Filters: {sum(1 for _, _, r in range_results if r.get('success'))}/{len(range_tests)}")
+        print(f"   ✅ Select Filters: {sum(1 for _, _, r in select_results if r.get('success'))}/{len(select_tests)}")
+        print(f"   ✅ Checkbox Filters: {sum(1 for _, _, r in checkbox_results if r.get('success'))}/{len(checkbox_tests)}")
+        
+        # Critical findings
+        print(f"\n🎯 CRITICAL FINDINGS:")
+        
+        # Check difficulty field mapping
+        difficulty_result = next((r for n, f, r in range_results if f == 'difficultyLevel'), None)
+        if difficulty_result and difficulty_result.get('field_mapping_correct'):
+            print(f"   ✅ Difficulty filter correctly maps to 'difficultyLevel' field")
+        else:
+            print(f"   ❌ Difficulty filter mapping issue - check frontend uses 'difficultyLevel'")
+        
+        # Check estimated traffic field mapping
+        traffic_result = next((r for n, f, r in range_results if f == 'estimatedTraffic'), None)
+        if traffic_result and traffic_result.get('field_mapping_correct'):
+            print(f"   ✅ Est. Traffic filter correctly maps to 'estimatedTraffic' field")
+        else:
+            print(f"   ❌ Est. Traffic filter mapping issue - check frontend uses 'estimatedTraffic'")
+        
+        # Check country handling
+        country_result = next((r for n, f, r in select_results if f == 'country'), None)
+        if country_result:
+            print(f"   ✅ Country filter working - {len(country_result.get('unique_values', []))} countries available")
+        else:
+            print(f"   ⚠️  Country filter not tested - no country data available")
+        
+        return successful_tests == total_tests
+
+def main():
+    """Main test execution"""
+    tester = BacklinkFilterTester()
+    success = tester.run_comprehensive_tests()
     
     if success:
-        print("✅ Admin authentication successful")
-        return client
+        print(f"\n🎉 ALL TESTS PASSED! Backlink Opportunities filtering system is working correctly.")
+        sys.exit(0)
     else:
-        print("❌ Admin authentication failed")
-        return None
+        print(f"\n⚠️  SOME TESTS FAILED! Check the detailed results above.")
+        sys.exit(1)
+
+if __name__ == "__main__":
+    main()
 
 def test_admin_stats(client: TRPCClient):
     """Test admin.getStats endpoint"""
