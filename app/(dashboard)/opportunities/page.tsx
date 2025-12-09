@@ -98,14 +98,37 @@ export default function OpportunitiesPage() {
   // Check if user has unlimited access (admin or lifetime subscriber)
   const hasUnlimitedAccess = subscriptionData?.plan?.interval === 'lifetime' || data?.planLimit === 999999;
 
+  // Check if filters are at default values (not actively being used)
+  const filtersAreDefault = 
+    filters.domainAuthority.min === 0 && filters.domainAuthority.max === 100 &&
+    filters.domainRating.min === 0 && filters.domainRating.max === 100 &&
+    filters.referringDomains.min === 0 && filters.referringDomains.max === 10000000 &&
+    filters.totalBacklinks.min === 0 && filters.totalBacklinks.max === 1000000000 &&
+    filters.trustFlow.min === 0 && filters.trustFlow.max === 100 &&
+    filters.citationFlow.min === 0 && filters.citationFlow.max === 100 &&
+    filters.difficulty.min === 1 && filters.difficulty.max === 5 &&
+    filters.spamScore.min === 0 && filters.spamScore.max === 100 &&
+    filters.trafficValue.min === 0 && filters.trafficValue.max === 10000000 &&
+    filters.estTraffic.min === 0 && filters.estTraffic.max === 10000000 &&
+    filters.cost.min === 0 && filters.cost.max === 10000 &&
+    selectFilters.category === 'all' &&
+    selectFilters.linkType === 'all' &&
+    selectFilters.language === 'all' &&
+    selectFilters.country === 'all' &&
+    selectFilters.status === 'all' &&
+    !selectFilters.isFree &&
+    !selectFilters.isDofollow;
+
   // Filter and sort opportunities based on selected metrics
   const sortedOpportunities = useMemo(() => {
     if (!data?.opportunities) return [];
     
     let opps = [...data.opportunities];
     
-    // Skip filtering entirely for users with unlimited access
-    if (!hasUnlimitedAccess) {
+    // Skip filtering for unlimited users ONLY if filters are at default values
+    const shouldSkipFiltering = hasUnlimitedAccess && filtersAreDefault;
+    
+    if (!shouldSkipFiltering) {
       // Apply range filters
       opps = opps.filter(opp => {
         const da = opp.domainAuthority || 0;
