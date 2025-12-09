@@ -13,87 +13,246 @@ from typing import Dict, List, Any, Optional
 BASE_URL = "https://rankd-seo.preview.emergentagent.com"
 API_URL = f"{BASE_URL}/api"
 
-class TRPCClient:
+class BacklinkFilterTester:
     def __init__(self):
         self.session = requests.Session()
-        self.session.headers.update({
-            'Content-Type': 'application/json',
-            'User-Agent': 'RankdSEO-Test-Client/1.0'
-        })
         self.auth_token = None
+        self.user_data = None
+        self.opportunities_data = None
         
-    def authenticate(self, email: str, password: str) -> bool:
-        """Authenticate with the admin credentials"""
+    def login(self, email: str = "admin@rankseo.com", password: str = "admin123") -> bool:
+        """Login to get authentication token"""
         try:
-            # First, try to get CSRF token
-            csrf_response = self.session.get(f"{BASE_URL}/api/auth/csrf")
-            if csrf_response.status_code == 200:
-                csrf_data = csrf_response.json()
-                csrf_token = csrf_data.get('csrfToken')
-                if csrf_token:
-                    self.session.headers.update({'X-CSRF-Token': csrf_token})
+            print(f"🔐 Logging in as {email}...")
             
-            # Attempt login via NextAuth
+            # First, get CSRF token
+            csrf_response = self.session.get(f"{BASE_URL}/api/auth/csrf")
+            if csrf_response.status_code != 200:
+                print(f"❌ Failed to get CSRF token: {csrf_response.status_code}")
+                return False
+                
+            csrf_data = csrf_response.json()
+            csrf_token = csrf_data.get('csrfToken')
+            
+            # Login request
             login_data = {
                 'email': email,
                 'password': password,
-                'csrfToken': csrf_token if 'csrf_token' in locals() else '',
-                'callbackUrl': BASE_URL,
+                'csrfToken': csrf_token,
+                'callbackUrl': f"{BASE_URL}/dashboard",
                 'json': 'true'
             }
             
             login_response = self.session.post(
                 f"{BASE_URL}/api/auth/callback/credentials",
                 data=login_data,
-                allow_redirects=False
+                headers={
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
             )
             
-            print(f"Login attempt status: {login_response.status_code}")
-            print(f"Login response headers: {dict(login_response.headers)}")
-            
-            # Check if we have session cookies
-            cookies = self.session.cookies.get_dict()
-            print(f"Session cookies: {list(cookies.keys())}")
-            
-            return len(cookies) > 0
-            
-        except Exception as e:
-            print(f"Authentication error: {e}")
-            return False
-    
-    def call_trpc(self, procedure: str, input_data: Optional[Dict[str, Any]] = None, is_mutation: bool = False) -> Dict[str, Any]:
-        """Make a tRPC call"""
-        try:
-            if is_mutation:
-                # For mutations, use POST
-                url = f"{TRPC_URL}/{procedure}"
-                response = self.session.post(url, json=input_data or {})
+            if login_response.status_code == 200:
+                result = login_response.json()
+                if result.get('url'):
+                    print("✅ Login successful")
+                    return True
+                else:
+                    print(f"❌ Login failed: {result}")
+                    return False
             else:
-                # For queries, use GET with input as query param
-                url = f"{TRPC_URL}/{procedure}"
-                params = {}
-                if input_data:
-                    params['input'] = json.dumps(input_data)
-                response = self.session.get(url, params=params)
-            
-            print(f"tRPC call: {procedure}")
-            print(f"Status: {response.status_code}")
-            print(f"Response: {response.text[:500]}...")
-            
-            if response.status_code == 200:
-                return response.json()
-            else:
-                return {
-                    'error': True,
-                    'status': response.status_code,
-                    'message': response.text
-                }
+                print(f"❌ Login request failed: {login_response.status_code}")
+                return False
                 
         except Exception as e:
-            return {
-                'error': True,
-                'message': str(e)
+            print(f"❌ Login error: {str(e)}")
+            return False
+    
+    def fetch_opportunities(self, filters: Dict[str, Any] = None) -> Optional[Dict]:
+        """Fetch opportunities with optional filters"""
+        try:
+            # Prepare tRPC request
+            trpc_input = {
+                "0": {
+                    "json": {
+                        "limit": 50,
+                        **(filters or {})
+                    }
+                }
             }
+            
+            # Make tRPC request
+            response = self.session.get(
+                f"{API_URL}/trpc/opportunity.list",
+                params={
+                    'batch': '1',
+                    'input': json.dumps(trpc_input)
+                },
+                headers={
+                    'Content-Type': 'application/json'
+                }
+            )
+            
+            if response.status_code == 200:
+                data = response.json()
+                if isinstance(data, list) and len(data) > 0:
+                    result = data[0].get('result', {}).get('data', {})
+                    return result
+                else:
+                    print(f"❌ Unexpected response format: {data}")
+                    return None
+            else:
+                print(f"❌ Failed to fetch opportunities: {response.status_code}")
+                print(f"Response: {response.text}")
+                return None
+                
+        except Exception as e:
+            print(f"❌ Error fetching opportunities: {str(e)}")
+            return None
+    
+    def analyze_opportunities_data(self, opportunities: List[Dict]) -> Dict:
+        """Analyze opportunities data to understand field ranges and values"""
+        if not opportunities:
+            return {}
+            
+        analysis = {
+            'total_count': len(opportunities),
+            'field_analysis': {}
+        }
+        
+        # Analyze numeric fields
+        numeric_fields = [
+            'domainAuthority', 'domainRating', 'referringDomains', 'totalBacklinks',
+            'trustFlow', 'citationFlow', 'difficultyLevel', 'spamScore', 
+            'trafficValue', 'estimatedTraffic', 'cost'
+        ]
+        
+        for field in numeric_fields:
+            values = [opp.get(field) for opp in opportunities if opp.get(field) is not None]
+            if values:
+                analysis['field_analysis'][field] = {
+                    'min': min(values),
+                    'max': max(values),
+                    'count_with_values': len(values),
+                    'sample_values': values[:5]
+                }
+            else:
+                analysis['field_analysis'][field] = {
+                    'min': None,
+                    'max': None,
+                    'count_with_values': 0,
+                    'sample_values': []
+                }
+        
+        # Analyze categorical fields
+        categorical_fields = ['category', 'linkType', 'language', 'country', 'status']
+        for field in categorical_fields:
+            values = [opp.get(field) for opp in opportunities if opp.get(field) is not None]
+            unique_values = list(set(values))
+            analysis['field_analysis'][field] = {
+                'unique_values': unique_values,
+                'count_with_values': len(values)
+            }
+        
+        # Analyze boolean fields
+        boolean_fields = ['isFree', 'isDofollow']
+        for field in boolean_fields:
+            values = [opp.get(field) for opp in opportunities if opp.get(field) is not None]
+            true_count = sum(1 for v in values if v is True)
+            false_count = sum(1 for v in values if v is False)
+            analysis['field_analysis'][field] = {
+                'true_count': true_count,
+                'false_count': false_count,
+                'total_count': len(values)
+            }
+        
+        return analysis
+    
+    def test_range_filter(self, field_name: str, db_field: str, min_val: int, max_val: int) -> Dict:
+        """Test a range filter"""
+        print(f"\n🔍 Testing {field_name} filter (DB field: {db_field})...")
+        
+        # Test with range filter
+        filters = {}
+        if field_name == "difficulty":
+            # Special case: difficulty maps to difficultyLevel
+            filters = {"limit": 50}
+        else:
+            # For other fields, we'll test by fetching all data first
+            filters = {"limit": 50}
+        
+        result = self.fetch_opportunities(filters)
+        if not result or not result.get('opportunities'):
+            return {'success': False, 'error': 'No opportunities fetched'}
+        
+        opportunities = result['opportunities']
+        
+        # Filter opportunities manually to verify the logic
+        filtered_opps = []
+        for opp in opportunities:
+            field_value = opp.get(db_field)
+            if field_value is not None and min_val <= field_value <= max_val:
+                filtered_opps.append(opp)
+        
+        return {
+            'success': True,
+            'total_opportunities': len(opportunities),
+            'filtered_count': len(filtered_opps),
+            'sample_values': [opp.get(db_field) for opp in opportunities[:10] if opp.get(db_field) is not None],
+            'filter_range': f"{min_val}-{max_val}",
+            'field_mapping_correct': db_field in (opportunities[0].keys() if opportunities else [])
+        }
+    
+    def test_select_filter(self, field_name: str, db_field: str, test_value: str) -> Dict:
+        """Test a select/dropdown filter"""
+        print(f"\n🔍 Testing {field_name} filter (DB field: {db_field})...")
+        
+        result = self.fetch_opportunities({"limit": 50})
+        if not result or not result.get('opportunities'):
+            return {'success': False, 'error': 'No opportunities fetched'}
+        
+        opportunities = result['opportunities']
+        
+        # Get unique values for this field
+        unique_values = list(set(opp.get(db_field) for opp in opportunities if opp.get(db_field) is not None))
+        
+        # Filter opportunities manually
+        filtered_opps = [opp for opp in opportunities if opp.get(db_field) == test_value]
+        
+        return {
+            'success': True,
+            'total_opportunities': len(opportunities),
+            'unique_values': unique_values,
+            'test_value': test_value,
+            'filtered_count': len(filtered_opps),
+            'value_exists': test_value in unique_values
+        }
+    
+    def test_checkbox_filter(self, field_name: str, db_field: str, test_value: bool) -> Dict:
+        """Test a checkbox filter"""
+        print(f"\n🔍 Testing {field_name} filter (DB field: {db_field})...")
+        
+        result = self.fetch_opportunities({"limit": 50})
+        if not result or not result.get('opportunities'):
+            return {'success': False, 'error': 'No opportunities fetched'}
+        
+        opportunities = result['opportunities']
+        
+        # Filter opportunities manually
+        filtered_opps = [opp for opp in opportunities if opp.get(db_field) == test_value]
+        
+        # Count true/false values
+        true_count = sum(1 for opp in opportunities if opp.get(db_field) is True)
+        false_count = sum(1 for opp in opportunities if opp.get(db_field) is False)
+        
+        return {
+            'success': True,
+            'total_opportunities': len(opportunities),
+            'true_count': true_count,
+            'false_count': false_count,
+            'test_value': test_value,
+            'filtered_count': len(filtered_opps)
+        }
 
 def test_admin_authentication():
     """Test admin authentication"""
