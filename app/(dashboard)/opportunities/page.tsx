@@ -160,7 +160,7 @@ export default function OpportunitiesPage() {
         return aValue - bValue;
       }
     });
-  }, [data?.opportunities, sortBy, sortOrder, filters, selectFilters]);
+  }, [data?.opportunities, sortBy, sortOrder, filters, selectFilters, hasUnlimitedAccess]);
 
   return (
     <div className="space-y-6 animate-in fade-in duration-500">
