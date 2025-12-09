@@ -95,51 +95,57 @@ export default function OpportunitiesPage() {
     return num.toString();
   };
 
+  // Check if user has unlimited access (admin or lifetime subscriber)
+  const hasUnlimitedAccess = subscriptionData?.plan?.interval === 'lifetime' || data?.planLimit === 999999;
+
   // Filter and sort opportunities based on selected metrics
   const sortedOpportunities = useMemo(() => {
     if (!data?.opportunities) return [];
     
     let opps = [...data.opportunities];
     
-    // Apply range filters
-    opps = opps.filter(opp => {
-      const da = opp.domainAuthority || 0;
-      const dr = opp.domainRating || 0;
-      const rd = opp.referringDomains || 0;
-      const bl = opp.totalBacklinks || 0;
-      const tf = opp.trustFlow || 0;
-      const cf = opp.citationFlow || 0;
-      const difficulty = opp.difficultyLevel || 1; // Note: field is difficultyLevel in DB
-      const spamScore = opp.spamScore || 0;
-      const trafficValue = opp.trafficValue || 0;
-      const estTraffic = opp.estimatedTraffic || 0; // Note: field is estimatedTraffic in DB
-      const cost = opp.cost || 0;
-      
-      const rangeMatch = (
-        da >= filters.domainAuthority.min && da <= filters.domainAuthority.max &&
-        dr >= filters.domainRating.min && dr <= filters.domainRating.max &&
-        rd >= filters.referringDomains.min && rd <= filters.referringDomains.max &&
-        bl >= filters.totalBacklinks.min && bl <= filters.totalBacklinks.max &&
-        tf >= filters.trustFlow.min && tf <= filters.trustFlow.max &&
-        cf >= filters.citationFlow.min && cf <= filters.citationFlow.max &&
-        difficulty >= filters.difficulty.min && difficulty <= filters.difficulty.max &&
-        spamScore >= filters.spamScore.min && spamScore <= filters.spamScore.max &&
-        trafficValue >= filters.trafficValue.min && trafficValue <= filters.trafficValue.max &&
-        estTraffic >= filters.estTraffic.min && estTraffic <= filters.estTraffic.max &&
-        cost >= filters.cost.min && cost <= filters.cost.max
-      );
+    // Skip filtering entirely for users with unlimited access
+    if (!hasUnlimitedAccess) {
+      // Apply range filters
+      opps = opps.filter(opp => {
+        const da = opp.domainAuthority || 0;
+        const dr = opp.domainRating || 0;
+        const rd = opp.referringDomains || 0;
+        const bl = opp.totalBacklinks || 0;
+        const tf = opp.trustFlow || 0;
+        const cf = opp.citationFlow || 0;
+        const difficulty = opp.difficultyLevel || 1; // Note: field is difficultyLevel in DB
+        const spamScore = opp.spamScore || 0;
+        const trafficValue = opp.trafficValue || 0;
+        const estTraffic = opp.estimatedTraffic || 0; // Note: field is estimatedTraffic in DB
+        const cost = opp.cost || 0;
+        
+        const rangeMatch = (
+          da >= filters.domainAuthority.min && da <= filters.domainAuthority.max &&
+          dr >= filters.domainRating.min && dr <= filters.domainRating.max &&
+          rd >= filters.referringDomains.min && rd <= filters.referringDomains.max &&
+          bl >= filters.totalBacklinks.min && bl <= filters.totalBacklinks.max &&
+          tf >= filters.trustFlow.min && tf <= filters.trustFlow.max &&
+          cf >= filters.citationFlow.min && cf <= filters.citationFlow.max &&
+          difficulty >= filters.difficulty.min && difficulty <= filters.difficulty.max &&
+          spamScore >= filters.spamScore.min && spamScore <= filters.spamScore.max &&
+          trafficValue >= filters.trafficValue.min && trafficValue <= filters.trafficValue.max &&
+          estTraffic >= filters.estTraffic.min && estTraffic <= filters.estTraffic.max &&
+          cost >= filters.cost.min && cost <= filters.cost.max
+        );
 
-      // Apply select/checkbox filters
-      const categoryMatch = selectFilters.category === 'all' || opp.category === selectFilters.category;
-      const linkTypeMatch = selectFilters.linkType === 'all' || opp.linkType === selectFilters.linkType;
-      const languageMatch = selectFilters.language === 'all' || opp.language === selectFilters.language;
-      const countryMatch = selectFilters.country === 'all' || !opp.country || opp.country === selectFilters.country;
-      const statusMatch = selectFilters.status === 'all' || opp.status === selectFilters.status;
-      const freeMatch = !selectFilters.isFree || opp.isFree === true;
-      const dofollowMatch = !selectFilters.isDofollow || opp.isDofollow === true;
-      
-      return rangeMatch && categoryMatch && linkTypeMatch && languageMatch && countryMatch && statusMatch && freeMatch && dofollowMatch;
-    });
+        // Apply select/checkbox filters
+        const categoryMatch = selectFilters.category === 'all' || opp.category === selectFilters.category;
+        const linkTypeMatch = selectFilters.linkType === 'all' || opp.linkType === selectFilters.linkType;
+        const languageMatch = selectFilters.language === 'all' || opp.language === selectFilters.language;
+        const countryMatch = selectFilters.country === 'all' || !opp.country || opp.country === selectFilters.country;
+        const statusMatch = selectFilters.status === 'all' || opp.status === selectFilters.status;
+        const freeMatch = !selectFilters.isFree || opp.isFree === true;
+        const dofollowMatch = !selectFilters.isDofollow || opp.isDofollow === true;
+        
+        return rangeMatch && categoryMatch && linkTypeMatch && languageMatch && countryMatch && statusMatch && freeMatch && dofollowMatch;
+      });
+    }
     
     // Apply sorting
     if (sortBy === 'none') return opps;
