@@ -59,7 +59,7 @@ export default function OpportunitiesPage() {
   });
 
   const { data, isLoading } = trpc.opportunity.list.useQuery({
-    limit: 50,
+    limit: 100,
     search: debouncedSearch || undefined,
   });
 
