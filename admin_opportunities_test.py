@@ -124,8 +124,21 @@ class AdminOpportunitiesTester:
             try:
                 data = response.json()
                 print(f"Response data type: {type(data)}")
+                print(f"Raw response data: {json.dumps(data, indent=2)[:1000]}...")
                 
                 if isinstance(data, list) and len(data) > 0:
+                    print(f"First item in response: {json.dumps(data[0], indent=2)[:500]}...")
+                    
+                    # Check if there's an error in the response
+                    if 'error' in data[0]:
+                        error_info = data[0]['error']
+                        print(f"❌ tRPC Error: {error_info}")
+                        return {
+                            'success': False,
+                            'error': f'tRPC Error: {error_info}',
+                            'response_data': data
+                        }
+                    
                     result = data[0].get('result', {}).get('data', {})
                     
                     opportunities = result.get('opportunities', [])
