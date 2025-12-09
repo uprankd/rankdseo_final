@@ -605,6 +605,18 @@ backend:
         -agent: "testing"
         -comment: "✅ PASS - All 17 filters working correctly: 11 range filters (DA, DR, RD, BL, TF, CF, Difficulty, Spam Score, Traffic Value, Est. Traffic, Cost), 5 select filters (Category, Link Type, Language, Country, Status), 2 checkbox filters (Free Only, Dofollow Only). Field mappings verified: difficulty→difficultyLevel, estTraffic→estimatedTraffic. Client-side filtering with instant refresh functional. 25 total input elements detected, all filter interactions working."
 
+  - task: "Admin Unlimited Opportunities Access"
+    implemented: true
+    working: true
+    file: "/lib/api/routers/opportunity.ts"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+        -working: true
+        -agent: "testing"
+        -comment: "✅ PASS - Admin users (role='ADMIN') and lifetime subscribers (plan.interval='lifetime') now receive unlimited access to all opportunities. Verified: Admin gets all 64 opportunities (not limited to 50), planLimit returns 999999 for unlimited access, opportunities data structure is correct. Backend API working correctly for admin unlimited access."
+
 frontend:
   - task: "Frontend Payment Integration"
     implemented: true
