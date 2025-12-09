@@ -40,6 +40,22 @@ export default function OpportunitiesPage() {
     totalBacklinks: { min: 0, max: 1000000000 },
     trustFlow: { min: 0, max: 100 },
     citationFlow: { min: 0, max: 100 },
+    difficulty: { min: 1, max: 5 },
+    spamScore: { min: 0, max: 100 },
+    trafficValue: { min: 0, max: 10000000 },
+    estTraffic: { min: 0, max: 10000000 },
+    cost: { min: 0, max: 10000 },
+  });
+
+  // Select/checkbox filters
+  const [selectFilters, setSelectFilters] = useState({
+    category: 'all',
+    linkType: 'all',
+    language: 'all',
+    country: 'all',
+    status: 'all',
+    isFree: false,
+    isDofollow: false,
   });
 
   const { data, isLoading } = trpc.opportunity.list.useQuery({
