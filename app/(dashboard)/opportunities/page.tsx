@@ -440,6 +440,259 @@ export default function OpportunitiesPage() {
                   />
                 </div>
               </div>
+
+              {/* Difficulty Filter */}
+              <div className="space-y-2 bg-white p-4 rounded-lg border-2">
+                <Label className="text-sm font-semibold flex items-center gap-2">
+                  <Zap className="h-4 w-4 text-yellow-600" />
+                  Difficulty (1-5)
+                </Label>
+                <div className="flex gap-2">
+                  <Input
+                    type="number"
+                    placeholder="Min"
+                    value={filters.difficulty.min}
+                    onChange={(e) => setFilters({...filters, difficulty: {...filters.difficulty, min: parseInt(e.target.value) || 1}})}
+                    className="border-2"
+                    min="1"
+                    max="5"
+                  />
+                  <Input
+                    type="number"
+                    placeholder="Max"
+                    value={filters.difficulty.max}
+                    onChange={(e) => setFilters({...filters, difficulty: {...filters.difficulty, max: parseInt(e.target.value) || 5}})}
+                    className="border-2"
+                    min="1"
+                    max="5"
+                  />
+                </div>
+              </div>
+
+              {/* Spam Score Filter */}
+              <div className="space-y-2 bg-white p-4 rounded-lg border-2">
+                <Label className="text-sm font-semibold flex items-center gap-2">
+                  <Globe className="h-4 w-4 text-red-600" />
+                  Spam Score
+                </Label>
+                <div className="flex gap-2">
+                  <Input
+                    type="number"
+                    placeholder="Min"
+                    value={filters.spamScore.min}
+                    onChange={(e) => setFilters({...filters, spamScore: {...filters.spamScore, min: parseInt(e.target.value) || 0}})}
+                    className="border-2"
+                    min="0"
+                    max="100"
+                  />
+                  <Input
+                    type="number"
+                    placeholder="Max"
+                    value={filters.spamScore.max}
+                    onChange={(e) => setFilters({...filters, spamScore: {...filters.spamScore, max: parseInt(e.target.value) || 100}})}
+                    className="border-2"
+                    min="0"
+                    max="100"
+                  />
+                </div>
+              </div>
+
+              {/* Traffic Value Filter */}
+              <div className="space-y-2 bg-white p-4 rounded-lg border-2">
+                <Label className="text-sm font-semibold flex items-center gap-2">
+                  <DollarSign className="h-4 w-4 text-green-600" />
+                  Traffic Value ($)
+                </Label>
+                <div className="flex gap-2">
+                  <Input
+                    type="number"
+                    placeholder="Min"
+                    value={filters.trafficValue.min}
+                    onChange={(e) => setFilters({...filters, trafficValue: {...filters.trafficValue, min: parseInt(e.target.value) || 0}})}
+                    className="border-2"
+                    min="0"
+                  />
+                  <Input
+                    type="number"
+                    placeholder="Max"
+                    value={filters.trafficValue.max}
+                    onChange={(e) => setFilters({...filters, trafficValue: {...filters.trafficValue, max: parseInt(e.target.value) || 10000000}})}
+                    className="border-2"
+                    min="0"
+                  />
+                </div>
+              </div>
+
+              {/* Est. Traffic Filter */}
+              <div className="space-y-2 bg-white p-4 rounded-lg border-2">
+                <Label className="text-sm font-semibold flex items-center gap-2">
+                  <TrendingUp className="h-4 w-4 text-purple-600" />
+                  Est. Traffic
+                </Label>
+                <div className="flex gap-2">
+                  <Input
+                    type="number"
+                    placeholder="Min"
+                    value={filters.estTraffic.min}
+                    onChange={(e) => setFilters({...filters, estTraffic: {...filters.estTraffic, min: parseInt(e.target.value) || 0}})}
+                    className="border-2"
+                    min="0"
+                  />
+                  <Input
+                    type="number"
+                    placeholder="Max"
+                    value={filters.estTraffic.max}
+                    onChange={(e) => setFilters({...filters, estTraffic: {...filters.estTraffic, max: parseInt(e.target.value) || 10000000}})}
+                    className="border-2"
+                    min="0"
+                  />
+                </div>
+              </div>
+
+              {/* Cost Filter */}
+              <div className="space-y-2 bg-white p-4 rounded-lg border-2">
+                <Label className="text-sm font-semibold flex items-center gap-2">
+                  <DollarSign className="h-4 w-4 text-orange-600" />
+                  Cost ($)
+                </Label>
+                <div className="flex gap-2">
+                  <Input
+                    type="number"
+                    placeholder="Min"
+                    value={filters.cost.min}
+                    onChange={(e) => setFilters({...filters, cost: {...filters.cost, min: parseInt(e.target.value) || 0}})}
+                    className="border-2"
+                    min="0"
+                  />
+                  <Input
+                    type="number"
+                    placeholder="Max"
+                    value={filters.cost.max}
+                    onChange={(e) => setFilters({...filters, cost: {...filters.cost, max: parseInt(e.target.value) || 10000}})}
+                    className="border-2"
+                    min="0"
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* Select/Dropdown Filters */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-6 pt-6 border-t-2">
+              {/* Category Filter */}
+              <div className="space-y-2">
+                <Label className="text-sm font-semibold">Category</Label>
+                <Select value={selectFilters.category} onValueChange={(value) => setSelectFilters({...selectFilters, category: value})}>
+                  <SelectTrigger className="border-2">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">All Categories</SelectItem>
+                    <SelectItem value="Design Community">Design Community</SelectItem>
+                    <SelectItem value="Tech">Tech</SelectItem>
+                    <SelectItem value="Business">Business</SelectItem>
+                    <SelectItem value="Marketing">Marketing</SelectItem>
+                    <SelectItem value="Other">Other</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              {/* Link Type Filter */}
+              <div className="space-y-2">
+                <Label className="text-sm font-semibold">Link Type</Label>
+                <Select value={selectFilters.linkType} onValueChange={(value) => setSelectFilters({...selectFilters, linkType: value})}>
+                  <SelectTrigger className="border-2">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">All Types</SelectItem>
+                    <SelectItem value="PROFILE">Profile</SelectItem>
+                    <SelectItem value="DIRECTORY">Directory</SelectItem>
+                    <SelectItem value="GUEST_POST">Guest Post</SelectItem>
+                    <SelectItem value="FORUM">Forum</SelectItem>
+                    <SelectItem value="SOCIAL">Social</SelectItem>
+                    <SelectItem value="ARTICLE_SUBMISSION">Article Submission</SelectItem>
+                    <SelectItem value="BUSINESS_LISTING">Business Listing</SelectItem>
+                    <SelectItem value="Q_AND_A">Q&A</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              {/* Language Filter */}
+              <div className="space-y-2">
+                <Label className="text-sm font-semibold">Language</Label>
+                <Select value={selectFilters.language} onValueChange={(value) => setSelectFilters({...selectFilters, language: value})}>
+                  <SelectTrigger className="border-2">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">All Languages</SelectItem>
+                    <SelectItem value="en">English</SelectItem>
+                    <SelectItem value="es">Spanish</SelectItem>
+                    <SelectItem value="fr">French</SelectItem>
+                    <SelectItem value="de">German</SelectItem>
+                    <SelectItem value="pt">Portuguese</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              {/* Country Filter */}
+              <div className="space-y-2">
+                <Label className="text-sm font-semibold">Country</Label>
+                <Select value={selectFilters.country} onValueChange={(value) => setSelectFilters({...selectFilters, country: value})}>
+                  <SelectTrigger className="border-2">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">All Countries</SelectItem>
+                    <SelectItem value="US">United States</SelectItem>
+                    <SelectItem value="UK">United Kingdom</SelectItem>
+                    <SelectItem value="CA">Canada</SelectItem>
+                    <SelectItem value="AU">Australia</SelectItem>
+                    <SelectItem value="DE">Germany</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              {/* Status Filter */}
+              <div className="space-y-2">
+                <Label className="text-sm font-semibold">Status</Label>
+                <Select value={selectFilters.status} onValueChange={(value) => setSelectFilters({...selectFilters, status: value})}>
+                  <SelectTrigger className="border-2">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">All Status</SelectItem>
+                    <SelectItem value="ACTIVE">Active</SelectItem>
+                    <SelectItem value="PENDING">Pending</SelectItem>
+                    <SelectItem value="INACTIVE">Inactive</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              {/* Checkboxes */}
+              <div className="space-y-3">
+                <Label className="text-sm font-semibold">Options</Label>
+                <div className="flex flex-col gap-2">
+                  <label className="flex items-center gap-2 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={selectFilters.isFree}
+                      onChange={(e) => setSelectFilters({...selectFilters, isFree: e.target.checked})}
+                      className="w-4 h-4"
+                    />
+                    <span className="text-sm">Free Only</span>
+                  </label>
+                  <label className="flex items-center gap-2 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={selectFilters.isDofollow}
+                      onChange={(e) => setSelectFilters({...selectFilters, isDofollow: e.target.checked})}
+                      className="w-4 h-4"
+                    />
+                    <span className="text-sm">Dofollow Only</span>
+                  </label>
+                </div>
+              </div>
             </div>
 
             {/* Active Filters Summary */}
