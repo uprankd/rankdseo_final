@@ -614,8 +614,18 @@ export default function OpportunitiesPage() {
 
               {/* Link Type Filter */}
               <div className="space-y-2">
-                <Label className="text-sm font-semibold">Link Type</Label>
-                <Select value={selectFilters.linkType} onValueChange={(value) => setSelectFilters({...selectFilters, linkType: value})}>
+                <Label className="text-sm font-semibold">
+                  Link Type
+                  {selectFilters.linkType !== 'all' && (
+                    <Badge variant="secondary" className="ml-2 text-xs">
+                      Active: {selectFilters.linkType}
+                    </Badge>
+                  )}
+                </Label>
+                <Select value={selectFilters.linkType} onValueChange={(value) => {
+                  console.log('Link Type changed to:', value);
+                  setSelectFilters({...selectFilters, linkType: value});
+                }}>
                   <SelectTrigger className="border-2">
                     <SelectValue />
                   </SelectTrigger>
@@ -627,8 +637,10 @@ export default function OpportunitiesPage() {
                     <SelectItem value="FORUM">Forum</SelectItem>
                     <SelectItem value="SOCIAL">Social</SelectItem>
                     <SelectItem value="ARTICLE_SUBMISSION">Article Submission</SelectItem>
-                    <SelectItem value="BUSINESS_LISTING">Business Listing</SelectItem>
+                    <SelectItem value="BLOG_COMMENT">Blog Comment</SelectItem>
+                    <SelectItem value="WEB_2_0">Web 2.0</SelectItem>
                     <SelectItem value="Q_AND_A">Q&A</SelectItem>
+                    <SelectItem value="BUSINESS_LISTING">Business Listing</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
