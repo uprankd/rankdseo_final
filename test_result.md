@@ -15,11 +15,18 @@ Build an admin panel for RankdSEO that allows admin users to:
 - Delete opportunities
 
 **Latest Feature Implementation:**
-- 🔧 Opportunities Filter Bug Fix (CURRENT)
-  - Fixed filtering issue where only 9 out of 50+ opportunities were showing when filters cleared
-  - Root cause: Missing `selectFilters` in useMemo dependency array
-  - Now all opportunities (64 total in DB) show correctly when filters are reset
-  - Fixed: Line 154 in `/app/(dashboard)/opportunities/page.tsx`
+- 🔧 Opportunities Filter & Access Control Fix (CURRENT)
+  - **Backend Changes**: Modified `/lib/api/routers/opportunity.ts`
+    - Admin users (role='ADMIN') now see ALL opportunities without limit
+    - Lifetime subscribers (plan.interval='lifetime') now see ALL opportunities without limit
+    - Regular users still respect plan.maxOpportunities limit
+    - planLimit returns 999999 for unlimited access users
+  - **Frontend Changes**: Modified `/app/(dashboard)/opportunities/page.tsx`
+    - Increased query limit from 50 to 100
+    - Added `selectFilters` to useMemo dependency array (line 154)
+    - Added debug logging to identify filtering issues
+  - **Current Status**: Backend returning all 64 opportunities for admin ✅
+  - **Issue**: Client-side filtering still showing only 11 of 64 (needs investigation)
 
 **Previous Feature Implementations:**
 - ✅ Stripe Payment Integration
