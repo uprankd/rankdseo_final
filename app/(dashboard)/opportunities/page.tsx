@@ -106,15 +106,36 @@ export default function OpportunitiesPage() {
       const bl = opp.totalBacklinks || 0;
       const tf = opp.trustFlow || 0;
       const cf = opp.citationFlow || 0;
+      const difficulty = opp.difficulty || 1;
+      const spamScore = opp.spamScore || 0;
+      const trafficValue = opp.trafficValue || 0;
+      const estTraffic = opp.estTraffic || 0;
+      const cost = opp.cost || 0;
       
-      return (
+      const rangeMatch = (
         da >= filters.domainAuthority.min && da <= filters.domainAuthority.max &&
         dr >= filters.domainRating.min && dr <= filters.domainRating.max &&
         rd >= filters.referringDomains.min && rd <= filters.referringDomains.max &&
         bl >= filters.totalBacklinks.min && bl <= filters.totalBacklinks.max &&
         tf >= filters.trustFlow.min && tf <= filters.trustFlow.max &&
-        cf >= filters.citationFlow.min && cf <= filters.citationFlow.max
+        cf >= filters.citationFlow.min && cf <= filters.citationFlow.max &&
+        difficulty >= filters.difficulty.min && difficulty <= filters.difficulty.max &&
+        spamScore >= filters.spamScore.min && spamScore <= filters.spamScore.max &&
+        trafficValue >= filters.trafficValue.min && trafficValue <= filters.trafficValue.max &&
+        estTraffic >= filters.estTraffic.min && estTraffic <= filters.estTraffic.max &&
+        cost >= filters.cost.min && cost <= filters.cost.max
       );
+
+      // Apply select/checkbox filters
+      const categoryMatch = selectFilters.category === 'all' || opp.category === selectFilters.category;
+      const linkTypeMatch = selectFilters.linkType === 'all' || opp.linkType === selectFilters.linkType;
+      const languageMatch = selectFilters.language === 'all' || opp.language === selectFilters.language;
+      const countryMatch = selectFilters.country === 'all' || opp.country === selectFilters.country;
+      const statusMatch = selectFilters.status === 'all' || opp.status === selectFilters.status;
+      const freeMatch = !selectFilters.isFree || opp.isFree === true;
+      const dofollowMatch = !selectFilters.isDofollow || opp.isDofollow === true;
+      
+      return rangeMatch && categoryMatch && linkTypeMatch && languageMatch && countryMatch && statusMatch && freeMatch && dofollowMatch;
     });
     
     // Apply sorting
