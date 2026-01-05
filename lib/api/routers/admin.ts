@@ -416,6 +416,29 @@ export const adminRouter = router({
         },
       });
 
+      // Send cancellation email
+      try {
+        const endDate = subscription.currentPeriodEnd 
+          ? new Date(subscription.currentPeriodEnd).toLocaleDateString()
+          : 'immediately';
+        const cancelEmail = emailTemplates.subscriptionCancelled(
+          subscription.user.name || 'User',
+          endDate
+        );
+        await sendEmail({
+          to: subscription.user.email,
+          subject: cancelEmail.subject,
+          html: cancelEmail.html,
+          metadata: {
+            userId: subscription.user.id,
+            emailType: 'subscription_cancelled',
+            canceledBy: ctx.session.user.id,
+          },
+        });
+      } catch (emailError) {
+        console.error('Failed to send cancellation email:', emailError);
+      }
+
       return { success: true };
     }),
 
