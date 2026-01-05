@@ -337,6 +337,63 @@ async function activateUserAccount(userId: string, planId: string) {
   }
 }
 
+// Upgrade user plan after successful upgrade payment
+async function upgradeUserPlan(userId: string, newPlanId: string) {
+  const now = new Date();
+  const periodEnd = new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000); // 30 days
+
+  const updatedUser = await prisma.user.update({
+    where: { id: userId },
+    data: {
+      subscription: {
+        update: {
+          planId: newPlanId,
+          status: 'ACTIVE',
+          currentPeriodStart: now,
+          currentPeriodEnd: periodEnd,
+        },
+      },
+    },
+    include: {
+      subscription: {
+        include: {
+          plan: true,
+        },
+      },
+    },
+  });
+
+  // Send upgrade confirmation email
+  try {
+    const plan = updatedUser.subscription?.plan;
+    if (plan) {
+      const planFeatures = [
+        `${plan.maxOpportunities} backlink opportunities`,
+        `${plan.maxProjects} projects`,
+        'Priority support',
+        'Step-by-step tutorials',
+      ];
+      const activationEmail = emailTemplates.subscriptionActivated(
+        updatedUser.name || 'User',
+        plan.name,
+        planFeatures
+      );
+      await sendEmail({
+        to: updatedUser.email,
+        subject: `🎉 Your Plan Has Been Upgraded to ${plan.name}!`,
+        html: activationEmail.html,
+        metadata: {
+          userId: updatedUser.id,
+          emailType: 'plan_upgraded',
+          planId: plan.id,
+        },
+      });
+    }
+  } catch (emailError) {
+    console.error('Failed to send upgrade confirmation email:', emailError);
+  }
+}
+
 // Record coupon usage
 async function recordCouponUsage(
   couponId: string,
