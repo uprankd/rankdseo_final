@@ -169,23 +169,30 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session) {
     },
   });
 
-  // Activate user account if still pending
-  if (transaction.user && transaction.user.accountStatus === 'PENDING') {
+  // Check if this is an upgrade or new signup
+  const isUpgrade = transaction.type === 'UPGRADE' || session.metadata?.upgradeFrom;
+
+  if (isUpgrade) {
+    // Handle plan upgrade
+    await upgradeUserPlan(transaction.userId!, transaction.planId!);
+    console.log('✅ User plan upgraded:', transaction.user?.email);
+  } else if (transaction.user && transaction.user.accountStatus === 'PENDING') {
+    // Handle new signup activation
     await activateUserAccount(transaction.userId!, transaction.planId!);
     
-    // Record coupon usage if applicable
-    if (session.metadata?.couponId && session.metadata?.couponCode) {
-      await recordCouponUsage(
-        session.metadata.couponId,
-        transaction.userId!,
-        transaction.planId!,
-        parseInt(session.metadata.originalPrice || '0'),
-        parseInt(session.metadata.discountAmount || '0'),
-        session.amount_total || 0
-      );
-    }
-    
     console.log('✅ User account activated:', transaction.user.email);
+  }
+
+  // Record coupon usage if applicable
+  if (session.metadata?.couponId && session.metadata?.couponCode) {
+    await recordCouponUsage(
+      session.metadata.couponId,
+      transaction.userId!,
+      transaction.planId!,
+      parseInt(session.metadata.originalPrice || '0'),
+      parseInt(session.metadata.discountAmount || '0'),
+      session.amount_total || 0
+    );
   }
 
   // Retrieve expanded session to get invoice details
