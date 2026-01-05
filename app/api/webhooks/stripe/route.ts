@@ -248,7 +248,7 @@ async function activateUserAccount(userId: string, planId: string) {
   const now = new Date();
   const periodEnd = new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000); // 30 days
 
-  await prisma.user.update({
+  const updatedUser = await prisma.user.update({
     where: { id: userId },
     data: {
       accountStatus: 'ACTIVE',
@@ -260,7 +260,44 @@ async function activateUserAccount(userId: string, planId: string) {
         },
       },
     },
+    include: {
+      subscription: {
+        include: {
+          plan: true,
+        },
+      },
+    },
   });
+
+  // Send subscription activated email
+  try {
+    const plan = updatedUser.subscription?.plan;
+    if (plan) {
+      const planFeatures = [
+        `${plan.maxOpportunities} backlink opportunities`,
+        `${plan.maxProjects} projects`,
+        'Priority support',
+        'Step-by-step tutorials',
+      ];
+      const activationEmail = emailTemplates.subscriptionActivated(
+        updatedUser.name || 'User',
+        plan.name,
+        planFeatures
+      );
+      await sendEmail({
+        to: updatedUser.email,
+        subject: activationEmail.subject,
+        html: activationEmail.html,
+        metadata: {
+          userId: updatedUser.id,
+          emailType: 'subscription_activated',
+          planId: plan.id,
+        },
+      });
+    }
+  } catch (emailError) {
+    console.error('Failed to send subscription activated email:', emailError);
+  }
 }
 
 // Record coupon usage
