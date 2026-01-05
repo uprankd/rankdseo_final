@@ -27,7 +27,15 @@ export default function SignUpPage() {
 
   // Fetch available plans
   const { data: plansData } = trpc.subscription.getPublicPlans.useQuery();
-  const plans = plansData?.plans || [];
+  
+  // Sort plans to show Free plan first, then by price
+  const plans = (plansData?.plans || []).sort((a, b) => {
+    // Free plans (price === 0) come first
+    if (a.price === 0 && b.price !== 0) return -1;
+    if (a.price !== 0 && b.price === 0) return 1;
+    // Then sort by price ascending
+    return a.price - b.price;
+  });
 
   const signUpMutation = trpc.auth.signUp.useMutation();
   const createCheckoutMutation = trpc.payment.createSignupCheckout.useMutation();
