@@ -246,8 +246,8 @@ export const subscriptionRouter = router({
             currency: 'usd',
             status: 'PENDING',
             sessionId: session.id,
-            type: 'UPGRADE',
             metadata: {
+              type: 'UPGRADE', // Store in metadata instead
               planName: plan.name,
               upgradeFrom: currentSubscription.plan.name,
               customerName: ctx.user.name,
