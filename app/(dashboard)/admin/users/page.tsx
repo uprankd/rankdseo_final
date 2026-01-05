@@ -89,6 +89,18 @@ export default function AdminUsersPage() {
     },
   });
 
+  const deleteUser = trpc.admin.deleteUser.useMutation({
+    onSuccess: () => {
+      toast.success('User deleted successfully!');
+      refetch();
+      setUpdatingUser(null);
+    },
+    onError: (error) => {
+      toast.error(`Failed to delete user: ${error.message}`);
+      setUpdatingUser(null);
+    },
+  });
+
   const handlePlanChange = async (userId: string, planId: string) => {
     setUpdatingUser(userId);
     await updatePlan.mutateAsync({ userId, planId });
