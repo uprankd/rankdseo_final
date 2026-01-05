@@ -25,7 +25,8 @@ import {
   Loader2
 } from 'lucide-react';
 import { signOut } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { useEffect } from 'react';
 
 export default function SettingsPage() {
   const router = useRouter();
