@@ -694,4 +694,55 @@ export const adminRouter = router({
 
     return { transactions: enrichedTransactions };
   }),
+
+  deleteUser: adminProcedure
+    .input(
+      z.object({
+        userId: z.string(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      // Check if user exists
+      const user = await ctx.prisma.user.findUnique({
+        where: { id: input.userId },
+      });
+
+      if (!user) {
+        throw new TRPCError({
+          code: 'NOT_FOUND',
+          message: 'User not found',
+        });
+      }
+
+      // Prevent deleting admin users
+      if (user.role === 'ADMIN') {
+        throw new TRPCError({
+          code: 'FORBIDDEN',
+          message: 'Cannot delete admin users',
+        });
+      }
+
+      // Prevent admin from deleting themselves
+      if (user.id === ctx.session.user.id) {
+        throw new TRPCError({
+          code: 'FORBIDDEN',
+          message: 'You cannot delete your own account',
+        });
+      }
+
+      // Delete user (this will cascade delete related records due to Prisma schema)
+      // The following will be automatically deleted:
+      // - Subscription
+      // - Projects (and their opportunities)
+      // - Payment transactions
+      // - Coupon usages
+      // - User preferences
+      await ctx.prisma.user.delete({
+        where: { id: input.userId },
+      });
+
+      console.log(`🗑️ Admin ${ctx.session.user.email} deleted user ${user.email} (${user.id})`);
+
+      return { success: true };
+    }),
 });
