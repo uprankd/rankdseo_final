@@ -464,6 +464,26 @@ export default function AdminUsersPage() {
                           </Button>
                         </div>
                       )}
+
+                      {/* Delete User Button */}
+                      {user.role !== 'ADMIN' && (
+                        <div className="flex-shrink-0">
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => handleDeleteUser(user.id, user.name || 'User', user.email)}
+                            disabled={updatingUser === user.id}
+                            className="border-2 border-red-500 text-red-600 hover:bg-red-50 hover:border-red-600"
+                          >
+                            {updatingUser === user.id ? (
+                              <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                            ) : (
+                              <Trash2 className="h-4 w-4 mr-2" />
+                            )}
+                            Delete User
+                          </Button>
+                        </div>
+                      )}
                     </div>
                   </CardContent>
                 </Card>
