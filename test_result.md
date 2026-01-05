@@ -15,6 +15,29 @@ Build an admin panel for RankdSEO that allows admin users to:
 - Delete opportunities
 
 **Latest Feature Implementation:**
+- ✅ Coupon Code Support for Plan Upgrades (COMPLETED)
+  - **Frontend Changes**: `/app/(dashboard)/settings/page.tsx`
+    - Added coupon code input field for each upgrade plan
+    - Shows Tag icon with label "Have a coupon code?"
+    - Auto-converts input to uppercase
+    - Shows confirmation message: "✓ Coupon will be applied at checkout"
+    - Only shows for paid plans (not free plans)
+    - Passes coupon code to `createUpgradeCheckout` mutation
+  - **Backend Support**: Already implemented
+    - `createUpgradeCheckout` mutation accepts `couponCode` parameter
+    - Validates coupon (active, not expired, usage limits)
+    - Calculates discount and applies to checkout
+    - Stores coupon info in transaction metadata
+  - **User Experience**:
+    1. User enters coupon code in input field
+    2. Code automatically converted to uppercase
+    3. Green confirmation message appears
+    4. Clicks "Upgrade & Pay" button
+    5. Coupon discount applied at Stripe checkout
+    6. Final price reflects coupon discount
+  - **Status**: ✅ Fully implemented and ready to use
+
+**Previous Feature:**
 - ✅ Delete User Functionality for Admin (COMPLETED)
   - **Backend Changes**: `/lib/api/routers/admin.ts`
     - Created `deleteUser` mutation
