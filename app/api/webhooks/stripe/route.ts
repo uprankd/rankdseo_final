@@ -211,6 +211,36 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session) {
   } catch (error) {
     console.error('⚠️ Failed to retrieve invoice details:', error);
   }
+
+  // Send payment receipt email
+  try {
+    if (transaction?.user) {
+      const plan = await prisma.plan.findUnique({
+        where: { id: transaction.planId! },
+      });
+      
+      if (plan) {
+        const receiptEmail = emailTemplates.paymentReceipt(
+          transaction.user.name || 'User',
+          session.amount_total || 0,
+          plan.name,
+          sessionId
+        );
+        await sendEmail({
+          to: transaction.user.email,
+          subject: receiptEmail.subject,
+          html: receiptEmail.html,
+          metadata: {
+            userId: transaction.user.id,
+            emailType: 'payment_receipt',
+            transactionId: transaction.id,
+          },
+        });
+      }
+    }
+  } catch (emailError) {
+    console.error('⚠️ Failed to send payment receipt email:', emailError);
+  }
 }
 
 // Handle failed checkout
