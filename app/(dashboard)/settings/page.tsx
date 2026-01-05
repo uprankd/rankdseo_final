@@ -301,16 +301,33 @@ export default function SettingsPage() {
                               <span className="text-3xl font-bold">${(plan.price / 100).toFixed(2)}</span>
                               <span className="text-gray-600"> / {plan.interval}</span>
                             </div>
+                            <ul className="text-sm text-gray-600 mb-4 space-y-2">
+                              <li>✓ {plan.maxOpportunities} backlink opportunities</li>
+                              <li>✓ {plan.maxProjects} projects</li>
+                              <li>✓ Priority support</li>
+                            </ul>
                             <Button 
                               onClick={() => changePlan.mutate({ planId: plan.id })}
                               disabled={changePlan.isPending}
-                              className="w-full"
-                              variant="outline"
+                              className="w-full bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white"
                             >
                               {changePlan.isPending ? (
-                                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                              ) : null}
-                              Select Plan
+                                <>
+                                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                  Processing...
+                                </>
+                              ) : (
+                                <>
+                                  {plan.price > 0 ? (
+                                    <>
+                                      <CreditCard className="mr-2 h-4 w-4" />
+                                      Upgrade & Pay
+                                    </>
+                                  ) : (
+                                    'Select Plan'
+                                  )}
+                                </>
+                              )}
                             </Button>
                           </CardContent>
                         </Card>
