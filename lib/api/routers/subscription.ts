@@ -214,6 +214,9 @@ export const subscriptionRouter = router({
             const discountAmount = Math.floor(plan.price * (coupon.discountPercent / 100));
             const finalPrice = plan.price - discountAmount;
 
+            console.log(`🎫 Coupon applied: ${coupon.code} (${coupon.discountPercent}% off)`);
+            console.log(`💰 Original: $${(plan.price / 100).toFixed(2)}, Discount: $${(discountAmount / 100).toFixed(2)}, Final: $${(finalPrice / 100).toFixed(2)}`);
+
             // If coupon makes the plan free or negative, upgrade directly without payment
             if (finalPrice <= 0) {
               await ctx.prisma.subscription.update({
