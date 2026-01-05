@@ -103,11 +103,7 @@ class TRPCClient:
         try:
             if is_mutation:
                 # POST request for mutations
-                payload = {
-                    "0": {
-                        "json": input_data or {}
-                    }
-                }
+                payload = input_data or {}
                 
                 response = self.session.post(
                     f"{TRPC_URL}/{procedure}",
