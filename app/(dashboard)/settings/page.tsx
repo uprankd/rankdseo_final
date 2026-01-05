@@ -53,6 +53,9 @@ export default function SettingsPage() {
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  
+  // Coupon state for upgrades
+  const [couponCodes, setCouponCodes] = useState<Record<string, string>>({});
 
   // Queries
   const { data: preferences, refetch: refetchPreferences } = trpc.settings.getPreferences.useQuery();
