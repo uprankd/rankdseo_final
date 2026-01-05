@@ -3,6 +3,7 @@ import { headers } from 'next/headers';
 import { stripe } from '@/lib/stripe';
 import { prisma } from '@/lib/db/prisma';
 import Stripe from 'stripe';
+import { sendEmail, emailTemplates } from '@/lib/mailgun';
 
 // Disable body parsing for webhook signature verification
 export const runtime = 'nodejs';
