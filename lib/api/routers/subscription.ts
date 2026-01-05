@@ -204,6 +204,38 @@ export const subscriptionRouter = router({
             const discountAmount = Math.floor(plan.price * (coupon.discountPercent / 100));
             const finalPrice = plan.price - discountAmount;
 
+            // If coupon makes the plan free or negative, upgrade directly without payment
+            if (finalPrice <= 0) {
+              await ctx.prisma.subscription.update({
+                where: { userId: ctx.user.id },
+                data: {
+                  planId: plan.id,
+                  currentPeriodStart: new Date(),
+                  currentPeriodEnd: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
+                },
+              });
+
+              // Record the coupon usage
+              await ctx.prisma.couponUsage.create({
+                data: {
+                  couponId: coupon.id,
+                  userId: ctx.user.id,
+                },
+              });
+
+              // Increment coupon usage count
+              await ctx.prisma.coupon.update({
+                where: { id: coupon.id },
+                data: { usedCount: { increment: 1 } },
+              });
+
+              return {
+                success: true,
+                requiresPayment: false,
+                message: `Plan upgraded successfully with ${coupon.discountPercent}% discount! No payment required.`,
+              };
+            }
+
             // Update line items with discounted price
             sessionParams.line_items = [
               {
