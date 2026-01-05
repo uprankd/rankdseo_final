@@ -126,6 +126,14 @@ export const subscriptionRouter = router({
         };
       }
 
+      // Validate plan price
+      if (!plan.price || isNaN(plan.price) || plan.price < 0) {
+        throw new TRPCError({
+          code: 'BAD_REQUEST',
+          message: 'Invalid plan pricing configuration',
+        });
+      }
+
       // Check if downgrading (current plan is more expensive than target)
       if (currentSubscription.plan.price >= plan.price && plan.price > 0) {
         throw new TRPCError({
@@ -133,6 +141,8 @@ export const subscriptionRouter = router({
           message: 'Cannot downgrade to a less expensive plan. Please cancel your current subscription first.',
         });
       }
+
+      console.log(`💳 Creating upgrade checkout for user ${ctx.user.email}: ${currentSubscription.plan.name} → ${plan.name} ($${(plan.price / 100).toFixed(2)})`);
 
       // Create Stripe checkout session for upgrade
       try {
