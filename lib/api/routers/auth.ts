@@ -102,6 +102,23 @@ export const authRouter = router({
         });
       }
 
+      // Send welcome email (async, don't block registration)
+      try {
+        const welcomeEmail = emailTemplates.welcome(name, email);
+        await sendEmail({
+          to: email,
+          subject: welcomeEmail.subject,
+          html: welcomeEmail.html,
+          metadata: {
+            userId: user.id,
+            emailType: 'welcome',
+          },
+        });
+      } catch (emailError) {
+        // Log error but don't fail registration
+        console.error('Failed to send welcome email:', emailError);
+      }
+
       return {
         success: true,
         requiresPayment: selectedPlan.price > 0,
