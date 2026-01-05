@@ -15,34 +15,32 @@ Build an admin panel for RankdSEO that allows admin users to:
 - Delete opportunities
 
 **Latest Feature Implementation:**
-- 🔧 Mailgun Email Integration (IMPLEMENTED - Domain Verification Required)
-  - **Backend Changes**: 
-    - Created `/lib/mailgun.ts` - Complete email service with Mailgun client
-    - Installed dependencies: `mailgun.js`, `form-data`
-    - Added Mailgun config to `.env`: API key, domain, region, from email
-  - **Email Templates Created**:
-    - ✅ Welcome email (sent on user signup)
-    - ✅ Subscription activated email (sent on payment success)
-    - ✅ Subscription cancelled email (sent on admin cancellation)
-    - ✅ Payment receipt email (sent after successful payment)
-    - ✅ Password reset email (sent by admin)
-  - **Integration Points**:
-    - ✅ `/lib/api/routers/auth.ts` - Welcome email on signup
-    - ✅ `/lib/api/routers/admin.ts` - Password reset & subscription emails
-    - ✅ `/app/api/webhooks/stripe/route.ts` - Payment receipts & activation emails
-  - **Status**: 
-    - ✅ Code implementation complete and correct
-    - ❌ **Mailgun domain verification required** (see action items below)
-  - **Testing**: Backend testing confirmed correct implementation but domain unverified
-
-**CRITICAL ACTION REQUIRED**:
-⚠️ **Mailgun Domain Verification Needed**:
-- Domain `rankdseo.mailgun.org` is currently **unverified**
-- Error: "Domain rankdseo.mailgun.org is not allowed to send: The domain is unverified and requires DNS configuration"
-- User needs to log in to Mailgun dashboard at https://app.mailgun.com/
-- Navigate to Sending → Domains → rankdseo.mailgun.org
-- Configure required DNS records (TXT, MX, CNAME)
-- Once verified, all emails will work automatically (no code changes needed)
+- ✅ Subscription Plan Upgrade with Stripe Payment (COMPLETED)
+  - **Backend Changes**:
+    - Created `/lib/api/routers/subscription.ts` - New `createUpgradeCheckout` mutation
+    - Stripe checkout session creation for plan upgrades
+    - Coupon support for upgrades
+    - Prevents downgrades (must cancel first)
+    - Free plan upgrades handled directly without payment
+  - **Webhook Updates**: `/app/api/webhooks/stripe/route.ts`
+    - Added `upgradeUserPlan()` function to handle upgrade payments
+    - Detects UPGRADE vs new signup transactions
+    - Sends upgrade confirmation email after payment
+    - Updates subscription with new plan after payment success
+  - **Frontend Changes**: `/app/(dashboard)/settings/page.tsx`
+    - Updated "Select Plan" button to use new upgrade mutation
+    - Shows "Upgrade & Pay" for paid plans
+    - Redirects to Stripe checkout for payment
+    - Success/cancel URL handling with toast notifications
+    - Displays plan features in upgrade cards
+  - **Flow**:
+    1. User clicks "Upgrade & Pay" button
+    2. Creates Stripe checkout session
+    3. Redirects to Stripe payment page  
+    4. After payment → Webhook updates plan
+    5. User redirected back to Settings with success message
+    6. Email confirmation sent
+  - **Status**: ✅ Fully implemented and ready to test
 
 **Previous Feature Implementations:**
 - ✅ Stripe Payment Integration
