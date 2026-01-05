@@ -22,7 +22,8 @@ import {
   Plus,
   Copy,
   AlertTriangle,
-  Loader2
+  Loader2,
+  Tag
 } from 'lucide-react';
 import { signOut } from 'next-auth/react';
 import { useRouter, useSearchParams } from 'next/navigation';
