@@ -211,10 +211,10 @@ export const subscriptionRouter = router({
             }
 
             // Calculate discount
-            const discountAmount = Math.floor(plan.price * (coupon.discountPercent / 100));
+            const discountAmount = Math.floor(plan.price * (coupon.discountValue / 100));
             const finalPrice = plan.price - discountAmount;
 
-            console.log(`🎫 Coupon applied: ${coupon.code} (${coupon.discountPercent}% off)`);
+            console.log(`🎫 Coupon applied: ${coupon.code} (${coupon.discountValue}% off)`);
             console.log(`💰 Original: $${(plan.price / 100).toFixed(2)}, Discount: $${(discountAmount / 100).toFixed(2)}, Final: $${(finalPrice / 100).toFixed(2)}`);
 
             // If coupon makes the plan free or negative, upgrade directly without payment
@@ -245,7 +245,7 @@ export const subscriptionRouter = router({
               return {
                 success: true,
                 requiresPayment: false,
-                message: `Plan upgraded successfully with ${coupon.discountPercent}% discount! No payment required.`,
+                message: `Plan upgraded successfully with ${coupon.discountValue}% discount! No payment required.`,
               };
             }
 
@@ -255,8 +255,8 @@ export const subscriptionRouter = router({
                 price_data: {
                   currency: 'usd',
                   product_data: {
-                    name: `${plan.name} (${coupon.discountPercent}% off)`,
-                    description: `Original: $${(plan.price / 100).toFixed(2)} | Discount: ${coupon.discountPercent}%`,
+                    name: `${plan.name} (${coupon.discountValue}% off)`,
+                    description: `Original: $${(plan.price / 100).toFixed(2)} | Discount: ${coupon.discountValue}%`,
                   },
                   unit_amount: finalPrice,
                 },
@@ -272,7 +272,7 @@ export const subscriptionRouter = router({
             couponData = {
               id: coupon.id,
               code: coupon.code,
-              discountPercent: coupon.discountPercent,
+              discountPercent: coupon.discountValue, // Use discountValue from DB
               originalPrice: plan.price,
               discountAmount,
               finalPrice,
