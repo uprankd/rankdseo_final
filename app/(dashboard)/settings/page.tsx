@@ -314,7 +314,8 @@ export default function SettingsPage() {
                             {/* Coupon Code Input */}
                             {plan.price > 0 && (
                               <div className="mb-4">
-                                <Label htmlFor={`coupon-${plan.id}`} className="text-sm text-gray-600 mb-1">
+                                <Label htmlFor={`coupon-${plan.id}`} className="text-sm text-gray-600 mb-2 flex items-center gap-1">
+                                  <Tag className="h-3 w-3" />
                                   Have a coupon code?
                                 </Label>
                                 <Input
@@ -326,8 +327,13 @@ export default function SettingsPage() {
                                     ...prev,
                                     [plan.id]: e.target.value.toUpperCase()
                                   }))}
-                                  className="border-2"
+                                  className="border-2 font-mono"
                                 />
+                                {couponCodes[plan.id] && (
+                                  <p className="text-xs text-green-600 mt-1">
+                                    ✓ Coupon will be applied at checkout
+                                  </p>
+                                )}
                               </div>
                             )}
                             
