@@ -309,8 +309,32 @@ export default function SettingsPage() {
                               <li>✓ {plan.maxProjects} projects</li>
                               <li>✓ Priority support</li>
                             </ul>
+                            
+                            {/* Coupon Code Input */}
+                            {plan.price > 0 && (
+                              <div className="mb-4">
+                                <Label htmlFor={`coupon-${plan.id}`} className="text-sm text-gray-600 mb-1">
+                                  Have a coupon code?
+                                </Label>
+                                <Input
+                                  id={`coupon-${plan.id}`}
+                                  type="text"
+                                  placeholder="Enter coupon code"
+                                  value={couponCodes[plan.id] || ''}
+                                  onChange={(e) => setCouponCodes(prev => ({
+                                    ...prev,
+                                    [plan.id]: e.target.value.toUpperCase()
+                                  }))}
+                                  className="border-2"
+                                />
+                              </div>
+                            )}
+                            
                             <Button 
-                              onClick={() => changePlan.mutate({ planId: plan.id })}
+                              onClick={() => changePlan.mutate({ 
+                                planId: plan.id,
+                                couponCode: couponCodes[plan.id] || undefined
+                              })}
                               disabled={changePlan.isPending}
                               className="w-full bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white"
                             >
