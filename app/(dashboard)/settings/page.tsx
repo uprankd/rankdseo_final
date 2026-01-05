@@ -110,8 +110,11 @@ export default function SettingsPage() {
         toast.success('Redirecting to payment...');
         window.location.href = data.checkoutUrl;
       } else {
-        toast.success('Subscription updated successfully');
-        window.location.reload();
+        // Plan upgraded without payment (free plan or 100% coupon)
+        toast.success(data.message || 'Subscription updated successfully');
+        setTimeout(() => {
+          window.location.reload();
+        }, 1500);
       }
     },
     onError: (error) => {
