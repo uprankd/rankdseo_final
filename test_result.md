@@ -15,6 +15,24 @@ Build an admin panel for RankdSEO that allows admin users to:
 - Delete opportunities
 
 **Latest Feature Implementation:**
+- ✅ Coupon Code Bug Fix - 100% Discount Handling (COMPLETED)
+  - **Issue**: Upgrading with high discount coupons caused "Invalid integer: NaN" error
+  - **Root Cause**: When coupon discount made final price ≤ 0, Stripe received NaN or 0 which it rejects
+  - **Fix Applied**: `/lib/api/routers/subscription.ts`
+    - Added check: if `finalPrice <= 0` after discount calculation
+    - Upgrades user directly without Stripe checkout (no payment needed)
+    - Records coupon usage automatically
+    - Returns success message: "Plan upgraded successfully with X% discount! No payment required."
+  - **Frontend Update**: `/app/(dashboard)/settings/page.tsx`
+    - Shows custom success message when no payment required
+    - Auto-refreshes page after 1.5 seconds to show new plan
+  - **Result**:
+    - 100% discount coupons now work perfectly
+    - Any discount making price ≤ 0 upgrades instantly
+    - No Stripe errors
+  - **Status**: ✅ Bug fixed and tested
+
+**Previous Feature:**
 - ✅ Coupon Code Support for Plan Upgrades (COMPLETED)
   - **Frontend Changes**: `/app/(dashboard)/settings/page.tsx`
     - Added coupon code input field for each upgrade plan
