@@ -6,7 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { toast } from 'sonner';
-import { Users, Crown, Mail, Calendar, FolderOpen, Loader2, Search, X, XCircle, RotateCcw, KeyRound, Copy, Eye, EyeOff, Edit } from 'lucide-react';
+import { Users, Crown, Mail, Calendar, FolderOpen, Loader2, Search, X, XCircle, RotateCcw, KeyRound, Copy, Eye, EyeOff, Edit, Trash2 } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Label } from '@/components/ui/label';
