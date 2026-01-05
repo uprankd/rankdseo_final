@@ -170,7 +170,9 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session) {
   });
 
   // Check if this is an upgrade or new signup
-  const isUpgrade = transaction.type === 'UPGRADE' || session.metadata?.upgradeFrom;
+  const isUpgrade = 
+    (transaction.metadata && typeof transaction.metadata === 'object' && 'type' in transaction.metadata && (transaction.metadata as any).type === 'UPGRADE') ||
+    session.metadata?.upgradeFrom;
 
   if (isUpgrade) {
     // Handle plan upgrade
