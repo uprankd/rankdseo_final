@@ -15,32 +15,32 @@ Build an admin panel for RankdSEO that allows admin users to:
 - Delete opportunities
 
 **Latest Feature Implementation:**
-- ✅ Subscription Plan Upgrade with Stripe Payment (COMPLETED)
-  - **Backend Changes**:
-    - Created `/lib/api/routers/subscription.ts` - New `createUpgradeCheckout` mutation
-    - Stripe checkout session creation for plan upgrades
-    - Coupon support for upgrades
-    - Prevents downgrades (must cancel first)
-    - Free plan upgrades handled directly without payment
-  - **Webhook Updates**: `/app/api/webhooks/stripe/route.ts`
-    - Added `upgradeUserPlan()` function to handle upgrade payments
-    - Detects UPGRADE vs new signup transactions
-    - Sends upgrade confirmation email after payment
-    - Updates subscription with new plan after payment success
-  - **Frontend Changes**: `/app/(dashboard)/settings/page.tsx`
-    - Updated "Select Plan" button to use new upgrade mutation
-    - Shows "Upgrade & Pay" for paid plans
-    - Redirects to Stripe checkout for payment
-    - Success/cancel URL handling with toast notifications
-    - Displays plan features in upgrade cards
-  - **Flow**:
-    1. User clicks "Upgrade & Pay" button
-    2. Creates Stripe checkout session
-    3. Redirects to Stripe payment page  
-    4. After payment → Webhook updates plan
-    5. User redirected back to Settings with success message
-    6. Email confirmation sent
-  - **Status**: ✅ Fully implemented and ready to test
+- ✅ Delete User Functionality for Admin (COMPLETED)
+  - **Backend Changes**: `/lib/api/routers/admin.ts`
+    - Created `deleteUser` mutation
+    - Prevents deletion of admin users
+    - Prevents self-deletion
+    - Cascading deletion of all related data:
+      * User account
+      * Subscription
+      * Projects and opportunities
+      * Payment transactions
+      * Coupon usages
+      * User preferences
+    - Logs deletion activity for audit trail
+  - **Frontend Changes**: `/app/(dashboard)/admin/users/page.tsx`
+    - Added "Delete User" button (red) next to other action buttons
+    - Confirmation dialog with "DELETE" typing requirement
+    - Comprehensive warning message listing all data to be deleted
+    - Loading state while deleting
+    - Success/error toast notifications
+  - **Safety Features**:
+    - ⚠️ Requires typing "DELETE" to confirm
+    - Cannot delete admin users
+    - Cannot delete yourself
+    - Shows warning about permanent deletion
+    - Lists all data that will be deleted
+  - **Status**: ✅ Fully implemented and ready to use
 
 **Previous Feature Implementations:**
 - ✅ Stripe Payment Integration
