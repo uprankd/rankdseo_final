@@ -2,6 +2,7 @@ import { router, adminProcedure } from '../trpc';
 import { z } from 'zod';
 import { TRPCError } from '@trpc/server';
 import { getDomainMetrics } from '../../dataforseo.js';
+import { sendEmail, emailTemplates } from '../../mailgun';
 
 export const adminRouter = router({
   // List all opportunities (including inactive ones)
