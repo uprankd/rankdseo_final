@@ -323,8 +323,16 @@ export default function SignUpPage() {
                         {plan.name === '1 Year Membership' && (
                           <Badge className="bg-green-500 text-white text-xs">Best Value</Badge>
                         )}
+                        {plan.price === 0 && (
+                          <Badge className="bg-blue-500 text-white text-xs">Free Forever</Badge>
+                        )}
                       </div>
                       <p className="text-sm text-gray-600 mb-2">{plan.description}</p>
+                      {plan.price === 0 && (
+                        <p className="text-sm font-semibold text-blue-600 mb-2">
+                          ✨ 20 free guides included
+                        </p>
+                      )}
                       <div className="flex items-baseline gap-1">
                         <span className="text-2xl font-black text-blue-600">
                           ${(plan.price / 100).toFixed(2)}
