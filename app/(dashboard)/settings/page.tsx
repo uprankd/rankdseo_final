@@ -84,9 +84,16 @@ export default function SettingsPage() {
     },
   });
 
-  const changePlan = trpc.subscription.updateSubscription.useMutation({
-    onSuccess: () => {
-      toast.success('Subscription updated successfully');
+  const changePlan = trpc.subscription.createUpgradeCheckout.useMutation({
+    onSuccess: (data) => {
+      if (data.requiresPayment && data.checkoutUrl) {
+        // Redirect to Stripe checkout
+        toast.success('Redirecting to payment...');
+        window.location.href = data.checkoutUrl;
+      } else {
+        toast.success('Subscription updated successfully');
+        window.location.reload();
+      }
     },
     onError: (error) => {
       toast.error(error.message);
