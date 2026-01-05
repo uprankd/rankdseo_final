@@ -2,6 +2,7 @@ import { router, publicProcedure } from '../trpc';
 import { z } from 'zod';
 import { hash } from 'bcryptjs';
 import { TRPCError } from '@trpc/server';
+import { sendEmail, emailTemplates } from '../../mailgun';
 
 export const authRouter = router({
   signUp: publicProcedure
