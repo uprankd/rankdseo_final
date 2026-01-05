@@ -470,7 +470,7 @@ export const adminRouter = router({
       }
 
       // Restore subscription to ACTIVE status
-      await ctx.prisma.subscription.update({
+      const updatedSubscription = await ctx.prisma.subscription.update({
         where: { userId: input.userId },
         data: {
           status: 'ACTIVE',
@@ -479,7 +479,37 @@ export const adminRouter = router({
           currentPeriodStart: new Date(),
           currentPeriodEnd: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), // 30 days from now
         },
+        include: {
+          plan: true,
+        },
       });
+
+      // Send reactivation email
+      try {
+        const planFeatures = [
+          `${updatedSubscription.plan.maxOpportunities} backlink opportunities`,
+          `${updatedSubscription.plan.maxProjects} projects`,
+          'Priority support',
+          'Step-by-step tutorials',
+        ];
+        const activationEmail = emailTemplates.subscriptionActivated(
+          subscription.user.name || 'User',
+          updatedSubscription.plan.name,
+          planFeatures
+        );
+        await sendEmail({
+          to: subscription.user.email,
+          subject: activationEmail.subject,
+          html: activationEmail.html,
+          metadata: {
+            userId: subscription.user.id,
+            emailType: 'subscription_activated',
+            restoredBy: ctx.session.user.id,
+          },
+        });
+      } catch (emailError) {
+        console.error('Failed to send reactivation email:', emailError);
+      }
 
       return { success: true };
     }),
