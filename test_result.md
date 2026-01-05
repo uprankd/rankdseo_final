@@ -15,6 +15,24 @@ Build an admin panel for RankdSEO that allows admin users to:
 - Delete opportunities
 
 **Latest Feature Implementation:**
+- ✅ Free Plan Reordered on Signup Page (COMPLETED)
+  - **Changes**: `/app/(auth)/signup/page.tsx`
+    - Free plan now appears at the TOP of the plan list
+    - Added sorting logic: Free plans first, then by price (ascending)
+    - Added subtitle: "✨ 20 free guides included" for Free plan
+    - Added "Free Forever" badge to Free plan
+  - **Plan Order**:
+    1. Free ($0.00) - with "20 free guides included" subtitle
+    2. Monthly Membership ($34.99)
+    3. 1 Year Membership ($99.99) - "Best Value" badge
+    4. Lifetime Membership ($179.99)
+  - **Visual Enhancements**:
+    - Blue "Free Forever" badge
+    - Sparkle emoji (✨) before subtitle
+    - Maintains existing hover and selection states
+  - **Status**: ✅ Fully implemented and deployed
+
+**Previous Features:**
 - ✅ Coupon Code Bug Fix - 100% Discount Handling (COMPLETED)
   - **Issue**: Upgrading with high discount coupons caused "Invalid integer: NaN" error
   - **Root Cause**: When coupon discount made final price ≤ 0, Stripe received NaN or 0 which it rejects
