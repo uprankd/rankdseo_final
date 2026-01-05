@@ -120,6 +120,19 @@ export default function AdminUsersPage() {
     }
   };
 
+  const handleDeleteUser = async (userId: string, userName: string, userEmail: string) => {
+    const confirmMessage = `⚠️ WARNING: This action cannot be undone!\n\nAre you sure you want to permanently delete the user "${userName}" (${userEmail})?\n\nThis will delete:\n- User account\n- All projects\n- All subscription data\n- All payment history\n\nType "DELETE" to confirm.`;
+    
+    const userInput = prompt(confirmMessage);
+    
+    if (userInput === 'DELETE') {
+      setUpdatingUser(userId);
+      await deleteUser.mutateAsync({ userId });
+    } else if (userInput !== null) {
+      toast.error('Deletion cancelled. You must type "DELETE" to confirm.');
+    }
+  };
+
   const generatePassword = () => {
     const length = 12;
     const charset = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*';
