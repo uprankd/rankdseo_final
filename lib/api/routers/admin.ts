@@ -499,6 +499,28 @@ export const adminRouter = router({
         data: { password: hashedPassword },
       });
 
+      // Send password reset email
+      try {
+        const passwordEmail = emailTemplates.passwordReset(
+          user.name || 'User',
+          input.newPassword,
+          ctx.session.user.name || 'Admin'
+        );
+        await sendEmail({
+          to: user.email,
+          subject: passwordEmail.subject,
+          html: passwordEmail.html,
+          metadata: {
+            userId: user.id,
+            emailType: 'password_reset',
+            resetByAdmin: ctx.session.user.id,
+          },
+        });
+      } catch (emailError) {
+        console.error('Failed to send password reset email:', emailError);
+        // Don't fail the password reset if email fails
+      }
+
       return { success: true };
     }),
 
