@@ -30,8 +30,22 @@ import { useEffect } from 'react';
 
 export default function SettingsPage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [activeTab, setActiveTab] = useState('profile');
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+
+  // Handle upgrade success/cancel from Stripe redirect
+  useEffect(() => {
+    const upgradeStatus = searchParams.get('upgrade');
+    if (upgradeStatus === 'success') {
+      toast.success('🎉 Payment successful! Your plan has been upgraded.');
+      // Remove query param from URL
+      router.replace('/settings');
+    } else if (upgradeStatus === 'cancelled') {
+      toast.error('Payment was cancelled. Your plan remains unchanged.');
+      router.replace('/settings');
+    }
+  }, [searchParams, router]);
 
   // Profile state
   const [name, setName] = useState('');
