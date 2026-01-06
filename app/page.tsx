@@ -426,22 +426,47 @@ export default function HomePage() {
 
       {/* Footer */}
       <footer className="py-12 px-4 bg-gray-900 text-gray-400">
-        <div className="max-w-7xl mx-auto text-center">
-          <div className="flex items-center justify-center space-x-3 mb-6">
-            <div className="bg-white rounded-xl p-4 shadow-lg">
-              <img src="/logo.png" alt="RankdSEO" className="h-24 w-auto" />
+        <div className="max-w-7xl mx-auto">
+          {/* Footer Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+            {/* Left Side - Logo and Links */}
+            <div className="text-center md:text-left">
+              <div className="flex items-center justify-center md:justify-start space-x-3 mb-6">
+                <div className="bg-white rounded-xl p-4 shadow-lg">
+                  <img src="/logo.png" alt="RankdSEO" className="h-24 w-auto" />
+                </div>
+              </div>
+              <div className="mb-4 flex items-center justify-center md:justify-start gap-6">
+                <Link href="/privacy-policy" className="text-sm text-gray-400 hover:text-white transition-colors">
+                  Privacy Policy
+                </Link>
+                <span className="text-gray-600">|</span>
+                <Link href="/terms-and-conditions" className="text-sm text-gray-400 hover:text-white transition-colors">
+                  Terms and Conditions
+                </Link>
+              </div>
+            </div>
+
+            {/* Right Side - Company Information */}
+            <div className="text-center md:text-right">
+              <h3 className="text-lg font-bold text-white mb-4">About Company</h3>
+              <div className="space-y-2 text-sm">
+                <p className="text-gray-300 font-semibold">SIA Uprankd</p>
+                <p className="text-gray-400">Reg. No. 44103141201</p>
+                <p className="text-gray-400">VAT No. LV44103141201</p>
+                <p className="text-gray-400">
+                  Brīvības iela 40-20B<br />
+                  Rīga, LV-1050<br />
+                  Latvia
+                </p>
+              </div>
             </div>
           </div>
-          <div className="mb-4 flex items-center justify-center gap-6">
-            <Link href="/privacy-policy" className="text-sm text-gray-400 hover:text-white transition-colors">
-              Privacy Policy
-            </Link>
-            <span className="text-gray-600">|</span>
-            <Link href="/terms-and-conditions" className="text-sm text-gray-400 hover:text-white transition-colors">
-              Terms and Conditions
-            </Link>
+
+          {/* Copyright - Centered at bottom */}
+          <div className="text-center pt-8 border-t border-gray-800">
+            <p className="text-sm">© 2026 RankdSEO. All rights reserved.</p>
           </div>
-          <p className="text-sm">© 2026 RankdSEO. All rights reserved.</p>
         </div>
       </footer>
 
