@@ -345,6 +345,7 @@ model PaymentTransaction {
   paymentIntent     String?
   stripeInvoiceId   String?
   receiptUrl        String?
+  paymentMethod     String              @default("stripe")
   metadata          Json?
   createdAt         DateTime            @default(now())
   updatedAt         DateTime            @updatedAt
