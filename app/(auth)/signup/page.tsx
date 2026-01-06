@@ -288,7 +288,135 @@ export default function SignUpPage() {
                 </div>
               )}
 
-              <Button type="submit" className="w-full" disabled={isLoading || !selectedPlan}>
+              {/* Payment Method Selection - Only for paid plans */}
+              {selectedPlan && plans.find(p => p.id === selectedPlan)?.price > 0 && !showPayPalButtons && (
+                <div className="space-y-3">
+                  <Label>Choose Payment Method</Label>
+                  <div className="grid grid-cols-2 gap-3">
+                    <button
+                      type="button"
+                      onClick={() => setPaymentMethod('stripe')}
+                      className={`p-4 border-2 rounded-lg transition-all ${
+                        paymentMethod === 'stripe'
+                          ? 'border-blue-600 bg-blue-50'
+                          : 'border-gray-200 hover:border-blue-300'
+                      }`}
+                    >
+                      <div className="flex items-center justify-center gap-2">
+                        <CreditCard className="h-5 w-5" />
+                        <span className="font-semibold">Stripe</span>
+                      </div>
+                      <p className="text-xs text-gray-600 mt-1">Credit/Debit Card</p>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setPaymentMethod('paypal')}
+                      className={`p-4 border-2 rounded-lg transition-all ${
+                        paymentMethod === 'paypal'
+                          ? 'border-blue-600 bg-blue-50'
+                          : 'border-gray-200 hover:border-blue-300'
+                      }`}
+                    >
+                      <div className="flex items-center justify-center gap-2">
+                        <svg className="h-5 w-5" viewBox="0 0 24 24" fill="#003087">
+                          <path d="M20.067 8.478c.492.88.556 2.014.3 3.327-.74 3.806-3.276 5.12-6.514 5.12h-.5a.805.805 0 00-.794.68l-.04.22-.63 3.993-.028.147a.802.802 0 01-.793.679H7.72a.483.483 0 01-.477-.558L9.28 7.813a.962.962 0 01.949-.813h5.366c.693 0 1.311.058 1.844.174a5.45 5.45 0 011.628.578z"/>
+                        </svg>
+                        <span className="font-semibold">PayPal</span>
+                      </div>
+                      <p className="text-xs text-gray-600 mt-1">PayPal Account</p>
+                    </button>
+                  </div>
+                </div>
+              )}
+
+              {/* PayPal Buttons - Show when PayPal is selected and form is submitted */}
+              {showPayPalButtons && (
+                <div className="space-y-3">
+                  <Label>Complete Payment with PayPal</Label>
+                  <PayPalScriptProvider options={{ 
+                    clientId: process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID || '',
+                    currency: 'USD',
+                  }}>
+                    <PayPalButtons
+                      style={{ layout: 'vertical' }}
+                      createOrder={async () => {
+                        try {
+                          const result = await createPayPalOrderMutation.mutateAsync({
+                            email: formData.email,
+                            name: formData.name,
+                            planId: selectedPlan,
+                            couponCode: couponCode.trim() || undefined,
+                          });
+                          
+                          if (result.isFree) {
+                            toast.success('Plan is free with coupon!');
+                            await signUpMutation.mutateAsync({
+                              ...formData,
+                              planId: selectedPlan,
+                            });
+                            router.push('/signin');
+                            return '';
+                          }
+                          
+                          return result.orderId || '';
+                        } catch (error: any) {
+                          toast.error(error.message || 'Failed to create PayPal order');
+                          throw error;
+                        }
+                      }}
+                      onApprove={async (data) => {
+                        try {
+                          setIsLoading(true);
+                          
+                          // Capture the payment
+                          await capturePayPalPaymentMutation.mutateAsync({
+                            orderId: data.orderID,
+                          });
+                          
+                          // Create user account
+                          await signUpMutation.mutateAsync({
+                            ...formData,
+                            planId: selectedPlan,
+                            paymentSessionId: data.orderID,
+                          });
+                          
+                          toast.success('Payment successful! Account created.');
+                          router.push('/signin');
+                        } catch (error: any) {
+                          toast.error(error.message || 'Payment capture failed');
+                          setIsLoading(false);
+                        }
+                      }}
+                      onError={(err) => {
+                        console.error('PayPal error:', err);
+                        toast.error('PayPal payment failed. Please try again.');
+                        setShowPayPalButtons(false);
+                        setIsLoading(false);
+                      }}
+                      onCancel={() => {
+                        toast.info('Payment cancelled');
+                        setShowPayPalButtons(false);
+                        setIsLoading(false);
+                      }}
+                    />
+                  </PayPalScriptProvider>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    className="w-full"
+                    onClick={() => {
+                      setShowPayPalButtons(false);
+                      setIsLoading(false);
+                    }}
+                  >
+                    Cancel
+                  </Button>
+                </div>
+              )}
+
+              {/* Submit Button - Hide when PayPal buttons are showing */}
+              {!showPayPalButtons && (
+                <Button type="submit" className="w-full" disabled={isLoading || !selectedPlan}>
                 {isLoading ? (
                   <>
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
