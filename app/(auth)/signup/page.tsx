@@ -396,24 +396,25 @@ export default function SignUpPage() {
               {/* Submit Button - Hide when PayPal buttons are showing */}
               {!showPayPalButtons && (
                 <Button type="submit" className="w-full" disabled={isLoading || !selectedPlan}>
-                {isLoading ? (
-                  <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Processing...
-                  </>
-                ) : (
-                  <>
-                    {selectedPlan && plans.find(p => p.id === selectedPlan)?.price === 0 ? (
-                      'Create Free Account'
-                    ) : (
-                      <>
-                        <CreditCard className="mr-2 h-4 w-4" />
-                        Continue to Payment
-                      </>
-                    )}
-                  </>
-                )}
-              </Button>
+                  {isLoading ? (
+                    <>
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      Processing...
+                    </>
+                  ) : (
+                    <>
+                      {selectedPlan && plans.find(p => p.id === selectedPlan)?.price === 0 ? (
+                        'Create Free Account'
+                      ) : (
+                        <>
+                          <CreditCard className="mr-2 h-4 w-4" />
+                          Continue to Payment
+                        </>
+                      )}
+                    </>
+                  )}
+                </Button>
+              )}
 
               <div className="mt-4 text-center text-sm">
                 <span className="text-gray-600">Already have an account? </span>
