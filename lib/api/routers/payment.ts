@@ -317,7 +317,7 @@ export const paymentRouter = router({
         // We'll use the metadata field to store PayPal order info
         await ctx.prisma.paymentTransaction.create({
           data: {
-            userId: '', // Will be set after user signup
+            userId: null, // Will be set after user signup
             planId: plan.id,
             amount: finalPrice / 100,
             currency: 'usd',
