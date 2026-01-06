@@ -27,7 +27,7 @@ function extractDataFromHtml(html) {
 }
 
 // Generate a clean, informative description
-function generateDescription(siteName, url, da, linkType) {
+function generateDescription(siteName, url, da, isDofollow) {
   // Get domain from URL
   let domain = '';
   try {
@@ -37,7 +37,7 @@ function generateDescription(siteName, url, da, linkType) {
   }
   
   const daText = da ? `DA ${da}` : '';
-  const linkText = linkType === 'dofollow' ? 'dofollow' : 'nofollow';
+  const linkText = isDofollow ? 'dofollow' : 'nofollow';
   
   // Create a short, informative description
   const descriptions = [
