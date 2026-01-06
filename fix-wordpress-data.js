@@ -17,10 +17,10 @@ function extractDataFromHtml(html) {
     data.domainAuthority = parseInt(daMatch[1]);
   }
   
-  // Extract Do-Follow status
+  // Extract Do-Follow status (isDofollow is a boolean field)
   const doFollowMatch = html.match(/<strong>Do-Follow<\/strong>:\s*(YES|NO)/i);
   if (doFollowMatch) {
-    data.linkType = doFollowMatch[1].toUpperCase() === 'YES' ? 'dofollow' : 'nofollow';
+    data.isDofollow = doFollowMatch[1].toUpperCase() === 'YES';
   }
   
   return data;
