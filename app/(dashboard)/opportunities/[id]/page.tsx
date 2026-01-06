@@ -331,7 +331,9 @@ export default function OpportunityDetailPage({ params }: { params: { id: string
                 </div>
               </div>
               
-              <p className="text-white/95 text-lg leading-relaxed">{opportunity.fullDescription}</p>
+              <div className="text-white/95 text-lg leading-relaxed prose prose-invert prose-lg max-w-none prose-headings:text-white prose-p:text-white/90 prose-strong:text-white prose-li:text-white/90">
+                <ReactMarkdown>{opportunity.fullDescription || ''}</ReactMarkdown>
+              </div>
               
               <div className="flex flex-wrap items-center gap-3">
                 <Badge className="bg-white/20 backdrop-blur border-white/30 text-white text-base px-4 py-2">
