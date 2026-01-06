@@ -203,7 +203,6 @@ async function importTutorials() {
 ${title} is a platform where you can create a profile and add your website link to build quality backlinks.
 
 **Domain Authority (DA):** ${details.domainAuthority || 'N/A'}
-**Page Authority (PA):** ${details.pageAuthority || 'N/A'}
 **Link Type:** ${details.isDofollow !== false ? 'Dofollow' : 'Nofollow'}
 
 **Website:** ${details.url}
