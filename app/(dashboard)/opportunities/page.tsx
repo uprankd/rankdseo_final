@@ -194,7 +194,7 @@ export default function OpportunitiesPage() {
             <div className="flex items-center gap-2">
               <Sparkles className="h-6 w-6 text-yellow-300" />
               <Badge className="bg-white/20 backdrop-blur border-white/30 text-white">
-                {data?.opportunities?.length || 0} Opportunities
+                {data?.totalCount || 0} Opportunities
               </Badge>
             </div>
             <h1 className="text-4xl md:text-5xl font-bold">
