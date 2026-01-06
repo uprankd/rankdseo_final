@@ -21,6 +21,7 @@ import {
 } from 'lucide-react';
 import { trpc } from '@/lib/api/client';
 import WatermarkedImage from '@/components/WatermarkedImage';
+import ReactMarkdown from 'react-markdown';
 
 // Fake opportunity data with detailed tutorials
 const OPPORTUNITIES = {
