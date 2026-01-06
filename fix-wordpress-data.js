@@ -100,7 +100,7 @@ async function fixWordPressImports() {
           opp.siteName,
           extracted.url,
           extracted.domainAuthority,
-          extracted.linkType || 'dofollow'
+          extracted.isDofollow !== false  // default to true if not found
         );
         
         // Update the opportunity
@@ -109,7 +109,7 @@ async function fixWordPressImports() {
           data: {
             url: extracted.url,
             domainAuthority: extracted.domainAuthority || null,
-            linkType: extracted.linkType === 'dofollow' ? 'DOFOLLOW' : extracted.linkType === 'nofollow' ? 'NOFOLLOW' : 'PROFILE',
+            isDofollow: extracted.isDofollow !== false,  // default to true
             shortDescription: cleanDesc,
           },
         });
