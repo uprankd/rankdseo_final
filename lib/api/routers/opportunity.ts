@@ -86,6 +86,11 @@ export const opportunityRouter = router({
         },
       });
 
+      // Get total count for display
+      const totalCount = await ctx.prisma.backlinkOpportunity.count({
+        where: { status: 'ACTIVE' },
+      });
+
       let nextCursor: string | undefined = undefined;
       if (opportunities.length > input.limit) {
         const nextItem = opportunities.pop();
@@ -96,6 +101,7 @@ export const opportunityRouter = router({
         opportunities,
         nextCursor,
         hasMore: !!nextCursor,
+        totalCount,
         planLimit: shouldHaveUnlimitedAccess ? 999999 : subscription.plan.maxOpportunities,
       };
     }),
