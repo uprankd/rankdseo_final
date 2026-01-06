@@ -11,6 +11,7 @@ import { Badge } from '@/components/ui/badge';
 import { toast } from 'sonner';
 import { Loader2, Check, CreditCard } from 'lucide-react';
 import { trpc } from '@/lib/api/client';
+import { PayPalScriptProvider, PayPalButtons } from '@paypal/react-paypal-js';
 
 export default function SignUpPage() {
   const router = useRouter();
@@ -19,6 +20,8 @@ export default function SignUpPage() {
   const [couponCode, setCouponCode] = useState('');
   const [validatedCoupon, setValidatedCoupon] = useState<any>(null);
   const [isValidatingCoupon, setIsValidatingCoupon] = useState(false);
+  const [paymentMethod, setPaymentMethod] = useState<'stripe' | 'paypal'>('stripe');
+  const [showPayPalButtons, setShowPayPalButtons] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
