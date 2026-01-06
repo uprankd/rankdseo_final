@@ -117,7 +117,7 @@ async function fixWordPressImports() {
         console.log(`✅ Updated: ${opp.siteName}`);
         console.log(`   URL: ${extracted.url}`);
         console.log(`   DA: ${extracted.domainAuthority || 'N/A'}`);
-        console.log(`   Link Type: ${extracted.linkType || 'N/A'}`);
+        console.log(`   DoFollow: ${extracted.isDofollow !== false ? 'Yes' : 'No'}`);
         console.log(`   Description: ${cleanDesc}`);
         console.log('');
         
