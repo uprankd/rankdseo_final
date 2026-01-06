@@ -2,6 +2,7 @@ import { router, publicProcedure, protectedProcedure } from '../trpc';
 import { z } from 'zod';
 import { TRPCError } from '@trpc/server';
 import { stripe } from '@/lib/stripe';
+import { createPayPalOrder, capturePayPalOrder, getPayPalOrderDetails } from '@/lib/paypal';
 
 export const paymentRouter = router({
   // Create checkout session for signup payment
