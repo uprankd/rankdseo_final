@@ -7,7 +7,7 @@ export const opportunityRouter = router({
   list: protectedProcedure
     .input(
       z.object({
-        limit: z.number().min(1).max(100).optional().default(25),
+        limit: z.number().min(1).max(1000).optional().default(100),
         cursor: z.string().optional(),
         search: z.string().optional(),
         category: z.array(z.string()).optional(),
