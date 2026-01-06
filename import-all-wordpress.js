@@ -19,12 +19,11 @@ async function fetchAllPosts() {
   
   while (true) {
     try {
-      const url = `${WP_BASE_URL}/posts?per_page=${perPage}&page=${page}&_embed`;
+      const url = `${WP_BASE_URL}/posts?per_page=${perPage}&page=${page}`;
       console.log(`   Fetching page ${page}...`);
       
       const response = await fetch(url, {
         headers: {
-          'Authorization': authHeader,
           'Content-Type': 'application/json'
         }
       });
@@ -55,7 +54,7 @@ async function fetchAllPosts() {
       page++;
       
       // Small delay to be nice to the server
-      await new Promise(resolve => setTimeout(resolve, 500));
+      await new Promise(resolve => setTimeout(resolve, 300));
       
     } catch (error) {
       console.error(`   ❌ Error fetching page ${page}:`, error.message);
