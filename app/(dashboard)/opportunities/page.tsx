@@ -758,7 +758,7 @@ export default function OpportunitiesPage() {
             {/* Active Filters Summary */}
             <div className="flex items-center gap-2 pt-2">
               <Badge variant="outline" className="text-sm">
-                Showing {sortedOpportunities.length} of {data?.opportunities?.length || 0} opportunities
+                Showing {sortedOpportunities.length} of {data?.totalCount || 0} opportunities
               </Badge>
             </div>
           </div>
