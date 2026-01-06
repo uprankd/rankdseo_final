@@ -143,27 +143,6 @@ export default function SignUpPage() {
     }
   };
 
-      // Create user account with PENDING status
-      await signUpMutation.mutateAsync({
-        ...formData,
-        planId: selectedPlan,
-        paymentSessionId: checkoutResult.sessionId!,
-      });
-
-      // Redirect to Stripe checkout
-      if (checkoutResult.url) {
-        toast.success('Redirecting to payment...');
-        window.location.href = checkoutResult.url;
-      } else {
-        throw new Error('Failed to create checkout session');
-      }
-    } catch (error: any) {
-      console.error('Signup error:', error);
-      toast.error(error?.message || 'Failed to create account');
-      setIsLoading(false);
-    }
-  };
-
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-blue-50 to-white px-4 py-8">
       <div className="w-full max-w-6xl">
