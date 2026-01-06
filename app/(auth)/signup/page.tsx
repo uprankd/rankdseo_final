@@ -109,24 +109,39 @@ export default function SignUpPage() {
         return;
       }
 
-      // For paid plans, create checkout session first
-      const checkoutResult = await createCheckoutMutation.mutateAsync({
-        email: formData.email,
-        name: formData.name,
-        planId: selectedPlan,
-        couponCode: couponCode.trim() || undefined,
-      });
-
-      if (checkoutResult.isFree) {
-        // This shouldn't happen, but handle just in case
-        await signUpMutation.mutateAsync({
-          ...formData,
+      // For paid plans with Stripe
+      if (paymentMethod === 'stripe') {
+        const checkoutResult = await createCheckoutMutation.mutateAsync({
+          email: formData.email,
+          name: formData.name,
           planId: selectedPlan,
+          couponCode: couponCode.trim() || undefined,
         });
-        toast.success('Account created! Please sign in.');
-        router.push('/signin');
-        return;
+
+        if (checkoutResult.isFree) {
+          await signUpMutation.mutateAsync({
+            ...formData,
+            planId: selectedPlan,
+          });
+          toast.success('Account created! Please sign in.');
+          router.push('/signin');
+          return;
+        }
+
+        // Redirect to Stripe checkout
+        if (checkoutResult.url) {
+          window.location.href = checkoutResult.url;
+        }
+      } else {
+        // For PayPal, show PayPal buttons
+        setShowPayPalButtons(true);
+        setIsLoading(false);
       }
+    } catch (error: any) {
+      setIsLoading(false);
+      toast.error(error.message || 'Something went wrong. Please try again.');
+    }
+  };
 
       // Create user account with PENDING status
       await signUpMutation.mutateAsync({
