@@ -56,7 +56,7 @@ function parseTutorialSteps(content, title) {
         stepOrder: step.number,
         stepTitle: step.text.substring(0, 100),
         stepDescription: step.text.substring(0, 500),
-        imageUrl: images[index] || null,
+        screenshotUrl: images[index] || null,
         estimatedMinutes: 2,
       });
     });
@@ -72,7 +72,7 @@ function parseTutorialSteps(content, title) {
         stepOrder: index + 1,
         stepTitle: line.substring(0, 100),
         stepDescription: line,
-        imageUrl: images[index] || null,
+        screenshotUrl: images[index] || null,
         estimatedMinutes: 2,
       });
     });
@@ -84,28 +84,28 @@ function parseTutorialSteps(content, title) {
       stepOrder: 1,
       stepTitle: `Visit ${title}`,
       stepDescription: `Navigate to the ${title} website and look for the registration or sign-up option.`,
-      imageUrl: images[0] || null,
+      screenshotUrl: images[0] || null,
       estimatedMinutes: 1,
     });
     steps.push({
       stepOrder: 2,
       stepTitle: 'Create an account',
       stepDescription: 'Fill in the registration form with your details (email, password, etc.) and submit.',
-      imageUrl: images[1] || null,
+      screenshotUrl: images[1] || null,
       estimatedMinutes: 3,
     });
     steps.push({
       stepOrder: 3,
       stepTitle: 'Add your backlink',
       stepDescription: 'Once logged in, find the profile or listing section and add your website URL and description.',
-      imageUrl: images[2] || null,
+      screenshotUrl: images[2] || null,
       estimatedMinutes: 3,
     });
     steps.push({
       stepOrder: 4,
       stepTitle: 'Publish and verify',
       stepDescription: 'Save/publish your profile and verify that your backlink is live on the site.',
-      imageUrl: images[3] || null,
+      screenshotUrl: images[3] || null,
       estimatedMinutes: 1,
     });
   }
