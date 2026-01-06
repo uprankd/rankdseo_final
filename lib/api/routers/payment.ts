@@ -242,4 +242,160 @@ export const paymentRouter = router({
 
       return payment;
     }),
+
+  // Create PayPal order for signup
+  createPayPalSignupOrder: publicProcedure
+    .input(
+      z.object({
+        email: z.string().email(),
+        name: z.string(),
+        planId: z.string(),
+        couponCode: z.string().optional(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const { email, name, planId, couponCode } = input;
+
+      // Get plan details
+      const plan = await ctx.prisma.plan.findUnique({
+        where: { id: planId },
+      });
+
+      if (!plan) {
+        throw new TRPCError({
+          code: 'NOT_FOUND',
+          message: 'Plan not found',
+        });
+      }
+
+      // Calculate final price with coupon if provided
+      let finalPrice = plan.price;
+      let couponData = null;
+
+      if (couponCode) {
+        const coupon = await ctx.prisma.coupon.findUnique({
+          where: { code: couponCode.toUpperCase() },
+        });
+
+        if (coupon && coupon.isActive) {
+          const isExpired = coupon.expiresAt && new Date(coupon.expiresAt) < new Date();
+          const hasReachedLimit = coupon.maxUses && coupon.usedCount >= coupon.maxUses;
+          const isApplicable = coupon.applicablePlans.length === 0 || coupon.applicablePlans.includes(planId);
+
+          if (!isExpired && !hasReachedLimit && isApplicable) {
+            let discountAmount = 0;
+            if (coupon.discountType === 'PERCENTAGE') {
+              discountAmount = (plan.price * coupon.discountValue) / 100;
+            } else {
+              discountAmount = coupon.discountValue * 100;
+            }
+
+            finalPrice = Math.round(Math.max(0, plan.price - discountAmount));
+            couponData = {
+              id: coupon.id,
+              code: coupon.code,
+              discountAmount: Math.round(discountAmount),
+            };
+          }
+        }
+      }
+
+      // Check if plan is free after discount
+      if (finalPrice === 0) {
+        return {
+          isFree: true,
+          orderId: null,
+          coupon: couponData,
+        };
+      }
+
+      try {
+        // Create PayPal order
+        const paypalOrder = await createPayPalOrder(finalPrice, 'USD');
+
+        // Store order metadata in database for later processing
+        // We'll use the metadata field to store PayPal order info
+        await ctx.prisma.paymentTransaction.create({
+          data: {
+            userId: '', // Will be set after user signup
+            planId: plan.id,
+            amount: finalPrice / 100,
+            currency: 'usd',
+            status: 'PENDING',
+            sessionId: paypalOrder.orderId,
+            paymentMethod: 'paypal',
+            metadata: {
+              email,
+              name,
+              planName: plan.name,
+              couponId: couponData?.id || '',
+              couponCode: couponData?.code || '',
+              originalPrice: plan.price,
+              discountAmount: couponData?.discountAmount || 0,
+              paymentProvider: 'paypal',
+            },
+          },
+        });
+
+        console.log(`💳 PayPal order created: ${paypalOrder.orderId} for ${email}`);
+
+        return {
+          isFree: false,
+          orderId: paypalOrder.orderId,
+          coupon: couponData,
+        };
+      } catch (error: any) {
+        console.error('PayPal order creation error:', error);
+        throw new TRPCError({
+          code: 'INTERNAL_SERVER_ERROR',
+          message: error.message || 'Failed to create PayPal order',
+        });
+      }
+    }),
+
+  // Capture PayPal payment after user approval
+  capturePayPalPayment: publicProcedure
+    .input(z.object({ orderId: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      const { orderId } = input;
+
+      try {
+        // Capture the payment
+        const capture = await capturePayPalOrder(orderId);
+
+        // Update transaction status
+        await ctx.prisma.paymentTransaction.updateMany({
+          where: { sessionId: orderId },
+          data: {
+            status: 'SUCCEEDED',
+            paymentIntent: capture.captureId,
+            updatedAt: new Date(),
+          },
+        });
+
+        console.log(`✅ PayPal payment captured: ${orderId}`);
+
+        return {
+          success: true,
+          captureId: capture.captureId,
+          status: capture.status,
+        };
+      } catch (error: any) {
+        console.error('PayPal capture error:', error);
+        
+        // Update transaction to failed
+        await ctx.prisma.paymentTransaction.updateMany({
+          where: { sessionId: orderId },
+          data: {
+            status: 'FAILED',
+            updatedAt: new Date(),
+          },
+        });
+
+        throw new TRPCError({
+          code: 'INTERNAL_SERVER_ERROR',
+          message: error.message || 'Failed to capture PayPal payment',
+        });
+      }
+    }),
 });
