@@ -1,4 +1,4 @@
-import { Client, Environment, LogLevel, OrdersController } from '@paypal/paypal-server-sdk';
+import { Client, Environment, LogLevel } from '@paypal/paypal-server-sdk';
 
 // Initialize PayPal client
 const environment = process.env.PAYPAL_MODE === 'live' 
@@ -23,12 +23,11 @@ export const paypalClient = new Client({
   },
 });
 
-// Create orders controller instance
-export const ordersController = new OrdersController(paypalClient);
-
 // Helper function to create PayPal order
 export async function createPayPalOrder(amount: number, currency: string = 'USD') {
   try {
+    const ordersController = paypalClient.ordersController;
+    
     const collect = {
       body: {
         intent: 'CAPTURE',
@@ -44,12 +43,13 @@ export async function createPayPalOrder(amount: number, currency: string = 'USD'
       prefer: 'return=representation',
     };
 
-    const { body, ...httpResponse } = await ordersController.ordersCreate(collect);
+    const response = await ordersController.ordersCreate(collect);
+    const order = response.result;
     
     return {
       success: true,
-      orderId: body.id,
-      order: body,
+      orderId: order.id,
+      order: order,
     };
   } catch (error: any) {
     console.error('PayPal order creation error:', error);
@@ -60,18 +60,21 @@ export async function createPayPalOrder(amount: number, currency: string = 'USD'
 // Helper function to capture PayPal order
 export async function capturePayPalOrder(orderId: string) {
   try {
+    const ordersController = paypalClient.ordersController;
+    
     const collect = {
       id: orderId,
       prefer: 'return=representation',
     };
 
-    const { body, ...httpResponse } = await ordersController.ordersCapture(collect);
+    const response = await ordersController.ordersCapture(collect);
+    const capture = response.result;
     
     return {
       success: true,
-      captureId: body.id,
-      status: body.status,
-      order: body,
+      captureId: capture.id,
+      status: capture.status,
+      order: capture,
     };
   } catch (error: any) {
     console.error('PayPal order capture error:', error);
@@ -82,15 +85,18 @@ export async function capturePayPalOrder(orderId: string) {
 // Helper function to get order details
 export async function getPayPalOrderDetails(orderId: string) {
   try {
+    const ordersController = paypalClient.ordersController;
+    
     const collect = {
       id: orderId,
     };
 
-    const { body, ...httpResponse } = await ordersController.ordersGet(collect);
+    const response = await ordersController.ordersGet(collect);
+    const order = response.result;
     
     return {
       success: true,
-      order: body,
+      order: order,
     };
   } catch (error: any) {
     console.error('PayPal get order error:', error);
