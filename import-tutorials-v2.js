@@ -214,7 +214,7 @@ This opportunity allows you to create a free profile and include your website UR
         }
         
         if (details.domainAuthority) updateData.domainAuthority = details.domainAuthority;
-        if (details.pageAuthority) updateData.pageAuthority = details.pageAuthority;
+        // Note: pageAuthority is not in our schema, skip it
         if (details.isDofollow !== undefined) updateData.isDofollow = details.isDofollow;
         
         if (Object.keys(updateData).length > 0) {
