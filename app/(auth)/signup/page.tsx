@@ -43,6 +43,8 @@ export default function SignUpPage() {
   const signUpMutation = trpc.auth.signUp.useMutation();
   const createCheckoutMutation = trpc.payment.createSignupCheckout.useMutation();
   const validateCouponMutation = trpc.coupon.validateCoupon.useMutation();
+  const createPayPalOrderMutation = trpc.payment.createPayPalSignupOrder.useMutation();
+  const capturePayPalPaymentMutation = trpc.payment.capturePayPalPayment.useMutation();
 
   const handleValidateCoupon = async () => {
     if (!couponCode.trim()) {
