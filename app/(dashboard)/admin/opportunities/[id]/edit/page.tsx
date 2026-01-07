@@ -1008,7 +1008,7 @@ export default function EditOpportunityPage() {
                             <p className="text-sm font-medium text-gray-600">
                               {imagePreview ? 'Change Screenshot' : 'Upload Screenshot'}
                             </p>
-                            <p className="text-xs text-gray-500">PNG, JPG up to 5MB</p>
+                            <p className="text-xs text-gray-500">JPG, PNG, WebP, GIF up to 10MB</p>
                           </>
                         )}
                       </div>
