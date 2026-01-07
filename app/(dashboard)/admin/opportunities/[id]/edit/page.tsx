@@ -914,18 +914,59 @@ export default function EditOpportunityPage() {
                         />
                       </div>
                       <div>
-                        <Label className="font-semibold">Screenshot URL (optional)</Label>
-                        <Input
-                          type="url"
-                          value={editingInstruction.screenshotUrl || ''}
-                          onChange={(e) =>
-                            setEditingInstruction({
-                              ...editingInstruction,
-                              screenshotUrl: e.target.value,
-                            })
-                          }
-                          className="border-2 h-11"
-                        />
+                        <Label className="font-semibold">Screenshot (optional)</Label>
+                        
+                        {/* Current/Preview Image */}
+                        {editingInstruction.screenshotUrl && (
+                          <div className="relative mb-3 group">
+                            <img 
+                              src={editingInstruction.screenshotUrl} 
+                              alt="Current screenshot" 
+                              className="w-full max-h-48 object-contain rounded-lg border-2 border-navy-200"
+                            />
+                            <Button
+                              type="button"
+                              variant="destructive"
+                              size="sm"
+                              onClick={() => setEditingInstruction({ ...editingInstruction, screenshotUrl: '' })}
+                              className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity"
+                            >
+                              <X className="h-4 w-4 mr-1" />
+                              Remove
+                            </Button>
+                          </div>
+                        )}
+                        
+                        {/* Upload Area */}
+                        <label className="block">
+                          <div className={`border-2 border-dashed rounded-lg p-4 text-center cursor-pointer transition-all ${
+                            uploadingEditImage ? 'border-navy-400 bg-navy-50' : 'border-gray-300 hover:border-navy-400 hover:bg-navy-50'
+                          }`}>
+                            <input
+                              type="file"
+                              accept="image/jpeg,image/png,image/webp,image/gif"
+                              onChange={handleEditImageUpload}
+                              className="hidden"
+                              disabled={uploadingEditImage}
+                            />
+                            <div className="flex flex-col items-center gap-2">
+                              {uploadingEditImage ? (
+                                <>
+                                  <Sparkles className="h-6 w-6 text-navy-500 animate-spin" />
+                                  <p className="text-sm font-medium text-navy-600">Uploading...</p>
+                                </>
+                              ) : (
+                                <>
+                                  <Upload className="h-6 w-6 text-gray-400" />
+                                  <p className="text-sm font-medium text-gray-600">
+                                    {editingInstruction.screenshotUrl ? 'Change Screenshot' : 'Upload Screenshot'}
+                                  </p>
+                                  <p className="text-xs text-gray-500">JPG, PNG, WebP, GIF up to 10MB</p>
+                                </>
+                              )}
+                            </div>
+                          </div>
+                        </label>
                       </div>
                       <div className="flex gap-2">
                         <Button
