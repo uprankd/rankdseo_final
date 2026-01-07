@@ -51,7 +51,7 @@ export default function EditProjectPage() {
   const utils = trpc.useUtils();
   
   const { data: project, isLoading } = trpc.project.getById.useQuery({ id: projectId });
-  const { data: allOpportunities } = trpc.opportunity.list.useQuery({ limit: 100 });
+  const { data: allOpportunities } = trpc.opportunity.list.useQuery({ limit: 2000 });
 
   const updateProject = trpc.project.update.useMutation({
     onSuccess: () => {
