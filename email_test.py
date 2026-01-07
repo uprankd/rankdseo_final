@@ -14,7 +14,7 @@ import subprocess
 from typing import Dict, Any
 
 # Configuration
-BASE_URL = "https://backlink-buddy-1.preview.emergentagent.com"
+BASE_URL = "https://backlink-hub-1.preview.emergentagent.com"
 
 def generate_test_email():
     """Generate a unique test email"""

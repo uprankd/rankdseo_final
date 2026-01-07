@@ -10,7 +10,7 @@ import sys
 from typing import Dict, List, Any, Optional
 
 # Configuration
-BASE_URL = "https://backlink-buddy-1.preview.emergentagent.com"
+BASE_URL = "https://backlink-hub-1.preview.emergentagent.com"
 API_URL = f"{BASE_URL}/api"
 
 class AdminOpportunitiesTester:

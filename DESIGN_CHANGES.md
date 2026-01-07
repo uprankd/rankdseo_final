@@ -122,7 +122,7 @@
 
 ## 🚀 How to See the Changes
 
-1. Visit: https://backlink-buddy-1.preview.emergentagent.com
+1. Visit: https://backlink-hub-1.preview.emergentagent.com
 2. Sign in with: admin@rankseo.com / Admin123!
 3. Navigate through:
    - Dashboard: See colorful welcome and stats
