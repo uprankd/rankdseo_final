@@ -27,7 +27,8 @@ def create_test_image(width=100, height=100, format='JPEG'):
 def create_large_test_image():
     """Create a large test image (over 10MB)"""
     # Create a large image that will be over 10MB
-    img = Image.new('RGB', (4000, 4000), color='blue')
+    # Using a very large image with high quality to exceed 10MB
+    img = Image.new('RGB', (5000, 5000), color='blue')
     img_bytes = BytesIO()
     img.save(img_bytes, format='JPEG', quality=100)
     img_bytes.seek(0)
