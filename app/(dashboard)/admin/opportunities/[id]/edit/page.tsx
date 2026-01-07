@@ -371,6 +371,95 @@ export default function EditOpportunityPage() {
     setNewInstruction({ ...newInstruction, screenshotUrl: '' });
   };
 
+  // Handler for uploading images when editing existing instructions
+  const handleEditImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file || !editingInstruction) return;
+
+    // Validate file type
+    const validTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/gif', 'image/jpg'];
+    if (!validTypes.includes(file.type) && !file.type.startsWith('image/')) {
+      toast.error('Please upload a valid image file (JPG, PNG, WebP, or GIF)');
+      return;
+    }
+
+    // Validate file size (max 10MB)
+    if (file.size > 10 * 1024 * 1024) {
+      toast.error('Image size must be less than 10MB');
+      return;
+    }
+
+    setUploadingEditImage(true);
+    try {
+      const reader = new FileReader();
+      reader.onloadend = async () => {
+        const base64String = reader.result as string;
+        
+        try {
+          // Apply watermark
+          const watermarkedImage = await applyWatermark(base64String);
+          
+          // Convert to blob and upload
+          const response = await fetch(watermarkedImage);
+          const blob = await response.blob();
+          
+          const formData = new FormData();
+          const extension = file.name.split('.').pop() || 'png';
+          formData.append('file', blob, `watermarked-${Date.now()}.${extension}`);
+          
+          const uploadResponse = await fetch('/api/upload', {
+            method: 'POST',
+            body: formData,
+          });
+          
+          if (!uploadResponse.ok) {
+            const errorData = await uploadResponse.json();
+            throw new Error(errorData.error || 'Upload failed');
+          }
+          
+          const { url } = await uploadResponse.json();
+          
+          setEditingInstruction({ ...editingInstruction, screenshotUrl: url });
+          toast.success('Image uploaded and watermarked successfully!');
+        } catch (error) {
+          console.error('Watermark/Upload error:', error);
+          
+          // Fallback: upload original without watermark
+          try {
+            const formData = new FormData();
+            formData.append('file', file);
+            
+            const uploadResponse = await fetch('/api/upload', {
+              method: 'POST',
+              body: formData,
+            });
+            
+            if (!uploadResponse.ok) {
+              const errorData = await uploadResponse.json();
+              throw new Error(errorData.error || 'Upload failed');
+            }
+            
+            const { url } = await uploadResponse.json();
+            
+            setEditingInstruction({ ...editingInstruction, screenshotUrl: url });
+            toast.success('Image uploaded successfully!');
+          } catch (fallbackError) {
+            toast.error('Failed to upload image');
+          }
+        }
+        setUploadingEditImage(false);
+      };
+      reader.onerror = () => {
+        toast.error('Failed to read image file');
+        setUploadingEditImage(false);
+      };
+      reader.readAsDataURL(file);
+    } catch (error) {
+      toast.error('Failed to upload image');
+      setUploadingEditImage(false);
+    }
+  };
+
   if (isLoading || !formData) {
     return (
       <div className="flex items-center justify-center py-20">
