@@ -133,8 +133,11 @@ def test_reject_missing_file():
     print("\n=== Test Case 3: Reject Missing File ===")
     
     try:
-        # Make request without file
-        response = requests.post(UPLOAD_ENDPOINT, data={}, timeout=30)
+        # Make request with multipart form but without the 'file' field
+        files = {
+            'notfile': ('test.txt', BytesIO(b'test'), 'text/plain')
+        }
+        response = requests.post(UPLOAD_ENDPOINT, files=files, timeout=30)
         
         print(f"Status Code: {response.status_code}")
         print(f"Response: {response.text}")
