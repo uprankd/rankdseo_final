@@ -275,46 +275,91 @@ export default function EditOpportunityPage() {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    // Validate file type
-    if (!file.type.startsWith('image/')) {
-      toast.error('Please upload an image file');
+    // Validate file type - support JPG, PNG, WebP, GIF
+    const validTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/gif', 'image/jpg'];
+    if (!validTypes.includes(file.type) && !file.type.startsWith('image/')) {
+      toast.error('Please upload a valid image file (JPG, PNG, WebP, or GIF)');
       return;
     }
 
-    // Validate file size (max 5MB)
-    if (file.size > 5 * 1024 * 1024) {
-      toast.error('Image size must be less than 5MB');
+    // Validate file size (max 10MB)
+    if (file.size > 10 * 1024 * 1024) {
+      toast.error('Image size must be less than 10MB');
       return;
     }
 
     setUploadingImage(true);
     try {
-      // Convert to base64
+      // First, apply watermark to the image
       const reader = new FileReader();
       reader.onloadend = async () => {
         const base64String = reader.result as string;
         
-        // Apply watermark
         try {
+          // Apply watermark
           const watermarkedImage = await applyWatermark(base64String);
-          setImagePreview(watermarkedImage);
-          setNewInstruction({ ...newInstruction, screenshotUrl: watermarkedImage });
+          
+          // Convert watermarked data URL to blob for upload
+          const response = await fetch(watermarkedImage);
+          const blob = await response.blob();
+          
+          // Create form data and upload to server
+          const formData = new FormData();
+          const extension = file.name.split('.').pop() || 'png';
+          formData.append('file', blob, `watermarked-${Date.now()}.${extension}`);
+          
+          const uploadResponse = await fetch('/api/upload', {
+            method: 'POST',
+            body: formData,
+          });
+          
+          if (!uploadResponse.ok) {
+            const errorData = await uploadResponse.json();
+            throw new Error(errorData.error || 'Upload failed');
+          }
+          
+          const { url } = await uploadResponse.json();
+          
+          setImagePreview(url);
+          setNewInstruction({ ...newInstruction, screenshotUrl: url });
           toast.success('Image uploaded and watermarked successfully!');
         } catch (error) {
-          console.error('Watermark error:', error);
-          // Fall back to original image if watermarking fails
-          setImagePreview(base64String);
-          setNewInstruction({ ...newInstruction, screenshotUrl: base64String });
-          toast.success('Image uploaded successfully!');
+          console.error('Watermark/Upload error:', error);
+          
+          // Fall back to uploading original image without watermark
+          try {
+            const formData = new FormData();
+            formData.append('file', file);
+            
+            const uploadResponse = await fetch('/api/upload', {
+              method: 'POST',
+              body: formData,
+            });
+            
+            if (!uploadResponse.ok) {
+              const errorData = await uploadResponse.json();
+              throw new Error(errorData.error || 'Upload failed');
+            }
+            
+            const { url } = await uploadResponse.json();
+            
+            setImagePreview(url);
+            setNewInstruction({ ...newInstruction, screenshotUrl: url });
+            toast.success('Image uploaded successfully!');
+          } catch (fallbackError) {
+            console.error('Fallback upload error:', fallbackError);
+            toast.error('Failed to upload image');
+          }
         }
         setUploadingImage(false);
       };
       reader.onerror = () => {
-        toast.error('Failed to upload image');
+        toast.error('Failed to read image file');
         setUploadingImage(false);
       };
       reader.readAsDataURL(file);
     } catch (error) {
+      console.error('Upload error:', error);
       toast.error('Failed to upload image');
       setUploadingImage(false);
     }
