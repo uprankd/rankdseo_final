@@ -84,22 +84,36 @@ export const authRouter = router({
         },
       });
 
-      // If payment session provided, create payment transaction record
+      // If payment session provided, update existing payment transaction or create new one
       if (paymentSessionId && selectedPlan.price > 0) {
-        await ctx.prisma.paymentTransaction.create({
-          data: {
-            userId: user.id,
-            planId: selectedPlan.id,
-            amount: selectedPlan.price / 100, // Convert cents to dollars
-            currency: 'usd',
-            status: 'PENDING',
-            sessionId: paymentSessionId,
-            metadata: {
-              planName: selectedPlan.name,
-              customerName: name,
-            },
-          },
+        // First try to find existing transaction with this session ID
+        const existingTransaction = await ctx.prisma.paymentTransaction.findUnique({
+          where: { sessionId: paymentSessionId },
         });
+
+        if (existingTransaction) {
+          // Update existing transaction with user ID
+          await ctx.prisma.paymentTransaction.update({
+            where: { sessionId: paymentSessionId },
+            data: { userId: user.id },
+          });
+        } else {
+          // Create new transaction
+          await ctx.prisma.paymentTransaction.create({
+            data: {
+              userId: user.id,
+              planId: selectedPlan.id,
+              amount: selectedPlan.price / 100, // Convert cents to dollars
+              currency: 'usd',
+              status: 'PENDING',
+              sessionId: paymentSessionId,
+              metadata: {
+                planName: selectedPlan.name,
+                customerName: name,
+              },
+            },
+          });
+        }
       }
 
       // Send welcome email (async, don't block registration)
