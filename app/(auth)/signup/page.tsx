@@ -111,6 +111,7 @@ export default function SignUpPage() {
 
       // For paid plans with Stripe
       if (paymentMethod === 'stripe') {
+        // First create checkout session to get session ID and check if free
         const checkoutResult = await createCheckoutMutation.mutateAsync({
           email: formData.email,
           name: formData.name,
@@ -126,6 +127,20 @@ export default function SignUpPage() {
           toast.success('Account created! Please sign in.');
           router.push('/signin');
           return;
+        }
+
+        // Create user FIRST with PENDING status before redirecting to payment
+        try {
+          await signUpMutation.mutateAsync({
+            ...formData,
+            planId: selectedPlan,
+            paymentSessionId: checkoutResult.sessionId || undefined,
+          });
+        } catch (signupError: any) {
+          // If user already exists, that's ok - they might be retrying payment
+          if (!signupError.message?.includes('already exists')) {
+            throw signupError;
+          }
         }
 
         // Redirect to Stripe checkout
