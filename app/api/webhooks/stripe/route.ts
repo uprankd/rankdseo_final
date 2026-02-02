@@ -110,10 +110,27 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session) {
   console.log('📝 Checkout details:', { sessionId, customerEmail, planId });
 
   // Find payment transaction
-  const transaction = await prisma.paymentTransaction.findUnique({
+  let transaction = await prisma.paymentTransaction.findUnique({
     where: { sessionId },
     include: { user: true },
   });
+
+  // If transaction exists but has no user, try to find user by email and link them
+  if (transaction && !transaction.userId && customerEmail) {
+    const user = await prisma.user.findUnique({
+      where: { email: customerEmail },
+    });
+    
+    if (user) {
+      // Link user to transaction
+      transaction = await prisma.paymentTransaction.update({
+        where: { sessionId },
+        data: { userId: user.id },
+        include: { user: true },
+      });
+      console.log('✅ Linked user to transaction:', user.email);
+    }
+  }
 
   if (!transaction) {
     console.warn('⚠️ No transaction found for session:', sessionId);
@@ -153,6 +170,8 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session) {
       }
       
       console.log('✅ User account activated:', user.email);
+    } else {
+      console.error('❌ Cannot find user to activate for session:', sessionId, 'email:', customerEmail);
     }
     return;
   }
