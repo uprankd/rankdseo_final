@@ -100,6 +100,7 @@ export default function NewOpportunityPage() {
       citationFlow: formData.citationFlow || undefined,
       country: formData.country || undefined,
       fullDescription: formData.fullDescription || undefined,
+      sendNotification: formData.sendNotification,
     });
   };
 
