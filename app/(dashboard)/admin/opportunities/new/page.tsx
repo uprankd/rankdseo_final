@@ -40,6 +40,7 @@ export default function NewOpportunityPage() {
     citationFlow: 0,
     isDofollow: true,
     status: 'ACTIVE' as const,
+    sendNotification: true, // Default to sending notifications
   });
 
   const createOpportunity = trpc.admin.createOpportunity.useMutation({
