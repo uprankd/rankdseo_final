@@ -465,6 +465,35 @@ export default function NewOpportunityPage() {
           </CardContent>
         </Card>
 
+        {/* Email Notification */}
+        <Card className="border-2 shadow-lg border-blue-200 bg-blue-50/50">
+          <CardHeader>
+            <CardTitle className="text-xl flex items-center gap-2">
+              <Mail className="h-5 w-5 text-blue-600" />
+              Email Notification
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="flex items-center space-x-3">
+              <input
+                type="checkbox"
+                id="sendNotification"
+                checked={formData.sendNotification}
+                onChange={(e) => setFormData({ ...formData, sendNotification: e.target.checked })}
+                className="h-5 w-5 border-2 rounded accent-blue-600"
+              />
+              <div>
+                <Label htmlFor="sendNotification" className="font-semibold cursor-pointer text-base">
+                  Notify all users about this new opportunity
+                </Label>
+                <p className="text-sm text-gray-600 mt-1">
+                  Send an email to all active subscribers informing them about this new backlink opportunity.
+                </p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
         {/* Submit Button */}
         <div className="flex gap-4">
           <Link href="/admin" className="flex-1">
