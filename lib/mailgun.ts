@@ -348,4 +348,91 @@ export const emailTemplates = {
       </html>
     `,
   }),
+
+  newOpportunity: (userName: string, opportunity: {
+    siteName: string;
+    shortDescription: string;
+    category: string;
+    linkType: string;
+    domainAuthority?: number;
+    isFree: boolean;
+    id: string;
+  }) => ({
+    subject: `🔗 New Backlink Opportunity: ${opportunity.siteName}`,
+    html: `
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <style>
+            body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+            .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+            .header { background: linear-gradient(135deg, #3b82f6 0%, #06b6d4 100%); color: white; padding: 30px; text-align: center; border-radius: 10px 10px 0 0; }
+            .content { background: #f9fafb; padding: 30px; border-radius: 0 0 10px 10px; }
+            .opportunity-card { background: white; border: 2px solid #3b82f6; border-radius: 12px; padding: 20px; margin: 20px 0; }
+            .badge { display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: bold; margin: 4px 4px 4px 0; }
+            .badge-blue { background: #dbeafe; color: #1e40af; }
+            .badge-green { background: #dcfce7; color: #166534; }
+            .badge-purple { background: #f3e8ff; color: #7c3aed; }
+            .button { display: inline-block; background: #3b82f6; color: white; padding: 14px 32px; text-decoration: none; border-radius: 8px; margin: 20px 0; font-weight: bold; }
+            .stats { display: flex; gap: 20px; margin: 15px 0; }
+            .stat { text-align: center; }
+            .stat-value { font-size: 24px; font-weight: bold; color: #3b82f6; }
+            .stat-label { font-size: 12px; color: #6b7280; }
+            .footer { text-align: center; color: #6b7280; padding: 20px; font-size: 14px; }
+          </style>
+        </head>
+        <body>
+          <div class="container">
+            <div class="header">
+              <h1 style="margin: 0;">🔗 New Opportunity Added!</h1>
+              <p style="margin: 10px 0 0 0; opacity: 0.9;">A new backlink opportunity is available</p>
+            </div>
+            <div class="content">
+              <h2>Hi ${userName}! 👋</h2>
+              <p>Great news! A new backlink opportunity has just been added to RankdSEO:</p>
+              
+              <div class="opportunity-card">
+                <h3 style="margin-top: 0; color: #1e40af; font-size: 22px;">${opportunity.siteName}</h3>
+                <p style="color: #4b5563; margin: 10px 0;">${opportunity.shortDescription}</p>
+                
+                <div style="margin: 15px 0;">
+                  <span class="badge badge-blue">${opportunity.category}</span>
+                  <span class="badge badge-purple">${opportunity.linkType.replace('_', ' ')}</span>
+                  ${opportunity.isFree ? '<span class="badge badge-green">FREE</span>' : ''}
+                </div>
+                
+                ${opportunity.domainAuthority ? `
+                <div style="background: #f0f9ff; padding: 15px; border-radius: 8px; margin-top: 15px;">
+                  <div style="display: inline-block; text-align: center;">
+                    <div style="font-size: 28px; font-weight: bold; color: #0369a1;">DA ${opportunity.domainAuthority}</div>
+                    <div style="font-size: 12px; color: #6b7280;">Domain Authority</div>
+                  </div>
+                </div>
+                ` : ''}
+              </div>
+              
+              <div style="text-align: center;">
+                <a href="${process.env.NEXT_PUBLIC_APP_URL}/opportunities/${opportunity.id}" class="button" style="color: white;">
+                  View Opportunity & Tutorial →
+                </a>
+              </div>
+              
+              <p style="color: #6b7280; font-size: 14px; margin-top: 20px;">
+                This opportunity includes a step-by-step tutorial to help you acquire this backlink successfully.
+              </p>
+              
+              <p>Happy link building! 🚀</p>
+              <p><strong>The RankdSEO Team</strong></p>
+            </div>
+            <div class="footer">
+              <p>© 2024 RankdSEO. All rights reserved.</p>
+              <p style="font-size: 12px;">
+                <a href="${process.env.NEXT_PUBLIC_APP_URL}/settings" style="color: #6b7280;">Manage email preferences</a>
+              </p>
+            </div>
+          </div>
+        </body>
+      </html>
+    `,
+  }),
 };
