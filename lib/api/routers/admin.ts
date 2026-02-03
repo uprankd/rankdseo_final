@@ -757,3 +757,92 @@ export const adminRouter = router({
       return { success: true };
     }),
 });
+
+// Helper function to notify all users of a new opportunity
+async function notifyUsersOfNewOpportunity(
+  prisma: any,
+  opportunity: {
+    id: string;
+    siteName: string;
+    shortDescription: string;
+    category: string;
+    linkType: string;
+    domainAuthority: number | null;
+    isFree: boolean;
+  }
+) {
+  console.log(`📧 Starting notification for new opportunity: ${opportunity.siteName}`);
+  
+  try {
+    // Get all active users with active subscriptions
+    const users = await prisma.user.findMany({
+      where: {
+        accountStatus: 'ACTIVE',
+        subscription: {
+          status: 'ACTIVE',
+        },
+      },
+      select: {
+        id: true,
+        email: true,
+        name: true,
+      },
+    });
+
+    console.log(`📧 Found ${users.length} active users to notify`);
+
+    // Send emails in batches to avoid overwhelming the email service
+    const batchSize = 10;
+    let successCount = 0;
+    let failCount = 0;
+
+    for (let i = 0; i < users.length; i += batchSize) {
+      const batch = users.slice(i, i + batchSize);
+      
+      await Promise.allSettled(
+        batch.map(async (user: { id: string; email: string; name: string | null }) => {
+          try {
+            const emailContent = emailTemplates.newOpportunity(
+              user.name || 'there',
+              {
+                siteName: opportunity.siteName,
+                shortDescription: opportunity.shortDescription,
+                category: opportunity.category,
+                linkType: opportunity.linkType,
+                domainAuthority: opportunity.domainAuthority || undefined,
+                isFree: opportunity.isFree,
+                id: opportunity.id,
+              }
+            );
+
+            await sendEmail({
+              to: user.email,
+              subject: emailContent.subject,
+              html: emailContent.html,
+              metadata: {
+                userId: user.id,
+                emailType: 'new_opportunity',
+                opportunityId: opportunity.id,
+              },
+            });
+
+            successCount++;
+          } catch (error) {
+            failCount++;
+            console.error(`❌ Failed to send notification to ${user.email}:`, error);
+          }
+        })
+      );
+
+      // Small delay between batches to avoid rate limiting
+      if (i + batchSize < users.length) {
+        await new Promise(resolve => setTimeout(resolve, 500));
+      }
+    }
+
+    console.log(`📧 Notification complete: ${successCount} sent, ${failCount} failed`);
+  } catch (error) {
+    console.error('❌ Error in notifyUsersOfNewOpportunity:', error);
+    throw error;
+  }
+}
