@@ -110,12 +110,23 @@ export const adminRouter = router({
         citationFlow: z.number().optional(),
         isDofollow: z.boolean().default(true),
         status: z.enum(['ACTIVE', 'INACTIVE', 'NEEDS_REVIEW', 'BROKEN']).default('ACTIVE'),
+        sendNotification: z.boolean().default(true), // Option to send email notifications
       })
     )
     .mutation(async ({ ctx, input }) => {
+      const { sendNotification, ...opportunityData } = input;
+      
       const opportunity = await ctx.prisma.backlinkOpportunity.create({
-        data: input,
+        data: opportunityData,
       });
+
+      // Send email notifications to all active users (async, non-blocking)
+      if (sendNotification && opportunity.status === 'ACTIVE') {
+        // Run notification in background to not block the response
+        notifyUsersOfNewOpportunity(ctx.prisma, opportunity).catch((error) => {
+          console.error('❌ Failed to send new opportunity notifications:', error);
+        });
+      }
 
       return opportunity;
     }),
