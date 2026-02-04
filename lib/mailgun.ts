@@ -71,8 +71,8 @@ export async function sendEmail({
 
 // Email template builders
 export const emailTemplates = {
-  welcome: (userName: string, userEmail: string) => ({
-    subject: '🎉 Welcome to RankdSEO!',
+  welcome: (userName: string, userEmail: string, planName?: string) => ({
+    subject: '🎉 Welcome to RankdSEO - Your Account is Ready!',
     html: `
       <!DOCTYPE html>
       <html>
@@ -80,33 +80,69 @@ export const emailTemplates = {
           <style>
             body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
             .container { max-width: 600px; margin: 0 auto; padding: 20px; }
-            .header { background: linear-gradient(135deg, #16a34a 0%, #14b8a6 100%); color: white; padding: 30px; text-align: center; border-radius: 10px 10px 0 0; }
+            .header { background: linear-gradient(135deg, #3b82f6 0%, #06b6d4 100%); color: white; padding: 30px; text-align: center; border-radius: 10px 10px 0 0; }
             .content { background: #f9fafb; padding: 30px; border-radius: 0 0 10px 10px; }
-            .button { display: inline-block; background: #16a34a; color: white; padding: 12px 30px; text-decoration: none; border-radius: 5px; margin: 20px 0; }
+            .welcome-card { background: white; border: 2px solid #3b82f6; border-radius: 12px; padding: 25px; margin: 20px 0; }
+            .badge { display: inline-block; padding: 6px 16px; border-radius: 20px; font-size: 13px; font-weight: bold; margin: 4px 4px 4px 0; }
+            .badge-blue { background: #dbeafe; color: #1e40af; }
+            .badge-green { background: #dcfce7; color: #166534; }
+            .badge-cyan { background: #cffafe; color: #0e7490; }
+            .button { display: inline-block; background: #3b82f6; color: white; padding: 14px 32px; text-decoration: none; border-radius: 8px; margin: 20px 0; font-weight: bold; }
+            .feature-list { background: #f0f9ff; border-radius: 8px; padding: 20px; margin: 20px 0; }
+            .feature-item { display: flex; align-items: center; margin: 10px 0; }
+            .check { color: #10b981; font-weight: bold; margin-right: 10px; }
+            .stats-box { background: linear-gradient(135deg, #eff6ff 0%, #ecfeff 100%); border-radius: 12px; padding: 20px; margin: 20px 0; text-align: center; }
+            .stat-number { font-size: 36px; font-weight: bold; color: #3b82f6; }
+            .stat-label { font-size: 14px; color: #6b7280; }
             .footer { text-align: center; color: #6b7280; padding: 20px; font-size: 14px; }
           </style>
         </head>
         <body>
           <div class="container">
             <div class="header">
-              <h1 style="margin: 0;">🚀 Welcome to RankdSEO!</h1>
+              <h1 style="margin: 0; font-size: 28px;">🚀 Welcome to RankdSEO!</h1>
+              <p style="margin: 10px 0 0 0; opacity: 0.9; font-size: 16px;">Your backlink building journey starts now</p>
             </div>
             <div class="content">
-              <h2>Hi ${userName}! 👋</h2>
+              <h2 style="color: #1e40af;">Hi ${userName}! 👋</h2>
               <p>Thank you for joining <strong>RankdSEO</strong> - your ultimate backlink opportunity discovery platform!</p>
               
-              <p>We're excited to help you discover high-quality backlink opportunities with step-by-step tutorials.</p>
+              ${planName ? `
+              <div class="welcome-card">
+                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 15px;">
+                  <span style="font-size: 24px;">🎫</span>
+                  <div>
+                    <div style="font-size: 12px; color: #6b7280; text-transform: uppercase;">Your Plan</div>
+                    <div style="font-size: 20px; font-weight: bold; color: #1e40af;">${planName}</div>
+                  </div>
+                </div>
+                <span class="badge badge-green">✓ Account Active</span>
+                <span class="badge badge-blue">Full Access</span>
+              </div>
+              ` : ''}
               
-              <h3>What's Next?</h3>
-              <ul>
-                <li>✅ Explore 64+ backlink opportunities</li>
-                <li>✅ Follow detailed step-by-step tutorials</li>
-                <li>✅ Track your progress with projects</li>
-                <li>✅ Build powerful backlinks to boost your SEO</li>
-              </ul>
+              <div class="stats-box">
+                <div class="stat-number">1,300+</div>
+                <div class="stat-label">Backlink Opportunities Available</div>
+              </div>
               
-              <div style="text-align: center;">
-                <a href="${process.env.NEXT_PUBLIC_APP_URL}/opportunities" class="button">Explore Opportunities →</a>
+              <div class="feature-list">
+                <h3 style="margin-top: 0; color: #1e40af;">🎯 What You Can Do:</h3>
+                <div class="feature-item"><span class="check">✅</span> Explore 1,300+ high-quality backlink opportunities</div>
+                <div class="feature-item"><span class="check">✅</span> Follow detailed step-by-step tutorials with screenshots</div>
+                <div class="feature-item"><span class="check">✅</span> Track your progress with custom projects</div>
+                <div class="feature-item"><span class="check">✅</span> Filter by Domain Authority, niche, and link type</div>
+                <div class="feature-item"><span class="check">✅</span> Build powerful backlinks to boost your SEO</div>
+              </div>
+              
+              <div style="text-align: center; margin: 30px 0;">
+                <a href="${process.env.NEXT_PUBLIC_APP_URL}/opportunities" class="button" style="color: white;">
+                  🔗 Start Exploring Opportunities →
+                </a>
+              </div>
+              
+              <div style="background: #fefce8; border: 1px solid #fde047; border-radius: 8px; padding: 15px; margin: 20px 0;">
+                <strong>💡 Pro Tip:</strong> Start with high Domain Authority (DA 50+) opportunities for maximum SEO impact!
               </div>
               
               <p>If you have any questions, feel free to reach out to our support team.</p>
@@ -116,7 +152,9 @@ export const emailTemplates = {
             </div>
             <div class="footer">
               <p>© 2024 RankdSEO. All rights reserved.</p>
-              <p>You're receiving this email because you signed up at RankdSEO.</p>
+              <p style="font-size: 12px;">
+                <a href="${process.env.NEXT_PUBLIC_APP_URL}/settings" style="color: #6b7280;">Manage email preferences</a>
+              </p>
             </div>
           </div>
         </body>
