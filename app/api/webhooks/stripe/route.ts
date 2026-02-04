@@ -248,11 +248,36 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session) {
       });
       
       if (plan) {
+        const isLifetime = plan.name.toLowerCase().includes('lifetime');
+        const nextBillingDate = !isLifetime && plan.interval !== 'lifetime' 
+          ? new Date(Date.now() + (plan.interval === 'yearly' ? 365 : 30) * 24 * 60 * 60 * 1000).toLocaleDateString('en-US', { 
+              year: 'numeric', 
+              month: 'long', 
+              day: 'numeric' 
+            })
+          : undefined;
+
         const receiptEmail = emailTemplates.paymentReceipt(
           transaction.user.name || 'User',
-          session.amount_total || 0,
-          plan.name,
-          sessionId
+          {
+            invoiceNumber: `INV-${new Date().getFullYear()}-${String(Date.now()).slice(-6)}`,
+            transactionId: paymentIntentId || sessionId,
+            date: new Date().toLocaleDateString('en-US', { 
+              year: 'numeric', 
+              month: 'long', 
+              day: 'numeric' 
+            }),
+            planName: plan.name,
+            planDescription: isLifetime ? 'One-time payment - Lifetime access' : `${plan.interval === 'yearly' ? 'Annual' : 'Monthly'} subscription`,
+            amount: (session.amount_total || 0) / 100,
+            currency: session.currency || 'usd',
+            paymentMethod: 'stripe',
+            cardLast4: session.payment_method_types?.includes('card') ? '****' : undefined,
+            billingEmail: transaction.user.email,
+            billingName: transaction.user.name || 'Customer',
+            nextBillingDate,
+            isLifetime,
+          }
         );
         await sendEmail({
           to: transaction.user.email,
@@ -264,6 +289,7 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session) {
             transactionId: transaction.id,
           },
         });
+        console.log('📧 Payment receipt sent to:', transaction.user.email);
       }
     }
   } catch (emailError) {
