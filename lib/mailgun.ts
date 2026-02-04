@@ -902,4 +902,175 @@ export const emailTemplates = {
       </html>
     `,
   }),
+
+  paymentReceipt: (userName: string, receipt: {
+    invoiceNumber: string;
+    transactionId: string;
+    date: string;
+    planName: string;
+    planDescription: string;
+    amount: number;
+    currency: string;
+    paymentMethod: string;
+    cardLast4?: string;
+    billingEmail: string;
+    billingName: string;
+    nextBillingDate?: string;
+    isLifetime?: boolean;
+  }) => ({
+    subject: `🧾 Payment Receipt - Invoice #${receipt.invoiceNumber}`,
+    html: `
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <style>
+            body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+            .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+            .header { background: linear-gradient(135deg, #3b82f6 0%, #06b6d4 100%); color: white; padding: 30px; text-align: center; border-radius: 10px 10px 0 0; }
+            .content { background: #f9fafb; padding: 30px; border-radius: 0 0 10px 10px; }
+            .receipt-card { background: white; border: 2px solid #e5e7eb; border-radius: 12px; overflow: hidden; margin: 20px 0; }
+            .receipt-header { background: linear-gradient(135deg, #f0f9ff 0%, #ecfeff 100%); padding: 20px; border-bottom: 2px solid #e5e7eb; }
+            .receipt-body { padding: 20px; }
+            .invoice-number { font-size: 14px; color: #6b7280; }
+            .invoice-value { font-size: 18px; font-weight: bold; color: #1e40af; }
+            .amount-box { background: linear-gradient(135deg, #10b981 0%, #06b6d4 100%); color: white; padding: 25px; text-align: center; margin: 20px 0; border-radius: 12px; }
+            .amount-label { font-size: 14px; opacity: 0.9; text-transform: uppercase; }
+            .amount-value { font-size: 42px; font-weight: bold; margin: 5px 0; }
+            .amount-currency { font-size: 16px; opacity: 0.9; }
+            .detail-row { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #e5e7eb; }
+            .detail-row:last-child { border-bottom: none; }
+            .detail-label { color: #6b7280; font-size: 14px; }
+            .detail-value { font-weight: 500; color: #1f2937; text-align: right; }
+            .plan-badge { display: inline-block; background: #dbeafe; color: #1e40af; padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: bold; }
+            .status-paid { display: inline-block; background: #dcfce7; color: #166534; padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: bold; }
+            .payment-method { display: flex; align-items: center; gap: 10px; }
+            .card-icon { width: 40px; height: 25px; background: #1e40af; border-radius: 4px; display: flex; align-items: center; justify-content: center; color: white; font-size: 10px; font-weight: bold; }
+            .billing-section { background: #f8fafc; border-radius: 8px; padding: 15px; margin: 15px 0; }
+            .billing-title { font-size: 12px; color: #6b7280; text-transform: uppercase; margin-bottom: 8px; }
+            .success-banner { background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px; padding: 15px; margin: 20px 0; text-align: center; }
+            .button { display: inline-block; background: #3b82f6; color: white; padding: 14px 32px; text-decoration: none; border-radius: 8px; margin: 10px 5px; font-weight: bold; }
+            .button-outline { display: inline-block; background: white; color: #3b82f6; padding: 12px 28px; text-decoration: none; border-radius: 8px; margin: 10px 5px; font-weight: bold; border: 2px solid #3b82f6; }
+            .footer { text-align: center; color: #6b7280; padding: 20px; font-size: 14px; }
+            .divider { height: 1px; background: #e5e7eb; margin: 20px 0; }
+          </style>
+        </head>
+        <body>
+          <div class="container">
+            <div class="header">
+              <h1 style="margin: 0; font-size: 28px;">🧾 Payment Receipt</h1>
+              <p style="margin: 10px 0 0 0; opacity: 0.9; font-size: 16px;">Thank you for your purchase!</p>
+            </div>
+            <div class="content">
+              <div class="success-banner">
+                <span style="font-size: 24px;">✅</span>
+                <div style="font-size: 18px; font-weight: bold; color: #166534; margin-top: 5px;">Payment Successful</div>
+                <div style="font-size: 14px; color: #15803d;">Your transaction has been completed</div>
+              </div>
+
+              <h2 style="color: #1e40af; margin-bottom: 5px;">Hi ${userName}! 👋</h2>
+              <p>Thank you for your payment. Here's your receipt for your records.</p>
+              
+              <div class="amount-box">
+                <div class="amount-label">Amount Paid</div>
+                <div class="amount-value">${receipt.currency === 'usd' ? '$' : receipt.currency.toUpperCase()} ${receipt.amount.toFixed(2)}</div>
+                <div class="amount-currency">${receipt.currency.toUpperCase()}</div>
+              </div>
+
+              <div class="receipt-card">
+                <div class="receipt-header">
+                  <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <div>
+                      <div class="invoice-number">Invoice Number</div>
+                      <div class="invoice-value">#${receipt.invoiceNumber}</div>
+                    </div>
+                    <span class="status-paid">✓ PAID</span>
+                  </div>
+                </div>
+                <div class="receipt-body">
+                  <div class="detail-row">
+                    <span class="detail-label">Date</span>
+                    <span class="detail-value">${receipt.date}</span>
+                  </div>
+                  <div class="detail-row">
+                    <span class="detail-label">Transaction ID</span>
+                    <span class="detail-value" style="font-family: monospace; font-size: 12px;">${receipt.transactionId}</span>
+                  </div>
+                  <div class="detail-row">
+                    <span class="detail-label">Plan</span>
+                    <span class="detail-value"><span class="plan-badge">${receipt.planName}</span></span>
+                  </div>
+                  <div class="detail-row">
+                    <span class="detail-label">Description</span>
+                    <span class="detail-value">${receipt.planDescription}</span>
+                  </div>
+                  <div class="detail-row">
+                    <span class="detail-label">Payment Method</span>
+                    <span class="detail-value">
+                      <div class="payment-method">
+                        <div class="card-icon">${receipt.paymentMethod === 'stripe' ? 'CARD' : 'PP'}</div>
+                        ${receipt.cardLast4 ? `•••• ${receipt.cardLast4}` : receipt.paymentMethod === 'paypal' ? 'PayPal' : 'Card'}
+                      </div>
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="billing-section">
+                <div class="billing-title">Billing Information</div>
+                <div><strong>${receipt.billingName}</strong></div>
+                <div style="color: #6b7280;">${receipt.billingEmail}</div>
+              </div>
+
+              ${receipt.isLifetime ? `
+              <div style="background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); border-radius: 8px; padding: 15px; margin: 20px 0; text-align: center;">
+                <span style="font-size: 24px;">🎉</span>
+                <div style="font-size: 16px; font-weight: bold; color: #92400e; margin-top: 5px;">Lifetime Access Activated!</div>
+                <div style="font-size: 14px; color: #78350f;">You have lifetime access - no recurring charges!</div>
+              </div>
+              ` : receipt.nextBillingDate ? `
+              <div style="background: #f0f9ff; border-radius: 8px; padding: 15px; margin: 20px 0;">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <div>
+                    <div style="font-size: 12px; color: #6b7280; text-transform: uppercase;">Next Billing Date</div>
+                    <div style="font-size: 16px; font-weight: bold; color: #1e40af;">${receipt.nextBillingDate}</div>
+                  </div>
+                  <a href="${process.env.NEXT_PUBLIC_APP_URL}/settings" style="color: #3b82f6; font-size: 14px;">Manage Subscription →</a>
+                </div>
+              </div>
+              ` : ''}
+
+              <div class="divider"></div>
+
+              <div style="text-align: center; margin: 20px 0;">
+                <a href="${process.env.NEXT_PUBLIC_APP_URL}/opportunities" class="button" style="color: white;">
+                  🔗 Start Exploring →
+                </a>
+                <a href="${process.env.NEXT_PUBLIC_APP_URL}/settings" class="button-outline">
+                  📋 View Invoice
+                </a>
+              </div>
+
+              <div style="background: #f8fafc; border-radius: 8px; padding: 15px; margin: 20px 0; font-size: 13px; color: #6b7280;">
+                <strong>Need help?</strong> If you have any questions about your purchase or need assistance, please contact our support team. Keep this receipt for your records.
+              </div>
+
+              <p>Thank you for choosing RankdSEO! 🚀</p>
+              <p><strong>The RankdSEO Team</strong></p>
+            </div>
+            <div class="footer">
+              <p style="margin-bottom: 5px;"><strong>RankdSEO</strong></p>
+              <p style="font-size: 12px; color: #9ca3af;">
+                This is an automated receipt for your records.<br>
+                Invoice #${receipt.invoiceNumber} · Transaction: ${receipt.transactionId}
+              </p>
+              <p style="font-size: 12px;">
+                <a href="${process.env.NEXT_PUBLIC_APP_URL}/settings" style="color: #6b7280;">Account Settings</a> · 
+                <a href="mailto:support@rankdseo.com" style="color: #6b7280;">Contact Support</a>
+              </p>
+            </div>
+          </div>
+        </body>
+      </html>
+    `,
+  }),
 };
