@@ -620,4 +620,286 @@ export const emailTemplates = {
       </html>
     `,
   }),
+
+  weeklyReport: (userName: string, report: {
+    weekStart: string;
+    weekEnd: string;
+    linksAdded: number;
+    linksVerified: number;
+    linksPending: number;
+    projectsActive: number;
+    topOpportunities: Array<{ name: string; da: number }>;
+    weeklyChange: { links: number; verified: number };
+    totalBacklinks: number;
+  }) => ({
+    subject: `📊 Your Weekly SEO Report - ${report.weekStart} to ${report.weekEnd}`,
+    html: `
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <style>
+            body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+            .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+            .header { background: linear-gradient(135deg, #3b82f6 0%, #06b6d4 100%); color: white; padding: 30px; text-align: center; border-radius: 10px 10px 0 0; }
+            .content { background: #f9fafb; padding: 30px; border-radius: 0 0 10px 10px; }
+            .date-range { background: rgba(255,255,255,0.2); display: inline-block; padding: 6px 16px; border-radius: 20px; font-size: 14px; margin-top: 10px; }
+            .stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin: 20px 0; }
+            .stat-card { background: white; border-radius: 12px; padding: 20px; text-align: center; border: 1px solid #e5e7eb; }
+            .stat-value { font-size: 36px; font-weight: bold; color: #3b82f6; }
+            .stat-label { font-size: 13px; color: #6b7280; text-transform: uppercase; margin-top: 5px; }
+            .stat-change { font-size: 12px; margin-top: 5px; }
+            .change-up { color: #10b981; }
+            .change-down { color: #ef4444; }
+            .change-neutral { color: #6b7280; }
+            .highlight-card { background: linear-gradient(135deg, #eff6ff 0%, #ecfeff 100%); border: 2px solid #3b82f6; border-radius: 12px; padding: 20px; margin: 20px 0; text-align: center; }
+            .opportunities-list { background: white; border-radius: 12px; padding: 20px; margin: 20px 0; }
+            .opp-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #e5e7eb; }
+            .opp-item:last-child { border-bottom: none; }
+            .opp-name { font-weight: 500; color: #1e40af; }
+            .opp-da { background: #dbeafe; color: #1e40af; padding: 4px 10px; border-radius: 12px; font-size: 12px; font-weight: bold; }
+            .button { display: inline-block; background: #3b82f6; color: white; padding: 14px 32px; text-decoration: none; border-radius: 8px; margin: 20px 0; font-weight: bold; }
+            .tip-box { background: #fef3c7; border: 1px solid #fde047; border-radius: 8px; padding: 15px; margin: 20px 0; }
+            .footer { text-align: center; color: #6b7280; padding: 20px; font-size: 14px; }
+          </style>
+        </head>
+        <body>
+          <div class="container">
+            <div class="header">
+              <h1 style="margin: 0; font-size: 28px;">📊 Weekly Report</h1>
+              <div class="date-range">${report.weekStart} - ${report.weekEnd}</div>
+            </div>
+            <div class="content">
+              <h2 style="color: #1e40af;">Hi ${userName}! 👋</h2>
+              <p>Here's your backlink building progress for this week:</p>
+              
+              <div class="highlight-card">
+                <div style="font-size: 14px; color: #6b7280; text-transform: uppercase;">Total Backlinks</div>
+                <div style="font-size: 48px; font-weight: bold; color: #3b82f6;">${report.totalBacklinks}</div>
+                <div style="font-size: 14px; color: #6b7280;">across all projects</div>
+              </div>
+              
+              <div class="stats-grid">
+                <div class="stat-card">
+                  <div class="stat-value">${report.linksAdded}</div>
+                  <div class="stat-label">Links Added</div>
+                  <div class="stat-change ${report.weeklyChange.links > 0 ? 'change-up' : report.weeklyChange.links < 0 ? 'change-down' : 'change-neutral'}">
+                    ${report.weeklyChange.links > 0 ? '↑' : report.weeklyChange.links < 0 ? '↓' : '→'} ${Math.abs(report.weeklyChange.links)} vs last week
+                  </div>
+                </div>
+                <div class="stat-card">
+                  <div class="stat-value">${report.linksVerified}</div>
+                  <div class="stat-label">Verified</div>
+                  <div class="stat-change ${report.weeklyChange.verified > 0 ? 'change-up' : report.weeklyChange.verified < 0 ? 'change-down' : 'change-neutral'}">
+                    ${report.weeklyChange.verified > 0 ? '↑' : report.weeklyChange.verified < 0 ? '↓' : '→'} ${Math.abs(report.weeklyChange.verified)} vs last week
+                  </div>
+                </div>
+                <div class="stat-card">
+                  <div class="stat-value">${report.linksPending}</div>
+                  <div class="stat-label">Pending</div>
+                </div>
+                <div class="stat-card">
+                  <div class="stat-value">${report.projectsActive}</div>
+                  <div class="stat-label">Active Projects</div>
+                </div>
+              </div>
+              
+              <div class="opportunities-list">
+                <h3 style="margin-top: 0; color: #1e40af;">🔥 Top Opportunities This Week</h3>
+                ${report.topOpportunities.map(opp => `
+                  <div class="opp-item">
+                    <span class="opp-name">${opp.name}</span>
+                    <span class="opp-da">DA ${opp.da}</span>
+                  </div>
+                `).join('')}
+              </div>
+              
+              <div class="tip-box">
+                <strong>💡 Weekly Tip:</strong>
+                <p style="margin: 5px 0 0 0; font-size: 14px;">Focus on high DA (50+) opportunities this week to maximize your SEO impact!</p>
+              </div>
+              
+              <div style="text-align: center; margin: 30px 0;">
+                <a href="${process.env.NEXT_PUBLIC_APP_URL}/analytics" class="button" style="color: white;">
+                  📈 View Full Analytics →
+                </a>
+              </div>
+              
+              <p>Keep up the great work! 🚀</p>
+              <p><strong>The RankdSEO Team</strong></p>
+            </div>
+            <div class="footer">
+              <p>© 2024 RankdSEO. All rights reserved.</p>
+              <p style="font-size: 12px;">
+                <a href="${process.env.NEXT_PUBLIC_APP_URL}/settings" style="color: #6b7280;">Manage email preferences</a> · 
+                <a href="${process.env.NEXT_PUBLIC_APP_URL}/settings" style="color: #6b7280;">Unsubscribe from reports</a>
+              </p>
+            </div>
+          </div>
+        </body>
+      </html>
+    `,
+  }),
+
+  monthlyReport: (userName: string, report: {
+    month: string;
+    year: number;
+    totalLinksAdded: number;
+    totalLinksVerified: number;
+    totalLinksPending: number;
+    totalLinksRejected: number;
+    projectsCompleted: number;
+    projectsActive: number;
+    topCategories: Array<{ name: string; count: number }>;
+    monthlyGrowth: number;
+    totalBacklinks: number;
+    avgDAScore: number;
+    bestPerformingProject?: { name: string; links: number };
+  }) => ({
+    subject: `📅 Your Monthly SEO Report - ${report.month} ${report.year}`,
+    html: `
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <style>
+            body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+            .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+            .header { background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%); color: white; padding: 30px; text-align: center; border-radius: 10px 10px 0 0; }
+            .content { background: #f9fafb; padding: 30px; border-radius: 0 0 10px 10px; }
+            .month-badge { background: rgba(255,255,255,0.2); display: inline-block; padding: 8px 20px; border-radius: 20px; font-size: 16px; margin-top: 10px; font-weight: bold; }
+            .summary-card { background: linear-gradient(135deg, #eff6ff 0%, #f5f3ff 100%); border: 2px solid #8b5cf6; border-radius: 12px; padding: 25px; margin: 20px 0; }
+            .summary-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin-top: 15px; }
+            .summary-item { text-align: center; }
+            .summary-value { font-size: 32px; font-weight: bold; color: #6d28d9; }
+            .summary-label { font-size: 12px; color: #6b7280; text-transform: uppercase; }
+            .growth-badge { display: inline-block; padding: 8px 16px; border-radius: 20px; font-weight: bold; margin: 10px 0; }
+            .growth-positive { background: #dcfce7; color: #166534; }
+            .growth-negative { background: #fee2e2; color: #dc2626; }
+            .growth-neutral { background: #f3f4f6; color: #6b7280; }
+            .stats-row { display: flex; justify-content: space-around; margin: 20px 0; padding: 20px; background: white; border-radius: 12px; }
+            .stat-item { text-align: center; }
+            .stat-number { font-size: 28px; font-weight: bold; }
+            .stat-verified { color: #10b981; }
+            .stat-pending { color: #f59e0b; }
+            .stat-rejected { color: #ef4444; }
+            .categories-card { background: white; border-radius: 12px; padding: 20px; margin: 20px 0; }
+            .category-bar { display: flex; align-items: center; margin: 10px 0; }
+            .category-name { width: 120px; font-weight: 500; color: #374151; }
+            .category-progress { flex: 1; height: 24px; background: #e5e7eb; border-radius: 12px; overflow: hidden; margin: 0 10px; }
+            .category-fill { height: 100%; background: linear-gradient(90deg, #3b82f6 0%, #8b5cf6 100%); border-radius: 12px; }
+            .category-count { width: 40px; text-align: right; font-weight: bold; color: #6d28d9; }
+            .best-project { background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); border-radius: 12px; padding: 20px; margin: 20px 0; text-align: center; }
+            .trophy { font-size: 40px; }
+            .button { display: inline-block; background: #8b5cf6; color: white; padding: 14px 32px; text-decoration: none; border-radius: 8px; margin: 20px 0; font-weight: bold; }
+            .footer { text-align: center; color: #6b7280; padding: 20px; font-size: 14px; }
+          </style>
+        </head>
+        <body>
+          <div class="container">
+            <div class="header">
+              <h1 style="margin: 0; font-size: 28px;">📅 Monthly Report</h1>
+              <div class="month-badge">${report.month} ${report.year}</div>
+            </div>
+            <div class="content">
+              <h2 style="color: #6d28d9;">Hi ${userName}! 👋</h2>
+              <p>Here's your complete backlink building summary for ${report.month}:</p>
+              
+              <div class="summary-card">
+                <div style="text-align: center;">
+                  <div style="font-size: 14px; color: #6b7280; text-transform: uppercase;">Total Backlinks Built</div>
+                  <div style="font-size: 56px; font-weight: bold; color: #6d28d9;">${report.totalBacklinks}</div>
+                  <div class="growth-badge ${report.monthlyGrowth > 0 ? 'growth-positive' : report.monthlyGrowth < 0 ? 'growth-negative' : 'growth-neutral'}">
+                    ${report.monthlyGrowth > 0 ? '↑' : report.monthlyGrowth < 0 ? '↓' : '→'} ${Math.abs(report.monthlyGrowth)}% vs last month
+                  </div>
+                </div>
+                <div class="summary-grid">
+                  <div class="summary-item">
+                    <div class="summary-value">${report.totalLinksAdded}</div>
+                    <div class="summary-label">Links Added</div>
+                  </div>
+                  <div class="summary-item">
+                    <div class="summary-value">${report.avgDAScore}</div>
+                    <div class="summary-label">Avg. DA Score</div>
+                  </div>
+                </div>
+              </div>
+              
+              <h3 style="color: #6d28d9;">📊 Link Status Breakdown</h3>
+              <div class="stats-row">
+                <div class="stat-item">
+                  <div class="stat-number stat-verified">${report.totalLinksVerified}</div>
+                  <div style="font-size: 12px; color: #6b7280;">✓ Verified</div>
+                </div>
+                <div class="stat-item">
+                  <div class="stat-number stat-pending">${report.totalLinksPending}</div>
+                  <div style="font-size: 12px; color: #6b7280;">⏳ Pending</div>
+                </div>
+                <div class="stat-item">
+                  <div class="stat-number stat-rejected">${report.totalLinksRejected}</div>
+                  <div style="font-size: 12px; color: #6b7280;">✗ Rejected</div>
+                </div>
+              </div>
+              
+              <div class="categories-card">
+                <h3 style="margin-top: 0; color: #6d28d9;">🏷️ Top Categories</h3>
+                ${report.topCategories.map((cat, index) => {
+                  const maxCount = Math.max(...report.topCategories.map(c => c.count));
+                  const percentage = (cat.count / maxCount) * 100;
+                  return `
+                    <div class="category-bar">
+                      <span class="category-name">${cat.name}</span>
+                      <div class="category-progress">
+                        <div class="category-fill" style="width: ${percentage}%;"></div>
+                      </div>
+                      <span class="category-count">${cat.count}</span>
+                    </div>
+                  `;
+                }).join('')}
+              </div>
+              
+              ${report.bestPerformingProject ? `
+              <div class="best-project">
+                <div class="trophy">🏆</div>
+                <div style="font-size: 14px; color: #92400e; text-transform: uppercase;">Best Performing Project</div>
+                <div style="font-size: 22px; font-weight: bold; color: #78350f; margin: 5px 0;">${report.bestPerformingProject.name}</div>
+                <div style="font-size: 14px; color: #92400e;">${report.bestPerformingProject.links} links added this month</div>
+              </div>
+              ` : ''}
+              
+              <div style="background: white; border-radius: 12px; padding: 20px; margin: 20px 0; display: flex; justify-content: space-around; text-align: center;">
+                <div>
+                  <div style="font-size: 28px; font-weight: bold; color: #10b981;">${report.projectsCompleted}</div>
+                  <div style="font-size: 12px; color: #6b7280;">Projects Completed</div>
+                </div>
+                <div>
+                  <div style="font-size: 28px; font-weight: bold; color: #3b82f6;">${report.projectsActive}</div>
+                  <div style="font-size: 12px; color: #6b7280;">Active Projects</div>
+                </div>
+              </div>
+              
+              <div style="text-align: center; margin: 30px 0;">
+                <a href="${process.env.NEXT_PUBLIC_APP_URL}/analytics" class="button" style="color: white;">
+                  📈 View Detailed Analytics →
+                </a>
+              </div>
+              
+              <div style="background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px; padding: 15px; margin: 20px 0;">
+                <strong style="color: #166534;">🎯 Goal for Next Month:</strong>
+                <p style="margin: 5px 0 0 0; color: #15803d; font-size: 14px;">Try to beat your record! Aim for ${Math.round(report.totalLinksAdded * 1.2)} links next month.</p>
+              </div>
+              
+              <p>Amazing progress this month! Keep it up! 🚀</p>
+              <p><strong>The RankdSEO Team</strong></p>
+            </div>
+            <div class="footer">
+              <p>© 2024 RankdSEO. All rights reserved.</p>
+              <p style="font-size: 12px;">
+                <a href="${process.env.NEXT_PUBLIC_APP_URL}/settings" style="color: #6b7280;">Manage email preferences</a> · 
+                <a href="${process.env.NEXT_PUBLIC_APP_URL}/settings" style="color: #6b7280;">Unsubscribe from reports</a>
+              </p>
+            </div>
+          </div>
+        </body>
+      </html>
+    `,
+  }),
 };
