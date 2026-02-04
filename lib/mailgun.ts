@@ -339,47 +339,61 @@ export const emailTemplates = {
           <style>
             body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
             .container { max-width: 600px; margin: 0 auto; padding: 20px; }
-            .header { background: linear-gradient(135deg, #f59e0b 0%, #ef4444 100%); color: white; padding: 30px; text-align: center; border-radius: 10px 10px 0 0; }
+            .header { background: linear-gradient(135deg, #3b82f6 0%, #06b6d4 100%); color: white; padding: 30px; text-align: center; border-radius: 10px 10px 0 0; }
             .content { background: #f9fafb; padding: 30px; border-radius: 0 0 10px 10px; }
-            .password-box { background: #fefce8; border: 2px solid #f59e0b; border-radius: 8px; padding: 20px; margin: 20px 0; text-align: center; }
-            .password { font-size: 24px; font-weight: bold; color: #dc2626; letter-spacing: 2px; font-family: monospace; }
-            .warning-box { background: #fef2f2; border-left: 4px solid #ef4444; padding: 15px; margin: 20px 0; }
-            .button { display: inline-block; background: #f59e0b; color: white; padding: 12px 30px; text-decoration: none; border-radius: 5px; margin: 20px 0; }
+            .password-card { background: white; border: 2px solid #3b82f6; border-radius: 12px; padding: 25px; margin: 20px 0; text-align: center; }
+            .password-label { font-size: 14px; color: #6b7280; text-transform: uppercase; margin-bottom: 10px; }
+            .password { font-size: 28px; font-weight: bold; color: #1e40af; letter-spacing: 3px; font-family: monospace; background: #eff6ff; padding: 15px 20px; border-radius: 8px; display: inline-block; }
+            .warning-box { background: #fef3c7; border: 2px solid #f59e0b; border-radius: 8px; padding: 20px; margin: 20px 0; }
+            .warning-title { color: #92400e; font-weight: bold; font-size: 16px; margin-bottom: 10px; }
+            .warning-item { color: #78350f; margin: 8px 0; display: flex; align-items: center; }
+            .warning-icon { margin-right: 8px; }
+            .button { display: inline-block; background: #3b82f6; color: white; padding: 14px 32px; text-decoration: none; border-radius: 8px; margin: 20px 0; font-weight: bold; }
+            .info-box { background: #f0f9ff; border-radius: 8px; padding: 15px; margin: 20px 0; }
+            .admin-badge { display: inline-block; background: #dbeafe; color: #1e40af; padding: 4px 12px; border-radius: 20px; font-size: 13px; font-weight: bold; }
             .footer { text-align: center; color: #6b7280; padding: 20px; font-size: 14px; }
           </style>
         </head>
         <body>
           <div class="container">
             <div class="header">
-              <h1 style="margin: 0;">🔐 Password Reset</h1>
+              <h1 style="margin: 0; font-size: 28px;">🔐 Password Reset</h1>
+              <p style="margin: 10px 0 0 0; opacity: 0.9; font-size: 16px;">Your password has been changed</p>
             </div>
             <div class="content">
-              <h2>Hi ${userName},</h2>
-              <p>Your RankdSEO password has been reset by admin <strong>${resetByAdmin}</strong>.</p>
+              <h2 style="color: #1e40af;">Hi ${userName}! 👋</h2>
               
-              <div class="password-box">
-                <p style="margin: 0 0 10px 0;">Your New Password:</p>
+              <div class="info-box">
+                <p style="margin: 0;">Your RankdSEO password has been reset by admin <span class="admin-badge">${resetByAdmin}</span></p>
+              </div>
+              
+              <div class="password-card">
+                <div class="password-label">Your New Password</div>
                 <div class="password">${newPassword}</div>
+                <p style="margin: 15px 0 0 0; font-size: 13px; color: #6b7280;">Copy this password and use it to log in</p>
               </div>
               
               <div class="warning-box">
-                <strong>⚠️ Important Security Notice:</strong><br>
-                • Please change this password immediately after logging in<br>
-                • Never share your password with anyone<br>
-                • Use a strong, unique password
+                <div class="warning-title">⚠️ Important Security Notice</div>
+                <div class="warning-item"><span class="warning-icon">🔄</span> Please change this password immediately after logging in</div>
+                <div class="warning-item"><span class="warning-icon">🔒</span> Never share your password with anyone</div>
+                <div class="warning-item"><span class="warning-icon">💪</span> Use a strong, unique password with 8+ characters</div>
               </div>
               
-              <div style="text-align: center;">
-                <a href="${process.env.NEXT_PUBLIC_APP_URL}/signin" class="button">Login Now →</a>
+              <div style="text-align: center; margin: 30px 0;">
+                <a href="${process.env.NEXT_PUBLIC_APP_URL}/signin" class="button" style="color: white;">🚀 Login Now →</a>
               </div>
               
-              <p>If you didn't request this password reset, please contact our support team immediately.</p>
+              <div style="background: #fef2f2; border: 1px solid #fecaca; border-radius: 8px; padding: 15px; margin: 20px 0;">
+                <strong style="color: #dc2626;">🚨 Didn't request this?</strong>
+                <p style="margin: 5px 0 0 0; color: #7f1d1d; font-size: 14px;">If you didn't request this password reset, please contact our support team immediately.</p>
+              </div>
               
               <p><strong>The RankdSEO Team</strong></p>
             </div>
             <div class="footer">
               <p>© 2024 RankdSEO. All rights reserved.</p>
-              <p>This email contains sensitive information. Please delete after use.</p>
+              <p style="font-size: 12px; color: #9ca3af;">This email contains sensitive information. Please delete after use.</p>
             </div>
           </div>
         </body>
