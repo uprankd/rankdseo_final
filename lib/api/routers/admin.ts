@@ -811,15 +811,24 @@ export const adminRouter = router({
               name: true,
             },
           },
-          plan: {
-            select: {
-              id: true,
-              name: true,
-              price: true,
-            },
-          },
         },
       });
+
+      // Fetch plans for each transaction
+      const planIds = [...new Set(transactions.map(t => t.planId).filter(Boolean))];
+      const plans = planIds.length > 0 
+        ? await ctx.prisma.plan.findMany({
+            where: { id: { in: planIds as string[] } },
+            select: { id: true, name: true, price: true },
+          })
+        : [];
+      const planMap = new Map(plans.map(p => [p.id, p]));
+
+      // Add plan data to transactions
+      const transactionsWithPlans = transactions.map(t => ({
+        ...t,
+        plan: t.planId ? planMap.get(t.planId) || null : null,
+      }));
 
       let nextCursor: string | undefined = undefined;
       if (transactions.length > input.limit) {
