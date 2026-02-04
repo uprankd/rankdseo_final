@@ -57,9 +57,20 @@ export function startScheduler() {
 }
 
 export function stopScheduler() {
-  if (intervalId) {
-    clearInterval(intervalId);
-    intervalId = null;
-    console.log('⏹️ Scheduler stopped');
+  if (linkVerificationIntervalId) {
+    clearInterval(linkVerificationIntervalId);
+    linkVerificationIntervalId = null;
   }
+  if (weeklyReportIntervalId) {
+    clearInterval(weeklyReportIntervalId);
+    weeklyReportIntervalId = null;
+  }
+  if (monthlyReportIntervalId) {
+    clearInterval(monthlyReportIntervalId);
+    monthlyReportIntervalId = null;
+  }
+  console.log('⏹️ All schedulers stopped');
 }
+
+// Export for manual triggering from admin panel
+export { sendWeeklyReports, sendMonthlyReports } from '@/lib/jobs/report-scheduler';
