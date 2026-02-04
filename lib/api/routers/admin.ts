@@ -943,7 +943,7 @@ export const adminRouter = router({
             month: 'long',
             day: 'numeric',
           }),
-          planName: transaction.plan?.name || 'Subscription',
+          planName: plan?.name || 'Subscription',
           planDescription: isLifetime
             ? 'One-time payment - Lifetime access'
             : 'Subscription payment',
