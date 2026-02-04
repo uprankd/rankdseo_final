@@ -987,7 +987,7 @@ export const adminRouter = router({
       thisYearRevenue,
       totalTransactions,
       successfulTransactions,
-      recentTransactions,
+      recentTransactionsRaw,
     ] = await Promise.all([
       ctx.prisma.paymentTransaction.aggregate({
         where: { status: 'SUCCEEDED' },
@@ -1021,10 +1021,24 @@ export const adminRouter = router({
         orderBy: { createdAt: 'desc' },
         include: {
           user: { select: { email: true, name: true } },
-          plan: { select: { name: true } },
         },
       }),
     ]);
+
+    // Fetch plans for recent transactions
+    const planIds = [...new Set(recentTransactionsRaw.map(t => t.planId).filter(Boolean))];
+    const plans = planIds.length > 0
+      ? await ctx.prisma.plan.findMany({
+          where: { id: { in: planIds as string[] } },
+          select: { id: true, name: true },
+        })
+      : [];
+    const planMap = new Map(plans.map(p => [p.id, p]));
+    
+    const recentTransactions = recentTransactionsRaw.map(t => ({
+      ...t,
+      plan: t.planId ? planMap.get(t.planId) || null : null,
+    }));
 
     const monthlyGrowth =
       lastMonthRevenue._sum.amount && lastMonthRevenue._sum.amount > 0
