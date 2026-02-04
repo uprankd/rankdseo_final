@@ -756,6 +756,274 @@ export const adminRouter = router({
 
       return { success: true };
     }),
+
+  // List all invoices/payment transactions
+  listInvoices: adminProcedure
+    .input(
+      z.object({
+        limit: z.number().min(1).max(100).optional().default(20),
+        cursor: z.string().optional(),
+        search: z.string().optional(), // Search by email or invoice number
+        status: z.enum(['PENDING', 'SUCCEEDED', 'FAILED', 'REFUNDED']).optional(),
+        dateFrom: z.string().optional(),
+        dateTo: z.string().optional(),
+        userId: z.string().optional(),
+      })
+    )
+    .query(async ({ ctx, input }) => {
+      const where: any = {
+        ...(input.status && { status: input.status }),
+        ...(input.userId && { userId: input.userId }),
+        ...(input.dateFrom && {
+          createdAt: {
+            gte: new Date(input.dateFrom),
+          },
+        }),
+        ...(input.dateTo && {
+          createdAt: {
+            ...((where as any)?.createdAt || {}),
+            lte: new Date(input.dateTo),
+          },
+        }),
+      };
+
+      // If searching, add search conditions
+      if (input.search) {
+        where.OR = [
+          { id: { contains: input.search, mode: 'insensitive' } },
+          { sessionId: { contains: input.search, mode: 'insensitive' } },
+          { paymentIntent: { contains: input.search, mode: 'insensitive' } },
+          { user: { email: { contains: input.search, mode: 'insensitive' } } },
+          { user: { name: { contains: input.search, mode: 'insensitive' } } },
+        ];
+      }
+
+      const transactions = await ctx.prisma.paymentTransaction.findMany({
+        where,
+        take: input.limit + 1,
+        cursor: input.cursor ? { id: input.cursor } : undefined,
+        orderBy: { createdAt: 'desc' },
+        include: {
+          user: {
+            select: {
+              id: true,
+              email: true,
+              name: true,
+            },
+          },
+          plan: {
+            select: {
+              id: true,
+              name: true,
+              price: true,
+            },
+          },
+        },
+      });
+
+      let nextCursor: string | undefined = undefined;
+      if (transactions.length > input.limit) {
+        const nextItem = transactions.pop();
+        nextCursor = nextItem!.id;
+      }
+
+      // Get total count and stats
+      const [totalCount, totalRevenue, statusCounts] = await Promise.all([
+        ctx.prisma.paymentTransaction.count({ where: input.search ? where : {} }),
+        ctx.prisma.paymentTransaction.aggregate({
+          where: { status: 'SUCCEEDED' },
+          _sum: { amount: true },
+        }),
+        ctx.prisma.paymentTransaction.groupBy({
+          by: ['status'],
+          _count: true,
+        }),
+      ]);
+
+      return {
+        transactions,
+        nextCursor,
+        totalCount,
+        totalRevenue: totalRevenue._sum.amount || 0,
+        statusCounts: statusCounts.reduce((acc, item) => {
+          acc[item.status] = item._count;
+          return acc;
+        }, {} as Record<string, number>),
+      };
+    }),
+
+  // Get single invoice details
+  getInvoice: adminProcedure
+    .input(z.object({ id: z.string() }))
+    .query(async ({ ctx, input }) => {
+      const transaction = await ctx.prisma.paymentTransaction.findUnique({
+        where: { id: input.id },
+        include: {
+          user: {
+            select: {
+              id: true,
+              email: true,
+              name: true,
+              createdAt: true,
+            },
+          },
+          plan: true,
+        },
+      });
+
+      if (!transaction) {
+        throw new TRPCError({
+          code: 'NOT_FOUND',
+          message: 'Invoice not found',
+        });
+      }
+
+      return transaction;
+    }),
+
+  // Resend invoice email
+  resendInvoice: adminProcedure
+    .input(z.object({ transactionId: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      const transaction = await ctx.prisma.paymentTransaction.findUnique({
+        where: { id: input.transactionId },
+        include: {
+          user: true,
+          plan: true,
+        },
+      });
+
+      if (!transaction) {
+        throw new TRPCError({
+          code: 'NOT_FOUND',
+          message: 'Transaction not found',
+        });
+      }
+
+      if (!transaction.user) {
+        throw new TRPCError({
+          code: 'BAD_REQUEST',
+          message: 'No user associated with this transaction',
+        });
+      }
+
+      const isLifetime = transaction.plan?.name.toLowerCase().includes('lifetime');
+      const invoiceNumber = `INV-${new Date(transaction.createdAt).getFullYear()}-${transaction.id.slice(-6).toUpperCase()}`;
+
+      const receiptEmail = emailTemplates.paymentReceipt(
+        transaction.user.name || 'User',
+        {
+          invoiceNumber,
+          transactionId: transaction.paymentIntent || transaction.sessionId || transaction.id,
+          date: new Date(transaction.createdAt).toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+          }),
+          planName: transaction.plan?.name || 'Subscription',
+          planDescription: isLifetime
+            ? 'One-time payment - Lifetime access'
+            : 'Subscription payment',
+          amount: transaction.amount,
+          currency: transaction.currency,
+          paymentMethod: 'stripe',
+          billingEmail: transaction.user.email,
+          billingName: transaction.user.name || 'Customer',
+          isLifetime,
+        }
+      );
+
+      await sendEmail({
+        to: transaction.user.email,
+        subject: receiptEmail.subject,
+        html: receiptEmail.html,
+        metadata: {
+          userId: transaction.user.id,
+          emailType: 'payment_receipt_resend',
+          transactionId: transaction.id,
+          resentBy: ctx.session.user.email,
+        },
+      });
+
+      console.log(`📧 Invoice resent to ${transaction.user.email} by ${ctx.session.user.email}`);
+
+      return { success: true, email: transaction.user.email };
+    }),
+
+  // Get invoice stats
+  getInvoiceStats: adminProcedure.query(async ({ ctx }) => {
+    const now = new Date();
+    const thisMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+    const lastMonth = new Date(now.getFullYear(), now.getMonth() - 1, 1);
+    const thisYear = new Date(now.getFullYear(), 0, 1);
+
+    const [
+      totalRevenue,
+      thisMonthRevenue,
+      lastMonthRevenue,
+      thisYearRevenue,
+      totalTransactions,
+      successfulTransactions,
+      recentTransactions,
+    ] = await Promise.all([
+      ctx.prisma.paymentTransaction.aggregate({
+        where: { status: 'SUCCEEDED' },
+        _sum: { amount: true },
+      }),
+      ctx.prisma.paymentTransaction.aggregate({
+        where: {
+          status: 'SUCCEEDED',
+          createdAt: { gte: thisMonth },
+        },
+        _sum: { amount: true },
+      }),
+      ctx.prisma.paymentTransaction.aggregate({
+        where: {
+          status: 'SUCCEEDED',
+          createdAt: { gte: lastMonth, lt: thisMonth },
+        },
+        _sum: { amount: true },
+      }),
+      ctx.prisma.paymentTransaction.aggregate({
+        where: {
+          status: 'SUCCEEDED',
+          createdAt: { gte: thisYear },
+        },
+        _sum: { amount: true },
+      }),
+      ctx.prisma.paymentTransaction.count(),
+      ctx.prisma.paymentTransaction.count({ where: { status: 'SUCCEEDED' } }),
+      ctx.prisma.paymentTransaction.findMany({
+        take: 5,
+        orderBy: { createdAt: 'desc' },
+        include: {
+          user: { select: { email: true, name: true } },
+          plan: { select: { name: true } },
+        },
+      }),
+    ]);
+
+    const monthlyGrowth =
+      lastMonthRevenue._sum.amount && lastMonthRevenue._sum.amount > 0
+        ? ((thisMonthRevenue._sum.amount || 0) - lastMonthRevenue._sum.amount) /
+          lastMonthRevenue._sum.amount *
+          100
+        : 0;
+
+    return {
+      totalRevenue: totalRevenue._sum.amount || 0,
+      thisMonthRevenue: thisMonthRevenue._sum.amount || 0,
+      lastMonthRevenue: lastMonthRevenue._sum.amount || 0,
+      thisYearRevenue: thisYearRevenue._sum.amount || 0,
+      monthlyGrowth: Math.round(monthlyGrowth * 10) / 10,
+      totalTransactions,
+      successfulTransactions,
+      successRate: totalTransactions > 0 
+        ? Math.round((successfulTransactions / totalTransactions) * 100) 
+        : 0,
+      recentTransactions,
+    };
+  }),
 });
 
 // Helper function to notify all users of a new opportunity
