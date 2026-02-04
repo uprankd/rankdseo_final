@@ -831,8 +831,8 @@ export const adminRouter = router({
       }));
 
       let nextCursor: string | undefined = undefined;
-      if (transactions.length > input.limit) {
-        const nextItem = transactions.pop();
+      if (transactionsWithPlans.length > input.limit) {
+        const nextItem = transactionsWithPlans.pop();
         nextCursor = nextItem!.id;
       }
 
@@ -850,7 +850,7 @@ export const adminRouter = router({
       ]);
 
       return {
-        transactions,
+        transactions: transactionsWithPlans,
         nextCursor,
         totalCount,
         totalRevenue: totalRevenue._sum.amount || 0,
