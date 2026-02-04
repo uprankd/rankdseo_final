@@ -487,4 +487,137 @@ export const emailTemplates = {
       </html>
     `,
   }),
+
+  projectMilestone: (userName: string, milestone: {
+    projectName: string;
+    milestoneName: string;
+    completedCount: number;
+    totalCount: number;
+    percentComplete: number;
+    recentLinks: Array<{ siteName: string; status: string }>;
+    projectId: string;
+  }) => ({
+    subject: `🎯 Milestone Reached: ${milestone.milestoneName} - ${milestone.projectName}`,
+    html: `
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <style>
+            body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+            .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+            .header { background: linear-gradient(135deg, #3b82f6 0%, #06b6d4 100%); color: white; padding: 30px; text-align: center; border-radius: 10px 10px 0 0; }
+            .content { background: #f9fafb; padding: 30px; border-radius: 0 0 10px 10px; }
+            .milestone-card { background: white; border: 2px solid #10b981; border-radius: 12px; padding: 25px; margin: 20px 0; text-align: center; }
+            .milestone-icon { font-size: 48px; margin-bottom: 10px; }
+            .milestone-name { font-size: 24px; font-weight: bold; color: #059669; margin: 10px 0; }
+            .project-name { font-size: 14px; color: #6b7280; }
+            .progress-container { background: #e5e7eb; border-radius: 10px; height: 20px; margin: 20px 0; overflow: hidden; }
+            .progress-bar { background: linear-gradient(90deg, #10b981 0%, #06b6d4 100%); height: 100%; border-radius: 10px; transition: width 0.3s; }
+            .stats-row { display: flex; justify-content: center; gap: 40px; margin: 20px 0; }
+            .stat { text-align: center; }
+            .stat-value { font-size: 32px; font-weight: bold; color: #3b82f6; }
+            .stat-label { font-size: 12px; color: #6b7280; text-transform: uppercase; }
+            .links-table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+            .links-table th { background: #f0f9ff; padding: 12px; text-align: left; font-size: 12px; text-transform: uppercase; color: #6b7280; }
+            .links-table td { padding: 12px; border-bottom: 1px solid #e5e7eb; }
+            .status-badge { display: inline-block; padding: 4px 10px; border-radius: 12px; font-size: 11px; font-weight: bold; }
+            .status-verified { background: #dcfce7; color: #166534; }
+            .status-pending { background: #fef3c7; color: #92400e; }
+            .status-rejected { background: #fee2e2; color: #dc2626; }
+            .button { display: inline-block; background: #3b82f6; color: white; padding: 14px 32px; text-decoration: none; border-radius: 8px; margin: 20px 0; font-weight: bold; }
+            .celebration { background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); border-radius: 12px; padding: 20px; margin: 20px 0; text-align: center; }
+            .footer { text-align: center; color: #6b7280; padding: 20px; font-size: 14px; }
+          </style>
+        </head>
+        <body>
+          <div class="container">
+            <div class="header">
+              <h1 style="margin: 0; font-size: 28px;">🎯 Milestone Reached!</h1>
+              <p style="margin: 10px 0 0 0; opacity: 0.9; font-size: 16px;">You're making amazing progress</p>
+            </div>
+            <div class="content">
+              <h2 style="color: #1e40af;">Congratulations, ${userName}! 🎉</h2>
+              
+              <div class="milestone-card">
+                <div class="milestone-icon">🏆</div>
+                <div class="milestone-name">${milestone.milestoneName}</div>
+                <div class="project-name">Project: ${milestone.projectName}</div>
+              </div>
+              
+              <div class="celebration">
+                <p style="margin: 0; font-size: 18px;">🌟 You've completed <strong>${milestone.completedCount}</strong> out of <strong>${milestone.totalCount}</strong> backlinks! 🌟</p>
+              </div>
+              
+              <div style="margin: 25px 0;">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                  <span style="font-weight: bold; color: #374151;">Progress</span>
+                  <span style="font-weight: bold; color: #10b981;">${milestone.percentComplete}%</span>
+                </div>
+                <div class="progress-container">
+                  <div class="progress-bar" style="width: ${milestone.percentComplete}%;"></div>
+                </div>
+              </div>
+              
+              <div class="stats-row">
+                <div class="stat">
+                  <div class="stat-value">${milestone.completedCount}</div>
+                  <div class="stat-label">Completed</div>
+                </div>
+                <div class="stat">
+                  <div class="stat-value">${milestone.totalCount - milestone.completedCount}</div>
+                  <div class="stat-label">Remaining</div>
+                </div>
+                <div class="stat">
+                  <div class="stat-value">${milestone.percentComplete}%</div>
+                  <div class="stat-label">Complete</div>
+                </div>
+              </div>
+              
+              <h3 style="color: #1e40af; margin-top: 30px;">📋 Recent Link Activity</h3>
+              <table class="links-table">
+                <thead>
+                  <tr>
+                    <th>Site</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  ${milestone.recentLinks.map(link => `
+                    <tr>
+                      <td style="font-weight: 500;">${link.siteName}</td>
+                      <td>
+                        <span class="status-badge ${link.status === 'Verified' ? 'status-verified' : link.status === 'Pending' ? 'status-pending' : 'status-rejected'}">
+                          ${link.status === 'Verified' ? '✓ ' : link.status === 'Pending' ? '⏳ ' : '✗ '}${link.status}
+                        </span>
+                      </td>
+                    </tr>
+                  `).join('')}
+                </tbody>
+              </table>
+              
+              <div style="text-align: center; margin: 30px 0;">
+                <a href="${process.env.NEXT_PUBLIC_APP_URL}/projects/${milestone.projectId}" class="button" style="color: white;">
+                  📊 View Full Project →
+                </a>
+              </div>
+              
+              <div style="background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px; padding: 15px; margin: 20px 0;">
+                <strong style="color: #166534;">💡 Keep Going!</strong>
+                <p style="margin: 5px 0 0 0; color: #15803d; font-size: 14px;">You're doing great! Keep building backlinks to improve your SEO rankings.</p>
+              </div>
+              
+              <p>Happy link building! 🔗</p>
+              <p><strong>The RankdSEO Team</strong></p>
+            </div>
+            <div class="footer">
+              <p>© 2024 RankdSEO. All rights reserved.</p>
+              <p style="font-size: 12px;">
+                <a href="${process.env.NEXT_PUBLIC_APP_URL}/settings" style="color: #6b7280;">Manage email preferences</a>
+              </p>
+            </div>
+          </div>
+        </body>
+      </html>
+    `,
+  }),
 };
