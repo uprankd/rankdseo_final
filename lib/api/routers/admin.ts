@@ -876,7 +876,6 @@ export const adminRouter = router({
               createdAt: true,
             },
           },
-          plan: true,
         },
       });
 
@@ -887,7 +886,15 @@ export const adminRouter = router({
         });
       }
 
-      return transaction;
+      // Fetch plan if planId exists
+      let plan = null;
+      if (transaction.planId) {
+        plan = await ctx.prisma.plan.findUnique({
+          where: { id: transaction.planId },
+        });
+      }
+
+      return { ...transaction, plan };
     }),
 
   // Resend invoice email
@@ -898,7 +905,6 @@ export const adminRouter = router({
         where: { id: input.transactionId },
         include: {
           user: true,
-          plan: true,
         },
       });
 
@@ -916,7 +922,15 @@ export const adminRouter = router({
         });
       }
 
-      const isLifetime = transaction.plan?.name.toLowerCase().includes('lifetime');
+      // Fetch plan if planId exists
+      let plan = null;
+      if (transaction.planId) {
+        plan = await ctx.prisma.plan.findUnique({
+          where: { id: transaction.planId },
+        });
+      }
+
+      const isLifetime = plan?.name?.toLowerCase().includes('lifetime') || false;
       const invoiceNumber = `INV-${new Date(transaction.createdAt).getFullYear()}-${transaction.id.slice(-6).toUpperCase()}`;
 
       const receiptEmail = emailTemplates.paymentReceipt(
