@@ -3,6 +3,7 @@ import { router, protectedProcedure } from '../trpc';
 import { TRPCError } from '@trpc/server';
 import bcrypt from 'bcryptjs';
 import crypto from 'crypto';
+import { sendEmail, emailTemplates } from '@/lib/mailgun';
 
 export const settingsRouter = router({
   // Profile Management
