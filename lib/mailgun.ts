@@ -1073,4 +1073,89 @@ export const emailTemplates = {
       </html>
     `,
   }),
+
+  accountDeleted: (userName: string, userEmail: string, deletionDate: string) => ({
+    subject: '👋 Your RankdSEO Account Has Been Deleted',
+    html: `
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <style>
+            body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+            .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+            .header { background: linear-gradient(135deg, #6b7280 0%, #4b5563 100%); color: white; padding: 30px; text-align: center; border-radius: 10px 10px 0 0; }
+            .content { background: #f9fafb; padding: 30px; border-radius: 0 0 10px 10px; }
+            .goodbye-card { background: white; border: 2px solid #e5e7eb; border-radius: 12px; padding: 25px; margin: 20px 0; text-align: center; }
+            .info-box { background: #f0f9ff; border-radius: 8px; padding: 15px; margin: 20px 0; }
+            .warning-box { background: #fef3c7; border: 1px solid #fde047; border-radius: 8px; padding: 15px; margin: 20px 0; }
+            .deleted-items { background: #fee2e2; border-radius: 8px; padding: 15px; margin: 20px 0; }
+            .deleted-item { display: flex; align-items: center; margin: 8px 0; color: #991b1b; }
+            .button { display: inline-block; background: #3b82f6; color: white; padding: 14px 32px; text-decoration: none; border-radius: 8px; margin: 20px 0; font-weight: bold; }
+            .footer { text-align: center; color: #6b7280; padding: 20px; font-size: 14px; }
+          </style>
+        </head>
+        <body>
+          <div class="container">
+            <div class="header">
+              <h1 style="margin: 0; font-size: 28px;">👋 Goodbye, ${userName}</h1>
+              <p style="margin: 10px 0 0 0; opacity: 0.9; font-size: 16px;">We're sad to see you go</p>
+            </div>
+            <div class="content">
+              <div class="goodbye-card">
+                <div style="font-size: 48px; margin-bottom: 10px;">😢</div>
+                <h2 style="margin: 0; color: #374151;">Account Deletion Confirmed</h2>
+                <p style="color: #6b7280; margin: 10px 0 0 0;">Your RankdSEO account has been permanently deleted</p>
+              </div>
+
+              <div class="info-box">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                  <span style="color: #6b7280;">Account Email:</span>
+                  <span style="font-weight: bold;">${userEmail}</span>
+                </div>
+                <div style="display: flex; justify-content: space-between;">
+                  <span style="color: #6b7280;">Deletion Date:</span>
+                  <span style="font-weight: bold;">${deletionDate}</span>
+                </div>
+              </div>
+
+              <div class="deleted-items">
+                <h3 style="margin-top: 0; color: #991b1b;">🗑️ The following data has been deleted:</h3>
+                <div class="deleted-item">✗ Your profile and account information</div>
+                <div class="deleted-item">✗ All your projects and tracked opportunities</div>
+                <div class="deleted-item">✗ Your subscription and payment history</div>
+                <div class="deleted-item">✗ Email preferences and settings</div>
+              </div>
+
+              <div class="warning-box">
+                <strong>⚠️ Important:</strong>
+                <p style="margin: 5px 0 0 0; font-size: 14px;">This action cannot be undone. If you deleted your account by mistake, you'll need to create a new account and start fresh.</p>
+              </div>
+
+              <p>We're sorry to see you leave. If you have any feedback about why you decided to delete your account, we'd love to hear it.</p>
+
+              <div style="text-align: center; margin: 30px 0;">
+                <a href="mailto:support@rankdseo.com?subject=Account%20Deletion%20Feedback" class="button" style="color: white;">
+                  📝 Share Feedback
+                </a>
+              </div>
+
+              <div style="background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px; padding: 15px; margin: 20px 0;">
+                <strong style="color: #166534;">🚀 Changed your mind?</strong>
+                <p style="margin: 5px 0 0 0; color: #15803d; font-size: 14px;">You're always welcome back! Visit our website to create a new account anytime.</p>
+              </div>
+
+              <p>Thank you for being part of the RankdSEO community.</p>
+              <p><strong>The RankdSEO Team</strong></p>
+            </div>
+            <div class="footer">
+              <p>© 2024 RankdSEO. All rights reserved.</p>
+              <p style="font-size: 12px; color: #9ca3af;">
+                This is a confirmation email for your account deletion request.
+              </p>
+            </div>
+          </div>
+        </body>
+      </html>
+    `,
+  }),
 };
