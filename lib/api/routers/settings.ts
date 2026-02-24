@@ -235,10 +235,51 @@ export const settingsRouter = router({
   deleteAccount: protectedProcedure.mutation(async ({ ctx }) => {
     const userId = ctx.session.user.id;
 
+    // Get user info before deletion for the email
+    const user = await ctx.prisma.user.findUnique({
+      where: { id: userId },
+      select: { email: true, name: true },
+    });
+
+    if (!user) {
+      throw new TRPCError({
+        code: 'NOT_FOUND',
+        message: 'User not found',
+      });
+    }
+
+    const userEmail = user.email;
+    const userName = user.name || 'User';
+    const deletionDate = new Date().toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+    });
+
     // Delete user and all related data (cascade)
     await ctx.prisma.user.delete({
       where: { id: userId },
     });
+
+    // Send account deletion confirmation email
+    try {
+      const emailContent = emailTemplates.accountDeleted(userName, userEmail, deletionDate);
+      await sendEmail({
+        to: userEmail,
+        subject: emailContent.subject,
+        html: emailContent.html,
+        metadata: {
+          emailType: 'account_deleted',
+          deletedUserId: userId,
+        },
+      });
+      console.log(`📧 Account deletion confirmation sent to ${userEmail}`);
+    } catch (emailError) {
+      console.error('⚠️ Failed to send account deletion email:', emailError);
+      // Don't throw - account is already deleted, email is just a notification
+    }
 
     return { success: true };
   }),
