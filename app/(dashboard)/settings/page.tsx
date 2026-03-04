@@ -35,16 +35,26 @@ export default function SettingsPage() {
   const [activeTab, setActiveTab] = useState('profile');
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
+  // Handle tab selection from URL query parameter
+  useEffect(() => {
+    const tabParam = searchParams.get('tab');
+    if (tabParam && ['profile', 'subscription', 'preferences', 'security'].includes(tabParam)) {
+      setActiveTab(tabParam);
+    }
+  }, [searchParams]);
+
   // Handle upgrade success/cancel from Stripe redirect
   useEffect(() => {
     const upgradeStatus = searchParams.get('upgrade');
     if (upgradeStatus === 'success') {
       toast.success('🎉 Payment successful! Your plan has been upgraded.');
+      setActiveTab('subscription');
       // Remove query param from URL
-      router.replace('/settings');
+      router.replace('/settings?tab=subscription');
     } else if (upgradeStatus === 'cancelled') {
       toast.error('Payment was cancelled. Your plan remains unchanged.');
-      router.replace('/settings');
+      setActiveTab('subscription');
+      router.replace('/settings?tab=subscription');
     }
   }, [searchParams, router]);
 
