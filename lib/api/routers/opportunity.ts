@@ -154,6 +154,7 @@ export const opportunityRouter = router({
         hasMore: !!nextCursor,
         totalCount,
         planLimit: shouldHaveUnlimitedAccess ? 999999 : subscription.plan.maxOpportunities,
+        isFreePlan: false,
       };
     }),
 
