@@ -28,6 +28,9 @@ export default function HomePage() {
             <Link href="#pricing" className="text-sm font-semibold text-gray-700 hover:text-navy-500 transition-colors">
               Pricing
             </Link>
+            <Link href="/demo" className="text-sm font-semibold text-sky-600 hover:text-navy-500 transition-colors" data-testid="view-platform-link">
+              View Platform
+            </Link>
             <Link href="/signin" className="text-sm font-semibold text-gray-700 hover:text-navy-500 transition-colors">
               Sign In
             </Link>

@@ -24,6 +24,7 @@ SaaS application for managing Backlink Opportunities. Users can discover, track,
 - Activity logs & analytics
 
 ## What's Been Implemented
+- [Mar 2026] "View Platform" demo mode: auto-login to browse 50 opportunities without signup
 - [Mar 2026] Fixed Free Plan: top 50 by DA dynamically (auto-fills if deleted), skip client-side filtering for free users
 - [Mar 2026] PayPal signup bug fix: safer flow (create user before capture)
 - [Mar 2026] Cursor-based pagination: useInfiniteQuery with 100/page "Load More"

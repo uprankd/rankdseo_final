@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
-import { LayoutDashboard, FolderOpen, Database, LogOut, Menu, X, Settings, Sparkles, Crown, Shield, TrendingUp, Users, Tag, BarChart3, FileText } from 'lucide-react';
+import { LayoutDashboard, FolderOpen, Database, LogOut, Menu, X, Settings, Sparkles, Crown, Shield, TrendingUp, Users, Tag, BarChart3, FileText, Eye } from 'lucide-react';
 import { signOut, useSession } from 'next-auth/react';
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
@@ -15,11 +15,17 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   const { data: session, status } = useSession();
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
+  const isDemoUser = session?.user?.email === 'demo@rankdseo.com';
+
   useEffect(() => {
     if (status === 'unauthenticated') {
       router.push('/signin');
     }
-  }, [status, router]);
+    // Redirect demo user away from non-opportunity pages
+    if (isDemoUser && pathname !== '/opportunities' && !pathname?.startsWith('/opportunities/')) {
+      router.push('/opportunities');
+    }
+  }, [status, router, isDemoUser, pathname]);
 
   if (status === 'loading') {
     return (
@@ -43,7 +49,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     await signOut({ callbackUrl: '/signin' });
   };
 
-  const navItems = [
+  const allNavItems = [
     { href: '/dashboard', icon: LayoutDashboard, label: 'Dashboard', gradient: 'from-blue-500 to-cyan-500' },
     { href: '/projects', icon: FolderOpen, label: 'Projects', gradient: 'from-navy-500 to-sky-500' },
     { href: '/opportunities', icon: Database, label: 'Opportunities', gradient: 'from-green-500 to-teal-500' },
@@ -56,6 +62,11 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       { href: '/admin/coupons', icon: Tag, label: 'Coupons', gradient: 'from-orange-500 to-red-500' }
     ] : []),
   ];
+
+  // Demo user only sees Opportunities
+  const navItems = isDemoUser 
+    ? allNavItems.filter(item => item.href === '/opportunities')
+    : allNavItems;
 
   const isActive = (href: string) => pathname === href;
 
@@ -79,26 +90,43 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           </div>
 
           <div className="flex items-center space-x-3">
-            <div className="hidden md:flex items-center space-x-3 bg-gradient-to-r from-paleblue-50 to-pink-50 px-4 py-2 rounded-2xl border-2 border-navy-200">
-              <Avatar className="h-10 w-10 border-3 border-white shadow-lg ring-2 ring-purple-200">
-                <AvatarFallback className="bg-gradient-to-br from-navy-500 via-sky-500 to-sky-600 text-white font-bold text-lg">
-                  {session.user.name?.charAt(0) || session.user.email?.charAt(0) || 'U'}
-                </AvatarFallback>
-              </Avatar>
-              <div className="hidden lg:block">
-                <p className="text-sm font-bold text-gray-800">{session.user.name}</p>
-                <p className="text-xs text-gray-600">{session.user.email}</p>
-              </div>
-            </div>
-            <Button 
-              variant="outline" 
-              size="sm" 
-              onClick={handleSignOut}
-              className="border-2 border-red-200 hover:bg-red-50 hover:text-red-600 hover:border-red-400 font-semibold"
-            >
-              <LogOut className="h-4 w-4 mr-2" />
-              <span className="hidden sm:inline">Sign Out</span>
-            </Button>
+            {isDemoUser ? (
+              <>
+                <Badge className="bg-sky-100 text-sky-700 border-sky-200 font-semibold px-3 py-1" data-testid="demo-badge">
+                  <Eye className="h-3 w-3 mr-1" />
+                  Preview Mode
+                </Badge>
+                <Link href="/signup">
+                  <Button size="sm" className="bg-gradient-to-r from-navy-500 to-sky-500 hover:from-purple-700 hover:to-sky-600 shadow-lg font-semibold" data-testid="demo-signup-btn">
+                    <Sparkles className="h-4 w-4 mr-2" />
+                    Sign Up for Full Access
+                  </Button>
+                </Link>
+              </>
+            ) : (
+              <>
+                <div className="hidden md:flex items-center space-x-3 bg-gradient-to-r from-paleblue-50 to-pink-50 px-4 py-2 rounded-2xl border-2 border-navy-200">
+                  <Avatar className="h-10 w-10 border-3 border-white shadow-lg ring-2 ring-purple-200">
+                    <AvatarFallback className="bg-gradient-to-br from-navy-500 via-sky-500 to-sky-600 text-white font-bold text-lg">
+                      {session.user.name?.charAt(0) || session.user.email?.charAt(0) || 'U'}
+                    </AvatarFallback>
+                  </Avatar>
+                  <div className="hidden lg:block">
+                    <p className="text-sm font-bold text-gray-800">{session.user.name}</p>
+                    <p className="text-xs text-gray-600">{session.user.email}</p>
+                  </div>
+                </div>
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  onClick={handleSignOut}
+                  className="border-2 border-red-200 hover:bg-red-50 hover:text-red-600 hover:border-red-400 font-semibold"
+                >
+                  <LogOut className="h-4 w-4 mr-2" />
+                  <span className="hidden sm:inline">Sign Out</span>
+                </Button>
+              </>
+            )}
           </div>
         </div>
       </header>
@@ -133,31 +161,52 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                 );
               })}
               
-              <div className="pt-6 mt-6 border-t-2 border-gray-200">
-                <Link href="/settings">
-                  <Button variant="ghost" className="w-full justify-start hover:bg-gradient-to-r hover:from-paleblue-50 hover:to-pink-50 h-14 text-base">
-                    <Settings className="h-6 w-6 mr-3 text-gray-600" />
-                    <span className="font-semibold">Settings</span>
-                  </Button>
-                </Link>
-              </div>
+              {!isDemoUser && (
+                <div className="pt-6 mt-6 border-t-2 border-gray-200">
+                  <Link href="/settings">
+                    <Button variant="ghost" className="w-full justify-start hover:bg-gradient-to-r hover:from-paleblue-50 hover:to-pink-50 h-14 text-base">
+                      <Settings className="h-6 w-6 mr-3 text-gray-600" />
+                      <span className="font-semibold">Settings</span>
+                    </Button>
+                  </Link>
+                </div>
+              )}
 
               {/* Plan Badge */}
-              <div className="pt-6">
-                <div className="bg-gradient-to-br from-gold-400 via-gold-500 to-gold-600 p-6 rounded-2xl border-2 border-gold-300 shadow-xl">
-                  <div className="flex items-center justify-between mb-3">
-                    <Badge className="bg-white/90 backdrop-blur text-gold-600 border-0 font-bold text-sm px-3 py-1">
-                      <Crown className="h-4 w-4 mr-1" />
-                      Pro Plan
-                    </Badge>
-                    <Sparkles className="h-5 w-5 text-white animate-pulse" />
+              {isDemoUser ? (
+                <div className="pt-6">
+                  <div className="bg-gradient-to-br from-sky-400 via-sky-500 to-blue-600 p-6 rounded-2xl border-2 border-sky-300 shadow-xl">
+                    <div className="flex items-center justify-between mb-3">
+                      <Badge className="bg-white/90 backdrop-blur text-sky-600 border-0 font-bold text-sm px-3 py-1">
+                        <Eye className="h-4 w-4 mr-1" />
+                        Preview
+                      </Badge>
+                    </div>
+                    <p className="text-white/95 text-sm font-semibold mb-4">Sign up to unlock all 1300+ opportunities</p>
+                    <Link href="/signup">
+                      <Button size="sm" variant="outline" className="w-full bg-white/20 backdrop-blur border-white/30 text-white hover:bg-white/30 font-semibold" data-testid="demo-sidebar-signup-btn">
+                        Get Full Access
+                      </Button>
+                    </Link>
                   </div>
-                  <p className="text-white/95 text-sm font-semibold mb-4">Unlimited access to all premium features</p>
-                  <Button size="sm" variant="outline" className="w-full bg-white/20 backdrop-blur border-white/30 text-white hover:bg-white/30 font-semibold">
-                    Manage Plan
-                  </Button>
                 </div>
-              </div>
+              ) : (
+                <div className="pt-6">
+                  <div className="bg-gradient-to-br from-gold-400 via-gold-500 to-gold-600 p-6 rounded-2xl border-2 border-gold-300 shadow-xl">
+                    <div className="flex items-center justify-between mb-3">
+                      <Badge className="bg-white/90 backdrop-blur text-gold-600 border-0 font-bold text-sm px-3 py-1">
+                        <Crown className="h-4 w-4 mr-1" />
+                        Pro Plan
+                      </Badge>
+                      <Sparkles className="h-5 w-5 text-white animate-pulse" />
+                    </div>
+                    <p className="text-white/95 text-sm font-semibold mb-4">Unlimited access to all premium features</p>
+                    <Button size="sm" variant="outline" className="w-full bg-white/20 backdrop-blur border-white/30 text-white hover:bg-white/30 font-semibold">
+                      Manage Plan
+                    </Button>
+                  </div>
+                </div>
+              )}
             </nav>
           </aside>
 
