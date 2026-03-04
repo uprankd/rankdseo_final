@@ -191,7 +191,7 @@ export default function HomePage() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <Link href="/signup">
               <Button size="lg" className="bg-gradient-to-r from-navy-500 via-sky-500 to-sky-600 hover:from-purple-700 hover:via-sky-600 hover:to-gold-600 text-white text-xl px-10 py-7 shadow-2xl transform hover:scale-105 transition-all">
-                Start Free Trial
+                Get Started
                 <ArrowRight className="ml-3 h-6 w-6" />
               </Button>
             </Link>
@@ -202,8 +202,6 @@ export default function HomePage() {
             </Link>
           </div>
           <p className="text-sm text-gray-600 mt-6 flex items-center justify-center gap-2">
-            <Check className="h-4 w-4 text-green-600" />
-            No credit card required
             <Check className="h-4 w-4 text-green-600" />
             Free forever plan
           </p>
