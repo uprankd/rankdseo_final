@@ -306,7 +306,7 @@ export default function ProjectsPage() {
                   </p>
                 </div>
               </div>
-              <Link href="/pricing">
+              <Link href="/settings?tab=subscription">
                 <Button className="bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 shadow-lg">
                   <Sparkles className="h-4 w-4 mr-2" />
                   Upgrade Now
