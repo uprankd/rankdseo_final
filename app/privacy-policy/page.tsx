@@ -1,5 +1,14 @@
+import type { Metadata } from 'next';
 import Link from 'next/link';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+
+const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://rankdseo.com';
+
+export const metadata: Metadata = {
+  title: 'Privacy Policy',
+  description: 'RankdSEO privacy policy. Learn how we collect, use, and protect your personal information.',
+  alternates: { canonical: `${baseUrl}/privacy-policy` },
+};
 
 export default function PrivacyPolicyPage() {
   return (

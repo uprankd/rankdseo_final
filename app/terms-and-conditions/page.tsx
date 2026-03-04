@@ -1,5 +1,14 @@
+import type { Metadata } from 'next';
 import Link from 'next/link';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+
+const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://rankdseo.com';
+
+export const metadata: Metadata = {
+  title: 'Terms and Conditions',
+  description: 'RankdSEO terms and conditions. Read our terms of service for using the backlink opportunities platform.',
+  alternates: { canonical: `${baseUrl}/terms-and-conditions` },
+};
 
 export default function TermsAndConditionsPage() {
   return (

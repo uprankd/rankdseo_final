@@ -11,10 +11,126 @@ import {
   AccordionTrigger,
 } from '@/components/ui/accordion';
 import { Check, ArrowRight, Search, TrendingUp, Target, Zap, Star, Crown, Sparkles, Globe, HelpCircle } from 'lucide-react';
+import Script from 'next/script';
+
+const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://rankdseo.com';
+
+// JSON-LD Structured Data
+const organizationSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'RankdSEO',
+  url: baseUrl,
+  logo: `${baseUrl}/logo.png`,
+  description: 'Curated backlink opportunities platform with step-by-step guides for SEO professionals.',
+  founder: { '@type': 'Organization', name: 'SIA Uprankd' },
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: 'Brīvības iela 40-20B',
+    addressLocality: 'Rīga',
+    postalCode: 'LV-1050',
+    addressCountry: 'LV',
+  },
+};
+
+const websiteSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: 'RankdSEO',
+  url: baseUrl,
+  description: 'Discover 1000+ curated backlink opportunities with step-by-step screenshot tutorials.',
+  potentialAction: {
+    '@type': 'SearchAction',
+    target: `${baseUrl}/opportunities?search={search_term_string}`,
+    'query-input': 'required name=search_term_string',
+  },
+};
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: [
+    {
+      '@type': 'Question',
+      name: 'What is your refund policy?',
+      acceptedAnswer: { '@type': 'Answer', text: 'There are no refunds once the payment is made, due to the nature of the site.' },
+    },
+    {
+      '@type': 'Question',
+      name: 'Can I cancel my subscription when I wish to do so?',
+      acceptedAnswer: { '@type': 'Answer', text: 'You can cancel the subscription at any time.' },
+    },
+    {
+      '@type': 'Question',
+      name: 'What kind of backlinks are in the database?',
+      acceptedAnswer: { '@type': 'Answer', text: 'Mixed. There are profile links, website builders, posts, bookmarks, social posts, article submissions, etc.' },
+    },
+    {
+      '@type': 'Question',
+      name: 'Can I use the database as a guide for my VA to build backlinks for me?',
+      acceptedAnswer: { '@type': 'Answer', text: 'That is a great idea since even a complete beginner could build backlinks with the help of our guides.' },
+    },
+    {
+      '@type': 'Question',
+      name: 'Are there any extra costs after buying the access?',
+      acceptedAnswer: { '@type': 'Answer', text: 'No. All the links on our database can be acquired for FREE.' },
+    },
+    {
+      '@type': 'Question',
+      name: 'Will there be new links added in time?',
+      acceptedAnswer: { '@type': 'Answer', text: 'Links are added on a regular basis.' },
+    },
+  ],
+};
+
+const productSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  name: 'RankdSEO',
+  applicationCategory: 'BusinessApplication',
+  operatingSystem: 'Web',
+  description: 'Backlink opportunities database with 1000+ curated sites and step-by-step tutorials',
+  offers: [
+    {
+      '@type': 'Offer',
+      name: 'Free Plan',
+      price: '0',
+      priceCurrency: 'USD',
+      description: '50 curated backlink opportunities',
+    },
+    {
+      '@type': 'Offer',
+      name: 'Monthly Membership',
+      price: '34.99',
+      priceCurrency: 'USD',
+      description: 'Unlimited opportunities, 100 projects',
+    },
+    {
+      '@type': 'Offer',
+      name: '1 Year Membership',
+      price: '99.99',
+      priceCurrency: 'USD',
+      description: 'Unlimited opportunities, 100 projects, save 76%',
+    },
+    {
+      '@type': 'Offer',
+      name: 'Lifetime Membership',
+      price: '179.99',
+      priceCurrency: 'USD',
+      description: 'Unlimited opportunities, unlimited projects, pay once',
+    },
+  ],
+};
 
 export default function HomePage() {
   return (
     <div className="min-h-screen">
+      {/* JSON-LD Structured Data */}
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(productSchema) }} />
+
       {/* Header */}
       <header className="border-b-2 border-navy-200 bg-white/90 backdrop-blur-lg sticky top-0 z-50 shadow-lg">
         <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">

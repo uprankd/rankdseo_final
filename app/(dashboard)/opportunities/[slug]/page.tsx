@@ -302,8 +302,40 @@ export default function OpportunityDetailPage({ params }: { params: { slug: stri
     return num.toString();
   };
 
+  // JSON-LD for this opportunity
+  const opportunitySchema = opportunity ? {
+    '@context': 'https://schema.org',
+    '@type': 'HowTo',
+    name: `How to Get a Backlink from ${opportunity.siteName}`,
+    description: opportunity.shortDescription,
+    totalTime: opportunity.averageTime ? `PT${opportunity.averageTime.replace(/[^0-9]/g, '')}M` : undefined,
+    tool: { '@type': 'HowToTool', name: 'Web Browser' },
+    step: opportunity.instructions?.map((inst: any) => ({
+      '@type': 'HowToStep',
+      name: inst.stepTitle,
+      text: inst.stepDescription,
+      position: inst.stepOrder,
+    })) || [],
+  } : null;
+
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: typeof window !== 'undefined' ? window.location.origin : '' },
+      { '@type': 'ListItem', position: 2, name: 'Opportunities', item: typeof window !== 'undefined' ? `${window.location.origin}/opportunities` : '' },
+      { '@type': 'ListItem', position: 3, name: opportunity?.siteName || 'Opportunity' },
+    ],
+  };
+
   return (
     <div className="space-y-6 animate-in fade-in duration-500">
+      {/* JSON-LD Structured Data */}
+      {opportunitySchema && (
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(opportunitySchema) }} />
+      )}
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
+
       {/* Back Button */}
       <Link href="/opportunities">
         <Button variant="ghost" size="sm" className="hover:bg-navy-50">

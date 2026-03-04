@@ -24,6 +24,7 @@ SaaS application for managing Backlink Opportunities. Users can discover, track,
 - Activity logs & analytics
 
 ## What's Been Implemented
+- [Mar 2026] Comprehensive SEO: sitemap.xml (1361 URLs), robots.txt, JSON-LD (Organization, WebSite, FAQ, Product), dynamic meta per opportunity, canonical URLs, noindex on auth, manifest.json
 - [Mar 2026] SEO-friendly slug URLs for all opportunities (e.g., `/opportunities/microsoft-backlink`)
 - [Mar 2026] "View Platform" demo mode: auto-login to browse 50 opportunities without signup
 - [Mar 2026] Fixed Free Plan: top 50 by DA dynamically (auto-fills if deleted), skip client-side filtering for free users
