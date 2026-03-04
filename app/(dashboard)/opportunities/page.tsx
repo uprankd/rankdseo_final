@@ -97,6 +97,9 @@ export default function OpportunitiesPage() {
 
   // Check if user has unlimited access (admin or lifetime subscriber)
   const hasUnlimitedAccess = subscriptionData?.plan?.interval === 'lifetime' || data?.planLimit === 999999;
+  
+  // Check if user is on free plan
+  const isFreePlan = (data as any)?.isFreePlan === true;
 
   // Check if filters are at default values (not actively being used)
   const filtersAreDefault = 
