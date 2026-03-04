@@ -206,13 +206,24 @@ export default function ProjectsPage() {
           <p className="text-gray-600 mt-2 flex items-center gap-2">
             <Sparkles className="h-4 w-4 text-yellow-500" />
             Manage your backlink building campaigns
+            {subscriptionData && (
+              <span className="text-sm bg-gray-100 px-2 py-1 rounded-full">
+                {currentProjects}/{maxProjects} projects
+              </span>
+            )}
           </p>
         </div>
         <Dialog open={isDialogOpen} onOpenChange={handleDialogClose}>
           <DialogTrigger asChild>
-            <Button size="lg" className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 shadow-lg">
+            <Button 
+              size="lg" 
+              className={`shadow-lg ${canCreateProject 
+                ? 'bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700' 
+                : 'bg-gray-400 cursor-not-allowed'}`}
+              disabled={!canCreateProject}
+            >
               <Plus className="h-5 w-5 mr-2" />
-              New Project
+              {canCreateProject ? 'New Project' : 'Project Limit Reached'}
             </Button>
           </DialogTrigger>
           <DialogContent className="sm:max-w-[500px]">
