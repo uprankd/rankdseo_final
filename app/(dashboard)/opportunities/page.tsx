@@ -919,32 +919,47 @@ export default function OpportunitiesPage() {
         </div>
       )}
 
-      {/* Plan Limit Info */}
-      {data?.planLimit && (
-        <Card className="border-2 border-blue-200 bg-gradient-to-br from-blue-50 to-purple-50">
+      {/* Plan Limit Info - Special messaging for Free plan users */}
+      {data?.planLimit && data.planLimit < 999999 && (
+        <Card className={`border-2 ${(data as any).isFreePlan ? 'border-amber-300 bg-gradient-to-br from-amber-50 to-orange-50' : 'border-blue-200 bg-gradient-to-br from-blue-50 to-purple-50'}`}>
           <CardContent className="pt-6">
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-3">
-                <div className="h-12 w-12 bg-gradient-to-br from-blue-600 to-purple-600 rounded-xl flex items-center justify-center">
-                  <TrendingUp className="h-6 w-6 text-white" />
+                <div className={`h-12 w-12 rounded-xl flex items-center justify-center ${(data as any).isFreePlan ? 'bg-gradient-to-br from-amber-500 to-orange-500' : 'bg-gradient-to-br from-blue-600 to-purple-600'}`}>
+                  {(data as any).isFreePlan ? (
+                    <Star className="h-6 w-6 text-white" />
+                  ) : (
+                    <TrendingUp className="h-6 w-6 text-white" />
+                  )}
                 </div>
                 <div>
-                  <p className="font-bold text-gray-900">
-                    Viewing {data.opportunities.length} of {data.planLimit} opportunities
-                  </p>
-                  <p className="text-sm text-gray-600">
-                    Upgrade to unlock more opportunities
-                  </p>
+                  {(data as any).isFreePlan ? (
+                    <>
+                      <p className="font-bold text-gray-900">
+                        🎁 Free Opportunity Account
+                      </p>
+                      <p className="text-sm text-gray-600">
+                        You're viewing 50 random opportunities from our database of {data.totalCount}+
+                      </p>
+                    </>
+                  ) : (
+                    <>
+                      <p className="font-bold text-gray-900">
+                        Viewing {data.opportunities.length} of {data.planLimit} opportunities
+                      </p>
+                      <p className="text-sm text-gray-600">
+                        Upgrade to unlock more opportunities
+                      </p>
+                    </>
+                  )}
                 </div>
               </div>
-              {data.planLimit < 999999 && (
-                <Link href="/pricing">
-                  <Button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 shadow-lg">
-                    <Sparkles className="h-4 w-4 mr-2" />
-                    Upgrade Plan
-                  </Button>
-                </Link>
-              )}
+              <Link href="/pricing">
+                <Button className={`shadow-lg ${(data as any).isFreePlan ? 'bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600' : 'bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700'}`}>
+                  <Sparkles className="h-4 w-4 mr-2" />
+                  {(data as any).isFreePlan ? 'Unlock All 1300+ Opportunities' : 'Upgrade Plan'}
+                </Button>
+              </Link>
             </div>
           </CardContent>
         </Card>
