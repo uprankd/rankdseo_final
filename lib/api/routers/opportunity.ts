@@ -71,7 +71,7 @@ export const opportunityRouter = router({
       const isLifetime = subscription.plan.interval === 'lifetime';
       const shouldHaveUnlimitedAccess = isAdmin || isLifetime;
 
-      // For FREE plan users: return the top 50 opportunities by DA (always consistent, always 50)
+      // For FREE plan users: return the top 20 opportunities by DA (always consistent, always 20)
       if (isFreePlan && !isAdmin) {
         const opportunities = await ctx.prisma.backlinkOpportunity.findMany({
           where: { status: 'ACTIVE' },
@@ -79,7 +79,7 @@ export const opportunityRouter = router({
             { domainAuthority: 'desc' },
             { createdAt: 'asc' },
           ],
-          take: 50,
+          take: 20,
           include: {
             _count: {
               select: { instructions: true },
@@ -105,7 +105,7 @@ export const opportunityRouter = router({
           nextCursor: undefined,
           hasMore: false,
           totalCount,
-          planLimit: 50,
+          planLimit: 20,
           isFreePlan: true,
         };
       }

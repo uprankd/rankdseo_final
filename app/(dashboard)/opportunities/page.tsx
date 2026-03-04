@@ -987,7 +987,7 @@ export default function OpportunitiesPage() {
                         🎁 Free Opportunity Account
                       </p>
                       <p className="text-sm text-gray-600">
-                        You're viewing 50 curated opportunities from our database of {data.totalCount}+
+                        You're viewing 20 curated opportunities from our database of {data.totalCount}+
                       </p>
                     </>
                   ) : (

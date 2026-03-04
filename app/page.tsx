@@ -96,7 +96,7 @@ const productSchema = {
       name: 'Free Plan',
       price: '0',
       priceCurrency: 'USD',
-      description: '50 curated backlink opportunities',
+      description: '20 curated backlink opportunities',
     },
     {
       '@type': 'Offer',
