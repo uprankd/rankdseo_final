@@ -357,4 +357,28 @@ export const opportunityRouter = router({
       countries: countries.map((c) => c.country).filter(Boolean),
     };
   }),
+
+  // Public-facing update log (read-only for all users)
+  listUpdateLogs: protectedProcedure
+    .input(z.object({
+      limit: z.number().min(1).max(50).default(10),
+      cursor: z.string().optional(),
+      direction: z.enum(['forward', 'backward']).optional(),
+    }).optional())
+    .query(async ({ ctx, input }) => {
+      const limit = input?.limit ?? 10;
+      const logs = await ctx.prisma.updateLog.findMany({
+        where: { status: 'PUBLISHED' },
+        orderBy: { date: 'desc' },
+        take: limit + 1,
+        ...(input?.cursor ? { cursor: { id: input.cursor }, skip: 1 } : {}),
+      });
+      const hasMore = logs.length > limit;
+      if (hasMore) logs.pop();
+      return {
+        logs,
+        nextCursor: hasMore ? logs[logs.length - 1]?.id : undefined,
+        hasMore,
+      };
+    }),
 });
