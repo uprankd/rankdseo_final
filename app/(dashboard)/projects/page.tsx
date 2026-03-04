@@ -40,41 +40,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 
 // Sample demo projects for visual appeal
-const DEMO_PROJECTS = [
-  {
-    id: 'demo-1',
-    name: 'TechStartup Website',
-    domain: 'techstartup.io',
-    niche: 'Technology',
-    color: '#3b82f6',
-    description: 'Building backlinks for our SaaS platform',
-    opportunities: 15,
-    stats: { notStarted: 5, inProgress: 6, completed: 4 },
-    isDemo: true
-  },
-  {
-    id: 'demo-2',
-    name: 'E-Commerce Store',
-    domain: 'mystore.com',
-    niche: 'E-commerce',
-    color: '#8b5cf6',
-    description: 'SEO campaign for online retail',
-    opportunities: 22,
-    stats: { notStarted: 8, inProgress: 10, completed: 4 },
-    isDemo: true
-  },
-  {
-    id: 'demo-3',
-    name: 'Health Blog',
-    domain: 'healthblog.net',
-    niche: 'Health & Wellness',
-    color: '#10b981',
-    description: 'Organic traffic growth strategy',
-    opportunities: 12,
-    stats: { notStarted: 2, inProgress: 5, completed: 5 },
-    isDemo: true
-  },
-];
+const DEMO_PROJECTS: any[] = []; // No demo projects
 
 export default function ProjectsPage() {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
