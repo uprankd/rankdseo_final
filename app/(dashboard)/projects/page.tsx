@@ -322,6 +322,35 @@ export default function ProjectsPage() {
         </Card>
       </div>
 
+      {/* Free Plan Upgrade Banner */}
+      {isFreePlan && !canCreateProject && (
+        <Card className="border-2 border-amber-300 bg-gradient-to-br from-amber-50 to-orange-50">
+          <CardContent className="pt-6">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center space-x-3">
+                <div className="h-12 w-12 bg-gradient-to-br from-amber-500 to-orange-500 rounded-xl flex items-center justify-center">
+                  <FolderOpen className="h-6 w-6 text-white" />
+                </div>
+                <div>
+                  <p className="font-bold text-gray-900">
+                    🎁 Free Account - 1 Project Limit
+                  </p>
+                  <p className="text-sm text-gray-600">
+                    Upgrade to create unlimited projects and track all your backlink campaigns
+                  </p>
+                </div>
+              </div>
+              <Link href="/pricing">
+                <Button className="bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 shadow-lg">
+                  <Sparkles className="h-4 w-4 mr-2" />
+                  Upgrade Now
+                </Button>
+              </Link>
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
       {/* Projects Grid */}
       {isLoading ? (
         <div className="text-center py-12">
