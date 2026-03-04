@@ -71,22 +71,30 @@ export const opportunityRouter = router({
       const isLifetime = subscription.plan.interval === 'lifetime';
       const shouldHaveUnlimitedAccess = isAdmin || isLifetime;
 
-      // For FREE plan users: return the fixed set of 50 curated opportunities
+      // For FREE plan users: return the top 50 opportunities by DA (always consistent, always 50)
       if (isFreePlan && !isAdmin) {
-        const freeWhere: Prisma.BacklinkOpportunityWhereInput = {
-          status: 'ACTIVE',
-          isFree: true,
-        };
-
         const opportunities = await ctx.prisma.backlinkOpportunity.findMany({
-          where: freeWhere,
-          orderBy,
+          where: { status: 'ACTIVE' },
+          orderBy: [
+            { domainAuthority: 'desc' },
+            { createdAt: 'asc' },
+          ],
+          take: 50,
           include: {
             _count: {
               select: { instructions: true },
             },
           },
         });
+
+        // Apply requested sort on the 50 results
+        if (input.sortBy === 'da') {
+          opportunities.sort((a, b) => (b.domainAuthority || 0) - (a.domainAuthority || 0));
+        } else if (input.sortBy === 'dr') {
+          opportunities.sort((a, b) => (b.domainRating || 0) - (a.domainRating || 0));
+        } else if (input.sortBy === 'traffic') {
+          opportunities.sort((a, b) => (b.estimatedTraffic || 0) - (a.estimatedTraffic || 0));
+        }
 
         const totalCount = await ctx.prisma.backlinkOpportunity.count({
           where: { status: 'ACTIVE' },

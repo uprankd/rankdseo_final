@@ -24,10 +24,11 @@ SaaS application for managing Backlink Opportunities. Users can discover, track,
 - Activity logs & analytics
 
 ## What's Been Implemented
-- [Mar 2026] Fixed Free Plan: 50 constant curated opportunities (not random)
+- [Mar 2026] Fixed Free Plan: top 50 by DA dynamically (auto-fills if deleted), skip client-side filtering for free users
 - [Mar 2026] PayPal signup bug fix: safer flow (create user before capture)
 - [Mar 2026] Cursor-based pagination: useInfiniteQuery with 100/page "Load More"
 - [Mar 2026] Project edit page: reduced from 2000 to 100 with server-side search
+- [Mar 2026] Restored isFree field to original meaning (opportunity cost, not plan flag)
 - [Earlier] Stripe signup fix, email system, invoice management, free plan limits
 
 ## Prioritized Backlog

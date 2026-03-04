@@ -147,8 +147,8 @@ export default function OpportunitiesPage() {
     
     let opps = [...data.opportunities];
     
-    // Skip filtering for unlimited users ONLY if filters are at default values
-    const shouldSkipFiltering = hasUnlimitedAccess && filtersAreDefault;
+    // Skip filtering for unlimited users with defaults, OR free users with defaults
+    const shouldSkipFiltering = (hasUnlimitedAccess || isFreePlan) && filtersAreDefault;
     
     if (!shouldSkipFiltering) {
       // Apply range filters
