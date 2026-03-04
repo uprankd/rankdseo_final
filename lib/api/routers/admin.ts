@@ -234,7 +234,7 @@ export const adminRouter = router({
         stepOrder: z.number().min(1),
         stepTitle: z.string().min(1),
         stepDescription: z.string().min(1),
-        screenshotUrl: z.string().url().optional(),
+        screenshotUrl: z.string().url().optional().or(z.literal('')),
         estimatedMinutes: z.number().optional(),
       })
     )
@@ -254,7 +254,7 @@ export const adminRouter = router({
         stepOrder: z.number().min(1).optional(),
         stepTitle: z.string().min(1).optional(),
         stepDescription: z.string().min(1).optional(),
-        screenshotUrl: z.string().url().optional(),
+        screenshotUrl: z.string().url().optional().or(z.literal('')),
         estimatedMinutes: z.number().optional(),
       })
     )
