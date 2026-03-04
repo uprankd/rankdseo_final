@@ -957,7 +957,7 @@ export default function OpportunitiesPage() {
                   )}
                 </div>
               </div>
-              <Link href="/pricing">
+              <Link href="/settings?tab=subscription">
                 <Button className={`shadow-lg ${(data as any).isFreePlan ? 'bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600' : 'bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700'}`}>
                   <Sparkles className="h-4 w-4 mr-2" />
                   {(data as any).isFreePlan ? 'Unlock All 1300+ Opportunities' : 'Upgrade Plan'}
