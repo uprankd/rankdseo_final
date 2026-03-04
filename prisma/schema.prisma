@@ -198,6 +198,19 @@ model BacklinkOpportunity {
   @@index([domainAuthority])
 }
 
+model UpdateLog {
+  id          String   @id @default(cuid())
+  date        DateTime @default(now())
+  description String
+  status      String   @default("PUBLISHED")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([date])
+  @@index([status])
+}
+
+
 enum LinkType {
   PROFILE
   DIRECTORY

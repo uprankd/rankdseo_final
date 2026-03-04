@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
-import { LayoutDashboard, FolderOpen, Database, LogOut, Menu, X, Settings, Sparkles, Crown, Shield, TrendingUp, Users, Tag, BarChart3, FileText, Eye } from 'lucide-react';
+import { LayoutDashboard, FolderOpen, Database, LogOut, Menu, X, Settings, Sparkles, Crown, Shield, TrendingUp, Users, Tag, BarChart3, FileText, Eye, ClipboardList } from 'lucide-react';
 import { signOut, useSession } from 'next-auth/react';
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
@@ -59,7 +59,8 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       { href: '/admin/statistics', icon: BarChart3, label: 'Statistics', gradient: 'from-blue-500 to-indigo-500' },
       { href: '/admin/users', icon: Users, label: 'Manage Users', gradient: 'from-purple-500 to-pink-500' },
       { href: '/admin/invoices', icon: FileText, label: 'Invoices', gradient: 'from-green-500 to-emerald-500' },
-      { href: '/admin/coupons', icon: Tag, label: 'Coupons', gradient: 'from-orange-500 to-red-500' }
+      { href: '/admin/coupons', icon: Tag, label: 'Coupons', gradient: 'from-orange-500 to-red-500' },
+      { href: '/admin/activity-log', icon: ClipboardList, label: 'Activity Log', gradient: 'from-teal-500 to-cyan-500' }
     ] : []),
   ];
 

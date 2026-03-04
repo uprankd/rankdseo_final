@@ -1093,6 +1093,80 @@ export const adminRouter = router({
       recentTransactions,
     };
   }),
+
+  // ============ UPDATE LOG (Activity Log) ============
+
+  listUpdateLogs: adminProcedure
+    .input(z.object({
+      limit: z.number().min(1).max(100).default(20),
+      cursor: z.string().optional(),
+      direction: z.enum(['forward', 'backward']).optional(),
+      status: z.enum(['PUBLISHED', 'DRAFT', 'ALL']).default('ALL'),
+    }).optional())
+    .query(async ({ ctx, input }) => {
+      const limit = input?.limit ?? 20;
+      const status = input?.status ?? 'ALL';
+      
+      const where = status === 'ALL' ? {} : { status };
+      
+      const logs = await ctx.prisma.updateLog.findMany({
+        where,
+        orderBy: { date: 'desc' },
+        take: limit + 1,
+        ...(input?.cursor ? { cursor: { id: input.cursor }, skip: 1 } : {}),
+      });
+
+      const hasMore = logs.length > limit;
+      if (hasMore) logs.pop();
+
+      return {
+        logs,
+        nextCursor: hasMore ? logs[logs.length - 1]?.id : undefined,
+        hasMore,
+      };
+    }),
+
+  createUpdateLog: adminProcedure
+    .input(z.object({
+      date: z.string(),
+      description: z.string().min(1),
+      status: z.enum(['PUBLISHED', 'DRAFT']).default('PUBLISHED'),
+    }))
+    .mutation(async ({ ctx, input }) => {
+      return ctx.prisma.updateLog.create({
+        data: {
+          date: new Date(input.date),
+          description: input.description,
+          status: input.status,
+        },
+      });
+    }),
+
+  updateUpdateLog: adminProcedure
+    .input(z.object({
+      id: z.string(),
+      date: z.string().optional(),
+      description: z.string().min(1).optional(),
+      status: z.enum(['PUBLISHED', 'DRAFT']).optional(),
+    }))
+    .mutation(async ({ ctx, input }) => {
+      const { id, ...data } = input;
+      return ctx.prisma.updateLog.update({
+        where: { id },
+        data: {
+          ...(data.date ? { date: new Date(data.date) } : {}),
+          ...(data.description ? { description: data.description } : {}),
+          ...(data.status ? { status: data.status } : {}),
+        },
+      });
+    }),
+
+  deleteUpdateLog: adminProcedure
+    .input(z.object({ id: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      await ctx.prisma.updateLog.delete({ where: { id: input.id } });
+      return { success: true };
+    }),
 });
 
 // Helper function to notify all users of a new opportunity
