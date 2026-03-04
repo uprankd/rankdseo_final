@@ -87,6 +87,13 @@ export default function ProjectsPage() {
 
   const utils = trpc.useUtils();
   const { data: projects, isLoading } = trpc.project.list.useQuery({});
+  const { data: subscriptionData } = trpc.subscription.getCurrent.useQuery();
+  
+  // Calculate project limits
+  const maxProjects = subscriptionData?.plan?.maxProjects || 1;
+  const currentProjects = projects?.projects?.length || 0;
+  const canCreateProject = currentProjects < maxProjects;
+  const isFreePlan = subscriptionData?.plan?.price === 0;
   
   const createMutation = trpc.project.create.useMutation({
     onSuccess: () => {
