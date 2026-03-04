@@ -444,7 +444,7 @@ export default function HomePage() {
           <p className="text-2xl mb-10 opacity-95 font-medium">Join thousands of SEO professionals using RankdSEO</p>
           <Link href="/signup">
             <Button size="lg" variant="secondary" className="text-xl px-12 py-8 bg-white text-navy-500 hover:bg-gray-100 shadow-2xl font-bold">
-              Start Your Free Trial
+              Get Started
               <ArrowRight className="ml-3 h-6 w-6" />
             </Button>
           </Link>
