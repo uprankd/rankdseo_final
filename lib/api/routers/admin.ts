@@ -4,6 +4,30 @@ import { TRPCError } from '@trpc/server';
 import { getDomainMetrics } from '../../dataforseo.js';
 import { sendEmail, emailTemplates } from '../../mailgun';
 
+function generateSlug(siteName: string): string {
+  return siteName
+    .toLowerCase()
+    .replace(/[^a-z0-9\s-]/g, '')
+    .replace(/\s+/g, '-')
+    .replace(/-+/g, '-')
+    .replace(/^-|-$/g, '')
+    + '-backlink';
+}
+
+async function getUniqueSlug(prisma: any, siteName: string, excludeId?: string): Promise<string> {
+  const baseSlug = generateSlug(siteName);
+  let slug = baseSlug;
+  let counter = 2;
+  
+  while (true) {
+    const existing = await prisma.backlinkOpportunity.findUnique({ where: { slug } });
+    if (!existing || (excludeId && existing.id === excludeId)) break;
+    slug = baseSlug.replace('-backlink', '') + '-' + counter + '-backlink';
+    counter++;
+  }
+  return slug;
+}
+
 export const adminRouter = router({
   // List all opportunities (including inactive ones)
   listOpportunities: adminProcedure
@@ -116,8 +140,11 @@ export const adminRouter = router({
     .mutation(async ({ ctx, input }) => {
       const { sendNotification, ...opportunityData } = input;
       
+      // Auto-generate slug from siteName
+      const slug = await getUniqueSlug(ctx.prisma, opportunityData.siteName);
+      
       const opportunity = await ctx.prisma.backlinkOpportunity.create({
-        data: opportunityData,
+        data: { ...opportunityData, slug },
       });
 
       // Send email notifications to all active users (async, non-blocking)
@@ -174,6 +201,11 @@ export const adminRouter = router({
     )
     .mutation(async ({ ctx, input }) => {
       const { id, ...data } = input;
+
+      // Regenerate slug if siteName changed
+      if (data.siteName) {
+        data.slug = await getUniqueSlug(ctx.prisma, data.siteName, id);
+      }
 
       const opportunity = await ctx.prisma.backlinkOpportunity.update({
         where: { id },

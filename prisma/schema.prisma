@@ -179,6 +179,7 @@ model BacklinkOpportunity {
   trustFlow         Int?
   citationFlow      Int?
   isDofollow        Boolean                     @default(true)
+  slug              String?                     @unique
   status            OpportunityStatus           @default(ACTIVE)
   lastCheckedAt     DateTime?
   metaData          Json?

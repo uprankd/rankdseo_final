@@ -148,6 +148,25 @@ export const opportunityRouter = router({
       };
     }),
 
+  getBySlug: protectedProcedure
+    .input(z.object({ slug: z.string() }))
+    .query(async ({ ctx, input }) => {
+      const opportunity = await ctx.prisma.backlinkOpportunity.findUnique({
+        where: { slug: input.slug },
+        include: {
+          instructions: {
+            orderBy: { stepOrder: 'asc' },
+          },
+        },
+      });
+
+      if (!opportunity) {
+        throw new TRPCError({ code: 'NOT_FOUND', message: 'Opportunity not found' });
+      }
+
+      return opportunity;
+    }),
+
   getById: protectedProcedure
     .input(z.object({ id: z.string() }))
     .query(async ({ ctx, input }) => {

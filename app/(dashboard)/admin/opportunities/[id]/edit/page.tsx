@@ -488,7 +488,7 @@ export default function EditOpportunityPage() {
             <p className="text-gray-600 text-sm">{opportunity?.siteName}</p>
           </div>
         </div>
-        <Link href={`/opportunities/${id}`}>
+        <Link href={`/opportunities/${opportunity?.slug || id}`}>
           <Button variant="outline" className="border-2">
             <Eye className="h-4 w-4 mr-2" />
             Preview

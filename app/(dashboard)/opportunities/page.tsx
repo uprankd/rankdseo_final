@@ -915,7 +915,7 @@ export default function OpportunitiesPage() {
 
                     {/* Actions */}
                     <div className="flex gap-2 flex-shrink-0">
-                      <Link href={`/opportunities/${opp.id}`}>
+                      <Link href={`/opportunities/${opp.slug || opp.id}`}>
                         <Button 
                           variant="default" 
                           className={`bg-gradient-to-r ${gradient} hover:opacity-90 shadow-md`}
