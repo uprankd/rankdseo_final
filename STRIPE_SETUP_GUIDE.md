@@ -28,7 +28,7 @@ The Stripe payment system has been fully integrated into RankdSEO. This guide wi
 ### 2. Set Up Webhook Endpoint
 1. Go to Dashboard → Developers → Webhooks
 2. Click "Add endpoint"
-3. Enter webhook URL: `https://backlink-hub-1.preview.emergentagent.com/api/webhooks/stripe`
+3. Enter webhook URL: `https://seo-finder-1.preview.emergentagent.com/api/webhooks/stripe`
 4. Select events to listen for:
    - `checkout.session.completed`
    - `checkout.session.async_payment_succeeded`

@@ -362,16 +362,23 @@ export default function SignUpPage() {
                         try {
                           setIsLoading(true);
                           
-                          // Capture the payment
+                          // Create user account FIRST (with PENDING status)
+                          try {
+                            await signUpMutation.mutateAsync({
+                              ...formData,
+                              planId: selectedPlan,
+                              paymentSessionId: data.orderID,
+                            });
+                          } catch (signupError: any) {
+                            // If user already exists, continue - they may be retrying
+                            if (!signupError.message?.includes('already exists')) {
+                              throw signupError;
+                            }
+                          }
+                          
+                          // Then capture the PayPal payment
                           await capturePayPalPaymentMutation.mutateAsync({
                             orderId: data.orderID,
-                          });
-                          
-                          // Create user account
-                          await signUpMutation.mutateAsync({
-                            ...formData,
-                            planId: selectedPlan,
-                            paymentSessionId: data.orderID,
                           });
                           
                           toast.success('Payment successful! Account created.');

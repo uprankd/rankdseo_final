@@ -13,7 +13,7 @@ from PIL import Image
 import time
 
 # Configuration
-BASE_URL = "https://backlink-hub-1.preview.emergentagent.com"
+BASE_URL = "https://seo-finder-1.preview.emergentagent.com"
 UPLOAD_ENDPOINT = f"{BASE_URL}/api/upload"
 
 def create_test_image(width=100, height=100, format='JPEG'):

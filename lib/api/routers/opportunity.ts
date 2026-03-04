@@ -71,24 +71,16 @@ export const opportunityRouter = router({
       const isLifetime = subscription.plan.interval === 'lifetime';
       const shouldHaveUnlimitedAccess = isAdmin || isLifetime;
 
-      // For FREE plan users: return 50 random opportunities
+      // For FREE plan users: return the fixed set of 50 curated opportunities
       if (isFreePlan && !isAdmin) {
-        // Get all opportunity IDs first
-        const allOpportunityIds = await ctx.prisma.backlinkOpportunity.findMany({
-          where,
-          select: { id: true },
-        });
+        const freeWhere: Prisma.BacklinkOpportunityWhereInput = {
+          status: 'ACTIVE',
+          isFree: true,
+        };
 
-        // Shuffle and take 50 random IDs
-        const shuffled = allOpportunityIds
-          .map(o => ({ id: o.id, sort: Math.random() }))
-          .sort((a, b) => a.sort - b.sort)
-          .slice(0, 50)
-          .map(o => o.id);
-
-        // Fetch the full opportunity data for these IDs
         const opportunities = await ctx.prisma.backlinkOpportunity.findMany({
-          where: { id: { in: shuffled } },
+          where: freeWhere,
+          orderBy,
           include: {
             _count: {
               select: { instructions: true },
@@ -96,16 +88,6 @@ export const opportunityRouter = router({
           },
         });
 
-        // Sort by the requested order
-        if (input.sortBy === 'da') {
-          opportunities.sort((a, b) => (b.domainAuthority || 0) - (a.domainAuthority || 0));
-        } else if (input.sortBy === 'dr') {
-          opportunities.sort((a, b) => (b.domainRating || 0) - (a.domainRating || 0));
-        } else if (input.sortBy === 'traffic') {
-          opportunities.sort((a, b) => (b.estimatedTraffic || 0) - (a.estimatedTraffic || 0));
-        }
-
-        // Get total count for display
         const totalCount = await ctx.prisma.backlinkOpportunity.count({
           where: { status: 'ACTIVE' },
         });

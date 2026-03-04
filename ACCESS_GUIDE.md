@@ -3,7 +3,7 @@
 ## 🌐 Main Application URL
 
 **PRIMARY URL (ONLY URL TO USE):**
-## https://backlink-hub-1.preview.emergentagent.com
+## https://seo-finder-1.preview.emergentagent.com
 
 ❌ **DO NOT USE:** http://localhost:3000 (internal only, not accessible)
 
@@ -16,7 +16,7 @@ The application has been completely redesigned with beautiful, colorful gradient
 ### 📍 Pages to Visit:
 
 ### 1. Landing Page (No Login Required)
-**URL:** https://backlink-hub-1.preview.emergentagent.com/
+**URL:** https://seo-finder-1.preview.emergentagent.com/
 
 **What You'll See:**
 - ✨ Blue gradient "RankdSEO" logo
@@ -27,7 +27,7 @@ The application has been completely redesigned with beautiful, colorful gradient
 ---
 
 ### 2. Sign In Page
-**URL:** https://backlink-hub-1.preview.emergentagent.com/signin
+**URL:** https://seo-finder-1.preview.emergentagent.com/signin
 
 **Credentials:**
 - Email: `admin@rankseo.com`
@@ -41,7 +41,7 @@ The application has been completely redesigned with beautiful, colorful gradient
 ---
 
 ### 3. Dashboard (After Login)
-**URL:** https://backlink-hub-1.preview.emergentagent.com/dashboard
+**URL:** https://seo-finder-1.preview.emergentagent.com/dashboard
 
 **Design Features:**
 - 🎊 **Background**: Blue-indigo-purple gradient
@@ -57,7 +57,7 @@ The application has been completely redesigned with beautiful, colorful gradient
 ---
 
 ### 4. Projects Page
-**URL:** https://backlink-hub-1.preview.emergentagent.com/projects
+**URL:** https://seo-finder-1.preview.emergentagent.com/projects
 
 **Design Features:**
 - 📊 **3 Stat Cards** at top (blue, purple, green gradients)
@@ -84,7 +84,7 @@ The application has been completely redesigned with beautiful, colorful gradient
 ---
 
 ### 5. Project Detail Page (Click "View Details")
-**URL:** https://backlink-hub-1.preview.emergentagent.com/projects/demo-1
+**URL:** https://seo-finder-1.preview.emergentagent.com/projects/demo-1
 
 **Design Features:**
 - 🎨 **Full-width Hero Banner**: Blue-to-purple gradient with project info
@@ -106,7 +106,7 @@ The application has been completely redesigned with beautiful, colorful gradient
 ---
 
 ### 6. Opportunities Browser
-**URL:** https://backlink-hub-1.preview.emergentagent.com/opportunities
+**URL:** https://seo-finder-1.preview.emergentagent.com/opportunities
 
 **Design Features:**
 - 🌊 **Hero Banner**: Green-Teal-Cyan gradient
@@ -196,7 +196,7 @@ All pages work on:
 ## 🚀 Quick Start Guide
 
 1. **Visit Main URL:**
-   https://backlink-hub-1.preview.emergentagent.com
+   https://seo-finder-1.preview.emergentagent.com
 
 2. **Explore Landing Page:**
    - See gradients and colorful design
@@ -237,7 +237,7 @@ All pages work on:
 - Clear cookies and try again
 
 ### "404 Error?"
-- Make sure you're using: https://backlink-hub-1.preview.emergentagent.com
+- Make sure you're using: https://seo-finder-1.preview.emergentagent.com
 - NOT localhost:3000
 
 ---
@@ -284,11 +284,11 @@ All pages work on:
 
 ## 🔗 Important Links
 
-**Main App:** https://backlink-hub-1.preview.emergentagent.com
-**Sign In:** https://backlink-hub-1.preview.emergentagent.com/signin
-**Dashboard:** https://backlink-hub-1.preview.emergentagent.com/dashboard
-**Projects:** https://backlink-hub-1.preview.emergentagent.com/projects
-**Opportunities:** https://backlink-hub-1.preview.emergentagent.com/opportunities
+**Main App:** https://seo-finder-1.preview.emergentagent.com
+**Sign In:** https://seo-finder-1.preview.emergentagent.com/signin
+**Dashboard:** https://seo-finder-1.preview.emergentagent.com/dashboard
+**Projects:** https://seo-finder-1.preview.emergentagent.com/projects
+**Opportunities:** https://seo-finder-1.preview.emergentagent.com/opportunities
 
 ---
 

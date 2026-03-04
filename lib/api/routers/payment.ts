@@ -314,7 +314,7 @@ export const paymentRouter = router({
         const paypalOrder = await createPayPalOrder(finalPrice, 'USD');
 
         // Store order metadata in database for later processing
-        // userId will be null initially and updated after signup
+        // userId is null - will be updated after user signup
         await ctx.prisma.paymentTransaction.create({
           data: {
             planId: plan.id,
@@ -323,7 +323,6 @@ export const paymentRouter = router({
             status: 'PENDING',
             sessionId: paypalOrder.orderId,
             paymentMethod: 'paypal',
-            user: undefined, // Explicitly don't connect to any user yet
             metadata: {
               email,
               name,

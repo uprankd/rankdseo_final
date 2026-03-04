@@ -23,7 +23,8 @@ import {
   ArrowUp,
   ArrowDown,
   Filter,
-  X
+  X,
+  Loader2
 } from 'lucide-react';
 
 export default function OpportunitiesPage() {
@@ -58,10 +59,28 @@ export default function OpportunitiesPage() {
     isDofollow: false,
   });
 
-  const { data, isLoading } = trpc.opportunity.list.useQuery({
-    limit: 1500,
-    search: debouncedSearch || undefined,
-  });
+  const { data: infiniteData, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage } = trpc.opportunity.list.useInfiniteQuery(
+    {
+      limit: 100,
+      search: debouncedSearch || undefined,
+    },
+    {
+      getNextPageParam: (lastPage) => lastPage.nextCursor,
+    }
+  );
+
+  // Flatten pages into a single opportunities array
+  const data = useMemo(() => {
+    if (!infiniteData?.pages?.length) return undefined;
+    const lastPage = infiniteData.pages[infiniteData.pages.length - 1];
+    return {
+      opportunities: infiniteData.pages.flatMap(page => page.opportunities),
+      totalCount: lastPage.totalCount,
+      planLimit: lastPage.planLimit,
+      isFreePlan: lastPage.isFreePlan,
+      hasMore: lastPage.hasMore,
+    };
+  }, [infiniteData]);
 
   // Get current subscription to check if user has unlimited access
   const { data: subscriptionData } = trpc.subscription.getCurrent.useQuery();
@@ -922,6 +941,32 @@ export default function OpportunitiesPage() {
         </div>
       )}
 
+      {/* Load More Button */}
+      {hasNextPage && !isFreePlan && (
+        <div className="flex justify-center py-4">
+          <Button
+            onClick={() => fetchNextPage()}
+            disabled={isFetchingNextPage}
+            variant="outline"
+            size="lg"
+            className="border-2 shadow-md px-8"
+            data-testid="load-more-btn"
+          >
+            {isFetchingNextPage ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Loading more...
+              </>
+            ) : (
+              <>
+                <Sparkles className="mr-2 h-4 w-4" />
+                Load More Opportunities ({data?.opportunities?.length || 0} loaded)
+              </>
+            )}
+          </Button>
+        </div>
+      )}
+
       {/* Plan Limit Info - Special messaging for Free plan users */}
       {data?.planLimit && data.planLimit < 999999 && (
         <Card className={`border-2 ${(data as any).isFreePlan ? 'border-amber-300 bg-gradient-to-br from-amber-50 to-orange-50' : 'border-blue-200 bg-gradient-to-br from-blue-50 to-purple-50'}`}>
@@ -942,7 +987,7 @@ export default function OpportunitiesPage() {
                         🎁 Free Opportunity Account
                       </p>
                       <p className="text-sm text-gray-600">
-                        You're viewing 50 random opportunities from our database of {data.totalCount}+
+                        You're viewing 50 curated opportunities from our database of {data.totalCount}+
                       </p>
                     </>
                   ) : (

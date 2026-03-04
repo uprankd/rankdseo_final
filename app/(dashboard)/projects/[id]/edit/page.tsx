@@ -46,12 +46,16 @@ export default function EditProjectPage() {
 
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const [debouncedSearchQuery, setDebouncedSearchQuery] = useState('');
   const [selectedOpportunities, setSelectedOpportunities] = useState<string[]>([]);
 
   const utils = trpc.useUtils();
   
   const { data: project, isLoading } = trpc.project.getById.useQuery({ id: projectId });
-  const { data: allOpportunities } = trpc.opportunity.list.useQuery({ limit: 2000 });
+  const { data: allOpportunities } = trpc.opportunity.list.useQuery({ 
+    limit: 100,
+    search: debouncedSearchQuery || undefined,
+  });
 
   const updateProject = trpc.project.update.useMutation({
     onSuccess: () => {
@@ -195,10 +199,9 @@ export default function EditProjectPage() {
     project.opportunities?.map((po: any) => po.opportunityId) || []
   );
 
-  // Filter available opportunities
+  // Filter available opportunities (search is now server-side)
   const availableOpportunities = allOpportunities?.opportunities.filter(
-    (opp: any) => !existingOpportunityIds.has(opp.id) && 
-      opp.siteName.toLowerCase().includes(searchQuery.toLowerCase())
+    (opp: any) => !existingOpportunityIds.has(opp.id)
   ) || [];
 
   return (
@@ -295,7 +298,10 @@ export default function EditProjectPage() {
                     <Input
                       placeholder="Search by name..."
                       value={searchQuery}
-                      onChange={(e) => setSearchQuery(e.target.value)}
+                      onChange={(e) => {
+                        setSearchQuery(e.target.value);
+                        setTimeout(() => setDebouncedSearchQuery(e.target.value), 500);
+                      }}
                       className="border-2"
                     />
                   </div>

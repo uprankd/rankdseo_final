@@ -166,7 +166,7 @@ model BacklinkOpportunity {
   language          String                      @default("en")
   country           String?
   linkType          LinkType
-  isFree            Boolean                     @default(true)
+  isFree            Boolean                     @default(false)
   cost              Int?
   difficultyLevel   Int                         @default(3)
   domainAuthority   Int?
