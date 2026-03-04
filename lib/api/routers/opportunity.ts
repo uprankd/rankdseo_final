@@ -64,10 +64,61 @@ export const opportunityRouter = router({
       if (input.sortBy === 'traffic') orderBy = { estimatedTraffic: 'desc' };
       if (input.sortBy === 'date') orderBy = { createdAt: 'desc' };
 
+      // Check if user is on Free plan
+      const isFreePlan = subscription.plan.price === 0;
       // Admin users and lifetime subscribers get unlimited access
       const isAdmin = ctx.user.role === 'ADMIN';
       const isLifetime = subscription.plan.interval === 'lifetime';
       const shouldHaveUnlimitedAccess = isAdmin || isLifetime;
+
+      // For FREE plan users: return 50 random opportunities
+      if (isFreePlan && !isAdmin) {
+        // Get all opportunity IDs first
+        const allOpportunityIds = await ctx.prisma.backlinkOpportunity.findMany({
+          where,
+          select: { id: true },
+        });
+
+        // Shuffle and take 50 random IDs
+        const shuffled = allOpportunityIds
+          .map(o => ({ id: o.id, sort: Math.random() }))
+          .sort((a, b) => a.sort - b.sort)
+          .slice(0, 50)
+          .map(o => o.id);
+
+        // Fetch the full opportunity data for these IDs
+        const opportunities = await ctx.prisma.backlinkOpportunity.findMany({
+          where: { id: { in: shuffled } },
+          include: {
+            _count: {
+              select: { instructions: true },
+            },
+          },
+        });
+
+        // Sort by the requested order
+        if (input.sortBy === 'da') {
+          opportunities.sort((a, b) => (b.domainAuthority || 0) - (a.domainAuthority || 0));
+        } else if (input.sortBy === 'dr') {
+          opportunities.sort((a, b) => (b.domainRating || 0) - (a.domainRating || 0));
+        } else if (input.sortBy === 'traffic') {
+          opportunities.sort((a, b) => (b.estimatedTraffic || 0) - (a.estimatedTraffic || 0));
+        }
+
+        // Get total count for display
+        const totalCount = await ctx.prisma.backlinkOpportunity.count({
+          where: { status: 'ACTIVE' },
+        });
+
+        return {
+          opportunities,
+          nextCursor: undefined,
+          hasMore: false,
+          totalCount,
+          planLimit: 50,
+          isFreePlan: true,
+        };
+      }
       
       // Calculate take limit: unlimited for admins/lifetime, otherwise respect plan limits
       const takeLimit = shouldHaveUnlimitedAccess 
