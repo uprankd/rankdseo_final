@@ -1255,6 +1255,69 @@ export const adminRouter = router({
       await ctx.prisma.updateLog.delete({ where: { id: input.id } });
       return { success: true };
     }),
+
+  // ============ OPPORTUNITY REPORTS ============
+
+  listReports: adminProcedure
+    .input(z.object({
+      limit: z.number().min(1).max(100).default(20),
+      cursor: z.string().optional(),
+      direction: z.enum(['forward', 'backward']).optional(),
+      status: z.enum(['PENDING', 'RESOLVED', 'DISMISSED', 'ALL']).default('ALL'),
+    }).optional())
+    .query(async ({ ctx, input }) => {
+      const limit = input?.limit ?? 20;
+      const status = input?.status ?? 'ALL';
+      const where = status === 'ALL' ? {} : { status };
+
+      const reports = await ctx.prisma.opportunityReport.findMany({
+        where,
+        orderBy: { createdAt: 'desc' },
+        take: limit + 1,
+        ...(input?.cursor ? { cursor: { id: input.cursor }, skip: 1 } : {}),
+        include: {
+          opportunity: { select: { id: true, siteName: true, url: true, slug: true, status: true } },
+          user: { select: { id: true, name: true, email: true } },
+        },
+      });
+
+      const hasMore = reports.length > limit;
+      if (hasMore) reports.pop();
+
+      const counts = await ctx.prisma.opportunityReport.groupBy({
+        by: ['status'],
+        _count: true,
+      });
+      const statusCounts = { PENDING: 0, RESOLVED: 0, DISMISSED: 0 };
+      counts.forEach((c: any) => { statusCounts[c.status as keyof typeof statusCounts] = c._count; });
+
+      return { reports, hasMore, nextCursor: hasMore ? reports[reports.length - 1]?.id : undefined, statusCounts };
+    }),
+
+  resolveReport: adminProcedure
+    .input(z.object({
+      id: z.string(),
+      status: z.enum(['RESOLVED', 'DISMISSED']),
+    }))
+    .mutation(async ({ ctx, input }) => {
+      return ctx.prisma.opportunityReport.update({
+        where: { id: input.id },
+        data: { status: input.status },
+      });
+    }),
+
+  bulkResolveReports: adminProcedure
+    .input(z.object({
+      ids: z.array(z.string()).min(1),
+      status: z.enum(['RESOLVED', 'DISMISSED']),
+    }))
+    .mutation(async ({ ctx, input }) => {
+      await ctx.prisma.opportunityReport.updateMany({
+        where: { id: { in: input.ids } },
+        data: { status: input.status },
+      });
+      return { updated: input.ids.length };
+    }),
 });
 
 // Helper function to notify all users of a new opportunity
