@@ -61,7 +61,7 @@ export default function OpportunitiesPage() {
 
   const { data: infiniteData, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage } = trpc.opportunity.list.useInfiniteQuery(
     {
-      limit: 100,
+      limit: 300,
       search: debouncedSearch || undefined,
     },
     {
