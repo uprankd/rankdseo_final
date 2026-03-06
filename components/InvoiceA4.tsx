@@ -60,15 +60,12 @@ export const InvoiceA4 = forwardRef<HTMLDivElement, { data: InvoiceData }>(
         className="invoice-a4-page"
         style={{
           width: '210mm',
-          minHeight: '297mm',
-          padding: '20mm 18mm',
+          padding: '16mm 18mm',
           fontFamily: "'Inter', 'Segoe UI', sans-serif",
           fontSize: '10pt',
           color: '#1a1a2e',
           background: '#fff',
           boxSizing: 'border-box',
-          display: 'flex',
-          flexDirection: 'column',
           lineHeight: '1.5',
         }}
       >
@@ -215,11 +212,8 @@ export const InvoiceA4 = forwardRef<HTMLDivElement, { data: InvoiceData }>(
           </div>
         </div>
 
-        {/* Spacer to push footer down */}
-        <div style={{ flex: 1 }} />
-
         {/* Bank Details + Footer */}
-        <div style={{ borderTop: '1px solid #e2e8f0', paddingTop: '16px' }}>
+        <div style={{ borderTop: '1px solid #e2e8f0', paddingTop: '16px', marginTop: '32px' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
             <div>
               <div style={{ fontSize: '7.5pt', fontWeight: 700, textTransform: 'uppercase', color: '#94a3b8', letterSpacing: '1px', marginBottom: '6px' }}>

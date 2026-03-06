@@ -184,14 +184,14 @@ export default function AdminInvoicesPage() {
           body * { visibility: hidden !important; }
           .invoice-a4-page, .invoice-a4-page * { visibility: visible !important; }
           .invoice-a4-page {
-            position: fixed !important;
+            position: absolute !important;
             left: 0 !important;
             top: 0 !important;
-            width: 210mm !important;
-            min-height: 297mm !important;
+            width: 100% !important;
+            padding: 10mm !important;
             margin: 0 !important;
-            padding: 20mm 18mm !important;
             box-shadow: none !important;
+            border: none !important;
           }
           @page { size: A4; margin: 0; }
         }
