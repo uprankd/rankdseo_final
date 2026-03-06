@@ -427,7 +427,7 @@ export const emailTemplates = {
               <p>We received a request to reset your RankdSEO password. Click the button below to create a new password:</p>
               
               <div style="text-align: center; margin: 30px 0;">
-                <a href="${resetUrl}" class="button" style="color: white;">Reset My Password</a>
+                <a href="${resetUrl}" style="display: inline-block; background: #3b82f6; color: #ffffff; padding: 16px 40px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 16px;">Reset My Password</a>
               </div>
               
               <p style="font-size: 13px; color: #6b7280;">Or copy and paste this link into your browser:</p>
