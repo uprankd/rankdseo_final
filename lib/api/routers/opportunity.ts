@@ -381,4 +381,61 @@ export const opportunityRouter = router({
         hasMore,
       };
     }),
+
+  // Report an opportunity (paid users only)
+  report: protectedProcedure
+    .input(z.object({
+      opportunityId: z.string(),
+      reason: z.enum(['BROKEN_LINK', 'SITE_DOWN', 'CONTENT_REMOVED', 'ACCESS_DENIED', 'OTHER']),
+      description: z.string().max(500).optional(),
+    }))
+    .mutation(async ({ ctx, input }) => {
+      // Check if user is on a paid plan
+      const subscription = await ctx.prisma.subscription.findFirst({
+        where: { userId: ctx.session.user.id, status: 'ACTIVE' },
+        include: { plan: true },
+      });
+
+      if (!subscription || subscription.plan.price === 0) {
+        throw new TRPCError({ code: 'FORBIDDEN', message: 'Reporting is available for paid users only. Please upgrade your plan.' });
+      }
+
+      // Check for duplicate report from this user on this opportunity
+      const existing = await ctx.prisma.opportunityReport.findFirst({
+        where: {
+          opportunityId: input.opportunityId,
+          userId: ctx.session.user.id,
+          status: 'PENDING',
+        },
+      });
+
+      if (existing) {
+        throw new TRPCError({ code: 'CONFLICT', message: 'You have already reported this opportunity.' });
+      }
+
+      const report = await ctx.prisma.opportunityReport.create({
+        data: {
+          opportunityId: input.opportunityId,
+          userId: ctx.session.user.id,
+          reason: input.reason,
+          description: input.description,
+        },
+      });
+
+      return { success: true, id: report.id };
+    }),
+
+  // Check if user has already reported this opportunity
+  hasReported: protectedProcedure
+    .input(z.object({ opportunityId: z.string() }))
+    .query(async ({ ctx, input }) => {
+      const report = await ctx.prisma.opportunityReport.findFirst({
+        where: {
+          opportunityId: input.opportunityId,
+          userId: ctx.session.user.id,
+          status: 'PENDING',
+        },
+      });
+      return { reported: !!report };
+    }),
 });

@@ -29,6 +29,7 @@ model User {
   payments          PaymentTransaction[]
   couponUsages      CouponUsage[]
   passwordResetTokens PasswordResetToken[]
+  opportunityReports  OpportunityReport[]
   
   @@index([email])
   @@index([accountStatus])
@@ -202,6 +203,7 @@ model BacklinkOpportunity {
   updatedAt         DateTime                    @updatedAt
   
   instructions      OpportunityInstruction[]
+  reports           OpportunityReport[]
   projects          ProjectOpportunity[]
   activityLogs      ActivityLog[]
   
@@ -262,6 +264,25 @@ model OpportunityInstruction {
   @@unique([opportunityId, stepOrder])
   @@index([opportunityId])
 }
+
+model OpportunityReport {
+  id              String              @id @default(cuid())
+  opportunityId   String
+  userId          String
+  reason          String              @default("BROKEN_LINK")
+  description     String?
+  status          String              @default("PENDING")
+  createdAt       DateTime            @default(now())
+  updatedAt       DateTime            @updatedAt
+
+  opportunity     BacklinkOpportunity @relation(fields: [opportunityId], references: [id], onDelete: Cascade)
+  user            User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([opportunityId])
+  @@index([userId])
+  @@index([status])
+}
+
 
 model ProjectOpportunity {
   id                String               @id @default(cuid())

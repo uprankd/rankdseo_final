@@ -17,11 +17,18 @@ import {
   Star,
   ChevronRight,
   Image as ImageIcon,
-  FileText
+  FileText,
+  Flag,
+  Loader2
 } from 'lucide-react';
 import { trpc } from '@/lib/api/client';
+import { useSession } from 'next-auth/react';
 import WatermarkedImage from '@/components/WatermarkedImage';
 import ReactMarkdown from 'react-markdown';
+import { toast } from 'sonner';
+import { useState } from 'react';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Textarea } from '@/components/ui/textarea';
 
 // Fake opportunity data with detailed tutorials
 const OPPORTUNITIES = {
@@ -249,6 +256,35 @@ export default function OpportunityDetailPage({ params }: { params: { slug: stri
     }
   );
 
+  const { data: session } = useSession();
+  const isDemoUser = session?.user?.email === 'demo@rankdseo.com';
+  const [showReportForm, setShowReportForm] = useState(false);
+  const [reportReason, setReportReason] = useState<string>('BROKEN_LINK');
+  const [reportDescription, setReportDescription] = useState('');
+
+  const { data: reportStatus } = trpc.opportunity.hasReported.useQuery(
+    { opportunityId: opportunity?.id || '' },
+    { enabled: !!opportunity?.id && !isDemoUser }
+  );
+
+  const reportMutation = trpc.opportunity.report.useMutation({
+    onSuccess: () => {
+      toast.success('Report submitted. Thank you for helping us maintain quality!');
+      setShowReportForm(false);
+      setReportDescription('');
+    },
+    onError: (err) => toast.error(err.message),
+  });
+
+  const handleReport = () => {
+    if (!opportunity) return;
+    reportMutation.mutate({
+      opportunityId: opportunity.id,
+      reason: reportReason as any,
+      description: reportDescription || undefined,
+    });
+  };
+
   if (isLoading) {
     return (
       <div className="flex items-center justify-center h-96">
@@ -336,13 +372,79 @@ export default function OpportunityDetailPage({ params }: { params: { slug: stri
       )}
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
 
-      {/* Back Button */}
-      <Link href="/opportunities">
-        <Button variant="ghost" size="sm" className="hover:bg-navy-50">
-          <ArrowLeft className="h-4 w-4 mr-2" />
-          Back to Opportunities
-        </Button>
-      </Link>
+      {/* Back Button & Report */}
+      <div className="flex items-center justify-between">
+        <Link href="/opportunities">
+          <Button variant="ghost" size="sm" className="hover:bg-navy-50">
+            <ArrowLeft className="h-4 w-4 mr-2" />
+            Back to Opportunities
+          </Button>
+        </Link>
+
+        {!isDemoUser && (
+          reportStatus?.reported ? (
+            <Badge variant="outline" className="text-amber-600 border-amber-300 bg-amber-50 px-3 py-1" data-testid="already-reported-badge">
+              <Flag className="h-3.5 w-3.5 mr-1.5" />
+              Reported
+            </Badge>
+          ) : (
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setShowReportForm(!showReportForm)}
+              className="border-2 border-red-200 text-red-600 hover:bg-red-50 hover:border-red-400"
+              data-testid="report-opportunity-btn"
+            >
+              <Flag className="h-4 w-4 mr-2" />
+              Report Issue
+            </Button>
+          )
+        )}
+      </div>
+
+      {/* Report Form */}
+      {showReportForm && (
+        <Card className="border-2 border-red-200 shadow-md" data-testid="report-form">
+          <CardContent className="pt-4 pb-4 space-y-3">
+            <div className="flex items-center gap-2 mb-1">
+              <Flag className="h-4 w-4 text-red-500" />
+              <h3 className="font-semibold text-sm text-gray-900">Report Broken Opportunity</h3>
+            </div>
+            <Select value={reportReason} onValueChange={setReportReason}>
+              <SelectTrigger className="h-9" data-testid="report-reason-select">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="BROKEN_LINK">Broken Link</SelectItem>
+                <SelectItem value="SITE_DOWN">Site Down</SelectItem>
+                <SelectItem value="CONTENT_REMOVED">Content Removed</SelectItem>
+                <SelectItem value="ACCESS_DENIED">Access Denied</SelectItem>
+                <SelectItem value="OTHER">Other</SelectItem>
+              </SelectContent>
+            </Select>
+            <Textarea
+              placeholder="Optional: describe the issue..."
+              value={reportDescription}
+              onChange={(e) => setReportDescription(e.target.value)}
+              className="resize-none h-16 text-sm"
+              data-testid="report-description-input"
+            />
+            <div className="flex gap-2 justify-end">
+              <Button variant="ghost" size="sm" onClick={() => setShowReportForm(false)}>Cancel</Button>
+              <Button
+                size="sm"
+                onClick={handleReport}
+                disabled={reportMutation.isPending}
+                className="bg-red-500 hover:bg-red-600 text-white"
+                data-testid="submit-report-btn"
+              >
+                {reportMutation.isPending && <Loader2 className="h-4 w-4 mr-2 animate-spin" />}
+                Submit Report
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+      )}
 
       {/* Hero Section */}
       <Card className={`bg-gradient-to-br ${gradient} text-white border-0 shadow-2xl overflow-hidden`}>
