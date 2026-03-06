@@ -1102,18 +1102,19 @@ export const emailTemplates = {
                 <strong>Need help?</strong> If you have any questions about your purchase or need assistance, please contact our support team. Keep this receipt for your records.
               </div>
 
-              <p>Thank you for choosing RankdSEO! 🚀</p>
-              <p><strong>The RankdSEO Team</strong></p>
+              <p>Thank you for choosing Uprankd!</p>
+              <p><strong>The Uprankd Team</strong></p>
             </div>
             <div class="footer">
-              <p style="margin-bottom: 5px;"><strong>RankdSEO</strong></p>
+              <p style="margin-bottom: 5px;"><strong>SIA Uprankd</strong></p>
               <p style="font-size: 12px; color: #9ca3af;">
+                Riga, Latvia · VAT: LV40203XXXXXX<br>
                 This is an automated receipt for your records.<br>
                 Invoice #${receipt.invoiceNumber} · Transaction: ${receipt.transactionId}
               </p>
               <p style="font-size: 12px;">
                 <a href="${process.env.NEXT_PUBLIC_APP_URL}/settings" style="color: #6b7280;">Account Settings</a> · 
-                <a href="mailto:support@rankdseo.com" style="color: #6b7280;">Contact Support</a>
+                <a href="mailto:billing@uprankd.com" style="color: #6b7280;">Contact Support</a>
               </p>
             </div>
           </div>

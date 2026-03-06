@@ -122,7 +122,7 @@
 
 ## 🚀 How to See the Changes
 
-1. Visit: https://seo-finder-1.preview.emergentagent.com
+1. Visit: https://uprankd-billing.preview.emergentagent.com
 2. Sign in with: admin@rankseo.com / Admin123!
 3. Navigate through:
    - Dashboard: See colorful welcome and stats
