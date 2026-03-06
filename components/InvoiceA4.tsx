@@ -75,7 +75,8 @@ export const InvoiceA4 = forwardRef<HTMLDivElement, { data: InvoiceData }>(
         {/* Header: Company + INVOICE title */}
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '32px' }}>
           <div>
-            <div style={{ fontSize: '18pt', fontWeight: 800, color: '#0f172a', letterSpacing: '-0.5px' }}>
+            <img src="/logo.png" alt={COMPANY.name} style={{ height: '48px', width: 'auto', marginBottom: '6px' }} />
+            <div style={{ fontSize: '11pt', fontWeight: 700, color: '#0f172a' }}>
               {COMPANY.name}
             </div>
             <div style={{ fontSize: '8.5pt', color: '#64748b', marginTop: '6px', lineHeight: '1.6' }}>
