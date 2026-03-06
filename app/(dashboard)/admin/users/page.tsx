@@ -357,6 +357,19 @@ export default function AdminUsersPage() {
                   Send Reset Email ({selectedUsers.size})
                 </Button>
               )}
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={toggleSelectAll}
+                className="border-2"
+                data-testid="select-all-users-btn"
+              >
+                {selectedUsers.size > 0 && selectedUsers.size === filteredUsers.filter(u => u.role !== 'ADMIN').length ? (
+                  <><CheckSquare className="h-4 w-4 mr-2 text-sky-500" />Deselect All</>
+                ) : (
+                  <><Square className="h-4 w-4 mr-2" />Select All</>
+                )}
+              </Button>
               <div className="relative w-96">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
               <Input
