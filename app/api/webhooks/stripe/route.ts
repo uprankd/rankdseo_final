@@ -262,6 +262,7 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session) {
           {
             invoiceNumber: `INV-${new Date().getFullYear()}-${String(Date.now()).slice(-6)}`,
             transactionId: paymentIntentId || sessionId,
+            transactionDbId: transaction.id,
             date: new Date().toLocaleDateString('en-US', { 
               year: 'numeric', 
               month: 'long', 

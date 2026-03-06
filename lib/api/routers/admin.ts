@@ -1058,6 +1058,7 @@ export const adminRouter = router({
         {
           invoiceNumber,
           transactionId: transaction.paymentIntent || transaction.sessionId || transaction.id,
+          transactionDbId: transaction.id,
           date: new Date(transaction.createdAt).toLocaleDateString('en-US', {
             year: 'numeric',
             month: 'long',

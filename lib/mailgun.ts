@@ -954,6 +954,7 @@ export const emailTemplates = {
   paymentReceipt: (userName: string, receipt: {
     invoiceNumber: string;
     transactionId: string;
+    transactionDbId?: string;
     date: string;
     planName: string;
     planDescription: string;
@@ -1093,7 +1094,7 @@ export const emailTemplates = {
                 <a href="${process.env.NEXT_PUBLIC_APP_URL}/opportunities" class="button" style="color: white;">
                   🔗 Start Exploring →
                 </a>
-                <a href="${process.env.NEXT_PUBLIC_APP_URL}/settings" class="button-outline">
+                <a href="${receipt.transactionDbId ? `${process.env.NEXT_PUBLIC_APP_URL}/invoice/${receipt.transactionDbId}` : `${process.env.NEXT_PUBLIC_APP_URL}/settings`}" class="button-outline">
                   📋 View Invoice
                 </a>
               </div>
