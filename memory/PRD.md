@@ -24,6 +24,7 @@ SaaS application for managing Backlink Opportunities. Users can discover, track,
 - Activity logs & analytics
 
 ## What's Been Implemented
+- [Mar 6 2026] Invoice System: A4-formatted invoice preview with SIA Uprankd company details (VAT, address, bank info), print support, updated email receipts with company branding
 - [Mar 2026] Admin password reset email system: individual + bulk send, secure token-based reset page, 24h expiry
 - [Mar 2026] Activity Log: admin CRUD + read-only view for all users, timeline UI
 - [Mar 2026] Comprehensive SEO: sitemap.xml (1361 URLs), robots.txt, JSON-LD (Organization, WebSite, FAQ, Product), dynamic meta per opportunity, canonical URLs, noindex on auth, manifest.json
@@ -36,7 +37,7 @@ SaaS application for managing Backlink Opportunities. Users can discover, track,
 
 ## Prioritized Backlog
 ### P0
-- (none currently)
+- (none currently — invoice update complete)
 
 ### P1
 - PayPal for Plan Upgrades (settings page)
@@ -63,3 +64,5 @@ SaaS application for managing Backlink Opportunities. Users can discover, track,
 - `/app/app/(dashboard)/opportunities/page.tsx` - Main opportunities page with infinite scroll
 - `/app/lib/mailgun.ts` - Email templates and sending
 - `/app/lib/api/routers/admin.ts` - Admin endpoints
+- `/app/components/InvoiceA4.tsx` - A4 invoice component with company details
+- `/app/app/(dashboard)/admin/invoices/page.tsx` - Invoice management with A4 preview
