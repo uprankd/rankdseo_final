@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef } from 'react';
+import { useState } from 'react';
 import { trpc } from '@/lib/api/client';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -46,14 +46,13 @@ import {
 } from 'lucide-react';
 import Link from 'next/link';
 import { toast } from 'sonner';
-import { InvoiceA4 } from '@/components/InvoiceA4';
+import { InvoiceA4, printInvoice } from '@/components/InvoiceA4';
 
 export default function AdminInvoicesPage() {
   const [search, setSearch] = useState('');
   const [statusFilter, setStatusFilter] = useState<string>('all');
   const [dateFrom, setDateFrom] = useState('');
   const [dateTo, setDateTo] = useState('');
-  const invoiceRef = useRef<HTMLDivElement>(null);
 
   const { data: invoicesData, isLoading, refetch } = trpc.admin.listInvoices.useQuery({
     limit: 50,
@@ -78,8 +77,8 @@ export default function AdminInvoicesPage() {
     resendInvoice.mutate({ transactionId });
   };
 
-  const handlePrintInvoice = () => {
-    window.print();
+  const handlePrintInvoice = (transaction: any) => {
+    printInvoice(buildInvoiceData(transaction));
   };
 
   const getStatusBadge = (status: string) => {
@@ -178,26 +177,7 @@ export default function AdminInvoicesPage() {
 
   return (
     <>
-      {/* Print-only styles */}
-      <style jsx global>{`
-        @media print {
-          body * { visibility: hidden !important; }
-          .invoice-a4-page, .invoice-a4-page * { visibility: visible !important; }
-          .invoice-a4-page {
-            position: absolute !important;
-            left: 0 !important;
-            top: 0 !important;
-            width: 100% !important;
-            padding: 10mm !important;
-            margin: 0 !important;
-            box-shadow: none !important;
-            border: none !important;
-          }
-          @page { size: A4; margin: 0; }
-        }
-      `}</style>
-
-      <div className="space-y-6 print:hidden">
+      <div className="space-y-6">
         {/* Header */}
         <div className="flex items-center gap-4">
           <Link href="/admin">
@@ -427,7 +407,7 @@ export default function AdminInvoicesPage() {
                                       <Button
                                         variant="outline"
                                         size="sm"
-                                        onClick={handlePrintInvoice}
+                                        onClick={() => handlePrintInvoice(transaction)}
                                         data-testid="print-invoice-btn"
                                       >
                                         <Printer className="h-4 w-4 mr-1.5" />
@@ -447,7 +427,6 @@ export default function AdminInvoicesPage() {
                                 <div className="flex justify-center px-4 pb-6 pt-2">
                                   <div className="shadow-xl border border-gray-200 rounded-sm bg-white">
                                     <InvoiceA4
-                                      ref={invoiceRef}
                                       data={buildInvoiceData(transaction)}
                                     />
                                   </div>
