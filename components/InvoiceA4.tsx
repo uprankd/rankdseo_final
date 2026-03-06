@@ -5,15 +5,15 @@ import { forwardRef } from 'react';
 // Company details — update these as needed
 const COMPANY = {
   name: 'SIA Uprankd',
-  vatNumber: 'LV40203XXXXXX',
-  registrationNumber: '40203XXXXXX',
-  address: 'Riga, Latvia',
+  vatNumber: 'LV44103141201',
+  registrationNumber: '44103141201',
+  address: 'Brivibas street 40 - 20B, Riga, Latvia',
   addressLine2: 'LV-1050',
   email: 'billing@uprankd.com',
   website: 'uprankd.com',
   bank: {
-    name: 'Swedbank AS',
-    iban: 'LV00HABA0000000000000',
+    name: 'AS Swedbank',
+    iban: 'LV45HABA0551047882578',
     swift: 'HABALV22',
   },
 };

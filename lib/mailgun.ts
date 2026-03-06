@@ -1108,7 +1108,7 @@ export const emailTemplates = {
             <div class="footer">
               <p style="margin-bottom: 5px;"><strong>SIA Uprankd</strong></p>
               <p style="font-size: 12px; color: #9ca3af;">
-                Riga, Latvia · VAT: LV40203XXXXXX<br>
+                Brivibas street 40 - 20B, Riga, Latvia, LV-1050 · VAT: LV44103141201<br>
                 This is an automated receipt for your records.<br>
                 Invoice #${receipt.invoiceNumber} · Transaction: ${receipt.transactionId}
               </p>
