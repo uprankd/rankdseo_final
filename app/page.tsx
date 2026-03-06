@@ -308,14 +308,6 @@ export default function HomePage() {
                   </li>
                   <li className="flex items-start">
                     <Check className="h-5 w-5 text-green-600 mr-3 flex-shrink-0 mt-0.5" />
-                    <span className="text-gray-700 text-sm">CSV export</span>
-                  </li>
-                  <li className="flex items-start">
-                    <Check className="h-5 w-5 text-green-600 mr-3 flex-shrink-0 mt-0.5" />
-                    <span className="text-gray-700 text-sm">API access</span>
-                  </li>
-                  <li className="flex items-start">
-                    <Check className="h-5 w-5 text-green-600 mr-3 flex-shrink-0 mt-0.5" />
                     <span className="text-gray-700 text-sm">Priority email support</span>
                   </li>
                   <li className="flex items-start">
@@ -352,14 +344,6 @@ export default function HomePage() {
                   <li className="flex items-start">
                     <Check className="h-5 w-5 text-green-600 mr-3 flex-shrink-0 mt-0.5" />
                     <span className="text-gray-700 text-sm">100 projects</span>
-                  </li>
-                  <li className="flex items-start">
-                    <Check className="h-5 w-5 text-green-600 mr-3 flex-shrink-0 mt-0.5" />
-                    <span className="text-gray-700 text-sm">CSV export</span>
-                  </li>
-                  <li className="flex items-start">
-                    <Check className="h-5 w-5 text-green-600 mr-3 flex-shrink-0 mt-0.5" />
-                    <span className="text-gray-700 text-sm">API access</span>
                   </li>
                   <li className="flex items-start">
                     <Check className="h-5 w-5 text-green-600 mr-3 flex-shrink-0 mt-0.5" />
@@ -402,14 +386,6 @@ export default function HomePage() {
                   <li className="flex items-start">
                     <Check className="h-5 w-5 text-green-600 mr-3 flex-shrink-0 mt-0.5" />
                     <span className="text-gray-700 text-sm">Unlimited projects</span>
-                  </li>
-                  <li className="flex items-start">
-                    <Check className="h-5 w-5 text-green-600 mr-3 flex-shrink-0 mt-0.5" />
-                    <span className="text-gray-700 text-sm">CSV export</span>
-                  </li>
-                  <li className="flex items-start">
-                    <Check className="h-5 w-5 text-green-600 mr-3 flex-shrink-0 mt-0.5" />
-                    <span className="text-gray-700 text-sm">API access</span>
                   </li>
                   <li className="flex items-start">
                     <Check className="h-5 w-5 text-green-600 mr-3 flex-shrink-0 mt-0.5" />
