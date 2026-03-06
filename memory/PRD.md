@@ -24,14 +24,14 @@ SaaS application for managing Backlink Opportunities. Users can discover, track,
 - Activity logs & analytics
 
 ## What's Been Implemented
+- [Mar 2026] Admin password reset email system: individual + bulk send, secure token-based reset page, 24h expiry
+- [Mar 2026] Activity Log: admin CRUD + read-only view for all users, timeline UI
 - [Mar 2026] Comprehensive SEO: sitemap.xml (1361 URLs), robots.txt, JSON-LD (Organization, WebSite, FAQ, Product), dynamic meta per opportunity, canonical URLs, noindex on auth, manifest.json
 - [Mar 2026] SEO-friendly slug URLs for all opportunities (e.g., `/opportunities/microsoft-backlink`)
-- [Mar 2026] "View Platform" demo mode: auto-login to browse 50 opportunities without signup
-- [Mar 2026] Fixed Free Plan: top 50 by DA dynamically (auto-fills if deleted), skip client-side filtering for free users
+- [Mar 2026] "View Platform" demo mode: auto-login to browse 20 opportunities without signup
+- [Mar 2026] Fixed Free Plan: top 20 by DA dynamically, skip client-side filtering for free users
 - [Mar 2026] PayPal signup bug fix: safer flow (create user before capture)
 - [Mar 2026] Cursor-based pagination: useInfiniteQuery with 100/page "Load More"
-- [Mar 2026] Project edit page: reduced from 2000 to 100 with server-side search
-- [Mar 2026] Restored isFree field to original meaning (opportunity cost, not plan flag)
 - [Earlier] Stripe signup fix, email system, invoice management, free plan limits
 
 ## Prioritized Backlog

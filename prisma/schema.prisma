@@ -28,10 +28,25 @@ model User {
   apiKeys           ApiKey[]
   payments          PaymentTransaction[]
   couponUsages      CouponUsage[]
+  passwordResetTokens PasswordResetToken[]
   
   @@index([email])
   @@index([accountStatus])
 }
+
+model PasswordResetToken {
+  id        String   @id @default(cuid())
+  token     String   @unique
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt DateTime
+  usedAt    DateTime?
+  createdAt DateTime @default(now())
+
+  @@index([token])
+  @@index([userId])
+}
+
 
 enum UserRole {
   USER

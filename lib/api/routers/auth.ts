@@ -144,4 +144,58 @@ export const authRouter = router({
         },
       };
     }),
+
+  // Verify reset token (public - no auth needed)
+  verifyResetToken: publicProcedure
+    .input(z.object({ token: z.string() }))
+    .query(async ({ ctx, input }) => {
+      const resetToken = await ctx.prisma.passwordResetToken.findUnique({
+        where: { token: input.token },
+        include: { user: { select: { email: true, name: true } } },
+      });
+
+      if (!resetToken || resetToken.usedAt || resetToken.expiresAt < new Date()) {
+        return { valid: false, email: null };
+      }
+
+      return { valid: true, email: resetToken.user.email };
+    }),
+
+  // Set new password via reset token (public - no auth needed)
+  resetPasswordWithToken: publicProcedure
+    .input(z.object({
+      token: z.string(),
+      newPassword: z.string().min(8, 'Password must be at least 8 characters'),
+    }))
+    .mutation(async ({ ctx, input }) => {
+      const resetToken = await ctx.prisma.passwordResetToken.findUnique({
+        where: { token: input.token },
+        include: { user: true },
+      });
+
+      if (!resetToken) {
+        throw new TRPCError({ code: 'NOT_FOUND', message: 'Invalid reset link' });
+      }
+      if (resetToken.usedAt) {
+        throw new TRPCError({ code: 'BAD_REQUEST', message: 'This reset link has already been used' });
+      }
+      if (resetToken.expiresAt < new Date()) {
+        throw new TRPCError({ code: 'BAD_REQUEST', message: 'This reset link has expired' });
+      }
+
+      const hashedPassword = await hash(input.newPassword, 10);
+
+      await ctx.prisma.$transaction([
+        ctx.prisma.user.update({
+          where: { id: resetToken.userId },
+          data: { password: hashedPassword },
+        }),
+        ctx.prisma.passwordResetToken.update({
+          where: { id: resetToken.id },
+          data: { usedAt: new Date() },
+        }),
+      ]);
+
+      return { success: true };
+    }),
 });

@@ -620,6 +620,94 @@ export const adminRouter = router({
       return { success: true };
     }),
 
+  // Send password reset email link (individual)
+  sendPasswordResetEmail: adminProcedure
+    .input(z.object({ userId: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      const user = await ctx.prisma.user.findUnique({ where: { id: input.userId } });
+      if (!user) throw new TRPCError({ code: 'NOT_FOUND', message: 'User not found' });
+
+      const crypto = require('crypto');
+      const token = crypto.randomBytes(32).toString('hex');
+
+      // Invalidate any existing tokens for this user
+      await ctx.prisma.passwordResetToken.updateMany({
+        where: { userId: user.id, usedAt: null },
+        data: { usedAt: new Date() },
+      });
+
+      // Create new token (expires in 24h)
+      await ctx.prisma.passwordResetToken.create({
+        data: {
+          token,
+          userId: user.id,
+          expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000),
+        },
+      });
+
+      const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || process.env.NEXTAUTH_URL;
+      const resetUrl = `${baseUrl}/reset-password?token=${token}`;
+
+      const email = emailTemplates.passwordResetLink(user.name || 'User', resetUrl);
+      await sendEmail({
+        to: user.email,
+        subject: email.subject,
+        html: email.html,
+        metadata: { userId: user.id, emailType: 'password_reset_link' },
+      });
+
+      return { success: true, email: user.email };
+    }),
+
+  // Send password reset emails in bulk
+  sendBulkPasswordResetEmails: adminProcedure
+    .input(z.object({ userIds: z.array(z.string()).min(1) }))
+    .mutation(async ({ ctx, input }) => {
+      const users = await ctx.prisma.user.findMany({
+        where: { id: { in: input.userIds }, accountStatus: 'ACTIVE' },
+        select: { id: true, email: true, name: true },
+      });
+
+      const crypto = require('crypto');
+      const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || process.env.NEXTAUTH_URL;
+      let sent = 0;
+      let failed = 0;
+
+      for (const user of users) {
+        try {
+          const token = crypto.randomBytes(32).toString('hex');
+
+          await ctx.prisma.passwordResetToken.updateMany({
+            where: { userId: user.id, usedAt: null },
+            data: { usedAt: new Date() },
+          });
+
+          await ctx.prisma.passwordResetToken.create({
+            data: {
+              token,
+              userId: user.id,
+              expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000),
+            },
+          });
+
+          const resetUrl = `${baseUrl}/reset-password?token=${token}`;
+          const email = emailTemplates.passwordResetLink(user.name || 'User', resetUrl);
+          await sendEmail({
+            to: user.email,
+            subject: email.subject,
+            html: email.html,
+            metadata: { userId: user.id, emailType: 'password_reset_link_bulk' },
+          });
+          sent++;
+        } catch (err) {
+          console.error(`Failed to send reset email to ${user.email}:`, err);
+          failed++;
+        }
+      }
+
+      return { sent, failed, total: users.length };
+    }),
+
   updateUser: adminProcedure
     .input(
       z.object({

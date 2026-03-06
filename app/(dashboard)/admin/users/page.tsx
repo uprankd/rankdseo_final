@@ -6,7 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { toast } from 'sonner';
-import { Users, Crown, Mail, Calendar, FolderOpen, Loader2, Search, X, XCircle, RotateCcw, KeyRound, Copy, Eye, EyeOff, Edit, Trash2 } from 'lucide-react';
+import { Users, Crown, Mail, Calendar, FolderOpen, Loader2, Search, X, XCircle, RotateCcw, KeyRound, Copy, Eye, EyeOff, Edit, Trash2, Send, CheckSquare, Square } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Label } from '@/components/ui/label';
@@ -23,6 +23,8 @@ export default function AdminUsersPage() {
   const [editUserDialog, setEditUserDialog] = useState<{ open: boolean; userId: string; currentName: string; currentEmail: string } | null>(null);
   const [editName, setEditName] = useState('');
   const [editEmail, setEditEmail] = useState('');
+  const [selectedUsers, setSelectedUsers] = useState<Set<string>>(new Set());
+  const [sendingResetEmail, setSendingResetEmail] = useState<string | null>(null);
   
   const { data: usersData, isLoading, refetch } = trpc.admin.listUsers.useQuery();
   const users = usersData?.users || [];
@@ -100,6 +102,56 @@ export default function AdminUsersPage() {
       setUpdatingUser(null);
     },
   });
+
+  const sendResetEmail = trpc.admin.sendPasswordResetEmail.useMutation({
+    onSuccess: (data) => {
+      toast.success(`Reset email sent to ${data.email}`);
+      setSendingResetEmail(null);
+    },
+    onError: (error) => {
+      toast.error(`Failed to send reset email: ${error.message}`);
+      setSendingResetEmail(null);
+    },
+  });
+
+  const sendBulkResetEmails = trpc.admin.sendBulkPasswordResetEmails.useMutation({
+    onSuccess: (data) => {
+      toast.success(`Sent ${data.sent} reset emails${data.failed > 0 ? ` (${data.failed} failed)` : ''}`);
+      setSelectedUsers(new Set());
+    },
+    onError: (error) => {
+      toast.error(`Bulk send failed: ${error.message}`);
+    },
+  });
+
+  const handleSendResetEmail = (userId: string) => {
+    setSendingResetEmail(userId);
+    sendResetEmail.mutate({ userId });
+  };
+
+  const handleBulkSendResetEmails = () => {
+    if (selectedUsers.size === 0) return;
+    if (!confirm(`Send password reset emails to ${selectedUsers.size} user(s)?`)) return;
+    sendBulkResetEmails.mutate({ userIds: Array.from(selectedUsers) });
+  };
+
+  const toggleUserSelection = (userId: string) => {
+    setSelectedUsers(prev => {
+      const next = new Set(prev);
+      if (next.has(userId)) next.delete(userId);
+      else next.add(userId);
+      return next;
+    });
+  };
+
+  const toggleSelectAll = () => {
+    const nonAdminUsers = filteredUsers.filter(u => u.role !== 'ADMIN');
+    if (selectedUsers.size === nonAdminUsers.length) {
+      setSelectedUsers(new Set());
+    } else {
+      setSelectedUsers(new Set(nonAdminUsers.map(u => u.id)));
+    }
+  };
 
   const handlePlanChange = async (userId: string, planId: string) => {
     setUpdatingUser(userId);
@@ -288,8 +340,25 @@ export default function AdminUsersPage() {
               <Users className="h-5 w-5" />
               All Users ({filteredUsers?.length || 0})
             </CardTitle>
-            <div className="relative w-96">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+            <div className="flex items-center gap-3">
+              {selectedUsers.size > 0 && (
+                <Button
+                  size="sm"
+                  onClick={handleBulkSendResetEmails}
+                  disabled={sendBulkResetEmails.isPending}
+                  className="bg-gradient-to-r from-blue-500 to-sky-500"
+                  data-testid="bulk-send-reset-btn"
+                >
+                  {sendBulkResetEmails.isPending ? (
+                    <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                  ) : (
+                    <Send className="h-4 w-4 mr-2" />
+                  )}
+                  Send Reset Email ({selectedUsers.size})
+                </Button>
+              )}
+              <div className="relative w-96">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
               <Input
                 type="text"
                 placeholder="Search by user/email"
@@ -305,6 +374,7 @@ export default function AdminUsersPage() {
                   <X className="h-4 w-4" />
                 </button>
               )}
+              </div>
             </div>
           </div>
         </CardHeader>
@@ -315,6 +385,21 @@ export default function AdminUsersPage() {
                 <Card key={user.id} className="border-2 hover:border-navy-400 transition-all">
                   <CardContent className="p-4">
                     <div className="flex items-center gap-4">
+                      {/* Selection Checkbox */}
+                      {user.role !== 'ADMIN' && (
+                        <button
+                          onClick={() => toggleUserSelection(user.id)}
+                          className="flex-shrink-0 text-gray-400 hover:text-sky-500 transition-colors"
+                          data-testid={`select-user-${user.id}`}
+                        >
+                          {selectedUsers.has(user.id) ? (
+                            <CheckSquare className="h-5 w-5 text-sky-500" />
+                          ) : (
+                            <Square className="h-5 w-5" />
+                          )}
+                        </button>
+                      )}
+
                       {/* User Avatar */}
                       <div className="h-12 w-12 rounded-full bg-gradient-to-br from-navy-500 to-sky-500 flex items-center justify-center text-white font-bold text-lg flex-shrink-0">
                         {user.name?.charAt(0) || user.email.charAt(0).toUpperCase()}
@@ -447,7 +532,22 @@ export default function AdminUsersPage() {
 
                       {/* Reset Password Button */}
                       {user.role !== 'ADMIN' && (
-                        <div className="flex-shrink-0">
+                        <div className="flex-shrink-0 flex gap-2">
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => handleSendResetEmail(user.id)}
+                            disabled={sendingResetEmail === user.id}
+                            className="border-2 border-sky-300 text-sky-600 hover:bg-sky-50 hover:border-sky-400"
+                            data-testid={`send-reset-email-${user.id}`}
+                          >
+                            {sendingResetEmail === user.id ? (
+                              <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                            ) : (
+                              <Send className="h-4 w-4 mr-2" />
+                            )}
+                            Send Reset Email
+                          </Button>
                           <Button
                             variant="outline"
                             size="sm"
@@ -460,7 +560,7 @@ export default function AdminUsersPage() {
                             className="border-2 border-blue-300 text-blue-600 hover:bg-blue-50 hover:border-blue-400"
                           >
                             <KeyRound className="h-4 w-4 mr-2" />
-                            Reset Password
+                            Set Password
                           </Button>
                         </div>
                       )}

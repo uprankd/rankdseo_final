@@ -401,6 +401,54 @@ export const emailTemplates = {
     `,
   }),
 
+  passwordResetLink: (userName: string, resetUrl: string) => ({
+    subject: 'Reset Your RankdSEO Password',
+    html: `
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <style>
+            body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+            .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+            .header { background: linear-gradient(135deg, #3b82f6 0%, #06b6d4 100%); color: white; padding: 30px; text-align: center; border-radius: 10px 10px 0 0; }
+            .content { background: #f9fafb; padding: 30px; border-radius: 0 0 10px 10px; }
+            .button { display: inline-block; background: #3b82f6; color: white; padding: 16px 40px; text-decoration: none; border-radius: 8px; margin: 20px 0; font-weight: bold; font-size: 16px; }
+            .footer { text-align: center; color: #6b7280; padding: 20px; font-size: 14px; }
+          </style>
+        </head>
+        <body>
+          <div class="container">
+            <div class="header">
+              <h1 style="margin: 0; font-size: 28px;">Password Reset</h1>
+              <p style="margin: 10px 0 0 0; opacity: 0.9; font-size: 16px;">Set a new password for your account</p>
+            </div>
+            <div class="content">
+              <h2 style="color: #1e40af;">Hi ${userName}!</h2>
+              <p>We received a request to reset your RankdSEO password. Click the button below to create a new password:</p>
+              
+              <div style="text-align: center; margin: 30px 0;">
+                <a href="${resetUrl}" class="button" style="color: white;">Reset My Password</a>
+              </div>
+              
+              <p style="font-size: 13px; color: #6b7280;">Or copy and paste this link into your browser:</p>
+              <p style="font-size: 13px; color: #3b82f6; word-break: break-all;">${resetUrl}</p>
+              
+              <div style="background: #fef3c7; border: 1px solid #f59e0b; border-radius: 8px; padding: 15px; margin: 20px 0;">
+                <strong style="color: #92400e;">This link expires in 24 hours.</strong>
+                <p style="margin: 5px 0 0 0; color: #78350f; font-size: 14px;">If you didn't request this, you can safely ignore this email.</p>
+              </div>
+              
+              <p><strong>The RankdSEO Team</strong></p>
+            </div>
+            <div class="footer">
+              <p>&copy; 2024 RankdSEO. All rights reserved.</p>
+            </div>
+          </div>
+        </body>
+      </html>
+    `,
+  }),
+
   newOpportunity: (userName: string, opportunity: {
     siteName: string;
     shortDescription: string;
