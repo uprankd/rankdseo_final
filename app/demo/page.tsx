@@ -1,11 +1,11 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import { signIn } from 'next-auth/react';
 import { useSearchParams } from 'next/navigation';
 import { Sparkles } from 'lucide-react';
 
-export default function DemoPage() {
+function DemoContent() {
   const [error, setError] = useState(false);
   const searchParams = useSearchParams();
   const redirectTo = searchParams.get('redirect') || '/opportunities';
@@ -27,7 +27,7 @@ export default function DemoPage() {
       }
     };
     loginDemo();
-  }, []);
+  }, [redirectTo]);
 
   if (error) {
     return (
@@ -50,5 +50,20 @@ export default function DemoPage() {
         <p className="text-gray-700 font-semibold text-lg">Loading platform preview...</p>
       </div>
     </div>
+  );
+}
+
+export default function DemoPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <div className="text-center">
+          <div className="h-20 w-20 border-4 border-navy-200 border-t-sky-500 rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-gray-700 font-semibold text-lg">Loading...</p>
+        </div>
+      </div>
+    }>
+      <DemoContent />
+    </Suspense>
   );
 }
