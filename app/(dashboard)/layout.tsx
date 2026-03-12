@@ -141,7 +141,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           <aside
             className={`${
               isSidebarOpen ? 'translate-x-0' : '-translate-x-full'
-            } fixed lg:relative top-[89px] lg:top-auto left-0 z-30 w-72 h-[calc(100vh-89px)] lg:h-fit bg-white lg:rounded-3xl border-r-2 lg:border-2 border-navy-200 transition-transform lg:translate-x-0 shadow-2xl overflow-y-auto`}
+            } fixed lg:sticky top-[89px] lg:top-[105px] left-0 z-30 w-72 h-[calc(100vh-89px)] lg:h-[calc(100vh-120px)] lg:shrink-0 bg-white lg:rounded-3xl border-r-2 lg:border-2 border-navy-200 transition-transform lg:translate-x-0 shadow-2xl overflow-y-auto`}
           >
             <nav className="p-6 space-y-3">
               {navItems.map((item) => {
