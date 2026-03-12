@@ -201,10 +201,11 @@ export default function HomePage() {
               </Button>
             </Link>
           </div>
-          <p className="text-sm text-gray-600 mt-6 flex items-center justify-center gap-2">
-            <Check className="h-4 w-4 text-green-600" />
-            Free forever plan
-          </p>
+          <Link href="/opportunities/youtube-backlink">
+            <Button variant="outline" className="mt-6 border-2 border-navy-300 text-navy-600 hover:bg-navy-50 font-semibold" data-testid="view-sample-backlink-btn">
+              View Sample Backlink
+            </Button>
+          </Link>
         </div>
       </section>
 
