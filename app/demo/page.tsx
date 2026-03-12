@@ -2,10 +2,13 @@
 
 import { useEffect, useState } from 'react';
 import { signIn } from 'next-auth/react';
+import { useSearchParams } from 'next/navigation';
 import { Sparkles } from 'lucide-react';
 
 export default function DemoPage() {
   const [error, setError] = useState(false);
+  const searchParams = useSearchParams();
+  const redirectTo = searchParams.get('redirect') || '/opportunities';
 
   useEffect(() => {
     const loginDemo = async () => {
@@ -13,7 +16,7 @@ export default function DemoPage() {
         const result = await signIn('credentials', {
           email: 'demo@rankdseo.com',
           password: 'demo_view_2026',
-          callbackUrl: '/opportunities',
+          callbackUrl: redirectTo,
           redirect: true,
         });
         if (result?.error) {

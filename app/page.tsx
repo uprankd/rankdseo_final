@@ -201,7 +201,7 @@ export default function HomePage() {
               </Button>
             </Link>
           </div>
-          <Link href="/opportunities/youtube-backlink">
+          <Link href="/demo?redirect=/opportunities/youtube-backlink">
             <Button variant="outline" className="mt-6 border-2 border-navy-300 text-navy-600 hover:bg-navy-50 font-semibold" data-testid="view-sample-backlink-btn">
               View Sample Backlink
             </Button>
