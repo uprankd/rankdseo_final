@@ -10,7 +10,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion';
-import { Check, ArrowRight, Search, TrendingUp, Target, Zap, Star, Crown, Sparkles, Globe, HelpCircle } from 'lucide-react';
+import { Check, ArrowRight, Search, TrendingUp, Target, Zap, Star, Crown, Sparkles, Globe, HelpCircle, Shield, BarChart3, DollarSign, Eye, Layers, Rocket } from 'lucide-react';
 import Script from 'next/script';
 
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://rankdseo.com';
@@ -425,6 +425,130 @@ export default function HomePage() {
               <ArrowRight className="ml-3 h-6 w-6" />
             </Button>
           </Link>
+        </div>
+      </section>
+
+      {/* Why Choose RankdSEO Section */}
+      <section className="py-24 px-4 bg-white" data-testid="why-choose-section">
+        <div className="max-w-6xl mx-auto">
+          {/* Section Header */}
+          <div className="text-center mb-16">
+            <Badge className="bg-navy-100 text-navy-600 mb-4 text-base px-4 py-2">
+              Why RankdSEO?
+            </Badge>
+            <h2 className="text-4xl sm:text-5xl font-black text-gray-900 mb-4">
+              Why Choose <span className="bg-gradient-to-r from-navy-600 to-sky-500 bg-clip-text text-transparent">RankdSEO</span>?
+            </h2>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              Stop feeling lost in a sea of keywords, backlinks, and technical audits. Trade stress for results.
+            </p>
+          </div>
+
+          {/* The Core Problem */}
+          <div className="bg-gradient-to-br from-slate-50 to-sky-50 rounded-3xl border-2 border-slate-200 p-8 md:p-12 mb-12">
+            <div className="flex items-start gap-4 mb-4">
+              <div className="h-12 w-12 rounded-2xl bg-red-100 flex items-center justify-center shrink-0">
+                <Target className="h-6 w-6 text-red-600" />
+              </div>
+              <div>
+                <h3 className="text-2xl font-bold text-gray-900 mb-2">The Core Problem: SEO is Overwhelming</h3>
+                <p className="text-gray-600 leading-relaxed">
+                  Most website owners feel lost in a sea of keywords, backlinks, and technical audits. RankdSEO is the antidote to SEO complexity. <strong className="text-gray-800">You trade stress for results.</strong> Focus on running your business while the tool handles your Google visibility.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Three Value Pillars */}
+          <div className="grid md:grid-cols-3 gap-6 mb-16">
+            <Card className="border-2 border-slate-200 shadow-lg hover:shadow-xl transition-shadow rounded-2xl overflow-hidden">
+              <CardContent className="p-8">
+                <div className="h-12 w-12 rounded-2xl bg-green-100 flex items-center justify-center mb-5">
+                  <DollarSign className="h-6 w-6 text-green-600" />
+                </div>
+                <h4 className="text-lg font-bold text-gray-900 mb-3">&ldquo;Elite&rdquo; Data for a Fraction of the Cost</h4>
+                <p className="text-gray-600 text-sm leading-relaxed">
+                  Leading tools like Ahrefs or Semrush cost hundreds per month. RankdSEO provides comparable insights at a price that actually makes sense.
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card className="border-2 border-slate-200 shadow-lg hover:shadow-xl transition-shadow rounded-2xl overflow-hidden">
+              <CardContent className="p-8">
+                <div className="h-12 w-12 rounded-2xl bg-blue-100 flex items-center justify-center mb-5">
+                  <Zap className="h-6 w-6 text-blue-600" />
+                </div>
+                <h4 className="text-lg font-bold text-gray-900 mb-3">Workflow Automation</h4>
+                <p className="text-gray-600 text-sm leading-relaxed">
+                  Stop wasting hours on manual competitor research. Get a ready-to-use SEO roadmap instead and focus on what matters most.
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card className="border-2 border-slate-200 shadow-lg hover:shadow-xl transition-shadow rounded-2xl overflow-hidden">
+              <CardContent className="p-8">
+                <div className="h-12 w-12 rounded-2xl bg-purple-100 flex items-center justify-center mb-5">
+                  <Rocket className="h-6 w-6 text-purple-600" />
+                </div>
+                <h4 className="text-lg font-bold text-gray-900 mb-3">Strategic Backlinking</h4>
+                <p className="text-gray-600 text-sm leading-relaxed">
+                  Skip the slow, expensive process of manual outreach. Gain access to high-quality backlinks that move the needle.
+                </p>
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Competitive Edge Table */}
+          <div className="mb-16">
+            <h3 className="text-2xl font-bold text-gray-900 text-center mb-8">The Competitive Edge</h3>
+            <div className="grid md:grid-cols-3 gap-6">
+              <div className="flex items-start gap-4 bg-gradient-to-br from-sky-50 to-blue-50 rounded-2xl p-6 border border-sky-200">
+                <div className="h-10 w-10 rounded-xl bg-sky-100 flex items-center justify-center shrink-0">
+                  <Shield className="h-5 w-5 text-sky-600" />
+                </div>
+                <div>
+                  <p className="font-bold text-gray-900 mb-1">Simplicity</p>
+                  <p className="text-sm text-gray-600">No IT degree required. Our reports are built for humans, not robots.</p>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-4 bg-gradient-to-br from-emerald-50 to-green-50 rounded-2xl p-6 border border-emerald-200">
+                <div className="h-10 w-10 rounded-xl bg-emerald-100 flex items-center justify-center shrink-0">
+                  <Layers className="h-5 w-5 text-emerald-600" />
+                </div>
+                <div>
+                  <p className="font-bold text-gray-900 mb-1">Scalability</p>
+                  <p className="text-sm text-gray-600">Whether you have one site or ten, manage everything from a single dashboard.</p>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-4 bg-gradient-to-br from-amber-50 to-yellow-50 rounded-2xl p-6 border border-amber-200">
+                <div className="h-10 w-10 rounded-xl bg-amber-100 flex items-center justify-center shrink-0">
+                  <BarChart3 className="h-5 w-5 text-amber-600" />
+                </div>
+                <div>
+                  <p className="font-bold text-gray-900 mb-1">High ROI</p>
+                  <p className="text-sm text-gray-600">Professional SEO results without the $5,000/month agency price tag.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Emotional Trigger */}
+          <div className="bg-gradient-to-r from-navy-600 via-sky-600 to-blue-600 rounded-3xl p-8 md:p-12 text-white text-center">
+            <div className="flex justify-center mb-4">
+              <div className="h-14 w-14 rounded-full bg-white/20 backdrop-blur flex items-center justify-center">
+                <Eye className="h-7 w-7 text-white" />
+              </div>
+            </div>
+            <h3 className="text-2xl md:text-3xl font-bold mb-4">Don&apos;t Be Invisible</h3>
+            <p className="text-white/90 max-w-2xl mx-auto mb-3 leading-relaxed">
+              If you aren&apos;t on the first page of Google, you&apos;re essentially invisible to your customers. It&apos;s about outranking that competitor who is currently taking your clicks and your revenue.
+            </p>
+            <p className="text-white/70 text-sm max-w-xl mx-auto">
+              Customers don&apos;t buy an &ldquo;SEO tool.&rdquo; They buy <strong className="text-white">Page 1 of Google</strong>, more traffic, and ultimately, higher profits. RankdSEO makes that journey shorter and more affordable.
+            </p>
+          </div>
         </div>
       </section>
 
