@@ -1,0 +1,4020 @@
+{
+  "targetUrl": "https://arxio.pro",
+  "email": "blindandead@gmail.com",
+  "bio": "The ultimate platform for CS2 highlights. Upload your best aces, clutches, and frags.",
+  "runDate": "2026-03-19T21:11:59.458766",
+  "stats": {
+    "total": 400,
+    "success": 3,
+    "registered": 26,
+    "captcha_solved": 282,
+    "captcha_failed": 0,
+    "email_verify": 11,
+    "failed": 244,
+    "partial": 21,
+    "submitted": 88,
+    "timeout": 7
+  },
+  "results": [
+    {
+      "siteName": "Google Bookmarks",
+      "url": "https://www.google.com/bookmarks/",
+      "da": 100,
+      "status": "FAILED",
+      "reason": "HTTP 404",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": false
+    },
+    {
+      "siteName": "Microsoft",
+      "url": "http://www.microsoft.com/",
+      "da": 100,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Apple.com Sub-Domain",
+      "url": "https://discussions.apple.com/welcome",
+      "da": 100,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Google Document",
+      "url": "https://docs.google.com/document/u/0/",
+      "da": 99,
+      "status": "SUBMITTED",
+      "reason": "Submitted (no URL field). Fields: ['email']",
+      "profileUrl": "https://accounts.google.com/v3/signin/identifier?continue=https%3A%2F%2Fdocs.google.com%2Fdocument%2Fu%2F0%2F&dsh=S-1826023200%3A1773949109785534&followup=https%3A%2F%2Fdocs.google.com%2Fdocument%2Fu%2F0%2F&ltmpl=docs&osid=1&passive=1209600&service=wise&flowName=GlifWebSignIn&flowEntry=ServiceLogin&ifkv=ASfE1-opfPcuA12k2e4_-cjit9seXVLBrYLpOEEyllqaUCtLPURTfwax-1tTGNIYfENqzD_BonYIHg",
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Blogger",
+      "url": "http://blogger.com",
+      "da": 99,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Google Sheets",
+      "url": "https://docs.google.com/spreadsheets/u/0/",
+      "da": 99,
+      "status": "SUBMITTED",
+      "reason": "Submitted (no URL field). Fields: ['email']",
+      "profileUrl": "https://accounts.google.com/v3/signin/identifier?continue=https%3A%2F%2Fdocs.google.com%2Fspreadsheets%2Fu%2F0%2F&dsh=S-248523176%3A1773949119853888&followup=https%3A%2F%2Fdocs.google.com%2Fspreadsheets%2Fu%2F0%2F&ltmpl=sheets&osid=1&passive=1209600&service=wise&flowName=GlifWebSignIn&flowEntry=ServiceLogin&ifkv=ASfE1-pfnv8JiIhUBa3gaLzpAKSyXY84s2fFSJGaEl_dQ98iLw6V3U7MFq55Li2fjpwqt53M-Jmb0g",
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "YouTube",
+      "url": "https://www.youtube.com",
+      "da": 99,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Google Forms",
+      "url": "https://docs.google.com/forms/",
+      "da": 99,
+      "status": "SUBMITTED",
+      "reason": "Submitted (no URL field). Fields: ['email']",
+      "profileUrl": "https://accounts.google.com/v3/signin/identifier?continue=https%3A%2F%2Fdocs.google.com%2Fforms%2F&dsh=S1461277735%3A1773949129877190&followup=https%3A%2F%2Fdocs.google.com%2Fforms%2F&ltmpl=forms&osid=1&passive=1209600&service=wise&flowName=GlifWebSignIn&flowEntry=ServiceLogin&ifkv=ASfE1-pVi0j_8yk-Fik7vFVmxnfV-hb4CloG-sCY7WbD2ZlDatMRtfkWxrM_F81pBvk1O9g_ieRxww",
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Adobe Education Exchange",
+      "url": "https://edex.adobe.com",
+      "da": 99,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Google Slides",
+      "url": "https://docs.google.com/presentation/",
+      "da": 99,
+      "status": "SUBMITTED",
+      "reason": "Submitted (no URL field). Fields: ['email']",
+      "profileUrl": "https://accounts.google.com/v3/signin/identifier?continue=https%3A%2F%2Fdocs.google.com%2Fpresentation%2F&dsh=S1375838940%3A1773949140023151&followup=https%3A%2F%2Fdocs.google.com%2Fpresentation%2F&ltmpl=slides&osid=1&passive=1209600&service=wise&flowName=GlifWebSignIn&flowEntry=ServiceLogin&ifkv=ASfE1-plALqOQbTlg0OMUpIvgQ5mZUZZZDvkAKsZEyFbqSIvh6NbXCTdoyAsKiZ7JzxnZq5hRH13",
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "WordPress.org",
+      "url": "https://wordpress.org",
+      "da": 98,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Adobe Spark",
+      "url": "https://spark.adobe.com/",
+      "da": 98,
+      "status": "NEEDS_EMAIL_VERIFICATION",
+      "reason": "Email verification needed. Fields: ['username', 'email']",
+      "profileUrl": "https://auth.services.adobe.com/en_US/index.html?callback=https%3A%2F%2Fims-na1.adobelogin.com%2Fims%2Fadobeid%2Fprojectx_webapp%2FAdobeID%2Ftoken%3Fredirect_uri%3Dhttps%253A%252F%252Fexpress.adobe.com%252F%253Fpostlogin%253Dtrue%2523old_hash%253Dotp%253D761013483%2526from_ims%253Dtrue%2526client_id%253Dprojectx_webapp%2526api%253Dauthorize%2526scope%253Dab.manage%252CAdobeID%252Copenid%252Cread_organizations%252Ccreative_cloud%252Ccreative_sdk%252Ctk_platform%252Ctk_platform_sync%252Caf_byof%252Cstk.a.license_skip.r%252Cstk.a.limited_license.cru%252Cadditional_info.optionalAgreements%252Cuds_read%252Cuds_write%252Caf_ltd_projectx%252Cunified_dev_portal%252Cadditional_info.ownerOrg%252Cadditional_info.roles%252Cadditional_info.roles%252CDCAPI%252Cadditional_info.auth_source%252Cadditional_info.authenticatingAccount%252Cpps.write%252Cpps.delete%252Cpps.image_write%252Ctk_platform_grant_free_subscription%252Cpps.read%252Cfirefly_api%252Cadditional_info.projectedProductContext%252Cadobeio.appregistry.read%252Cadobeio.appregistry.write%252Caccount_cluster.read%252Cindesign_services%252Ceduprofile.write%252Ceduprofile.read%252Cmps%252Cadditional_info.creation_source%252Cadditional_info.incomplete%252Cadditional_info.coppa_details%252Cadditional_info.coppa_compliant%26state%3D%257B%2522jslibver%2522%253A%2522v2-v0.52.0-1-g937e486%2522%252C%2522nonce%2522%253A%25221452226638778921%2522%257D%26code_challenge_method%3Dplain%26use_ms_for_expiry%3Dtrue&client_id=projectx_webapp&scope=ab.manage%2CAdobeID%2Copenid%2Cread_organizations%2Ccreative_cloud%2Ccreative_sdk%2Ctk_platform%2Ctk_platform_sync%2Caf_byof%2Cstk.a.license_skip.r%2Cstk.a.limited_license.cru%2Cadditional_info.optionalAgreements%2Cuds_read%2Cuds_write%2Caf_ltd_projectx%2Cunified_dev_portal%2Cadditional_info.ownerOrg%2Cadditional_info.roles%2CDCAPI%2Cadditional_info.auth_source%2Cadditional_info.authenticatingAccount%2Cpps.write%2Cpps.delete%2Cpps.image_write%2Ctk_platform_grant_free_subscription%2Cpps.read%2Cfirefly_api%2Cadditional_info.projectedProductContext%2Cadobeio.appregistry.read%2Cadobeio.appregistry.write%2Caccount_cluster.read%2Cindesign_services%2Ceduprofile.write%2Ceduprofile.read%2Cmps%2Cadditional_info.creation_source%2Cadditional_info.incomplete%2Cadditional_info.coppa_details%2Cadditional_info.coppa_compliant&state=%7B%22jslibver%22%3A%22v2-v0.52.0-1-g937e486%22%2C%22nonce%22%3A%221452226638778921%22%7D&relay=a6efc4c6-ff16-400a-9f8b-7a764d07d0e6&locale=en_US&flow_type=token&dctx_id=v%3A2%2Cs%2Cdcp-r%2Cbg%3Aexpress2024%2C45faecb0-e687-11ee-a865-f545a8ca5d2c&idp_flow_type=login&ab_test=welcome-back%2Cram3-avoid-race-condition%2Capply-new-params&s_p=google%2Cfacebook%2Capple%2Cmicrosoft%2Cline%2Ckakao&response_type=token&code_challenge_method=plain&redirect_uri=https%3A%2F%2Fexpress.adobe.com%2F%3Fpostlogin%3Dtrue%23old_hash%3Dotp%3D761013483%26from_ims%3Dtrue%26client_id%3Dprojectx_webapp%26api%3Dauthorize%26scope%3Dab.manage%2CAdobeID%2Copenid%2Cread_organizations%2Ccreative_cloud%2Ccreative_sdk%2Ctk_platform%2Ctk_platform_sync%2Caf_byof%2Cstk.a.license_skip.r%2Cstk.a.limited_license.cru%2Cadditional_info.optionalAgreements%2Cuds_read%2Cuds_write%2Caf_ltd_projectx%2Cunified_dev_portal%2Cadditional_info.ownerOrg%2Cadditional_info.roles%2Cadditional_info.roles%2CDCAPI%2Cadditional_info.auth_source%2Cadditional_info.authenticatingAccount%2Cpps.write%2Cpps.delete%2Cpps.image_write%2Ctk_platform_grant_free_subscription%2Cpps.read%2Cfirefly_api%2Cadditional_info.projectedProductContext%2Cadobeio.appregistry.read%2Cadobeio.appregistry.write%2Caccount_cluster.read%2Cindesign_services%2Ceduprofile.write%2Ceduprofile.read%2Cmps%2Cadditional_info.creation_source%2Cadditional_info.incomplete%2Cadditional_info.coppa_details%2Cadditional_info.coppa_compliant&use_ms_for_expiry=true#/social-only",
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "BugZilla",
+      "url": "https://bugzilla.mozilla.org/",
+      "da": 98,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Google Drawings",
+      "url": "https://docs.google.com/drawings",
+      "da": 98,
+      "status": "SUBMITTED",
+      "reason": "Submitted (no URL field). Fields: ['email']",
+      "profileUrl": "https://accounts.google.com/v3/signin/identifier?continue=https%3A%2F%2Fdocs.google.com%2Fdrawings%2Fcreate&dsh=S-1826023200%3A1773949157859496&followup=https%3A%2F%2Fdocs.google.com%2Fdrawings%2Fcreate&ltmpl=drawings&osid=1&passive=1209600&service=wise&flowName=GlifWebSignIn&flowEntry=ServiceLogin&ifkv=ASfE1-rXZFImj1JehxukbYAB3wX47_J5JQrFKgz0DIXCHNICuYadvFZFkc2aYiD-ia-DaghLVCwI3w",
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Disqus",
+      "url": "https://disqus.com/",
+      "da": 97,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Google Sites",
+      "url": "http://sites.google.com",
+      "da": 98,
+      "status": "SUBMITTED",
+      "reason": "Submitted (no URL field). Fields: ['email']",
+      "profileUrl": "https://accounts.google.com/v3/signin/identifier?continue=https%3A%2F%2Fsites.google.com%2F&dsh=S1375838940%3A1773949167948187&followup=https%3A%2F%2Fsites.google.com%2F&osid=1&passive=1209600&service=wise&flowName=GlifWebSignIn&flowEntry=ServiceLogin&ifkv=ASfE1-qyXuZ-RXphTCYm-avNw7ZjNa0zT-HMcgr2uoXIbTRspDJobq-YnV0K5aufsmvji-DFgCiQug",
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Google Drive",
+      "url": "https://drive.google.com",
+      "da": 97,
+      "status": "REGISTERED",
+      "reason": "Registration likely succeeded. Fields: ['email']",
+      "profileUrl": "https://workspace.google.com/intl/en/newsletter/thank-you/",
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "GitHub",
+      "url": "https://github.com",
+      "da": 97,
+      "status": "SUBMITTED",
+      "reason": "Submitted (no URL field). Fields: ['name', 'username', 'email', 'password']",
+      "profileUrl": "https://accounts.google.com/v3/signin/identifier?opparams=%253F&dsh=S-82399036%3A1773949185868192&client_id=1078992815106-brpsupgvhheqg35tupphbh0qk9c32nq8.apps.googleusercontent.com&code_challenge=r5S4QqWVjz-jdNPWLAo6WVlDne2qr0gjG3u1c8-OCkU&code_challenge_method=S256&nonce=ef3582face16e517cdb3571919c675e1&o2v=2&prompt=select_account&redirect_uri=https%3A%2F%2Fgithub.com%2Fsessions%2Fsocial%2Fgoogle%2Fcallback&response_type=code&scope=openid+email+profile&service=lso&state=57a825898557b47000813032e6afc51a&flowName=GeneralOAuthFlow&continue=https%3A%2F%2Faccounts.google.com%2Fsignin%2Foauth%2Fconsent%3Fauthuser%3Dunknown%26part%3DAJi8hAPqKH93G7Z2JIKXNpGqwe46loPSdhYfmFI6goA9auUkmk80pWIfPmw46LyIYhgIGl2lYwwhwE0FW4sfKfkOkvH_RBGSVFTiT6b0N4SBS16MvuLkPfj6VjwADlZ6iP1EI2KYG01hLwMRr1u7f95mKXS2Od_wYKw56SwtcAQU1eWrG4Nm7h35wJa-RoaP_3CfnrpMRZBVc7MW5BPSk9emLWTVRk1tJBqdmgYnPd526PLCWaGVU0K52bEhcgOEtc8XCJcuxOpBxVodKgiAex-UNHGkWFTR1LJHhkrFUNWAjaQ-JUFuiDYTSG62-rVav4_h_h7-1SImYhhlyAALXTvUK1FlU4Uu_2UG3_JNDOGdT2F4mu2AoESGeNRUG2xLjmyqbHrE5LsiY5fpNDhjJ7CmNGENfjryPf3FhSP4aBuV81Jg6zG5vWGyIQ6xxjIYf74EZ5ET9yMmaOgelTBqfPiBsWgw98EfQw%26flowName%3DGeneralOAuthFlow%26as%3DS-82399036%253A1773949185868192%26client_id%3D1078992815106-brpsupgvhheqg35tupphbh0qk9c32nq8.apps.googleusercontent.com%26requestPath%3D%252Fsignin%252Foauth%252Fconsent%23&app_domain=https%3A%2F%2Fgithub.com&rart=ANgoxcdER9ULLwDjAOplj-TUysHRwPzyTUSWh4hjYQjXK-5qoL-WlalBXGAedx23a-bqAynn5c63LwzetCo-ZePzD8-1Iafk3yN0DUV6NthivubCIcwerkk",
+      "backlinkPlaced": false,
+      "captchaSolved": false
+    },
+    {
+      "siteName": "Vimeo",
+      "url": "https://vimeo.com",
+      "da": 96,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": false
+    },
+    {
+      "siteName": "VK",
+      "url": "https://vk.com/",
+      "da": 96,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Telegram",
+      "url": "https://telegram.org/",
+      "da": 95,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Facebook",
+      "url": "https://www.facebook.com/",
+      "da": 95,
+      "status": "PARTIAL",
+      "reason": "No submit button. Filled: ['password']",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Myspace",
+      "url": "https://myspace.com",
+      "da": 95,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "IMDB",
+      "url": "https://www.imdb.com/",
+      "da": 95,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "W3C",
+      "url": "https://www.w3.org",
+      "da": 95,
+      "status": "FAILED",
+      "reason": "HTTP 403",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": false
+    },
+    {
+      "siteName": "GitHub Profile",
+      "url": "https://github.com",
+      "da": 95,
+      "status": "SUBMITTED",
+      "reason": "Submitted (no URL field). Fields: ['name', 'username', 'email', 'password']",
+      "profileUrl": "https://accounts.google.com/v3/signin/identifier?opparams=%253F&dsh=S403597980%3A1773949220517447&client_id=1078992815106-brpsupgvhheqg35tupphbh0qk9c32nq8.apps.googleusercontent.com&code_challenge=9BPXXUw_PjmhSLKaGUJ-8-uQ8Am4sViAAekcH35h6zg&code_challenge_method=S256&nonce=83e17e6e8e5a632c0c04f120c8e66488&o2v=2&prompt=select_account&redirect_uri=https%3A%2F%2Fgithub.com%2Fsessions%2Fsocial%2Fgoogle%2Fcallback&response_type=code&scope=openid+email+profile&service=lso&state=902a14af4c6d575427f86d29112c91ae&flowName=GeneralOAuthFlow&continue=https%3A%2F%2Faccounts.google.com%2Fsignin%2Foauth%2Fconsent%3Fauthuser%3Dunknown%26part%3DAJi8hANotdX48wYs-TEyUDFGHUHMkvEvMg11mNEbIzpc1HDks2U3rA5nsUDP1nlUhsRsK2nodNTAOGt8uE78E9tJZkEBEtLoi5Mda-pzINSMoymTWeZcaQgIKlMdB-jN4a3qFIMuflGDPTWXfVA3NxJEezOFdBo18rwVOel0yukgeTOC06xxRRZy74eOsZn_uB-YgkEUg4RvgsOzf3HUSxFUSB7iGPZlvJAF7DKqHiybf-2Amkxs4aXJciA1rkdx23oXhwSE-RmOVnX3j2xWNzoVvLixYXiT8k3NtfWa39Cs4cJEPiZZB73cuI_q3EV_-P5B6eW7fp8z8WL9QlQZwjcF_0LChsV1Hlvk1PJCZpaVUvXiXCRfZVkCzJyJkFDqukxHIJKdP72PvZ2fXm0eOpMlqb6fcaGZTRzeagOh4QVI6Ix1oqHwM4N7CLHA7WcnujLpzwWG8Qw3kZ-KM90wKHopzA6PzNIFgg%26flowName%3DGeneralOAuthFlow%26as%3DS403597980%253A1773949220517447%26client_id%3D1078992815106-brpsupgvhheqg35tupphbh0qk9c32nq8.apps.googleusercontent.com%26requestPath%3D%252Fsignin%252Foauth%252Fconsent%23&app_domain=https%3A%2F%2Fgithub.com&rart=ANgoxccIeluT9394T9vrGxBdRXR6tO1rJi8Dh690IRVGNtTPvDbSuW8bNssOLCPExYJu3sdUwcwhmkQkVATl9AbHKfScdHxfAtbtfZXAYTIDqABIaAyVzeE",
+      "backlinkPlaced": false,
+      "captchaSolved": false
+    },
+    {
+      "siteName": "Google PageSpeed Insights",
+      "url": "https://developers.google.com/speed/pagespeed/insights/",
+      "da": 95,
+      "status": "PARTIAL",
+      "reason": "No submit button. Filled: ['website']",
+      "profileUrl": null,
+      "backlinkPlaced": true,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "CreativeCommons",
+      "url": "https://creativecommons.org/",
+      "da": 95,
+      "status": "SUBMITTED",
+      "reason": "Submitted (no URL field). Fields: ['email']",
+      "profileUrl": "https://creativecommons.org/",
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "SourceForge",
+      "url": "https://sourceforge.net",
+      "da": 94,
+      "status": "FAILED",
+      "reason": "HTTP 403",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": false
+    },
+    {
+      "siteName": "TED",
+      "url": "http://www.ted.com",
+      "da": 94,
+      "status": "SUBMITTED",
+      "reason": "Submitted (no URL field). Fields: ['email']",
+      "profileUrl": "https://www.ted.com/",
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "TinyURL",
+      "url": "https://tinyurl.com",
+      "da": 94,
+      "status": "SUBMITTED",
+      "reason": "Submitted (no URL field). Fields: ['name', 'email', 'password']",
+      "profileUrl": "https://tinyurl.com/app/register",
+      "backlinkPlaced": false,
+      "captchaSolved": false
+    },
+    {
+      "siteName": "AOL",
+      "url": "https://www.aol.com/",
+      "da": 94,
+      "status": "NEEDS_EMAIL_VERIFICATION",
+      "reason": "Email verification needed. Fields: ['email']",
+      "profileUrl": "https://www.aol.com/",
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Change",
+      "url": "https://www.change.org",
+      "da": 94,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Google Groups",
+      "url": "https://groups.google.com/forum/#!overview",
+      "da": 94,
+      "status": "SUBMITTED",
+      "reason": "Submitted (no URL field). Fields: ['email']",
+      "profileUrl": "https://accounts.google.com/v3/signin/identifier?continue=https%3A%2F%2Fgroups.google.com%2Fmy-groups&dsh=S-1826023200%3A1773949257354015&followup=https%3A%2F%2Fgroups.google.com%2Fmy-groups&osid=1&passive=1209600&flowName=GlifWebSignIn&flowEntry=ServiceLogin&ifkv=ASfE1-p6NMvtrLwcjBc2dtZbwEhGt711VWJE3rwyJtcbwhuJ9TdRxnP09LvWS9U8rO_qBZMwX7j8Og",
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Pixabay",
+      "url": "https://pixabay.com/",
+      "da": 94,
+      "status": "SUBMITTED",
+      "reason": "Submitted (no URL field). Fields: ['name', 'username', 'email', 'password']",
+      "profileUrl": "https://pixabay.com/",
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Fandom",
+      "url": "https://www.fandom.com/",
+      "da": 94,
+      "status": "NEEDS_EMAIL_VERIFICATION",
+      "reason": "Email verification needed. Fields: ['name', 'username', 'email', 'password']",
+      "profileUrl": "https://auth.fandom.com/register?flow=4260eda3-ea4b-4ec8-914f-50d7f53789ad",
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Issuu",
+      "url": "https://issuu.com",
+      "da": 94,
+      "status": "SUBMITTED",
+      "reason": "Submitted (no URL field). Fields: ['name', 'username', 'email', 'password']",
+      "profileUrl": "https://issuu.com/signup?referrer=header",
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Hatena",
+      "url": "https://www.hatena.ne.jp/",
+      "da": 94,
+      "status": "SUBMITTED",
+      "reason": "Submitted (no URL field). Fields: ['username', 'email', 'password']",
+      "profileUrl": "https://accounts.hatena.ne.jp/register?via=200125",
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Cornell.edu",
+      "url": "https://flgclassifieds.cce.cornell.edu/",
+      "da": 93,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Tripod Lycos",
+      "url": "http://www.tripod.lycos.com",
+      "da": 93,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Bitly",
+      "url": "https://bitly.com",
+      "da": 93,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Gui Clarin",
+      "url": "http://guia.clarin.com/",
+      "da": 93,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "GoDaddy Sites",
+      "url": "http://godaddy.com/websites/website-builder",
+      "da": 93,
+      "status": "FAILED",
+      "reason": "HTTP 403",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": false
+    },
+    {
+      "siteName": "Instructables",
+      "url": "https://www.instructables.com",
+      "da": 93,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "TripAdvisor",
+      "url": "https://www.tripadvisor.com/",
+      "da": 93,
+      "status": "FAILED",
+      "reason": "HTTP 403",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": false
+    },
+    {
+      "siteName": "Tes",
+      "url": "https://www.tes.com/",
+      "da": 93,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Ask.fm",
+      "url": "https://ask.fm",
+      "da": 93,
+      "status": "FAILED",
+      "reason": "Page.goto: net::ERR_NAME_NOT_RESOLVED at https://ask.fm/\nCall log:\n  - navigating to \"https://ask.fm/\", waiting until \"domcontentloaded\"\n",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": false
+    },
+    {
+      "siteName": "WordPress.com",
+      "url": "https://wordpress.com",
+      "da": 93,
+      "status": "FAILED",
+      "reason": "Page.goto: net::ERR_HTTP2_PROTOCOL_ERROR at https://wordpress.com/\nCall log:\n  - navigating to \"https://wordpress.com/\", waiting until \"domcontentloaded\"\n",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": false
+    },
+    {
+      "siteName": "Taringa",
+      "url": "https://www.taringa.net",
+      "da": 93,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "SoundCloud",
+      "url": "https://soundcloud.com",
+      "da": 93,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Hubspot",
+      "url": "https://community.hubspot.com",
+      "da": 93,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "BuzzFeed",
+      "url": "https://www.buzzfeed.com",
+      "da": 93,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "4shared",
+      "url": "https://www.4shared.com",
+      "da": 93,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Goodreads",
+      "url": "https://www.goodreads.com",
+      "da": 93,
+      "status": "SUBMITTED",
+      "reason": "Submitted (no URL field). Fields: ['name', 'email', 'password']",
+      "profileUrl": "https://www.goodreads.com/ap/register?language=en_US&openid.assoc_handle=amzn_goodreads_web_na&openid.claimed_id=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0%2Fidentifier_select&openid.identity=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0%2Fidentifier_select&openid.mode=checkid_setup&openid.ns=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0&openid.return_to=https%3A%2F%2Fwww.goodreads.com%2Fap-handler%2Fregister&siteState=eyJyZXR1cm5fdXJsIjoiaHR0cHM6Ly93d3cuZ29vZHJlYWRzLmNvbS8ifQ%3D%3D",
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Berkeley's ERL Forum",
+      "url": "https://www.ocf.berkeley.edu/~mwilkers/erlib/forum/",
+      "da": 93,
+      "status": "FAILED",
+      "reason": "HTTP 404",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": false
+    },
+    {
+      "siteName": "Netvibes",
+      "url": "https://www.netvibes.com/en",
+      "da": 93,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "The Verge",
+      "url": "https://www.theverge.com",
+      "da": 93,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Pinterest",
+      "url": "https://www.pinterest.com",
+      "da": 93,
+      "status": "REGISTERED",
+      "reason": "Registration likely succeeded. Fields: ['email', 'password']",
+      "profileUrl": "https://www.pinterest.com/",
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Zendesk Help",
+      "url": "https://support.zendesk.com/hc/en-us",
+      "da": 93,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Dell",
+      "url": "https://www.dell.com/en-us",
+      "da": 93,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "BuzzFeed (2 Guides)",
+      "url": "https://www.buzzfeed.com/",
+      "da": 93,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Over Blog",
+      "url": "https://www.over-blog.com/",
+      "da": 93,
+      "status": "FAILED",
+      "reason": "Timeout",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": false
+    },
+    {
+      "siteName": "Berkeley (.edu)",
+      "url": "http://setiweb.ssl.berkeley.edu/beta",
+      "da": 93,
+      "status": "FAILED",
+      "reason": "Page.goto: net::ERR_CERT_COMMON_NAME_INVALID at http://setiweb.ssl.berkeley.edu/beta\nCall log:\n  - navigating to \"http://setiweb.ssl.berkeley.edu/beta\", waiting until \"domcontentloaded\"\n",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": false
+    },
+    {
+      "siteName": "Kickstarter",
+      "url": "https://www.kickstarter.com/",
+      "da": 93,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "About.me",
+      "url": "https://about.me",
+      "da": 93,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": false
+    },
+    {
+      "siteName": "GoFundMe",
+      "url": "https://charity.gofundme.com",
+      "da": 93,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Gravatar",
+      "url": "https://gravatar.com/",
+      "da": 93,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "IBM",
+      "url": "http://www.ibm.com/",
+      "da": 93,
+      "status": "SUBMITTED",
+      "reason": "Submitted (no URL field). Fields: ['email']",
+      "profileUrl": "https://www.ibm.com/us-en",
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "IBM Developer",
+      "url": "https://www.ibm.com/account/reg/us-en/signup?formid=urx-30875&amp;a=dwcomm&amp;d=https%3A%2F%2Fwww.ibm.com%2Fdeveloperworks%2Fcommunity%2Fprofiles%2Fhtml%2FprofileView.do%3Fkey%3Df4c12ee3-397c-4b4d-aea2-aff541bbd5c2%26lang%3Den&amp;lang=en_US&amp;target=https%3A%2F%2Fdeveloper.ibm.com%2Fdwwi%2Fjsp%2Fp%2Fpostregister.jsp%3Fa%3Ddwcomm%26d%3Dhttps%253A%252F%252Fwww.ibm.com%252Fdeveloperworks%252Fcommunity%252Fprofiles%252Fhtml%252FprofileView.do%253Fkey%253Df4c12ee3-397c-4b4d-aea2-aff541bbd5c2%2526lang%253Den%26lang%3Den_US",
+      "da": 93,
+      "status": "SUBMITTED",
+      "reason": "Submitted (no URL field). Fields: ['email']",
+      "profileUrl": "https://accounts.google.com/lifecycle/steps/signup/name?client_id=1098965259977-8560kv8ot2ghegiqtubpfqbvnc6vgkl8.apps.googleusercontent.com&continue=https://accounts.google.com/signin/oauth/consent?authuser%3Dunknown%26part%3DAJi8hAMbCubgCiTmNsh3iUcHOQDUWqcWbgUf8pioU0TbsDP5SJvjjukst03jPCE7sgMwjgTaBqf_xFgJ5JxTiWFv0Xc5Q7C46EZ6jetOGGxzpTkbhMSMwIGbRu5dBNvT2KKdSn9eNksQKnJpsYD63qtSKRBvCOCB52Q1RTVItE62MHiZvN4uEPAdf3_ndbw7nZA5_w0p1XeC8xQK1Ha4MVuDOpOS7UkPNOdtyRq3qVdA2QYown2IlznzWaiaH-bPjZ1HBNSuttL_wF_hjLqqoZFQ6ILbEAoNbllVcF61n4oy6D0JufL1BbROMa5fCiQEixcvGiDBP_FfYDwzH4DbPx6tK41CJoY95vuzcuVFEWuGidBX5HpHKBx07ashUG1V0C413hM68Yk85XFn-3xP_wEjZEFYBaBnc4ICHD69QJFRap_5JQ8fNxBXr3b00UpX8vFrwodnewwb_FkAQIDr3mhCN6kK3j1dYg%26flowName%3DGeneralOAuthFlow%26as%3DS-32486645%253A1773949431683706%26client_id%3D1098965259977-8560kv8ot2ghegiqtubpfqbvnc6vgkl8.apps.googleusercontent.com%26requestPath%3D%252Fsignin%252Foauth%252Fconsent%23&dsh=S-32486645:1773949431683706&flowEntry=SignUp&flowName=GlifWebSignIn&rart=ANgoxceCDn5tRL7bLPfLvdaKj3N45ubQS4B20lYopZHiMfsA5hJIzudrhsd4uUHFctzmY-A0ja5GirFs6cw6Q4n3sMHQmSbRtAoCD5Ca-IIG6TMZ83zEHnY&scope=openid+email+profile&service=lso&TL=AHU8sQuVJksLucNnWvzfiKwixxzpri47vvsKazplGqGdlFqUFyZBN8hOfQiUQznQ",
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Angelfire",
+      "url": "http://www.angelfire.lycos.com",
+      "da": 93,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "StackOverflow",
+      "url": "https://stackoverflow.com",
+      "da": 93,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Twitter",
+      "url": "https://twitter.com",
+      "da": 93,
+      "status": "UNCERTAIN",
+      "reason": "Submitted. Fields: ['name']",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "BandCamp",
+      "url": "https://bandcamp.com/",
+      "da": 93,
+      "status": "SUBMITTED",
+      "reason": "Submitted (no URL field). Fields: ['email']",
+      "profileUrl": "https://bandcamp.com/",
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Weebly",
+      "url": "https://www.weebly.com",
+      "da": 93,
+      "status": "SUBMITTED",
+      "reason": "Submitted (no URL field). Fields: ['email', 'password']",
+      "profileUrl": "https://app.squareup.com/signup?app=weebly&return_to=https%3A%2F%2Fwww.weebly.com%2Fapp%2Ffront-door%2Flogin%2Fsquare%3Fsso_intent%3Dsignup&v=weebly-sso&weebly_sso_enabled=true",
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Instagram",
+      "url": "https://www.instagram.com",
+      "da": 92,
+      "status": "PARTIAL",
+      "reason": "No submit button. Filled: ['name', 'username', 'password']",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "LiveJournal",
+      "url": "https://www.livejournal.com",
+      "da": 93,
+      "status": "NEEDS_EMAIL_VERIFICATION",
+      "reason": "Email verification needed. Fields: ['username', 'email', 'password']",
+      "profileUrl": "https://www.livejournal.com/create/",
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Amazon.in",
+      "url": "https://www.amazon.in",
+      "da": 92,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Cocolog Nifty",
+      "url": "https://www.cocolog-nifty.com/",
+      "da": 92,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Flickr",
+      "url": "https://www.flickr.com/",
+      "da": 92,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Lenovo",
+      "url": "https://www.lenovo.com",
+      "da": 92,
+      "status": "NEEDS_EMAIL_VERIFICATION",
+      "reason": "Email verification needed. Fields: ['email']",
+      "profileUrl": "https://account.lenovo.com/us/lenovopro/en/smbaccount/gatekeeper/showpage",
+      "backlinkPlaced": false,
+      "captchaSolved": false
+    },
+    {
+      "siteName": "Dreamstime",
+      "url": "https://www.dreamstime.com/",
+      "da": 92,
+      "status": "FAILED",
+      "reason": "HTTP 403",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": false
+    },
+    {
+      "siteName": "Dribbble",
+      "url": "https://dribbble.com/",
+      "da": 92,
+      "status": "REGISTERED",
+      "reason": "Registration likely succeeded. Fields: ['email']",
+      "profileUrl": "https://dribbble.com/signups/new",
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Crunchyroll",
+      "url": "https://www.crunchyroll.com/",
+      "da": 92,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Alexa (Bookmark)",
+      "url": "https://www.alexa.com/",
+      "da": 92,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Scoop it",
+      "url": "https://www.scoop.it",
+      "da": 92,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Prestashop",
+      "url": "https://www.prestashop.com/forums/",
+      "da": 92,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": false
+    },
+    {
+      "siteName": "HubPages",
+      "url": "https://hubpages.com",
+      "da": 92,
+      "status": "FAILED",
+      "reason": "HTTP 403",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": false
+    },
+    {
+      "siteName": "Digg",
+      "url": "http://digg.com",
+      "da": 92,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Cluster005",
+      "url": "http://cannabis.cluster005.ovh.net/french/forum/",
+      "da": 92,
+      "status": "FAILED",
+      "reason": "HTTP 503",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": false
+    },
+    {
+      "siteName": "Steam",
+      "url": "https://steamcommunity.com",
+      "da": 92,
+      "status": "SUBMITTED",
+      "reason": "Submitted (no URL field). Fields: ['email']",
+      "profileUrl": "https://store.steampowered.com/search?term=",
+      "backlinkPlaced": false,
+      "captchaSolved": false
+    },
+    {
+      "siteName": "Evernote",
+      "url": "https://evernote.com",
+      "da": 92,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": false
+    },
+    {
+      "siteName": "MixCloud",
+      "url": "https://www.mixcloud.com/",
+      "da": 92,
+      "status": "REGISTERED",
+      "reason": "Registration likely succeeded. Fields: ['username', 'email', 'password']",
+      "profileUrl": "https://www.mixcloud.com/onboarding/one/?action=signup",
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Wattpad",
+      "url": "https://www.wattpad.com",
+      "da": 92,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Vox",
+      "url": "https://www.vox.com/",
+      "da": 92,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Slashdot",
+      "url": "https://slashdot.org",
+      "da": 91,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Indiegogo",
+      "url": "https://www.indiegogo.com",
+      "da": 92,
+      "status": "SUBMITTED",
+      "reason": "Submitted (no URL field). Fields: ['email']",
+      "profileUrl": "https://www.indiegogo.com/en/users/createaccount?returnUrl=%2Fen",
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Bloglovin'",
+      "url": "https://www.bloglovin.com",
+      "da": 91,
+      "status": "SUBMITTED",
+      "reason": "Submitted (no URL field). Fields: ['name', 'email', 'password']",
+      "profileUrl": "https://www.bloglovin.com/",
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Imgur",
+      "url": "https://imgur.com",
+      "da": 91,
+      "status": "LIKELY_SUCCESS",
+      "reason": "Submitted with URL. Fields: ['name', 'username', 'email', 'password', 'website']",
+      "profileUrl": "https://imgur.com/register#%2F",
+      "backlinkPlaced": true,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "ZippyShare",
+      "url": "https://www.zippyshare.com/",
+      "da": 91,
+      "status": "FAILED",
+      "reason": "HTTP 403",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": false
+    },
+    {
+      "siteName": "Best Buy Forums",
+      "url": "https://forums.bestbuy.com",
+      "da": 91,
+      "status": "FAILED",
+      "reason": "Timeout",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": false
+    },
+    {
+      "siteName": "Giphy",
+      "url": "https://giphy.com/",
+      "da": 91,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Discogs",
+      "url": "https://www.discogs.com",
+      "da": 91,
+      "status": "REGISTERED",
+      "reason": "Registration likely succeeded. Fields: ['username', 'password']",
+      "profileUrl": "https://login.discogs.com/u/login?state=hKFo2SAyU1RodkFBYmxDcWxqeXZKYW9jRUFtNVJBT25VSjJoSKFur3VuaXZlcnNhbC1sb2dpbqN0aWTZIHBYR2FJaklKVHNKaG1OdXJOSFdDalk2eklPY3J0M3h1o2NpZNkgMDg2SDEyQklDVzFiZnRlMVUwQ056NmV4UVFtSk56SGg",
+      "backlinkPlaced": false,
+      "captchaSolved": false
+    },
+    {
+      "siteName": "Reverbnation",
+      "url": "https://www.reverbnation.com/",
+      "da": 91,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Constant Contact",
+      "url": "https://www.constantcontact.com/website/builder/",
+      "da": 91,
+      "status": "SUBMITTED",
+      "reason": "Submitted (no URL field). Fields: ['email']",
+      "profileUrl": "https://www.constantcontact.com/trial/signup",
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Sap People",
+      "url": "https://people.sap.com/",
+      "da": 91,
+      "status": "FAILED",
+      "reason": "Page.goto: net::ERR_NAME_NOT_RESOLVED at https://people.sap.com/\nCall log:\n  - navigating to \"https://people.sap.com/\", waiting until \"domcontentloaded\"\n",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": false
+    },
+    {
+      "siteName": "Behance",
+      "url": "https://www.behance.net",
+      "da": 91,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Livedoor",
+      "url": "https://blog.livedoor.com/",
+      "da": 91,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "SBNation",
+      "url": "https://www.sbnation.com/",
+      "da": 91,
+      "status": "SUBMITTED",
+      "reason": "Submitted (no URL field). Fields: ['email']",
+      "profileUrl": "https://www.sbnation.com/auth/login?returnPath=%2F",
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Know Your Meme",
+      "url": "https://knowyourmeme.com/",
+      "da": 90,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Frontiers",
+      "url": "https://loop.frontiersin.org",
+      "da": 90,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Ucoz",
+      "url": "https://www.ucoz.com",
+      "da": 90,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Strikingly",
+      "url": "https://www.strikingly.com/",
+      "da": 90,
+      "status": "REGISTERED",
+      "reason": "Registration likely succeeded. Fields: ['name', 'email', 'password']",
+      "profileUrl": "https://www.strikingly.com/templates?is_new_user=1",
+      "backlinkPlaced": false,
+      "captchaSolved": false
+    },
+    {
+      "siteName": "Polygon",
+      "url": "https://www.polygon.com/",
+      "da": 90,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Ameba",
+      "url": "https://www.ameba.jp/",
+      "da": 90,
+      "status": "SUBMITTED",
+      "reason": "Submitted (no URL field). Fields: ['email']",
+      "profileUrl": "https://auth.user.ameba.jp/signup/email",
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "VisualStudio",
+      "url": "https://marketplace.visualstudio.com",
+      "da": 90,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "JustPaste.it",
+      "url": "https://justpaste.it",
+      "da": 90,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Udemy",
+      "url": "https://www.udemy.com",
+      "da": 90,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": false
+    },
+    {
+      "siteName": "Playbuzz",
+      "url": "https://www.playbuzz.com",
+      "da": 90,
+      "status": "SUBMITTED",
+      "reason": "Submitted (no URL field). Fields: ['email']",
+      "profileUrl": "https://www.aweber.com/form-sorry.htm?message=notactivecustomer&email=blindandead%40gmail.com&name=&data=awlist5507791",
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "CodePen",
+      "url": "https://codepen.io/",
+      "da": 90,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": false
+    },
+    {
+      "siteName": "Flipboard",
+      "url": "https://flipboard.com",
+      "da": 90,
+      "status": "NEEDS_EMAIL_VERIFICATION",
+      "reason": "Email verification needed. Fields: ['name', 'email', 'password']",
+      "profileUrl": "https://flipboard.com/",
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Unity Forum",
+      "url": "https://forum.unity.com/",
+      "da": 90,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Trello",
+      "url": "https://trello.com",
+      "da": 90,
+      "status": "SUBMITTED",
+      "reason": "Submitted (no URL field). Fields: ['email']",
+      "profileUrl": "https://id.atlassian.com/signup?application=trello&continue=https%3A%2F%2Ftrello.com%2Fauth%2Fatlassian%2Fcallback%3Fdisplay%3DeyJ2ZXJpZmljYXRpb25TdHJhdGVneSI6InNvZnQifQ%253D%253D%26createMember%3Dtrue&display=eyJ2ZXJpZmljYXRpb25TdHJhdGVneSI6InNvZnQifQ%3D%3D&email=blindandead%40gmail.com",
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "WonderHowTo",
+      "url": "https://www.wonderhowto.com",
+      "da": 89,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Gumroad",
+      "url": "https://gumroad.com/",
+      "da": 89,
+      "status": "SUBMITTED",
+      "reason": "Submitted (no URL field). Fields: ['email', 'password']",
+      "profileUrl": "https://gumroad.com/users/sign_up",
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Steemit",
+      "url": "https://steemit.com/",
+      "da": 89,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Tableau",
+      "url": "https://public.tableau.com/app/discover",
+      "da": 89,
+      "status": "SUBMITTED",
+      "reason": "Submitted (no URL field). Fields: ['email', 'password']",
+      "profileUrl": "https://id.tableau.com/register?clientId=wcS7HwY98qdfgBREHT7Xoln7ipc75U0a",
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Kinja",
+      "url": "https://kinja.com",
+      "da": 89,
+      "status": "FAILED",
+      "reason": "Page.goto: net::ERR_NAME_NOT_RESOLVED at https://kinja.com/\nCall log:\n  - navigating to \"https://kinja.com/\", waiting until \"domcontentloaded\"\n",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": false
+    },
+    {
+      "siteName": "Garmin",
+      "url": "https://connect.garmin.com/",
+      "da": 89,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Diigo",
+      "url": "https://www.diigo.com",
+      "da": 89,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Pen.io",
+      "url": "http://pen.io",
+      "da": 89,
+      "status": "FAILED",
+      "reason": "HTTP 522",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": false
+    },
+    {
+      "siteName": "Soup.io",
+      "url": "http://www.soup.io/",
+      "da": 89,
+      "status": "SUBMITTED",
+      "reason": "Submitted (no URL field). Fields: ['email']",
+      "profileUrl": "https://www.soup.io/",
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "OnlyFans",
+      "url": "https://onlyfans.com/",
+      "da": 89,
+      "status": "SUBMITTED",
+      "reason": "Submitted (no URL field). Fields: ['name', 'email', 'password']",
+      "profileUrl": "https://onlyfans.com/",
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Webs",
+      "url": "https://www.webs.com",
+      "da": 88,
+      "status": "FAILED",
+      "reason": "Page.goto: net::ERR_NAME_NOT_RESOLVED at https://www.webs.com/\nCall log:\n  - navigating to \"https://www.webs.com/\", waiting until \"domcontentloaded\"\n",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": false
+    },
+    {
+      "siteName": "Angel",
+      "url": "https://angel.co",
+      "da": 88,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Artstation",
+      "url": "https://www.artstation.com/",
+      "da": 88,
+      "status": "SUBMITTED",
+      "reason": "Submitted (no URL field). Fields: ['email', 'password']",
+      "profileUrl": "https://www.artstation.com/?sort_by=community&dimension=all",
+      "backlinkPlaced": false,
+      "captchaSolved": false
+    },
+    {
+      "siteName": "Ow.ly Shortner",
+      "url": "https://hootsuite.com/pages/owly",
+      "da": 88,
+      "status": "SUBMITTED",
+      "reason": "Submitted (no URL field). Fields: ['name', 'email', 'password']",
+      "profileUrl": "https://hootsuite.com/billing/create-account/info?plan=STANDARD&defaultBillingInterval=annual",
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Ezine Articles",
+      "url": "http://ezinearticles.com/",
+      "da": 88,
+      "status": "FAILED",
+      "reason": "Page.goto: net::ERR_NAME_NOT_RESOLVED at http://ezinearticles.com/\nCall log:\n  - navigating to \"http://ezinearticles.com/\", waiting until \"domcontentloaded\"\n",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": false
+    },
+    {
+      "siteName": "Moz",
+      "url": "https://moz.com",
+      "da": 88,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": false
+    },
+    {
+      "siteName": "Smashwords",
+      "url": "https://www.smashwords.com",
+      "da": 88,
+      "status": "SUBMITTED",
+      "reason": "Submitted (no URL field). Fields: ['name', 'username', 'email', 'password']",
+      "profileUrl": "https://www.smashwords.com/books/search?query=",
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Bored Panda",
+      "url": "https://www.boredpanda.com/",
+      "da": 88,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "SS Blog",
+      "url": "https://blog.ss-blog.jp/",
+      "da": 88,
+      "status": "FAILED",
+      "reason": "Page.goto: net::ERR_NAME_NOT_RESOLVED at https://blog.ss-blog.jp/\nCall log:\n  - navigating to \"https://blog.ss-blog.jp/\", waiting until \"domcontentloaded\"\n",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": false
+    },
+    {
+      "siteName": "Padlet",
+      "url": "https://padlet.com/",
+      "da": 88,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": false
+    },
+    {
+      "siteName": "phpBB",
+      "url": "https://www.phpbb.com",
+      "da": 88,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": false
+    },
+    {
+      "siteName": "CBR Community",
+      "url": "https://community.cbr.com/",
+      "da": 88,
+      "status": "SUBMITTED",
+      "reason": "Submitted (no URL field). Fields: ['email', 'password']",
+      "profileUrl": "https://community.cbr.com/",
+      "backlinkPlaced": false,
+      "captchaSolved": false
+    },
+    {
+      "siteName": "Plurk",
+      "url": "https://www.plurk.com",
+      "da": 88,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "CyberLink Community",
+      "url": "https://forum.cyberlink.com/forum/forums/list.page;jsessionid=C5D1F7DB71FC7BC3DA9BA756F50C6214",
+      "da": 88,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "SimpleSite",
+      "url": "https://www.simplesite.com/default.aspx",
+      "da": 87,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Minds",
+      "url": "https://www.minds.com",
+      "da": 88,
+      "status": "UNCERTAIN",
+      "reason": "Submitted. Fields: ['username', 'password']",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "CHEEZburger",
+      "url": "https://www.cheezburger.com",
+      "da": 87,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Zoho Sites",
+      "url": "https://www.zoho.com",
+      "da": 87,
+      "status": "REGISTERED",
+      "reason": "Registration likely succeeded. Fields: ['email', 'password']",
+      "profileUrl": "https://www.zoho.com/all-products.html?signup=true",
+      "backlinkPlaced": false,
+      "captchaSolved": false
+    },
+    {
+      "siteName": "Patreon",
+      "url": "https://www.patreon.com",
+      "da": 87,
+      "status": "FAILED",
+      "reason": "HTTP 403",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": false
+    },
+    {
+      "siteName": "Docker",
+      "url": "https://hub.docker.com/",
+      "da": 87,
+      "status": "SUBMITTED",
+      "reason": "Submitted (no URL field). Fields: ['username', 'email', 'password']",
+      "profileUrl": "https://app.docker.com/signup?_gl=1*90pesj*_gcl_au*MjAwOTI1ODAzOC4xNzczOTQ5OTc5*_ga*Mzc2NTEyNDQ5LjE3NzM5NDk5Nzk.*_ga_XJWPQMJYHQ*czE3NzM5NDk5NzgkbzEkZzAkdDE3NzM5NDk5NzgkajYwJGwwJGgw",
+      "backlinkPlaced": false,
+      "captchaSolved": false
+    },
+    {
+      "siteName": "Edmodo",
+      "url": "https://new.edmodo.com",
+      "da": 87,
+      "status": "FAILED",
+      "reason": "Page.goto: net::ERR_NAME_NOT_RESOLVED at https://new.edmodo.com/\nCall log:\n  - navigating to \"https://new.edmodo.com/\", waiting until \"domcontentloaded\"\n",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": false
+    },
+    {
+      "siteName": "Archdaily",
+      "url": "https://archdaily.com/",
+      "da": 87,
+      "status": "PARTIAL",
+      "reason": "No submit button. Filled: ['email']",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": false
+    },
+    {
+      "siteName": "Tumblr",
+      "url": "https://www.tumblr.com",
+      "da": 87,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Teespring",
+      "url": "https://teespring.com/",
+      "da": 87,
+      "status": "SUBMITTED",
+      "reason": "Submitted (no URL field). Fields: ['name', 'email', 'password']",
+      "profileUrl": "https://teespring.com/signup?cta=start_designing&_gl=1*rrnu74*_up*MQ..*_ga*ODgyMDkzMjg2LjE3NzM5NTAwOTg.*_ga_G3GKJFR6Z9*czE3NzM5NTAwOTgkbzEkZzAkdDE3NzM5NTAwOTgkajYwJGwwJGgxNzMxNzIxODM0JGQ1TndzTnhjY3FpT3k3LWRwUlBCZDkyb3l2RF9Pd2g1RVdB",
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "DomainTools's WhoIs Bookmark",
+      "url": "https://whois.domaintools.com/",
+      "da": 87,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Tiny.cc Shortener",
+      "url": "https://tiny.cc/",
+      "da": 87,
+      "status": "SUBMITTED",
+      "reason": "Submitted (no URL field). Fields: ['name', 'username', 'email', 'password']",
+      "profileUrl": "https://tiny.cc/tiny/signup",
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "NewGrounds",
+      "url": "https://www.newgrounds.com/",
+      "da": 87,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Webflow",
+      "url": "https://webflow.io",
+      "da": 87,
+      "status": "NEEDS_EMAIL_VERIFICATION",
+      "reason": "Email verification needed. Fields: ['name', 'email']",
+      "profileUrl": "https://webflow.com/resources/webinars/how-ai-decides-what-to-trust?utm_source=announcement-bar&utm_medium=direct&utm_campaign=fy27-ai-trust-webinar",
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Bitcoin Talk",
+      "url": "https://bitcointalk.org",
+      "da": 87,
+      "status": "REGISTERED",
+      "reason": "Registration likely succeeded. Fields: ['username', 'email', 'password']",
+      "profileUrl": "https://bitcointalk.org/index.php?action=search2",
+      "backlinkPlaced": false,
+      "captchaSolved": false
+    },
+    {
+      "siteName": "Care2",
+      "url": "https://www.care2.com",
+      "da": 87,
+      "status": "REGISTERED",
+      "reason": "Registration likely succeeded. Fields: ['password']",
+      "profileUrl": "https://www.thepetitionsite.com/passport/login.html?promo=register",
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Giant Bomb",
+      "url": "https://www.giantbomb.com/",
+      "da": 87,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Site123",
+      "url": "https://www.site123.com/",
+      "da": 87,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "MyAnimeList",
+      "url": "https://myanimelist.net",
+      "da": 87,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Vocabulary",
+      "url": "https://www.vocabulary.com/",
+      "da": 87,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Pearltrees",
+      "url": "https://www.pearltrees.com",
+      "da": 86,
+      "status": "PARTIAL",
+      "reason": "No submit button. Filled: ['username', 'email', 'password']",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "SiteW",
+      "url": "https://www.en.sitew.com",
+      "da": 87,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "AlternativeTo",
+      "url": "https://alternativeto.net/",
+      "da": 86,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": false
+    },
+    {
+      "siteName": "Spreaker",
+      "url": "https://www.spreaker.com",
+      "da": 86,
+      "status": "SUBMITTED",
+      "reason": "Submitted (no URL field). Fields: ['name', 'email', 'password']",
+      "profileUrl": "https://www.spreaker.com/signup?redirect=https%3A%2F%2Fwww.spreaker.com",
+      "backlinkPlaced": false,
+      "captchaSolved": false
+    },
+    {
+      "siteName": "Is.gd Shortener",
+      "url": "https://is.gd/index.php",
+      "da": 86,
+      "status": "FAILED",
+      "reason": "HTTP 403",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": false
+    },
+    {
+      "siteName": "Redbubble",
+      "url": "https://www.redbubble.com/",
+      "da": 86,
+      "status": "FAILED",
+      "reason": "HTTP 403",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": false
+    },
+    {
+      "siteName": "Ixbt Forum",
+      "url": "https://forum.ixbt.com/",
+      "da": 86,
+      "status": "SUBMITTED",
+      "reason": "Submitted (no URL field). Fields: ['username', 'email']",
+      "profileUrl": "https://forum.ixbt.com/users.cgi?id=register",
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Qiita",
+      "url": "https://qiita.com/",
+      "da": 86,
+      "status": "SUBMITTED",
+      "reason": "Submitted (no URL field). Fields: ['name', 'username', 'email', 'password']",
+      "profileUrl": "https://github.com/login?client_id=ecbeead5887bdc6caa21&return_to=%2Flogin%2Foauth%2Fauthorize%3Fclient_id%3Decbeead5887bdc6caa21%26redirect_uri%3Dhttps%253A%252F%252Foauth.qiita.com%252Fauth%252Fgithub%252Fcallback%26response_type%3Dcode%26state%3Db5f1e70e62b9690e8ec3b6a73f1d64d7e4173a3e687d83ed",
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Wix",
+      "url": "https://www.wix.com/",
+      "da": 86,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Viki",
+      "url": "https://www.viki.com",
+      "da": 86,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Blog Talk Radio",
+      "url": "https://www.blogtalkradio.com/",
+      "da": 86,
+      "status": "FAILED",
+      "reason": "Page.goto: net::ERR_NAME_NOT_RESOLVED at https://www.blogtalkradio.com/\nCall log:\n  - navigating to \"https://www.blogtalkradio.com/\", waiting until \"domcontentloaded\"\n",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": false
+    },
+    {
+      "siteName": "Podbean",
+      "url": "https://www.podbean.com/",
+      "da": 86,
+      "status": "FAILED",
+      "reason": "Page.evaluate: TypeError: Cannot convert undefined or null to object\n    at Object.entries (<anonymous>)\n    at eval (eval at evaluate (:290:30), <anonymous>:7:28)\n    at UtilityScript.evaluate (<anon",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": false
+    },
+    {
+      "siteName": "Arduino",
+      "url": "https://www.arduino.cc/",
+      "da": 85,
+      "status": "PARTIAL",
+      "reason": "No submit button. Filled: ['email']",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Yola",
+      "url": "https://www.yola.com",
+      "da": 85,
+      "status": "SUBMITTED",
+      "reason": "Submitted (no URL field). Fields: ['name', 'email', 'password']",
+      "profileUrl": "https://login.yola.com/signup",
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Statcounter Forum",
+      "url": "https://forum.statcounter.com/",
+      "da": 85,
+      "status": "FAILED",
+      "reason": "HTTP 522",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": false
+    },
+    {
+      "siteName": "Instapaper",
+      "url": "https://www.instapaper.com/",
+      "da": 85,
+      "status": "SUBMITTED",
+      "reason": "Submitted (no URL field). Fields: ['email']",
+      "profileUrl": "https://www.instapaper.com/user/register",
+      "backlinkPlaced": false,
+      "captchaSolved": false
+    },
+    {
+      "siteName": "Get Satisfaction",
+      "url": "https://getsatisfaction.com",
+      "da": 85,
+      "status": "FAILED",
+      "reason": "HTTP 503",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": false
+    },
+    {
+      "siteName": "Iconfinder",
+      "url": "https://www.iconfinder.com",
+      "da": 85,
+      "status": "FAILED",
+      "reason": "HTTP 403",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": false
+    },
+    {
+      "siteName": "Audiomack",
+      "url": "https://audiomack.com",
+      "da": 85,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Codecademy",
+      "url": "https://www.codecademy.com",
+      "da": 85,
+      "status": "SUBMITTED",
+      "reason": "Submitted (no URL field). Fields: ['email', 'password']",
+      "profileUrl": "https://www.codecademy.com/register",
+      "backlinkPlaced": false,
+      "captchaSolved": false
+    },
+    {
+      "siteName": "Armor Games",
+      "url": "http://www.armorgames.com",
+      "da": 85,
+      "status": "FAILED",
+      "reason": "HTTP 403",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": false
+    },
+    {
+      "siteName": "OpenStreetMap",
+      "url": "http://openstreetmap.org",
+      "da": 85,
+      "status": "SUBMITTED",
+      "reason": "Submitted (no URL field). Fields: ['email', 'password']",
+      "profileUrl": "https://www.openstreetmap.org/user/new",
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "PBase",
+      "url": "https://www.pbase.com",
+      "da": 84,
+      "status": "FAILED",
+      "reason": "Page.evaluate: TypeError: vvv.callback is not a function\n    at eval (eval at evaluate (:290:30), <anonymous>:11:66)\n    at Array.forEach (<anonymous>)\n    at eval (eval at evaluate (:290:30), <anonym",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": false
+    },
+    {
+      "siteName": "Code Academy",
+      "url": "https://www.codecademy.com/",
+      "da": 84,
+      "status": "SUBMITTED",
+      "reason": "Submitted (no URL field). Fields: ['email', 'password']",
+      "profileUrl": "https://www.codecademy.com/register",
+      "backlinkPlaced": false,
+      "captchaSolved": false
+    },
+    {
+      "siteName": "Yumpu",
+      "url": "https://www.yumpu.com/en",
+      "da": 84,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Reedsy",
+      "url": "https://reedsy.com/discovery",
+      "da": 84,
+      "status": "REGISTERED",
+      "reason": "Registration likely succeeded. Fields: ['email', 'password']",
+      "profileUrl": "https://auth.reedsy.com/sign_up/?ca_uuid=edde54db-9596-4026-aeac-7f7278b1b4d2",
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "DElfi.lv",
+      "url": "https://delfi.lv",
+      "da": 84,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Letterboxd",
+      "url": "https://letterboxd.com/welcome/",
+      "da": 84,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": false
+    },
+    {
+      "siteName": "Shutterfly",
+      "url": "https://www.shutterfly.com",
+      "da": 84,
+      "status": "PARTIAL",
+      "reason": "No submit button. Filled: ['email']",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Peatix",
+      "url": "https://peatix.com/",
+      "da": 84,
+      "status": "NEEDS_EMAIL_VERIFICATION",
+      "reason": "Email verification needed. Fields: ['name', 'email']",
+      "profileUrl": "https://peatix.com/us/signup",
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Ulule",
+      "url": "https://www.ulule.com/",
+      "da": 84,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Paper.li",
+      "url": "https://paper.li/",
+      "da": 84,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Rebrandly",
+      "url": "https://rebrandly.com/",
+      "da": 84,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Acronis Forum",
+      "url": "https://forum.acronis.com/",
+      "da": 84,
+      "status": "SUBMITTED",
+      "reason": "Submitted (no URL field). Fields: ['name', 'email', 'password']",
+      "profileUrl": "https://account.acronis.com/?_gl=1*1f9mpce*_ga*OTMwMDU3Mjg2LjE3NzM5NTA5MDQ.*_ga_HLFTTSZW7L*czE3NzM5NTA5MDMkbzEkZzAkdDE3NzM5NTA5MDQkajYwJGwwJGg5NTY2Mzk4NDk.*_fplc*MHNBRldWVUlBVUVDcHpmYk5QdDA2NmhCS0dZMTlzN2clMkJtQ1J6NEVlRHRuQUhrU09jQm5UV3RiZWpzT0JrWjBOU09vWVpQQ2h0YmgzN2dzVk02NFV5N09zdVdseiUyQkt2TjV4UVl1UE1ONzNleCUyQiUyQmRXeU0zQSUyRldEU3NZNVFjUSUzRCUzRA..*_gcl_au*NzAxNTg4NTMuMTc3Mzk1MDkwNA..#/auth/signup",
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Mix",
+      "url": "https://mix.com",
+      "da": 84,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Sketchfab",
+      "url": "https://sketchfab.com/",
+      "da": 84,
+      "status": "REGISTERED",
+      "reason": "Registration likely succeeded. Fields: ['email', 'password']",
+      "profileUrl": "https://www.epicgames.com/id/error?errorTitleCode=error.invalidClient.title&error=%0A%20%20%20%20%0A%20%20%20%20%20%20%20%20%0A%20%20%20%20%20%20%20%20%20%20%20%20%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%0A%20%20%20%20%20%20%20%20%20%20%20%20%0A%20%20%20%20%20%20%20%20%20%20%20%20%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%0A%20%20%20%20%20%20%20%20%20%20%20%20%0A%20%20%20%20%20%20%20%20%0A%20%20%20%20%20%20%20%20Enable%20JavaScript%20and%20cookies%20to%20continue%28function%28%29%7Bwindow._cf_chl_opt%20%3D%20%7BcvId%3A%20%273%27%2CcZone%3A%20%27www.epicgames.com%27%2CcType%3A%20%27managed%27%2CcRay%3A%20%279def1c498e48e806%27%2CcH%3A%20%27Se_zhjT48hESsUfIJ138XNYa495jETpxWSEPcbVV79k-1773950921-1.2.1.1-L4iZJSODvEkTCuJaaD9GZHdnEJ_IEYI5r1cReFzBWWxtvlIz7zaLF_ohCGmkDjmM%27%2CcUPMDTk%3A%22%5C%2Fid%5C%2Fapi%5C%2Fclient%5C%2Fxyza7891aaoJHOSQ1y2hGW378ogqtftm%3FredirectUrl%3Dhttps%253A%252F%252Fsketchfab.com%252Fsocial%252Fcomplete%252Fepic%252F%253Fredirect_state%253Dc4Ru41YcIe4e4wtKJoTnfNXHZMaUKH7R%26responseType%3Dcode%26scope%3Dbasic_profile%26__cf_chl_tk%3DxDBwbiHekkXmIRjo.bNYiMC5n70MD716UseV9v6AkCo-1773950921-1.0.1.1-43Yrz47zyo7vCzVhWcoS5c0jDDncG.SxNjGO1hq7JDk%22%2CcFPWv%3A%20%27g%27%2CcITimeS%3A%20%271773950921%27%2CcTplC%3A1%2CcTplO%3A0%2CcTplV%3A5%2CcTplB%3A%20%270%27%2Cfa%3A%22%5C%2Fid%5C%2Fapi%5C%2Fclient%5C%2Fxyza7891aaoJHOSQ1y2hGW378ogqtftm%3FredirectUrl%3Dhttps%253A%252F%252Fsketchfab.com%252Fsocial%252Fcomplete%252Fepic%252F%253Fredirect_state%253Dc4Ru41YcIe4e4wtKJoTnfNXHZMaUKH7R%26responseType%3Dcode%26scope%3Dbasic_profile%26__cf_chl_f_tk%3DxDBwbiHekkXmIRjo.bNYiMC5n70MD716UseV9v6AkCo-1773950921-1.0.1.1-43Yrz47zyo7vCzVhWcoS5c0jDDncG.SxNjGO1hq7JDk%22%2Cmd%3A%20%27od7LY2r5auKNtNpNHhuKjqi7uWUSSsZSqlSMjU_SEX8-1773950921-1.2.1.1-u8XxPGVFnlgaA1fywURw_q2tcTXqPvEtrWBxpj7MLpG1jn15w0_EAoPv0yLdBDVFvOwm0FgWv.jD.mOfXCRhGIdn6UenYLa0F91AvKzpn5Ulh0Pn__vCfcOr3Fay0_oMQmXH2_7Lrpw8StDkmy9Z5q6qqvVT5t_d03NGeOJnvDRwHkUG0m69as0Zhylhs9l5ZT44VZTuJJoeRaxCQFhx2CrF1jQZVi37cJ_WE7YBxzGte_9epSA99Yw11vLc9QAYdh0PZVA2bivBWWKcylommXqmE0xtUrQUc96on3J.RThsTwqxg..QHnZrvLOaGFYrErEVzBWUGC79r3S1AqUMY2ItjKefH8nWe7vyFzv8a3Ge5YlAIsZBFCBiG0TjLCxT48A3F6R5ruguv1ON3S.6KLINFeErVYuxucsXwY9Ge2xCvPKTm1jp4EhiRwJ1YWD4fF2QTBtkizoPvccbvRQ2B0W1eilrb5f5Ld_fviUHzwRsaCogyrBP7u02UYRnsVZpOBcO0CqAzEfkJLxrwtpgLpLls7iMA.nFDxD7Ya36o8xiloA_Y99WcRfjW.CkH7jyLRHMOQxBPGxK2QEqNT_91wr_HPUKSNsJTXFCzludwjzYPVElByl86QIOCm40NDbRY99GOiWnFRHM3EWsDTCwy6JTBB89p8U9E5LVUzpCHchp.Pdki40r4DAHAqQcjCzPr8ECNfRi7qfL5jv4mx54sHdJk_gxxm0v29crSBv6BjEqRKn.jEq2w4I_PtlZT1G3YQI.uIUbxsjw7BT6rPUmMq6TaM9Cy1_h4LY.F62jhRbGnnxpxFHS_w6jMSfo5s.HyOyxBUiCElsavcYqffIefL0kabVLDX91xzrr_Nb_inJG_p5BAfDvbEBu.aA4zFL4TSw1itLmuzWJhFv1iYF_lZ4ZclKkumBbW_TgHiNdXHD_dmJiOl9QfKYjbg5vykWnd3odSKAnY46wgupYBr1N48uwq76l0Blhcwfra9Fcgec18mGPn.bpuPSQH2_uJ_NfopLhzHpO4EsdV6U0dgstkIR.DLaMYti7gyoj5WROYkMJaKzYtvp_2unz9O6VOaAJYQajuMX9K91Yqh3gPlL_EoeaRKzAomIFKHDAhkDiEfMHekGOf.F9HGh7AGlB_F6OfTZjn_XmtQY4RgdiXLTG8lX_kwAc6ki.mjluLugmCaCnUpGHjzZ5mr17X5bXdtFrpMgtESHHWX0XokULcbDNyjxFajHxIqNK8Gtx08MV5nT6oNEDnsrhVlKDUkpLAAckftjbTalD5ojNTZBHuchMErJttJcYL3wS3yx8KuUmkQbCLSN8vSwEPsDI1lFZUQKyclY49ZJKVb5cjD8F4U5.bhW1hp5H0ReFzi5g9aswReA3ATC6Ala91dzohZxRG4XO%27%2Cmdrd%3A%20%27ypWsSN8dA5dz6S_jOjX9Oq_vv2_xzQrQW5IBQFWBSG0-1773950921-1.2.1.1-Az50MPbbrDrvwCa1W2sVbwesCCkQGew8Rn7TN7G57YcQ9JMxEQ4xQCqWOkGv0nIc.6zl272rrQi.FMf15_7Ur75HqYRdoiDU5pwuZ.YbHA1YFIN3I4nwLcinOwr7wUErzReXtxDckHQrbIoPqiWwQ_c4OBTU3cslbRGC2ONvMSw7i.0ZNhp8vcvTP9DcjOnFei6ugIOSaRz.MRKN58x6JyUfUVQ8fvwOPu2eysKE5SfbHbVMOiGIut86hR0lkBZeFR0HzT_fq9tl.hRsXhTVyY4OTG.MQGJMAwGvaEXWkvY3AuMaIp6RzAykfs1OnLGRNADzJg2RVcYR.fcyFgQiP6R3Wb6o0DPU9qs_18w3dtVQnOEu257Ho0DwX3z1eTzBJ20iM6EKtirSeepOopItJZHLQrMXB6TZHiJtaAJnXmZPICWh..cI2uM5K9aG1.qtv6yPj27xDbkvgH_HVr85gEjKW3K55HSJ8JJk1Lvlw.ouMu3SqahP_1EYuPPX5azrTFhyFNl1l9HEi_d7DU9SOOCQ9C73DXgd3fhwpqR1rtwPghWRQ2GqU.tkBjlx7ZGfi3zylgRm8ilS3aq_tPAU8PLInDGtRoAAAkFeg9.9Z2729SPsx8AdDcaz5ntD3x5Vx.xDPqF4np_I7fF7EEPcFRotsDqBmgPecOGRmTZ_iURHBLCtpq4V3btT7ZJOlFbyvmfRuTB0L5096Gv4mrmTaacQ_iXRrzAd_NaHT0Wv0LJX8gF8uOLZzpTHOo6UfZMmQO8x6.37cGgnOFa6hEXiWjg.xHE2UypNe13LlXjt4Tm23UTsV4EUuDSDJf71VS3BVrV30DXUTqvlqHlqkeE5nwBOXDFwG12CYZLfeM2QVvDHx1He1Oy3JrIepAgz8wC5Hc2CNjM2hUZ5vFokbA.Np376zSSp2yjjINGlMofDoLH9BoIV_R6WbBwc0PZwkG8DWOACANotkMWDBB1HhmfhQJhRzMuf5eeAvJZaOP6YZIK0Sx7IgVl.F_zQ_n9eNtaIatvgISCVwqC5YtLOfpH82GYuSU2x4KuD.CVFEsOcRO3k0tH96u3zMpLAXj2837Kn5ssEeyrA40_rGRir6HPnDK8lffjTqD3vw4fVoBsIUljayVRjZfSwTFoXx31ddpmKdPXtYMk4hKnu9fcw5ZqbujdTBATzJeYd77NB.Go_YqVjZvSAELgYQ5fVX0tzxbfYTOkrfImisLrD1HPSo8unpFV_AYXfW2OzOetjMkd6Dli45QMPpH_6dy8dQwL1cyjLiDb7wErKo6T4gcuK31Cc6XjOnVHNMWHXmzWeSIRv2dx4SsH6.OMPUGkriRC1fj3a_orwL7QU_oGbdFAIdGsPvixjqUdjzqpzliJoqCrt2SZFz0TN52d4Q8Opz45iNeiPfZD8Ii1kuDj04CZn5t_zcwiGlZshDuyDTZT5t42ZomENQmWGP3TmnhbQeITrJkSAdHQhPHCvf2quLbASnS.rYmctFAIooMx94_Pos9P0nygRful5Ok0M3Jrn114SWn_GKno1YLYEoTPCXMJ4EzSE7avnhdmUir077hsySK9ZPvgB6plSnF8SF9v_M17VHFag_c0lREYF366VWIk4wWw10PFzERXaJ5upsr4I_DwoKg25lFLZY9be9SFa41lQ.r52nl34W_bIMIXanNdXau8oWnuZlH_aY.TAlTHZsTv4ICZOlh2436dqY69yW.1NK5dhvYvaEob.UDXLliNHTevEpkBoMiTXFCI3iAZExCErD9QasGBUeuLrWz2qRvdDOFGm6Q6Ce52PksGgSWJrYDp14uQUu_GuvitwwhWXKJcOc7Mabu9lUwX8CPBWebH.LgZpk4HKJlVzEcjrrDgALSF4uDB4fvZ2yMi9_2n1sIzCHnxhVrDNE2oTagDR97vqa_H0aPSX2ABcPx2766wc9ud3loRt0DANFFFj6wPty4clT8IIZyDniPIcqlau2gCH_MzKU3fzT5Y.b3.8Sm.l0ZtFLcCuTt_6Ih0SasDwTM_CEnfTaj9ra1o5J1IMPrPtY3gHURJavunS3_xQ5WKRcKG_8sDbWsLHYC9ByOLZhhtLI.tsePpP2BZL6HGrx.eHmLTvDmEGAQVq_uHSJ9yggH00Zg5VV.gwoBMYLW4MDBGo8WLkIQaBp2L3N_jui9XlniI5YY_X_fDdX5guBD5v_4M9Rnd7HT.gIfIspmu_Y0F3bRcf9l.jbTaUk4PC8qUTokNborMqcaswb4yWEAKpHrf3lySCkxTrvXgNOROuBnWtRa1jkd5WbmLSVysVcA0ekg5TJhhOv3yGpunFNsXsGdGU2UrADCZb34QBdPYKFn1benEQoyi1y8sCxWOwKpWqsjdHk4DugiUpnp6d2dX6RgtBEwf3ArEpwEq9jmQ7FaYjvipLN2yYL_80jtAFmWNhYJR1qUCbb6hK2_iIJ_EEbyULy.9IkKyPD35KKaOy7jBFZbts4faHwf14NJput7gCXqaCFv7U3oKkQcUxhnLins98AtZCwpa3aCPjuKYa7T0dZp3mbjFPnroRKx1rX.3cP9ailMSI1gvVsBHqnYbUVwXkcfv9V.XeJLjJdsWxvDGCt.ZQffJO18Xbn9n4LfzJo_ijz.VdKvalDun_Ru9fl7iSKncCAu4Woc0v5.G1EBLZbPJkqCTLThCVKN0EDABn6I_1pfCQM4kW5yyI044YQ2W4RbPQ7rtOLlKZnTP_62yrwG0dDpni9i0O.NKhJ5ovOqKFe1VuSm67lpkYfbg6AjOO2EN8WjLMTmCRXVBHksteGMKEKyxuxdo5CEGtyUJiMyctrpim.7IRlY0gn1VjrIGkOrg8pvKNLj5UvCj85oaUdH3.8oXIlfi5rqqKuCGVkQNqxEU47dLw.nIIWyZPhzpg5mrWFoJ6e8ZwHFSwf3Z_KAzm7ci7iVMPuBBx86DMuQeCvWRuIqf9hLSTGY9CrfDTDpc5wMMHPO4pOZEwLmucwz1RF7Lv1JB_0CGreQNIn.xYejc1XhGY8G.HgEEZOk5yO3EpXFfWSGwnLgp23KiX.JIGPZlWZlZ8LS9QGByRCGGkrvRdblCqEFTCjVPyigPlbf6Q8m55SK1V50TYRRmayTXxo9jptNvqB1Qv6F1FTfMhdkdnprdc.jOZMRcMTmj0RMqnrwGgpFDHVLZ2tPLcKU9WbCGgPdViweuXhcvOVDy0pIdnoFynEGehrPkAnNxf.urEjL9yuGNr7yO9rAZRjkjIt8QAoDSIw9UOY8s3j9kIEAcKs7U0tZT9eGLAFb1rFXZNX3fGxZPTOUgAb_M0YS1mXDA_fUaZYh3rYyLvlPvPM73A8ffViXOtjMFtWCPKW6zM.ZiqQYpVr3Bj19OhKUjdHZE2UVDYekOdVRiTVjc7wUpCdAWFsrdQi7yAZSTxFiKsZ8VRu4OHZJKnHECGnPCrYwmIi5nViRRwZU8pdMdubsEeyXGmhIYXMCfn76QENomecdRoMdURE8VcuW1E7ie6ZqodEMk6eIijxouvrUEimu1GQF2whMPzZR.U..RAmaNodFTRrXsY5qhxIyywcokOqDcuT02mGv_OdXJl0.lt45sRf0h0PFgUfH322tIOLLSrQ7bvhpunnNuOeeyWEq19eUwpOeygDuAXnFx9lFia6BigFgJa4VFOWGQIIzY2gktqE.TYe.QzzGNzn3eYvOaPuGROncbEIjDxYpUOWDd01.JeNGQOGoU9nTBhojmTNA%27%2C%7D%3Bvar%20a%20%3D%20document.createElement%28%27script%27%29%3Ba.src%20%3D%20%27%2Fcdn-cgi%2Fchallenge-platform%2Fh%2Fg%2Forchestrate%2Fchl_page%2Fv1%3Fray%3D9def1c498e48e806%27%3Bwindow._cf_chl_opt.cOgUHash%20%3D%20location.hash%20%3D%3D%3D%20%27%27%20%26%26%20location.href.indexOf%28%27%23%27%29%20%21%3D%3D%20-1%20%3F%20%27%23%27%20%3A%20location.hash%3Bwindow._cf_chl_opt.cOgUQuery%20%3D%20location.search%20%3D%3D%3D%20%27%27%20%26%26%20location.href.slice%280%2C%20location.href.length%20-%20window._cf_chl_opt.cOgUHash.length%29.indexOf%28%27%3F%27%29%20%21%3D%3D%20-1%20%3F%20%27%3F%27%20%3A%20location.search%3Bif%20%28window.history%20%26%26%20window.history.replaceState%29%20%7Bvar%20ogU%20%3D%20location.pathname%20%2B%20window._cf_chl_opt.cOgUQuery%20%2B%20window._cf_chl_opt.cOgUHash%3Bhistory.replaceState%28null%2C%20null%2C%22%5C%2Fid%5C%2Fapi%5C%2Fclient%5C%2Fxyza7891aaoJHOSQ1y2hGW378ogqtftm%3FredirectUrl%3Dhttps%253A%252F%252Fsketchfab.com%252Fsocial%252Fcomplete%252Fepic%252F%253Fredirect_state%253Dc4Ru41YcIe4e4wtKJoTnfNXHZMaUKH7R%26responseType%3Dcode%26scope%3Dbasic_profile%26__cf_chl_rt_tk%3DxDBwbiHekkXmIRjo.bNYiMC5n70MD716UseV9v6AkCo-1773950921-1.0.1.1-43Yrz47zyo7vCzVhWcoS5c0jDDncG.SxNjGO1hq7JDk%22%2B%20window._cf_chl_opt.cOgUHash%29%3Ba.onload%20%3D%20function%28%29%20%7Bhistory.replaceState%28null%2C%20null%2C%20ogU%29%3B%7D%7Ddocument.getElementsByTagName%28%27head%27%29%5B0%5D.appendChild%28a%29%3B%7D%28%29%29%3B%0A%20%20%20%20%20%20%20%20%0A%20%20%20%20%20%20%20%20%20%20%20%20%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3A%209def1c498e48e806%20%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3A%2035.225.230.28%20%0A%20%20%20%20%20%20%20%20%20%20%20%20%0A%20%20%20%20%20%20%20%20%0A%20%20%20%20%0A%0A%0A&client_id=xyza7891aaoJHOSQ1y2hGW378ogqtftm&redirect_uri=https%3A%2F%2Fsketchfab.com%2Fsocial%2Fcomplete%2Fepic%2F%3Fredirect_state%3Dc4Ru41YcIe4e4wtKJoTnfNXHZMaUKH7R&state=c4Ru41YcIe4e4wtKJoTnfNXHZMaUKH7R&response_type=code&scope=basic_profile",
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "InformationWeek",
+      "url": "https://www.informationweek.com/",
+      "da": 84,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Qualtrics",
+      "url": "https://www.qualtrics.com",
+      "da": 83,
+      "status": "SUBMITTED",
+      "reason": "Submitted (no URL field). Fields: ['name', 'email']",
+      "profileUrl": "https://www.qualtrics.com/",
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Coub",
+      "url": "https://coub.com/",
+      "da": 83,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Wikidot",
+      "url": "https://www.wikidot.com/",
+      "da": 83,
+      "status": "REGISTERED",
+      "reason": "Registration likely succeeded. Fields: ['name', 'username', 'email', 'password']",
+      "profileUrl": "https://www.wikidot.com/",
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "MathWorks",
+      "url": "https://www.mathworks.com/",
+      "da": 83,
+      "status": "FAILED",
+      "reason": "HTTP 403",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": false
+    },
+    {
+      "siteName": "OdysseyOnline",
+      "url": "https://www.theodysseyonline.com/",
+      "da": 83,
+      "status": "SUBMITTED",
+      "reason": "Submitted (no URL field). Fields: ['email', 'password']",
+      "profileUrl": "https://www.theodysseyonline.com/core/users/email_login/",
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Devian Art",
+      "url": "https://www.deviantart.com",
+      "da": 83,
+      "status": "FAILED",
+      "reason": "HTTP 403",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": false
+    },
+    {
+      "siteName": "NeoCities",
+      "url": "https://neocities.org/",
+      "da": 83,
+      "status": "REGISTERED",
+      "reason": "Registration likely succeeded. Fields: ['name', 'username', 'email', 'password']",
+      "profileUrl": "https://neocities.org/",
+      "backlinkPlaced": false,
+      "captchaSolved": false
+    },
+    {
+      "siteName": "CSS Tricks",
+      "url": "https://css-tricks.com/",
+      "da": 83,
+      "status": "SUBMITTED",
+      "reason": "Submitted (no URL field). Fields: ['email']",
+      "profileUrl": "https://css-tricks.com/",
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Hackerone",
+      "url": "https://www.hackerone.com/",
+      "da": 83,
+      "status": "SUBMITTED",
+      "reason": "Submitted (no URL field). Fields: ['email']",
+      "profileUrl": "https://www.hackerone.com/contact",
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Devpost",
+      "url": "https://devpost.com/",
+      "da": 83,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Weezevent",
+      "url": "https://weezevent.com/en-gb/",
+      "da": 83,
+      "status": "SUBMITTED",
+      "reason": "Submitted (no URL field). Fields: ['name', 'email', 'password']",
+      "profileUrl": "https://accounts.weezevent.com/auth/signup?client_id=7obVMu1v5ndL3WxJbgP2f0tIxwdbtTxsJYNf8RmH&redirect_uri=https://admin.weezevent.com/ticket&locale=en_GB&_gl=1*1llpxvz*_gcl_au*MjUyNjI1NDcyLjE3NzM5NTA5NzM.*_ga*MTQ5NDQ0NDg3NS4xNzczOTUwOTcz*_ga_39H9VBFX7G*czE3NzM5NTA5NzIkbzEkZzAkdDE3NzM5NTA5NzIkajYwJGwwJGg5MDkxMDc5MzI.",
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Contently",
+      "url": "https://contently.com/",
+      "da": 83,
+      "status": "REGISTERED",
+      "reason": "Registration likely succeeded. Fields: ['name', 'email', 'password']",
+      "profileUrl": "https://contently.com/register",
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Events",
+      "url": "https://events.com/",
+      "da": 83,
+      "status": "SUBMITTED",
+      "reason": "Submitted (no URL field). Fields: ['email']",
+      "profileUrl": "https://events.com/",
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "StarDock",
+      "url": "https://forums.stardock.com/",
+      "da": 82,
+      "status": "PARTIAL",
+      "reason": "No submit button. Filled: ['email']",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Gaia Online",
+      "url": "https://www.gaiaonline.com/",
+      "da": 82,
+      "status": "REGISTERED",
+      "reason": "Registration likely succeeded. Fields: ['email']",
+      "profileUrl": "https://www.gaiaonline.com/quickreg/?v=c",
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "FileZilla Forums",
+      "url": "https://forum.filezilla-project.org",
+      "da": 82,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Khaleej Times (Buzzon)",
+      "url": "https://buzzon.khaleejtimes.com/",
+      "da": 82,
+      "status": "REGISTERED",
+      "reason": "Registration likely succeeded. Fields: ['email']",
+      "profileUrl": "https://buzzon.khaleejtimes.com/register/",
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "FlatIcon",
+      "url": "https://www.flaticon.com/",
+      "da": 82,
+      "status": "FAILED",
+      "reason": "HTTP 403",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": false
+    },
+    {
+      "siteName": "ESL Gaming",
+      "url": "https://play.eslgaming.com/",
+      "da": 82,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Notion",
+      "url": "https://www.notion.so/",
+      "da": 82,
+      "status": "PARTIAL",
+      "reason": "No submit button. Filled: ['name', 'email', 'password']",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Ouo.io",
+      "url": "https://ouo.io/",
+      "da": 82,
+      "status": "REGISTERED",
+      "reason": "Registration likely succeeded. Fields: ['name', 'username', 'email', 'password']",
+      "profileUrl": "https://ouo.io/auth/signin",
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Leetchi",
+      "url": "https://www.leetchi.com/",
+      "da": 82,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Taggad",
+      "url": "https://www.tagged.com",
+      "da": 81,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Miarroba",
+      "url": "https://miarroba.com/",
+      "da": 81,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Her Campus",
+      "url": "https://www.hercampus.com/",
+      "da": 81,
+      "status": "PARTIAL",
+      "reason": "No submit button. Filled: ['email']",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": false
+    },
+    {
+      "siteName": "Teachable",
+      "url": "https://teachable.com/",
+      "da": 81,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Wanelo",
+      "url": "https://wanelo.co/",
+      "da": 81,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": false
+    },
+    {
+      "siteName": "Dreamwidth",
+      "url": "https://www.dreamwidth.org",
+      "da": 81,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": false
+    },
+    {
+      "siteName": "Demilked",
+      "url": "https://www.demilked.com/",
+      "da": 81,
+      "status": "SUBMITTED",
+      "reason": "Submitted (no URL field). Fields: ['email']",
+      "profileUrl": "https://www.demilked.com/",
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Speaker Deck",
+      "url": "https://speakerdeck.com",
+      "da": 81,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": false
+    },
+    {
+      "siteName": "Band",
+      "url": "https://band.us/home",
+      "da": 81,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Telegra.ph",
+      "url": "https://telegra.ph/",
+      "da": 81,
+      "status": "PARTIAL",
+      "reason": "No submit button. Filled: ['website']",
+      "profileUrl": null,
+      "backlinkPlaced": true,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Exposure",
+      "url": "https://exposure.co",
+      "da": 81,
+      "status": "REGISTERED",
+      "reason": "Registration likely succeeded. Fields: ['name', 'username', 'email', 'password']",
+      "profileUrl": "https://exposure.co/join?source=home-v5-header-sign-up",
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Veoh",
+      "url": "https://www.veoh.com/",
+      "da": 80,
+      "status": "FAILED",
+      "reason": "Page.goto: net::ERR_NAME_NOT_RESOLVED at https://www.veoh.com/\nCall log:\n  - navigating to \"https://www.veoh.com/\", waiting until \"domcontentloaded\"\n",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": false
+    },
+    {
+      "siteName": "PXHere",
+      "url": "https://pxhere.com/",
+      "da": 81,
+      "status": "SUBMITTED",
+      "reason": "Submitted (no URL field). Fields: ['name', 'username', 'email', 'password']",
+      "profileUrl": "https://pxhere.com/en/photos?q=&search=",
+      "backlinkPlaced": false,
+      "captchaSolved": false
+    },
+    {
+      "siteName": "8tracks",
+      "url": "https://8tracks.com",
+      "da": 80,
+      "status": "FAILED",
+      "reason": "HTTP 530",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": false
+    },
+    {
+      "siteName": "AuthorStream",
+      "url": "http://www.authorstream.com",
+      "da": 80,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Maxthon",
+      "url": "http://www.maxthon.com",
+      "da": 80,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Bravenet",
+      "url": "https://www.bravenet.com",
+      "da": 80,
+      "status": "SUBMITTED",
+      "reason": "Submitted (no URL field). Fields: ['name', 'username', 'email', 'password']",
+      "profileUrl": "https://www.bravenet.com/register",
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Desktopnexus",
+      "url": "https://desktopnexus.com/",
+      "da": 80,
+      "status": "SUBMITTED",
+      "reason": "Submitted (no URL field). Fields: ['email']",
+      "profileUrl": "https://desktopnexus.com/",
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Mobygames",
+      "url": "https://www.mobygames.com/",
+      "da": 80,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "TechDirt",
+      "url": "https://jobs.techdirt.com/",
+      "da": 80,
+      "status": "FAILED",
+      "reason": "HTTP 403",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": false
+    },
+    {
+      "siteName": "HearThis",
+      "url": "https://hearthis.at/",
+      "da": 80,
+      "status": "REGISTERED",
+      "reason": "Registration likely succeeded. Fields: ['email', 'password']",
+      "profileUrl": "https://hearthis.at/",
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Comunidades",
+      "url": "https://sites.comunidades.net/",
+      "da": 79,
+      "status": "PARTIAL",
+      "reason": "No submit button. Filled: ['website']",
+      "profileUrl": null,
+      "backlinkPlaced": true,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Bit.do",
+      "url": "http://bit.do/",
+      "da": 79,
+      "status": "FAILED",
+      "reason": "Timeout",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": false
+    },
+    {
+      "siteName": "Blog5",
+      "url": "http://blog5.net/",
+      "da": 79,
+      "status": "SUBMITTED",
+      "reason": "Submitted (no URL field). Fields: ['name', 'username', 'email', 'password']",
+      "profileUrl": "https://blog5.net/signup",
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Bitchute",
+      "url": "https://www.bitchute.com",
+      "da": 79,
+      "status": "SUBMITTED",
+      "reason": "Submitted (no URL field). Fields: ['name', 'username', 'email', 'password']",
+      "profileUrl": "https://www.bitchute.com/",
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "DZone",
+      "url": "https://dzone.com",
+      "da": 79,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "OpenGroup",
+      "url": "https://community.opengroup.org",
+      "da": 79,
+      "status": "REGISTERED",
+      "reason": "Registration likely succeeded. Fields: ['email', 'password']",
+      "profileUrl": "https://community.opengroup.org/users/sign_up",
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Beacons",
+      "url": "https://beacons.ai/",
+      "da": 78,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Studiopress",
+      "url": "http://studiopress.com",
+      "da": 79,
+      "status": "SUBMITTED",
+      "reason": "Submitted (no URL field). Fields: ['email']",
+      "profileUrl": "https://my.wpengine.com/signup?__hsfp=e4bde93eddbfcf7e904b42ba05818fcc&__hssc=82220873.1.1773951955063&__hstc=82220873.4b5b5fd920edc96d51b9d764261fbc7c.1773951955063.1773951955063.1773951955063.1&_ga=2.223234203.1020635613.1601399739-550834393.1601399739&_gl=1%2A1ioyn3d%2A_gcl_au%2AMjYxOTQ2OTY3LjE3NzM5NTE5NTQ.%2A_ga%2AMTk0NDY2MjAyMC4xNzczOTUxOTU1%2A_ga_QQ5FN8NX8W%2AczE3NzM5NTE5NTUkbzEkZzAkdDE3NzM5NTE5NTUkajYwJGwwJGgyMDQyODU4MDQ.&plan=genesis-pro-only&utm_campaign=global_signups_new_sitesbutton&utm_content=sitesbutton&utm_medium=referral&utm_source=studiopress",
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Ello",
+      "url": "https://ello.co/",
+      "da": 78,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "LexisNexis Community",
+      "url": "https://www.lexisnexis.com/infopro/default.aspx",
+      "da": 78,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Visually",
+      "url": "https://visual.ly",
+      "da": 78,
+      "status": "FAILED",
+      "reason": "HTTP 403",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": false
+    },
+    {
+      "siteName": "Wisconsin (.gov)",
+      "url": "http://search.wi.gov/cpp/?la=en",
+      "da": 78,
+      "status": "FAILED",
+      "reason": "HTTP 404",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": false
+    },
+    {
+      "siteName": "Windy",
+      "url": "https://community.windy.com",
+      "da": 78,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "LibraryThing",
+      "url": "https://www.librarything.com/",
+      "da": 78,
+      "status": "SUBMITTED",
+      "reason": "Submitted (no URL field). Fields: ['email']",
+      "profileUrl": "https://www.librarything.com/",
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "EmailMeForm",
+      "url": "https://www.emailmeform.com",
+      "da": 78,
+      "status": "SUBMITTED",
+      "reason": "Submitted (no URL field). Fields: ['email', 'password']",
+      "profileUrl": "https://app.emailmeform.com/signup.html#source/default",
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Brusheezy",
+      "url": "https://www.brusheezy.com/",
+      "da": 78,
+      "status": "SUBMITTED",
+      "reason": "Submitted (no URL field). Fields: ['email', 'password']",
+      "profileUrl": "https://www.brusheezy.com/",
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "DioWebhost",
+      "url": "http://diowebhost.com/",
+      "da": 78,
+      "status": "SUBMITTED",
+      "reason": "Submitted (no URL field). Fields: ['name', 'username', 'email', 'password']",
+      "profileUrl": "https://diowebhost.com/signup",
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Smore",
+      "url": "https://www.smore.com",
+      "da": 77,
+      "status": "SUBMITTED",
+      "reason": "Submitted (no URL field). Fields: ['email']",
+      "profileUrl": "https://www.smore.com/",
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "DarkReading",
+      "url": "https://www.darkreading.com/",
+      "da": 77,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "N4G",
+      "url": "https://n4g.com/",
+      "da": 77,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Calendly",
+      "url": "https://calendly.com",
+      "da": 77,
+      "status": "SUBMITTED",
+      "reason": "Submitted (no URL field). Fields: ['email']",
+      "profileUrl": "https://calendly.com/app/signup?email=blindandead%40gmail.com&lang=en-US",
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Fancy",
+      "url": "https://fancy.com/",
+      "da": 77,
+      "status": "PARTIAL",
+      "reason": "No submit button. Filled: ['name', 'email']",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "EduBlogs",
+      "url": "https://edublogs.org",
+      "da": 77,
+      "status": "PARTIAL",
+      "reason": "No submit button. Filled: ['email', 'password']",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Read The Docs",
+      "url": "https://readthedocs.org/",
+      "da": 77,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "MagCloud",
+      "url": "http://www.magcloud.com",
+      "da": 77,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Netcraft",
+      "url": "https://toolbar.netcraft.com/site_report",
+      "da": 77,
+      "status": "LIKELY_SUCCESS",
+      "reason": "Submitted with URL. Fields: ['website']",
+      "profileUrl": "https://sitereport.netcraft.com/?url=https%3A%2F%2Farxio.pro",
+      "backlinkPlaced": true,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "CruzRoja",
+      "url": "http://www.cruzroja.es/creforumvolint_en/forums/list.page",
+      "da": 76,
+      "status": "FAILED",
+      "reason": "HTTP 404",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": false
+    },
+    {
+      "siteName": "Camp-fire",
+      "url": "https://camp-fire.jp",
+      "da": 76,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "SiteJabber",
+      "url": "https://www.sitejabber.com/",
+      "da": 76,
+      "status": "PARTIAL",
+      "reason": "No submit button. Filled: ['website']",
+      "profileUrl": null,
+      "backlinkPlaced": true,
+      "captchaSolved": false
+    },
+    {
+      "siteName": "Fixya",
+      "url": "http://www.fixya.com/",
+      "da": 76,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": false
+    },
+    {
+      "siteName": "Feedbooks",
+      "url": "http://www.feedbooks.com/",
+      "da": 76,
+      "status": "FAILED",
+      "reason": "HTTP 403",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": false
+    },
+    {
+      "siteName": "Lomography",
+      "url": "https://www.lomography.com/",
+      "da": 76,
+      "status": "REGISTERED",
+      "reason": "Registration likely succeeded. Fields: ['email']",
+      "profileUrl": "https://www.lomography.com/",
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "MobyPicture",
+      "url": "http://www.mobypicture.com/",
+      "da": 76,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Hometalk",
+      "url": "https://www.hometalk.com/",
+      "da": 76,
+      "status": "SUBMITTED",
+      "reason": "Submitted (no URL field). Fields: ['email']",
+      "profileUrl": "https://www.hometalk.com/",
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Delfi",
+      "url": "https://www.delfi.lv/calis/",
+      "da": 76,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Brown Paper Tickets",
+      "url": "https://www.brownpapertickets.com",
+      "da": 76,
+      "status": "FAILED",
+      "reason": "Page.evaluate: TypeError: vvv.callback is not a function\n    at eval (eval at evaluate (:290:30), <anonymous>:11:66)\n    at Array.forEach (<anonymous>)\n    at eval (eval at evaluate (:290:30), <anonym",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": false
+    },
+    {
+      "siteName": "DSLReports",
+      "url": "https://www.dslreports.com/",
+      "da": 76,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "LookBook",
+      "url": "https://lookbook.nu/",
+      "da": 76,
+      "status": "FAILED",
+      "reason": "Timeout",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": false
+    },
+    {
+      "siteName": "Zotero",
+      "url": "https://www.zotero.org/",
+      "da": 75,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": false
+    },
+    {
+      "siteName": "Milkyway (.edu)",
+      "url": "http://milkyway.cs.rpi.edu/milkyway/",
+      "da": 75,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "ArtFire",
+      "url": "https://www.artfire.com/",
+      "da": 75,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": false
+    },
+    {
+      "siteName": "Domestika",
+      "url": "https://www.domestika.org/en",
+      "da": 75,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "MerchantCircle",
+      "url": "https://www.merchantcircle.com/",
+      "da": 75,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Gifyu",
+      "url": "https://gifyu.com",
+      "da": 75,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "TeamSpeak Forum",
+      "url": "https://forum.teamspeak.com/",
+      "da": 75,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": false
+    },
+    {
+      "siteName": "Hackerrank",
+      "url": "https://www.hackerrank.com/",
+      "da": 75,
+      "status": "REGISTERED",
+      "reason": "Registration likely succeeded. Fields: ['name', 'email', 'password']",
+      "profileUrl": "https://www.hackerrank.com/auth/signup",
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "We Heart It",
+      "url": "https://weheartit.com",
+      "da": 74,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "World Cosplay",
+      "url": "https://worldcosplay.net/en/",
+      "da": 74,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Sniply",
+      "url": "https://snip.ly/",
+      "da": 74,
+      "status": "FAILED",
+      "reason": "HTTP 403",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": false
+    },
+    {
+      "siteName": "Anchor.fm",
+      "url": "https://anchor.fm/",
+      "da": 74,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "CreativeLive",
+      "url": "https://www.creativelive.com/",
+      "da": 74,
+      "status": "SUBMITTED",
+      "reason": "Submitted (no URL field). Fields: ['username', 'email']",
+      "profileUrl": "https://www.creativelive.com/seminars/thank-you",
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "LinkTree",
+      "url": "https://linktr.ee/",
+      "da": 74,
+      "status": "SUBMITTED",
+      "reason": "Submitted (no URL field). Fields: ['email']",
+      "profileUrl": "https://linktr.ee/universal-login#/register",
+      "backlinkPlaced": false,
+      "captchaSolved": false
+    },
+    {
+      "siteName": "W3Techs",
+      "url": "https://w3techs.com/",
+      "da": 74,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Awwwards",
+      "url": "https://www.awwwards.com/",
+      "da": 74,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Simdif",
+      "url": "https://www.simdif.com/",
+      "da": 74,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "FireBlogz",
+      "url": "http://fireblogz.com",
+      "da": 74,
+      "status": "SUBMITTED",
+      "reason": "Submitted (no URL field). Fields: ['name', 'username', 'email', 'password']",
+      "profileUrl": "https://fireblogz.com/signup",
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Netgear",
+      "url": "https://community.netgear.com/",
+      "da": 74,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "DsiBlogger",
+      "url": "http://dsiblogger.com/",
+      "da": 74,
+      "status": "SUBMITTED",
+      "reason": "Submitted (no URL field). Fields: ['name', 'username', 'email', 'password']",
+      "profileUrl": "http://dsiblogger.com/signup",
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Linksys",
+      "url": "https://www.linksys.com",
+      "da": 74,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": false
+    },
+    {
+      "siteName": "BCZ",
+      "url": "https://bcz.com/",
+      "da": 74,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Aeria games",
+      "url": "https://www.aeriagames.com",
+      "da": 74,
+      "status": "FAILED",
+      "reason": "Page.goto: net::ERR_SSL_PROTOCOL_ERROR at https://www.aeriagames.com/\nCall log:\n  - navigating to \"https://www.aeriagames.com/\", waiting until \"domcontentloaded\"\n",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": false
+    },
+    {
+      "siteName": "Alison",
+      "url": "https://alison.com/",
+      "da": 74,
+      "status": "FAILED",
+      "reason": "Page.evaluate: TypeError: vvv.callback is not a function\n    at eval (eval at evaluate (:290:30), <anonymous>:11:66)\n    at Array.forEach (<anonymous>)\n    at eval (eval at evaluate (:290:30), <anonym",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": false
+    },
+    {
+      "siteName": "Beatstars",
+      "url": "https://www.beatstars.com/",
+      "da": 73,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "TeacherTube",
+      "url": "https://www.teachertube.com/",
+      "da": 73,
+      "status": "SUBMITTED",
+      "reason": "Submitted (no URL field). Fields: ['email', 'password']",
+      "profileUrl": "https://www.teachertube.com/account/signup?returnUrl=%2F",
+      "backlinkPlaced": false,
+      "captchaSolved": false
+    },
+    {
+      "siteName": "Vagrantup",
+      "url": "https://app.vagrantup.com",
+      "da": 73,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "OpenLearning",
+      "url": "https://www.openlearning.com",
+      "da": 73,
+      "status": "PARTIAL",
+      "reason": "No submit button. Filled: ['email', 'password']",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Weddingbee",
+      "url": "https://www.weddingbee.com/",
+      "da": 73,
+      "status": "FAILED",
+      "reason": "HTTP 403",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": false
+    },
+    {
+      "siteName": "Flip HTML5",
+      "url": "http://fliphtml5.com/",
+      "da": 73,
+      "status": "PARTIAL",
+      "reason": "No submit button. Filled: ['password']",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Fullerton (.edu)",
+      "url": "https://escatter11.fullerton.edu/nfs/forum_index.php",
+      "da": 73,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Mapmyrun",
+      "url": "https://www.mapmyrun.com/",
+      "da": 73,
+      "status": "SUBMITTED",
+      "reason": "Submitted (no URL field). Fields: ['email', 'password']",
+      "profileUrl": "https://www.mapmyrun.com/auth/login/",
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Dynamics Community",
+      "url": "https://community.dynamics.com/",
+      "da": 73,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Godotengine",
+      "url": "https://godotengine.org/qa/",
+      "da": 73,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": false
+    },
+    {
+      "siteName": "JooMag",
+      "url": "https://www.joomag.com/",
+      "da": 73,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "CG Society",
+      "url": "https://cgsociety.org/",
+      "da": 72,
+      "status": "FAILED",
+      "reason": "Timeout",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": false
+    },
+    {
+      "siteName": "Instructure",
+      "url": "https://canvas.instructure.com",
+      "da": 72,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Wefunder",
+      "url": "https://wefunder.com",
+      "da": 72,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": false
+    },
+    {
+      "siteName": "IntenseDebate",
+      "url": "https://www.intensedebate.com",
+      "da": 72,
+      "status": "PARTIAL",
+      "reason": "No submit button. Filled: ['password']",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Wakelet",
+      "url": "https://wakelet.com",
+      "da": 71,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Raywenderlich Forum",
+      "url": "https://www.raywenderlich.com/",
+      "da": 71,
+      "status": "FAILED",
+      "reason": "HTTP 403",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": false
+    },
+    {
+      "siteName": "Figma",
+      "url": "https://www.figma.com/",
+      "da": 71,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Dev.to",
+      "url": "https://dev.to/",
+      "da": 71,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Vue.js Forum",
+      "url": "https://forum.vuejs.org/",
+      "da": 71,
+      "status": "SUBMITTED",
+      "reason": "Submitted (no URL field). Fields: ['name', 'username', 'email', 'password']",
+      "profileUrl": "https://accounts.google.com/v3/signin/identifier?opparams=%253F&dsh=S-333302507%3A1773952680778743&client_id=1078992815106-brpsupgvhheqg35tupphbh0qk9c32nq8.apps.googleusercontent.com&code_challenge=vtt0G95N9_csyYYHG3iFxZStGS-sqEgYylraC-0rWSk&code_challenge_method=S256&nonce=4598d95428e88ec6e5b5be8b90b5ad2a&o2v=2&prompt=select_account&redirect_uri=https%3A%2F%2Fgithub.com%2Fsessions%2Fsocial%2Fgoogle%2Fcallback&response_type=code&scope=openid+email+profile&service=lso&state=d1aa084b4717274a0f33dec8f5b19f30&flowName=GeneralOAuthFlow&continue=https%3A%2F%2Faccounts.google.com%2Fsignin%2Foauth%2Fconsent%3Fauthuser%3Dunknown%26part%3DAJi8hAP0PEXgZ7fRuNchhwXatPa1dSMOkFrZpUxJ47W1gVyNilRzMv_Z9zrG7WDGzQJgP--mbjcvQq6cPxiQbW3On6w1kHuZf-A96n_rxjvRnoJspKsfjt3RuqjS0xPAUWER5SGircwrrYc_lILDPwcYFINn9krYvBQFpcw3ZBm_7aTRVI-48unlop7xpb8HqBitKMj_73O8Q4S4cEJ4fhphCVxNV1KYTrwbkhflOsG0x1zvNu-WYNLhehpm8VWmRQ9W540NpQBihFLCnS-tGgKZyK44BdeDF2KwptCwb56n42zqSYiUscJOXUlx1cGXlBrnMqEE1kCgxaPqgXyvUv4x5Ax2ytDaUYogCSshF3jvfIJidfd4TV-Duhc3OmJID6JbtRANm4-brRFaga8exH6rXnWOIduvE0azuhnbnU-21KctLjo4p8ElDwCZt_z2IOhc7mU_sXq_t8q05R7ffTT2cXTWAfbnvA%26flowName%3DGeneralOAuthFlow%26as%3DS-333302507%253A1773952680778743%26client_id%3D1078992815106-brpsupgvhheqg35tupphbh0qk9c32nq8.apps.googleusercontent.com%26requestPath%3D%252Fsignin%252Foauth%252Fconsent%23&app_domain=https%3A%2F%2Fgithub.com&rart=ANgoxcdgY4_c2_reCIpCC-cYXCqtyCZ2_kUGLpe_cOm0SXq0IhEf1VwDvcMxdT-FUSbtX31KWyVm1zLK5gSRwDx9lB66xpqhKggeac1wXLtcObz2WYujioA",
+      "backlinkPlaced": false,
+      "captchaSolved": false
+    },
+    {
+      "siteName": "Gitlab FIB",
+      "url": "https://gitlab.fib.upc.edu/",
+      "da": 71,
+      "status": "FAILED",
+      "reason": "Page.goto: net::ERR_NAME_NOT_RESOLVED at https://gitlab.fib.upc.edu/\nCall log:\n  - navigating to \"https://gitlab.fib.upc.edu/\", waiting until \"domcontentloaded\"\n",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": false
+    },
+    {
+      "siteName": "Toolbox",
+      "url": "https://it.toolbox.com",
+      "da": 71,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "BuiltWith Bookmark",
+      "url": "https://builtwith.com//",
+      "da": 71,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Replit",
+      "url": "https://replit.com/",
+      "da": 71,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": false
+    },
+    {
+      "siteName": "Gab",
+      "url": "https://gab.com/#",
+      "da": 71,
+      "status": "FAILED",
+      "reason": "HTTP 403",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": false
+    },
+    {
+      "siteName": "MD Anderson",
+      "url": "https://study.mdanderson.org/dist/mdanderson/landing/",
+      "da": 71,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Flattr",
+      "url": "https://flattr.com/",
+      "da": 70,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Trim Shortener",
+      "url": "https://tr.im/",
+      "da": 70,
+      "status": "FAILED",
+      "reason": "Timeout",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": false
+    },
+    {
+      "siteName": "WebmasterWorld",
+      "url": "https://www.webmasterworld.com/home.htm",
+      "da": 70,
+      "status": "FAILED",
+      "reason": "HTTP 403",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": false
+    },
+    {
+      "siteName": "Mbed",
+      "url": "https://os.mbed.com/",
+      "da": 70,
+      "status": "SUBMITTED",
+      "reason": "Submitted (no URL field). Fields: ['email']",
+      "profileUrl": "https://os.mbed.com/account/login/",
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Roll20",
+      "url": "https://app.roll20.net/",
+      "da": 70,
+      "status": "FAILED",
+      "reason": "HTTP 403",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": false
+    },
+    {
+      "siteName": "Subscribe",
+      "url": "https://subscribe.ru/",
+      "da": 69,
+      "status": "PARTIAL",
+      "reason": "No submit button. Filled: ['password']",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Australian School Holidays",
+      "url": "https://australian-school-holidays.mn.co/feed",
+      "da": 69,
+      "status": "PARTIAL",
+      "reason": "No submit button. Filled: ['email']",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Jigsawplanet",
+      "url": "https://www.jigsawplanet.com",
+      "da": 69,
+      "status": "SUBMITTED",
+      "reason": "Submitted (no URL field). Fields: ['username', 'email', 'password']",
+      "profileUrl": "https://www.jigsawplanet.com/?rc=signup&r=success",
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Fimfiction",
+      "url": "https://www.fimfiction.net/",
+      "da": 69,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Hypothes",
+      "url": "https://hypothes.is",
+      "da": 69,
+      "status": "SUBMITTED",
+      "reason": "Submitted (no URL field). Fields: ['email']",
+      "profileUrl": "https://share.hsforms.com/1CqW6wwbKSFqbK6h_cCq9BQ3quew?email=blindandead%40gmail.com&subscribe=",
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "GitBook",
+      "url": "https://www.gitbook.com/",
+      "da": 69,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Videomaker",
+      "url": "https://www.videomaker.com/",
+      "da": 69,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Free-eBooks.net",
+      "url": "https://www.free-ebooks.net",
+      "da": 69,
+      "status": "NEEDS_EMAIL_VERIFICATION",
+      "reason": "Email verification needed. Fields: ['email', 'password']",
+      "profileUrl": "https://www.free-ebooks.net/register-new.php",
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Ticketleap",
+      "url": "https://www.ticketleap.com",
+      "da": 69,
+      "status": "LIKELY_SUCCESS",
+      "reason": "Submitted with URL. Fields: ['name', 'email', 'password', 'website']",
+      "profileUrl": "https://www.ticketleap.com/",
+      "backlinkPlaced": true,
+      "captchaSolved": false
+    },
+    {
+      "siteName": "Slideserve",
+      "url": "https://www.slideserve.com",
+      "da": 68,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "The Beijinger Forum",
+      "url": "https://www.thebeijinger.com/forum",
+      "da": 68,
+      "status": "FAILED",
+      "reason": "HTTP 404",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": false
+    },
+    {
+      "siteName": "Yudu",
+      "url": "https://express.yudu.com/",
+      "da": 68,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Clutch",
+      "url": "https://clutch.co/",
+      "da": 68,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Dead.net",
+      "url": "http://www.dead.net",
+      "da": 68,
+      "status": "PARTIAL",
+      "reason": "No submit button. Filled: ['email']",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Jimdo",
+      "url": "https://www.jimdo.com",
+      "da": 68,
+      "status": "REGISTERED",
+      "reason": "Registration likely succeeded. Fields: ['email']",
+      "profileUrl": "https://community.jimdo.com/jimdoconnect-eng?_gl=1*1bx1qmx*_gcl_au*NDE0ODM4MzI4LjE3NzM5NTI5MTE.*_ga*MTUxMDE3NTQ5NS4xNzczOTUyOTEx*_ga_V09JP2JLJ8*czE3NzM5NTI5MTEkbzEkZzAkdDE3NzM5NTI5MTEkajYwJGwwJGgw",
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Aulas Abiertas",
+      "url": "https://aulasabiertas.congresos.unc.edu.ar/",
+      "da": 68,
+      "status": "FAILED",
+      "reason": "HTTP 410",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": false
+    },
+    {
+      "siteName": "ORCID",
+      "url": "https://orcid.org/",
+      "da": 68,
+      "status": "UNCERTAIN",
+      "reason": "Submitted. Fields: ['name']",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Symbaloo",
+      "url": "https://www.symbaloo.com/home/mix/13eOcR6R7c",
+      "da": 68,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Photozou",
+      "url": "http://photozou.jp",
+      "da": 68,
+      "status": "SUBMITTED",
+      "reason": "Submitted (no URL field). Fields: ['email', 'password']",
+      "profileUrl": "https://photozou.jp/basic/signup",
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "MyMiniFactory",
+      "url": "https://www.myminifactory.com",
+      "da": 68,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "PromoDJ",
+      "url": "http://promodj.com",
+      "da": 68,
+      "status": "FAILED",
+      "reason": "Page.evaluate: TypeError: vvv.callback is not a function\n    at eval (eval at evaluate (:290:30), <anonymous>:11:66)\n    at Array.forEach (<anonymous>)\n    at eval (eval at evaluate (:290:30), <anonym",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": false
+    },
+    {
+      "siteName": "Webself",
+      "url": "https://en.webself.net/",
+      "da": 67,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "BuzzSprout",
+      "url": "https://www.buzzsprout.com/",
+      "da": 68,
+      "status": "SUBMITTED",
+      "reason": "Submitted (no URL field). Fields: ['email']",
+      "profileUrl": "https://www.buzzsprout.com/sign_up",
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Gust",
+      "url": "https://gust.com",
+      "da": 67,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Mixlr",
+      "url": "http://mixlr.com",
+      "da": 67,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "List.ly",
+      "url": "https://list.ly/",
+      "da": 66,
+      "status": "FAILED",
+      "reason": "HTTP 503",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": false
+    },
+    {
+      "siteName": "Mogul",
+      "url": "https://onmogul.com/",
+      "da": 67,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Serato",
+      "url": "https://serato.com",
+      "da": 66,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Portfoliobox",
+      "url": "https://www.portfoliobox.net",
+      "da": 66,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "HUD (.gov)",
+      "url": "https://forums.huduser.gov/index.php",
+      "da": 66,
+      "status": "FAILED",
+      "reason": "Page.goto: net::ERR_NAME_NOT_RESOLVED at https://forums.huduser.gov/index.php\nCall log:\n  - navigating to \"https://forums.huduser.gov/index.php\", waiting until \"domcontentloaded\"\n",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": false
+    },
+    {
+      "siteName": "GetMonero",
+      "url": "https://repo.getmonero.org/",
+      "da": 66,
+      "status": "SUBMITTED",
+      "reason": "Submitted (no URL field). Fields: ['email', 'password']",
+      "profileUrl": "https://repo.getmonero.org/users/sign_up",
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Bark",
+      "url": "https://www.bark.com/en/us/",
+      "da": 66,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "BrandYourself",
+      "url": "https://brandyourself.com/",
+      "da": 65,
+      "status": "NEEDS_EMAIL_VERIFICATION",
+      "reason": "Email verification needed. Fields: ['name']",
+      "profileUrl": "https://brandyourself.com/sign-up?fullName=Hayden+King",
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "GrabCad",
+      "url": "https://grabcad.com/",
+      "da": 65,
+      "status": "FAILED",
+      "reason": "Page.evaluate: TypeError: vvv.callback is not a function\n    at eval (eval at evaluate (:290:30), <anonymous>:11:66)\n    at Array.forEach (<anonymous>)\n    at eval (eval at evaluate (:290:30), <anonym",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": false
+    },
+    {
+      "siteName": "Coolors",
+      "url": "https://coolors.co/",
+      "da": 65,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Gapyear",
+      "url": "https://www.gapyear.com/",
+      "da": 65,
+      "status": "FAILED",
+      "reason": "Page.goto: net::ERR_CERT_COMMON_NAME_INVALID at https://www.gapyear.com/\nCall log:\n  - navigating to \"https://www.gapyear.com/\", waiting until \"domcontentloaded\"\n",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": false
+    },
+    {
+      "siteName": "BlackPlanet",
+      "url": "https://www.blackplanet.com/discover/message/1",
+      "da": 65,
+      "status": "FAILED",
+      "reason": "HTTP 404",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": false
+    },
+    {
+      "siteName": "Kiwibox",
+      "url": "https://www.kiwibox.com",
+      "da": 65,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "LeetCode",
+      "url": "https://leetcode.com/",
+      "da": 65,
+      "status": "SUBMITTED",
+      "reason": "Submitted (no URL field). Fields: ['name', 'username', 'email', 'password']",
+      "profileUrl": "https://leetcode.com/accounts/signup/",
+      "backlinkPlaced": false,
+      "captchaSolved": false
+    },
+    {
+      "siteName": "Credly",
+      "url": "https://www.credly.com/",
+      "da": 65,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "CPlusPlus",
+      "url": "http://www.cplusplus.com/",
+      "da": 65,
+      "status": "SUBMITTED",
+      "reason": "Submitted (no URL field). Fields: ['username', 'email']",
+      "profileUrl": "https://cplusplus.com/user/access.cgi",
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "List Challenges",
+      "url": "https://www.listchallenges.com",
+      "da": 64,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "XtGem",
+      "url": "http://xtgem.com/",
+      "da": 64,
+      "status": "SUBMITTED",
+      "reason": "Submitted (no URL field). Fields: ['name', 'username', 'email', 'password']",
+      "profileUrl": "http://xtgem.com/login",
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Vingle",
+      "url": "https://www.vingle.net/",
+      "da": 64,
+      "status": "FAILED",
+      "reason": "HTTP 502",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": false
+    },
+    {
+      "siteName": "Eventbrite",
+      "url": "https://www.eventbrite.ie",
+      "da": 64,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "YouMagine",
+      "url": "https://www.youmagine.com/",
+      "da": 64,
+      "status": "FAILED",
+      "reason": "Page.evaluate: TypeError: vvv.callback is not a function\n    at eval (eval at evaluate (:290:30), <anonymous>:11:66)\n    at Array.forEach (<anonymous>)\n    at eval (eval at evaluate (:290:30), <anonym",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": false
+    },
+    {
+      "siteName": "GameKyo",
+      "url": "http://www.gamekyo.com/",
+      "da": 64,
+      "status": "SUBMITTED",
+      "reason": "Submitted (no URL field). Fields: ['name', 'email', 'password']",
+      "profileUrl": "https://www.gamekyo.com/search.html",
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "RiseUp",
+      "url": "https://we.riseup.net/",
+      "da": 64,
+      "status": "REGISTERED",
+      "reason": "Registration likely succeeded. Fields: ['username', 'password']",
+      "profileUrl": "https://we.riseup.net/",
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "IdeaFit",
+      "url": "https://www.ideafit.com/",
+      "da": 64,
+      "status": "SUBMITTED",
+      "reason": "Submitted (no URL field). Fields: ['email']",
+      "profileUrl": "https://www.ideafit.com/",
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Warrior Forum",
+      "url": "https://warriorforum.com",
+      "da": 64,
+      "status": "NEEDS_EMAIL_VERIFICATION",
+      "reason": "Email verification needed. Fields: ['name', 'username', 'email', 'password']",
+      "profileUrl": "https://www.warriorforum.com/",
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Wantedly",
+      "url": "https://wantedly.com/",
+      "da": 64,
+      "status": "SUBMITTED",
+      "reason": "Submitted (no URL field). Fields: ['email']",
+      "profileUrl": "https://www.wantedly.com/signin_or_signup?ref=root",
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Debate.org",
+      "url": "https://www.debate.org/",
+      "da": 64,
+      "status": "FAILED",
+      "reason": "Page.goto: net::ERR_NAME_NOT_RESOLVED at https://www.debate.org/\nCall log:\n  - navigating to \"https://www.debate.org/\", waiting until \"domcontentloaded\"\n",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": false
+    },
+    {
+      "siteName": "EuroLines",
+      "url": "https://www.eurolines.nl/",
+      "da": 64,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Dremel Community",
+      "url": "http://messageboard.dremel.com/Default.aspx",
+      "da": 63,
+      "status": "REGISTERED",
+      "reason": "Registration likely succeeded. Fields: ['email']",
+      "profileUrl": "https://www.dremel.com/us/en",
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "SBWire",
+      "url": "http://www.sbwire.com/",
+      "da": 63,
+      "status": "REGISTERED",
+      "reason": "Registration likely succeeded. Fields: ['name', 'email']",
+      "profileUrl": "https://www.releasewire.com/signup/sbwire/",
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "Quibblo",
+      "url": "https://www.quibblo.com/",
+      "da": 63,
+      "status": "FAILED",
+      "reason": "HTTP 500",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": false
+    },
+    {
+      "siteName": "Smackjeeves",
+      "url": "http://www.smackjeeves.com/",
+      "da": 63,
+      "status": "FAILED",
+      "reason": "Timeout",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": false
+    },
+    {
+      "siteName": "Public Lab",
+      "url": "https://publiclab.org/",
+      "da": 63,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "ItsMyURLs",
+      "url": "https://itsmyurls.com/",
+      "da": 63,
+      "status": "FAILED",
+      "reason": "HTTP 522",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": false
+    },
+    {
+      "siteName": "RoundMe",
+      "url": "https://roundme.com",
+      "da": 63,
+      "status": "FAILED",
+      "reason": "No fillable form fields found",
+      "profileUrl": null,
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    },
+    {
+      "siteName": "MyCustomer",
+      "url": "https://www.mycustomer.com/",
+      "da": 63,
+      "status": "SUBMITTED",
+      "reason": "Submitted (no URL field). Fields: ['email', 'password']",
+      "profileUrl": "https://www.cxtoday.com/account/?redirect_to=https%3A%2F%2Fwww.cxtoday.com%2F",
+      "backlinkPlaced": false,
+      "captchaSolved": true
+    }
+  ]
+}
