@@ -1,21 +1,20 @@
 {
   "targetUrl": "https://arxio.pro",
   "email": "blindandead@gmail.com",
-  "bio": "The ultimate platform for CS2 highlights. Upload your best aces, clutches, and frags.",
-  "runDate": "2026-03-20T01:01:48.291609",
-  "stats": {
-    "total": 375,
-    "success": 6,
-    "registered": 7,
-    "captcha_solved": 246,
-    "captcha_failed": 0,
-    "email_verify": 0,
-    "failed": 277,
-    "partial": 4,
-    "submitted": 72,
-    "timeout": 9
+  "completedAt": "2026-03-20T01:01:48.291609",
+  "totalSites": 1337,
+  "totalProcessed": 1335,
+  "combined": {
+    "success": 15,
+    "registered": 71,
+    "submitted": 219,
+    "partial": 45,
+    "email_verify": 22,
+    "captcha_solved": 900,
+    "timeout": 48,
+    "failed": 915
   },
-  "results": [
+  "batch2_results": [
     {
       "siteName": "Servebeer",
       "url": "https://peertube.servebeer.com/",
