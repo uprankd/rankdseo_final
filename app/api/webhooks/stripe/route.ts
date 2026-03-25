@@ -331,7 +331,17 @@ async function handleCheckoutExpired(session: Stripe.Checkout.Session) {
 // Activate user account after successful payment
 async function activateUserAccount(userId: string, planId: string) {
   const now = new Date();
-  const periodEnd = new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000); // 30 days
+
+  // Get the plan to determine correct period end
+  const plan = await prisma.plan.findUnique({ where: { id: planId } });
+  let periodEnd: Date;
+  if (plan?.interval === 'lifetime') {
+    periodEnd = new Date(now.getTime() + 99 * 365 * 24 * 60 * 60 * 1000); // 99 years
+  } else if (plan?.interval === 'year') {
+    periodEnd = new Date(now.getTime() + 365 * 24 * 60 * 60 * 1000); // 1 year
+  } else {
+    periodEnd = new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000); // 30 days
+  }
 
   const updatedUser = await prisma.user.update({
     where: { id: userId },
@@ -388,7 +398,17 @@ async function activateUserAccount(userId: string, planId: string) {
 // Upgrade user plan after successful upgrade payment
 async function upgradeUserPlan(userId: string, newPlanId: string) {
   const now = new Date();
-  const periodEnd = new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000); // 30 days
+
+  // Get the plan to determine correct period end
+  const plan = await prisma.plan.findUnique({ where: { id: newPlanId } });
+  let periodEnd: Date;
+  if (plan?.interval === 'lifetime') {
+    periodEnd = new Date(now.getTime() + 99 * 365 * 24 * 60 * 60 * 1000); // 99 years
+  } else if (plan?.interval === 'year') {
+    periodEnd = new Date(now.getTime() + 365 * 24 * 60 * 60 * 1000); // 1 year
+  } else {
+    periodEnd = new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000); // 30 days
+  }
 
   const updatedUser = await prisma.user.update({
     where: { id: userId },

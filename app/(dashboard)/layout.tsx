@@ -8,6 +8,8 @@ import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { LayoutDashboard, FolderOpen, Database, LogOut, Menu, X, Settings, Sparkles, Crown, Shield, TrendingUp, Users, Tag, BarChart3, FileText, Eye, ClipboardList, Flag } from 'lucide-react';
 import { signOut, useSession } from 'next-auth/react';
+import { trpc } from '@/lib/api/client';
+import { AlertTriangle } from 'lucide-react';
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   const router = useRouter();
@@ -16,6 +18,14 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
   const isDemoUser = session?.user?.email === 'demo@rankdseo.com';
+  const isAdmin = session?.user?.role === 'ADMIN';
+
+  const { data: subStatus } = trpc.opportunity.getSubscriptionStatus.useQuery(undefined, {
+    enabled: status === 'authenticated' && !isDemoUser,
+    refetchInterval: 5 * 60 * 1000, // recheck every 5 min
+  });
+
+  const isExpired = subStatus?.expired === true && !isAdmin && !isDemoUser;
 
   useEffect(() => {
     if (status === 'unauthenticated') {
@@ -193,6 +203,23 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                     </Link>
                   </div>
                 </div>
+              ) : isExpired ? (
+                <div className="pt-6">
+                  <div className="bg-gradient-to-br from-red-400 via-red-500 to-red-600 p-6 rounded-2xl border-2 border-red-300 shadow-xl">
+                    <div className="flex items-center justify-between mb-3">
+                      <Badge className="bg-white/90 backdrop-blur text-red-600 border-0 font-bold text-sm px-3 py-1">
+                        <AlertTriangle className="h-4 w-4 mr-1" />
+                        Expired
+                      </Badge>
+                    </div>
+                    <p className="text-white/95 text-sm font-semibold mb-4">Your membership has expired</p>
+                    <Link href="/signup">
+                      <Button size="sm" variant="outline" className="w-full bg-white/20 backdrop-blur border-white/30 text-white hover:bg-white/30 font-semibold" data-testid="sidebar-renew-btn">
+                        Renew Now
+                      </Button>
+                    </Link>
+                  </div>
+                </div>
               ) : (
                 <div className="pt-6">
                   <div className="bg-gradient-to-br from-gold-400 via-gold-500 to-gold-600 p-6 rounded-2xl border-2 border-gold-300 shadow-xl">
@@ -216,7 +243,29 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           {/* Main Content - Boxed */}
           <main className="flex-1 min-h-[calc(100vh-89px)] lg:min-h-0">
             <div className="bg-white lg:rounded-3xl border-0 lg:border-2 border-navy-200 shadow-2xl p-6 lg:p-8">
-              {children}
+              {isExpired ? (
+                <div className="flex flex-col items-center justify-center py-20 text-center" data-testid="subscription-expired-block">
+                  <div className="h-20 w-20 rounded-full bg-red-100 flex items-center justify-center mb-6">
+                    <AlertTriangle className="h-10 w-10 text-red-500" />
+                  </div>
+                  <h2 className="text-2xl font-bold text-gray-900 mb-2">Your Membership Has Expired</h2>
+                  <p className="text-gray-600 mb-1">
+                    Your <strong>{subStatus?.plan || 'subscription'}</strong> expired on{' '}
+                    <strong>{subStatus?.expiresAt ? new Date(subStatus.expiresAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) : 'N/A'}</strong>.
+                  </p>
+                  <p className="text-gray-500 text-sm mb-8">Renew your membership to regain access to all opportunities and features.</p>
+                  <div className="flex gap-3">
+                    <Link href="/signup">
+                      <Button className="bg-gradient-to-r from-navy-600 to-sky-500 text-white font-semibold px-8" data-testid="renew-membership-btn">
+                        Renew Membership
+                      </Button>
+                    </Link>
+                    <Button variant="outline" onClick={handleSignOut} data-testid="expired-signout-btn">
+                      Sign Out
+                    </Button>
+                  </div>
+                </div>
+              ) : children}
             </div>
           </main>
         </div>

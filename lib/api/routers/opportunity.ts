@@ -438,4 +438,30 @@ export const opportunityRouter = router({
       });
       return { reported: !!report };
     }),
+
+  getSubscriptionStatus: protectedProcedure
+    .query(async ({ ctx }) => {
+      const subscription = await ctx.prisma.subscription.findUnique({
+        where: { userId: ctx.user.id },
+        include: { plan: true },
+      });
+
+      if (!subscription) {
+        return { active: false, expired: true, plan: null, expiresAt: null };
+      }
+
+      const now = new Date();
+      const isExpired = subscription.currentPeriodEnd
+        ? new Date(subscription.currentPeriodEnd) < now
+        : false;
+
+      return {
+        active: subscription.status === 'ACTIVE' && !isExpired,
+        expired: isExpired,
+        plan: subscription.plan?.name || null,
+        interval: subscription.plan?.interval || null,
+        expiresAt: subscription.currentPeriodEnd?.toISOString() || null,
+        status: subscription.status,
+      };
+    }),
 });
