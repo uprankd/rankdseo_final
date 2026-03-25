@@ -1,516 +1,56 @@
 const { PrismaClient } = require('@prisma/client');
 const bcrypt = require('bcryptjs');
+const fs = require('fs');
+const path = require('path');
 
 const prisma = new PrismaClient();
 
-const users = [
-  {email:"m.sulcs@gmail.com",username:"msulcs",firstname:"",lastname:"",membership:"1 Year Membership"},
-  {email:"jefis@inbox.lv",username:"jefis",firstname:"",lastname:"",membership:"Lifetime membership (99 Years)"},
-  {email:"r.ozolinsh@gmail.com",username:"Reinis",firstname:"",lastname:"",membership:"1 Year Membership"},
-  {email:"arvis.renckulbergs@gmail.com",username:"renckulbergs",firstname:"",lastname:"",membership:"1 Year Membership"},
-  {email:"sludinajums00@gmail.com",username:"intiims",firstname:"",lastname:"",membership:"1 Year Membership"},
-  {email:"martins.sulcs@rswo.lv",username:"rswo",firstname:"",lastname:"",membership:"1 Year Membership"},
-  {email:"deins212@gmail.com",username:"deins",firstname:"",lastname:"",membership:"1 Year Membership"},
-  {email:"iolauss@live.com",username:"Lares",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"wizbit10@hotmail.com",username:"ritafairclough",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"r-k-m@outlook.in",username:"R-K-M",firstname:"",lastname:"",membership:"Lifetime membership (99 Years)"},
-  {email:"smootie79@hotmail.com",username:"smootie79",firstname:"",lastname:"",membership:"1 Year Membership"},
-  {email:"jay.yadav147@gmail.com",username:"WebSettlor",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"davide.magni.mobile@gmail.com",username:"Davegnima",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"talome@gmail.com",username:"seo1982",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"kenny.king@ascensionmarketing.com",username:"kennyatascension",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"yuriy.ace@gmail.com",username:"norkie",firstname:"",lastname:"",membership:"3 Month Membership"},
-  {email:"Chris.w.greener@gmail.com",username:"Wiggles",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"im.vaasu@gmail.com",username:"raj",firstname:"",lastname:"",membership:"1 Year Membership"},
-  {email:"peterpan1975@live.ca",username:"lookylooky",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"zshan097@gmail.com",username:"zshan097",firstname:"",lastname:"",membership:"3 Month Membership"},
-  {email:"michael.roed@gmail.com",username:"roed",firstname:"Michael",lastname:"Roed",membership:"1 Year Membership"},
-  {email:"ganx.tav1@gmail.com",username:"ganx12",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"devon_sherwood@outlook.com",username:"justbaby1803",firstname:"",lastname:"",membership:"1 Year Membership"},
-  {email:"labruyere_johan@hotmail.com",username:"ZIdy",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"beryldurham@gmail.com",username:"beryldurham",firstname:"",lastname:"",membership:"1 Year Membership"},
-  {email:"charcov@gmail.com",username:"moxival",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"dzakula19@gmail.com",username:"fenix19",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"chn16000@gmail.com",username:"chn16000",firstname:"",lastname:"",membership:"1 Year Membership"},
-  {email:"cloudburn@protonmail.com",username:"Bigstar20",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"mr_kirbs@yahoo.co.uk",username:"mrkirbs",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"support@marketerseal.com",username:"Marketer",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"info@maidforyou.com.au",username:"Delahgz",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"yasin.girach@gmail.com",username:"yg1455",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"hahahoho101117@gmail.com",username:"hahahoho1011",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"dodobrain@gmail.com",username:"Sheetal",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"accounting@edgylabs.com",username:"edgylabs",firstname:"",lastname:"",membership:"1 Year Membership"},
-  {email:"onikishov@mail.ru",username:"sunriseson",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"quanghuy1988@gmail.com",username:"quanghuy1988",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"98dwivediaman@gmail.com",username:"amandwivedi",firstname:"",lastname:"",membership:"1 Year Membership"},
-  {email:"chenazmul@gmail.com",username:"chenazmul",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"jeff@jeffreymclean.com",username:"jmmarketing",firstname:"",lastname:"",membership:"1 Year Membership"},
-  {email:"chaynes@startmail.com",username:"CrackheadMob",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"tyc168@singnet.com.sg",username:"RetroWorldNews",firstname:"",lastname:"",membership:"1 Year Membership"},
-  {email:"seo@room369.work",username:"akunhost369",firstname:"James",lastname:"Loka",membership:"3 Month Membership"},
-  {email:"metatrons_qube@gmx.com",username:"metatrons_cube",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"sameep.kaul@gmail.com",username:"sameep",firstname:"",lastname:"",membership:"1 Year Membership"},
-  {email:"andrewellenthorpe@gmail.com",username:"slotstars",firstname:"",lastname:"",membership:"3 Month Membership"},
-  {email:"aeshlog@yahoo.com",username:"aeshlog",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"alexandre.lebrun213@gmail.com",username:"walou213",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"millionairematch@qq.com",username:"vanboy",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"alliancesolutionhn@gmail.com",username:"guilledisanti",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"kristjan.kalmu@gmail.com",username:"kristjan",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"webmaster@smartpost.ws",username:"HunterWoods",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"connor@elixirdigital.co.uk",username:"ElixirDigital",firstname:"",lastname:"",membership:"1 Year Membership"},
-  {email:"palankipal@yahoo.com",username:"BlackSept",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"dbethune@gmail.com",username:"4thorion",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"bigtakeoff@gmail.com",username:"bigtakeoff",firstname:"",lastname:"",membership:"1 Year Membership"},
-  {email:"karan@backlinc.com",username:"backlinc",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"info@premiumcoding.com",username:"premiumcoding",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"mastertheprice@gmail.com",username:"MTP",firstname:"",lastname:"",membership:"1 Year Membership"},
-  {email:"zero59@sbcglobal.net",username:"fullyfired",firstname:"",lastname:"",membership:"1 Year Membership"},
-  {email:"hi@kleankasa.com",username:"kleankasa",firstname:"",lastname:"",membership:"3 Month Membership"},
-  {email:"imrankan@protonmail.com",username:"seokhan",firstname:"",lastname:"",membership:"1 Year Membership"},
-  {email:"rtpike@hotmail.com",username:"slas22",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"help@thetackleroom.com",username:"help@thetackleroom.com",firstname:"",lastname:"",membership:"3 Month Membership"},
-  {email:"deraspute@gmail.com",username:"deraspute",firstname:"",lastname:"",membership:"1 Year Membership"},
-  {email:"payments@pagalguy.com",username:"pagalguy",firstname:"",lastname:"",membership:"1 Year Membership"},
-  {email:"jcast@windowslive.com",username:"nyr1979",firstname:"",lastname:"",membership:"1 Year Membership"},
-  {email:"mkramos1288@gmail.com",username:"mvis12",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"vishal.ingole@gmail.com",username:"vishalingole",firstname:"",lastname:"",membership:"1 Year Membership"},
-  {email:"info@webminati.com",username:"Webminati",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"admin@seoadvantage.com.au",username:"SEOAdv",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"me@alexlaldin.com",username:"alaldin",firstname:"",lastname:"",membership:"1 Year Membership"},
-  {email:"geoffrey@cutthroatmarketing.com",username:"cutthroatmarketing",firstname:"",lastname:"",membership:"1 Year Membership"},
-  {email:"3030020@gmail.com",username:"tayson33",firstname:"",lastname:"",membership:"3 Month Membership"},
-  {email:"danielwlewis@gmail.com",username:"DanLewis",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"mohans408@yahoo.com",username:"esttr",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"sko@gmx.com",username:"skotec",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"eeeeeeee69696969@gmail.com",username:"reggin",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"mjaquane@gmail.com",username:"MJaquane",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"senzz_zz@yahoo.com",username:"hahay",firstname:"",lastname:"",membership:"1 Year Membership"},
-  {email:"thatseouk@gmail.com",username:"thatseo",firstname:"",lastname:"",membership:"3 Month Membership"},
-  {email:"andrei@emro.ventures",username:"andreiemro",firstname:"",lastname:"",membership:"1 Year Membership"},
-  {email:"gmehrotra@gmail.com",username:"rankkarma",firstname:"",lastname:"",membership:"1 Year Membership"},
-  {email:"janezjansa918@gmail.com",username:"janezja",firstname:"",lastname:"",membership:"1 Year Membership"},
-  {email:"egr.211992@gmail.com",username:"PUT0M0N0",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"tiffany@spacify.com",username:"ybot123",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"john@johnbourscheid.com",username:"johnbourscheid",firstname:"",lastname:"",membership:"1 Year Membership"},
-  {email:"italominano@gmail.com",username:"italominano",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"wakandan.empire@gmail.com",username:"KingPin",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"bpg.poslovni@gmail.com",username:"bojanpeic",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"covell1933@gmail.com",username:"covell1933",firstname:"",lastname:"",membership:"Lifetime membership (99 Years)"},
-  {email:"tools@sproutgiant.com",username:"sproutgiant",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"mclicks@gmail.com",username:"mdroid",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"planetlubs@gmail.com",username:"BoshraPlanet",firstname:"",lastname:"",membership:"1 Year Membership"},
-  {email:"margas6@hotmail.com",username:"Universe0",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"bhwreports@abv.bg",username:"bhwreports",firstname:"",lastname:"",membership:"Lifetime membership (99 Years)"},
-  {email:"martinkrat@hotmail.com",username:"marty3",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"vectoryacom@gmail.com",username:"drhema",firstname:"",lastname:"",membership:"1 Year Membership"},
-  {email:"fouad.zaryouh@gmail.com",username:"fouadz",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"szikkd@gmail.com",username:"szikkd",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"elvis@system32.lv",username:"jeepy",firstname:"",lastname:"",membership:"Lifetime membership (99 Years)"},
-  {email:"itzzmansoor@gmail.com",username:"m4mansoor",firstname:"",lastname:"",membership:"1 Year Membership"},
-  {email:"mrspaulboys@hotmail.com",username:"ctdagod",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"info@skirtingworld.co.uk",username:"MrManyHat",firstname:"",lastname:"",membership:"3 Month Membership"},
-  {email:"elephantfees@gmail.com",username:"elephantfees",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"asthana.vaibhav@gmail.com",username:"asthana",firstname:"",lastname:"",membership:"1 Year Membership"},
-  {email:"munteanu.eduard91@gmail.com",username:"meddie",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"ahmedshifat@gmail.com",username:"webmasterbd",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"wallwarriorbkk@gmail.com",username:"salo123",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"gino@tecla.io",username:"teclaio",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"richard.mazon@protonmail.com",username:"Richard.Mazon",firstname:"",lastname:"",membership:"1 Year Membership"},
-  {email:"fuh1995@gmail.com",username:"noah",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"web@marketinsky.com",username:"kriskarols",firstname:"Kristaps",lastname:"Karols",membership:"Lifetime membership (99 Years)"},
-  {email:"studikus77@gmail.com",username:"Rankapp",firstname:"",lastname:"",membership:"Lifetime membership (99 Years)"},
-  {email:"ohad@roihigh.com",username:"roihigh",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"ybyalik@gmail.com",username:"ybyalik",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"aleksandrblokh@gmail.com",username:"medianinja",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"SAMBLACK661@gmail.com",username:"snowfur",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"domantasr@inbox.lt",username:"domantas54",firstname:"",lastname:"",membership:"3 Month Membership"},
-  {email:"daniel1230@hotmail.co.uk",username:"dmxsta",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"testkidsiq@gmail.com",username:"GangnamHW",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"sarah@presspink.com",username:"sarahmuller",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"rankitrightmedia@gmail.com",username:"rankitrightmedia",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"pepperbottleinc@gmail.com",username:"serpassist",firstname:"",lastname:"",membership:"Lifetime membership (99 Years)"},
-  {email:"info@sudstud.biz",username:"sudstud",firstname:"",lastname:"",membership:"Lifetime membership (99 Years)"},
-  {email:"paulojsandrade@hotmail.com",username:"Cad01",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"c.stride97@gmail.com",username:"Xcyy",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"mymessages-@hotmail.co.uk",username:"oscars",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"anirudhratanpal@gmail.com",username:"anurudh",firstname:"",lastname:"",membership:"Lifetime membership (99 Years)"},
-  {email:"seo@infogenix.com",username:"Infogenix",firstname:"",lastname:"",membership:"Lifetime membership (99 Years)"},
-  {email:"mewsmight@gmail.com",username:"MrCiff",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"ruggeroloda@gmail.com",username:"trienthusiast",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"xjason2x@gmail.com",username:"xjason2x",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"dave.simpson@azzurro-blu.com",username:"azzurroblu",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"bdwebcreative@gmail.com",username:"WebCreative",firstname:"",lastname:"",membership:"1 Year Membership"},
-  {email:"lawnmowerlarry909@gmail.com",username:"larry909",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"admin@make-cash.pl",username:"makecash",firstname:"Mariusz",lastname:"Kowalski",membership:"1 Year Membership"},
-  {email:"jason@strangelogic.com",username:"JasonD",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"sportbaik26@gmail.com",username:"maykl7543",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"pijushmbstu@gmail.com",username:"pksaha",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"cambodiafc@yahoo.com",username:"siempb",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"reachrithesh@gmail.com",username:"Rithesh",firstname:"",lastname:"",membership:"3 Month Membership"},
-  {email:"dizzy.lord@gmail.com",username:"deezlici0us",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"lfu0327@gmail.com",username:"Andyimkt",firstname:"",lastname:"",membership:"Lifetime membership (99 Years)"},
-  {email:"rgeorge4u@yahoo.com",username:"Renaissance868",firstname:"Rennison",lastname:"George",membership:"Lifetime membership (99 Years)"},
-  {email:"medusa1314cc@gmail.com",username:"medusa",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"simon@swte.com",username:"Needaride",firstname:"Simon",lastname:"Ford",membership:"Lifetime membership (99 Years)"},
-  {email:"uvora9@gmail.com",username:"Utsav Vora",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"Ez2Woo.com@gmail.com",username:"Ez2Woo",firstname:"",lastname:"",membership:"Lifetime membership (99 Years)"},
-  {email:"avibigclasses@gmail.com",username:"avinash",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"mareddyonline@gmail.com",username:"mareddyonline",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"d@rkmind.cc",username:"darkmind",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"tjzabek@gmail.com",username:"tjzabek@gmail.com",firstname:"",lastname:"",membership:"Lifetime membership (99 Years)"},
-  {email:"accounts@profitseo.com.au",username:"ProfitSEO",firstname:"Jason",lastname:"Suli",membership:"Monthly Membership"},
-  {email:"jakartaseo88@gmail.com",username:"qqjackolantern",firstname:"qq",lastname:"jackolantern",membership:"1 Year Membership"},
-  {email:"kuracnakuracpalaca@hotmail.com",username:"thewicker",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"saltyendeavors@gmail.com",username:"Sloeber3",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"caglar07@hotmail.com.tr",username:"caglar07",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"ehsieh88@gmail.com",username:"seppatown",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"orkprint@hotmail.com",username:"trajik",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"austerlitz10@optonline.net",username:"robhog",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"seoranka2z@gmail.com",username:"thenilblue",firstname:"",lastname:"",membership:"Lifetime membership (99 Years)"},
-  {email:"start@rocket91.com",username:"rocket91",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"webdev.petrov@gmail.com",username:"bpetrov",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"bartek166vip@gmail.com",username:"bartlomiej1",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"viralhold@gmail.com",username:"Tads",firstname:"",lastname:"",membership:"3 Month Membership"},
-  {email:"salorza@gmail.com",username:"Salorza",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"me@lucafontani.it",username:"lucafontani",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"penkjat@hotmail.co.uk",username:"silat",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"nick@fortdodgewebdesign.com",username:"FDWD",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"hoangvm1904@gmail.com",username:"hoangvm1904",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"svasan25@yahoo.com",username:"svasan25",firstname:"",lastname:"",membership:"1 Year Membership"},
-  {email:"eamonn@thehomefitfreak.com",username:"MrMaudo",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"cameron.h.thomson@gmail.com",username:"carn",firstname:"",lastname:"",membership:"3 Month Membership"},
-  {email:"getpromoted.in@gmail.com",username:"njain121",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"vitaliylahno@gmail.com",username:"vitaliy304",firstname:"",lastname:"",membership:"Lifetime membership (99 Years)"},
-  {email:"alexlatychev@gmail.com",username:"alatych",firstname:"",lastname:"",membership:"3 Month Membership"},
-  {email:"info@DistinctiveMS.com",username:"Rohit",firstname:"",lastname:"",membership:"1 Year Membership"},
-  {email:"intan.hayupp@gmail.com",username:"zainal909",firstname:"",lastname:"",membership:"1 Year Membership"},
-  {email:"joe@zensolar.com",username:"zensolar",firstname:"",lastname:"",membership:"1 Year Membership"},
-  {email:"skylikes.help@gmail.com",username:"skylikes",firstname:"",lastname:"",membership:"Lifetime membership (99 Years)"},
-  {email:"exaltka@gmail.com",username:"Exalt",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"pasigauriloff@gmail.com",username:"Nuashall",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"wjj@orientalboat.com",username:"orientalboat",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"hello@talkiemedia.com",username:"talkiemedia",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"frank.zielkowski@wootabee.com",username:"wootabee",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"diegomartins.adm@gmail.com",username:"dmartins",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"mandoswiss@gmail.com",username:"zimba",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"forumreg@email.cz",username:"razorback",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"shashankjigsaw@gmail.com",username:"shashankjigsaw",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"pat@seoadvantage.com",username:"parichatra",firstname:"",lastname:"",membership:"Lifetime membership (99 Years)"},
-  {email:"thomaspatrickward.it@gmail.com",username:"tpward21",firstname:"",lastname:"",membership:"Lifetime membership (99 Years)"},
-  {email:"507marketingllc@gmail.com",username:"507marketingllc",firstname:"",lastname:"",membership:"Lifetime membership (99 Years)"},
-  {email:"fred@localrealtyservice.com",username:"ffrank01",firstname:"",lastname:"",membership:"Lifetime membership (99 Years)"},
-  {email:"glesig1+rankd@gmail.com",username:"smithwesson357",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"michael@thislucidlife.com",username:"MichaelTLL",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"waqasmsp@gmail.com",username:"waqasmsp",firstname:"Waqas",lastname:"Akber",membership:"1 Year Membership"},
-  {email:"mrteguhluthfiananto@gmail.com",username:"mrananto",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"modireseo.social@gmail.com",username:"modireseo",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"goldentideconsulting@gmail.com",username:"goldentide",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"marlborofilter8888@gmail.com",username:"marlborofilter88",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"gabor.vitez@gmail.com",username:"ubulmubul",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"tuananh.h57@gmail.com",username:"tuananh5789",firstname:"",lastname:"",membership:"1 Year Membership"},
-  {email:"liskie@gmail.com",username:"Steffen",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"drperdy@gmail.com",username:"iojik",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"social@overwatch-boosters.com",username:"Linksmurf",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"kestasve@gmail.com",username:"kestasv",firstname:"",lastname:"",membership:"Lifetime membership (99 Years)"},
-  {email:"xpeto1980@gmail.com",username:"pishty",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"wl@wlin.co",username:"wlin",firstname:"",lastname:"",membership:"Lifetime membership (99 Years)"},
-  {email:"bisnesup.app@gmail.com",username:"bisnesup",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"danielle@daniellesims.com",username:"oida1001",firstname:"",lastname:"",membership:"1 Year Membership"},
-  {email:"ladangqq@gmail.com",username:"panenqq",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"contact@alinmanea.ro",username:"alinmanea",firstname:"Alin",lastname:"Manea",membership:"Lifetime membership (99 Years)"},
-  {email:"crotwin@gmail.com",username:"crotwin88",firstname:"Crot",lastname:"Win",membership:"3 Month Membership"},
-  {email:"markbloomfield1966@yahoo.co.uk",username:"marky9876",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"info@advapaysystems.com",username:"darlenetysinger",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"dxp@outlook.com.br",username:"diegoxp",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"aleksandra.krysiak@hotmail.com",username:"Aleksandrak",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"t.e.holdingsllc@hotmail.com",username:"seoboi",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"edeskappc@gmail.com",username:"edeskallc",firstname:"",lastname:"",membership:"3 Month Membership"},
-  {email:"arefcason@gmail.com",username:"arefcason",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"officialmokua@gmail.com",username:"kalicraft",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"admin@geartough.com",username:"gt777",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"inetprograms@yahoo.com",username:"inetprogram",firstname:"",lastname:"",membership:"1 Year Membership"},
-  {email:"callum.sherwood.seo@gmail.com",username:"mikaelo",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"zasssoppp@gmail.com",username:"userbhw",firstname:"",lastname:"",membership:"1 Year Membership"},
-  {email:"jamesmnewman1@gmail.com",username:"jimmywestside",firstname:"",lastname:"",membership:"1 Year Membership"},
-  {email:"ted.business.marucha@gmail.com",username:"Ted.M",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"anuragbth@gmail.com",username:"daniel_kr",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"reece@line-logic.com",username:"linelogic",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"frans@lisa-it.co.uk",username:"kougom",firstname:"",lastname:"",membership:"1 Year Membership"},
-  {email:"napsitrall7@gmail.com",username:"betfixedmatch",firstname:"",lastname:"",membership:"1 Year Membership"},
-  {email:"aniseason@protonmail.com",username:"amog45",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"bmxryder711@gmail.com",username:"bmxryder711",firstname:"",lastname:"",membership:"1 Year Membership"},
-  {email:"ryanmiller1122@gmail.com",username:"linkwise",firstname:"",lastname:"",membership:"1 Year Membership"},
-  {email:"ake_pisan@hotmail.com",username:"pkake2000",firstname:"",lastname:"",membership:"1 Year Membership"},
-  {email:"sulistyoharjo@gmail.com",username:"qazqer",firstname:"",lastname:"",membership:"Lifetime membership (99 Years)"},
-  {email:"faydeekhan@gmail.com",username:"fay",firstname:"",lastname:"",membership:"1 Year Membership"},
-  {email:"karlton@redbarnblankets.com",username:"kkemerait",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"luxurytastic@gmail.com",username:"luxurytastic",firstname:"R",lastname:"K",membership:"3 Month Membership"},
-  {email:"mrjianxu@gmail.com",username:"discuzz",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"admin@mythemeshop.com",username:"mythemeshop",firstname:"",lastname:"",membership:"3 Month Membership"},
-  {email:"hello@propernoun.co",username:"propernounco",firstname:"",lastname:"",membership:"Lifetime membership (99 Years)"},
-  {email:"shopno99@gmail.com",username:"sahos",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"Lekan@ZEODigital.com",username:"zeodigital",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"caneandtaro@gmail.com",username:"waterloo",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"jjfikri@gmail.com",username:"beje",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"mailoui@yahoo.com",username:"mailoui@yahoo.com",firstname:"",lastname:"",membership:"3 Month Membership"},
-  {email:"cjviper2003@yahoo.com",username:"genericusername",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"justingrau@hotmail.com",username:"justing1",firstname:"",lastname:"",membership:"1 Year Membership"},
-  {email:"davebakerd904@gmail.com",username:"DaveBaker",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"bjjdorchester@gmail.com",username:"Sirbassface",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"david@rankwarrior.com",username:"rankwarrior",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"lajeeshk@sarobal.com",username:"sarobal",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"brigheaps@me.com",username:"brigheaps",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"kfcomg000000@gmail.com",username:"grayback",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"probolaqq@gmail.com",username:"erick_pro",firstname:"",lastname:"",membership:"3 Month Membership"},
-  {email:"kiefferethos@gmail.com",username:"anki79",firstname:"keith",lastname:"rome",membership:"1 Year Membership"},
-  {email:"ajjuliani@gmail.com",username:"ajjuliani@gmail.com",firstname:"",lastname:"",membership:"1 Year Membership"},
-  {email:"mrjohn1998@gmail.com",username:"mrjohn1998",firstname:"john",lastname:"mr",membership:"Lifetime membership (99 Years)"},
-  {email:"kakbabu@gmail.com",username:"kakbabu",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"sss3dspy@gmail.com",username:"sss5d",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"business@internetmarketingdeals.com",username:"imdeals",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"joeliverman94@gmail.com",username:"JoeGaga",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"laxusmarketing@gmail.com",username:"nihalsad",firstname:"",lastname:"",membership:"1 Year Membership"},
-  {email:"submitdeals@dealmirror.com",username:"Silky J.",firstname:"",lastname:"",membership:"Lifetime membership (99 Years)"},
-  {email:"kmarketing89@gmail.com",username:"vercetti",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"weyan186@gmail.com",username:"pandaren86",firstname:"",lastname:"",membership:"Lifetime membership (99 Years)"},
-  {email:"andy@presidentof.us",username:"andy",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"santhej@kallada.com",username:"santhej@kallada.com",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"mastersakong@gmail.com",username:"mastersakong",firstname:"",lastname:"",membership:"1 Year Membership"},
-  {email:"info@pamedier.dk",username:"xpandersen",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"akanagi.vr@gmail.com",username:"akanagi",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"thomasterh99@gmail.com",username:"thomasterh99",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"jeff@missinglinkdesigns.com",username:"missinglinkne",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"matt@matthewwoodward.co.uk",username:"matthewwoodward",firstname:"Matthew",lastname:"Woodward",membership:"Lifetime membership (99 Years)"},
-  {email:"stephen.perry18@yahoo.com",username:"jaylyn1829",firstname:"",lastname:"",membership:"Lifetime membership (99 Years)"},
-  {email:"contact@monetize.info",username:"monetize",firstname:"",lastname:"",membership:"Lifetime membership (99 Years)"},
-  {email:"tom@topshelfmedia.ca",username:"topshelfmedia",firstname:"",lastname:"",membership:"Lifetime membership (99 Years)"},
-  {email:"chris@soapboxdigitalmedia.co.uk",username:"ChrisC",firstname:"",lastname:"",membership:"Lifetime membership (99 Years)"},
-  {email:"mejbabiplob@gmail.com",username:"Mejbabiplob",firstname:"",lastname:"",membership:"Lifetime membership (99 Years)"},
-  {email:"loythegreat@gmail.com",username:"loythegreat",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"dimsakk@outlook.com",username:"Webdim",firstname:"",lastname:"",membership:"1 Year Membership"},
-  {email:"elurirs@yahoo.com",username:"elurirs",firstname:"",lastname:"",membership:"1 Year Membership"},
-  {email:"glyphtllc@outlook.com",username:"Glypht",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"wee77weerasak@gmail.com",username:"wee77",firstname:"",lastname:"",membership:"1 Year Membership"},
-  {email:"karaif@yahoo.com",username:"marvao",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"admin@janou.se",username:"Seo4sure",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"don@parrotprint.com",username:"ParrotPrint",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"nitin@1nine.com",username:"nitinsy",firstname:"",lastname:"",membership:"1 Year Membership"},
-  {email:"hstanleycrow@gmail.com",username:"hstanleycrow",firstname:"",lastname:"",membership:"3 Month Membership"},
-  {email:"contact@glgdev.fr",username:"jbgayet",firstname:"",lastname:"",membership:"Lifetime membership (99 Years)"},
-  {email:"diazp.br@gmail.com",username:"seodiaz",firstname:"",lastname:"",membership:"1 Year Membership"},
-  {email:"willy@auto-rent.ro",username:"willypro",firstname:"",lastname:"",membership:"Lifetime membership (99 Years)"},
-  {email:"sales@purenrg.com",username:"purenrg",firstname:"",lastname:"",membership:"3 Month Membership"},
-  {email:"2karateguy@gmail.com",username:"cheater",firstname:"",lastname:"",membership:"Lifetime membership (99 Years)"},
-  {email:"freight2@gmail.com",username:"dalexis12",firstname:"",lastname:"",membership:"1 Year Membership"},
-  {email:"jamesarsenault@my.smccd.edu",username:"jamesarsenault",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"breakthroughinnovations@gmx.com",username:"BT_Innovations",firstname:"",lastname:"",membership:"Lifetime membership (99 Years)"},
-  {email:"mark@webixlc.com",username:"mancho",firstname:"Mark",lastname:"Armstrong",membership:"Lifetime membership (99 Years)"},
-  {email:"leotrader1979@gmail.com",username:"leotrader",firstname:"",lastname:"",membership:"Lifetime membership (99 Years)"},
-  {email:"kevin_leeck@yahoo.com",username:"immortal03",firstname:"",lastname:"",membership:"Lifetime membership (99 Years)"},
-  {email:"olafrustle@protonmail.com",username:"OlafRustle",firstname:"",lastname:"",membership:"Lifetime membership (99 Years)"},
-  {email:"vladimir.skirga84@gmail.com",username:"pr0n1x",firstname:"",lastname:"",membership:"1 Year Membership"},
-  {email:"zearth_xxx@yahoo.com",username:"zearth",firstname:"",lastname:"",membership:"Lifetime membership (99 Years)"},
-  {email:"imnblab@gmail.com",username:"mnblab",firstname:"",lastname:"",membership:"Lifetime membership (99 Years)"},
-  {email:"neohere@hotmail.com",username:"neo",firstname:"",lastname:"",membership:"Lifetime membership (99 Years)"},
-  {email:"semthetic@gmail.com",username:"likeacharm",firstname:"",lastname:"",membership:"Lifetime membership (99 Years)"},
-  {email:"jafs70@yahoo.com",username:"jafs70@yahoo.com",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"wolf@adfilm.eu",username:"wolfatadfilm",firstname:"",lastname:"",membership:"Lifetime membership (99 Years)"},
-  {email:"Francisco.mejia0923@gmail.com",username:"letlive123",firstname:"",lastname:"",membership:"1 Year Membership"},
-  {email:"passiveflippers@gmail.com",username:"passiveflippers",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"asaad.o.khaled@gmail.com",username:"sharkhaled",firstname:"",lastname:"",membership:"Lifetime membership (99 Years)"},
-  {email:"nextlvlig@gmail.com",username:"nextlvlig",firstname:"",lastname:"",membership:"1 Year Membership"},
-  {email:"hkicenet@gmail.com",username:"hkicenet",firstname:"",lastname:"",membership:"Lifetime membership (99 Years)"},
-  {email:"im2park@gmail.com",username:"mikemarketing377",firstname:"",lastname:"",membership:"Lifetime membership (99 Years)"},
-  {email:"ionut.ionelx95@gmail.com",username:"Ionelxyz",firstname:"",lastname:"",membership:"3 Month Membership"},
-  {email:"felixnau@web.de",username:"fepsibo",firstname:"",lastname:"",membership:"Lifetime membership (99 Years)"},
-  {email:"david@daviddenholm.co.uk",username:"davedenholm",firstname:"",lastname:"",membership:"3 Month Membership"},
-  {email:"alister1220@gmail.com",username:"armor",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"adarealarticles@gmail.com",username:"missmyrah",firstname:"",lastname:"",membership:"Lifetime membership (99 Years)"},
-  {email:"jose@salazarbzd.com",username:"SBZD Marketing",firstname:"",lastname:"",membership:"1 Year Membership"},
-  {email:"idho.art@gmail.com",username:"unknown_zero",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"nickval53@gmail.com",username:"nikon",firstname:"",lastname:"",membership:"1 Year Membership"},
-  {email:"powelld23@msn.com",username:"powelld23@msn.com",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"davidcronin49@gmail.com",username:"sondekb",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"jhicksmba@gmail.com",username:"BluCaelum",firstname:"Joe",lastname:"Hicks",membership:"1 Year Membership"},
-  {email:"jamescanzanella@yahoo.com",username:"jamescanz",firstname:"",lastname:"",membership:"Lifetime membership (99 Years)"},
-  {email:"greg@thelocalseoguru.com",username:"seogar",firstname:"",lastname:"",membership:"1 Year Membership"},
-  {email:"clamor.finds0n@icloud.com",username:"Crown",firstname:"A",lastname:"T",membership:"Monthly Membership"},
-  {email:"doctormarketingmd@gmail.com",username:"timaay",firstname:"",lastname:"",membership:"1 Year Membership"},
-  {email:"mswathi857@gmail.com",username:"mswathi857",firstname:"",lastname:"",membership:"Lifetime membership (99 Years)"},
-  {email:"akg@pakar.co.id",username:"adityakg",firstname:"",lastname:"",membership:"Lifetime membership (99 Years)"},
-  {email:"n.ducanh7@gmail.com",username:"n.ducanh7@gmail.com",firstname:"",lastname:"",membership:"Lifetime membership (99 Years)"},
-  {email:"shhassannaseer@gmail.com",username:"shhassannaseer",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"cstogped@gmail.com",username:"cstogped@gmail.com",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"growrichinfinity@gmail.com",username:"growrichinfinity",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"vijaygold@gmail.com",username:"liger123",firstname:"",lastname:"",membership:"3 Month Membership"},
-  {email:"rm100md@gmail.com",username:"RM100MD",firstname:"",lastname:"",membership:"3 Month Membership"},
-  {email:"isynergymedia@gmail.com",username:"isynergymedia",firstname:"",lastname:"",membership:"Lifetime membership (99 Years)"},
-  {email:"samuelviet@gmail.com",username:"Meilleurtest",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"radu@primulsite.ro",username:"radu",firstname:"RB",lastname:"Creative",membership:"Lifetime membership (99 Years)"},
-  {email:"matiemagallanes@gmail.com",username:"matimagallanes",firstname:"Matias",lastname:"Magallanes",membership:"3 Month Membership"},
-  {email:"qjqmfeldk1212@gmail.com",username:"tomasian",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"agussetiano01@gmail.com",username:"Agus Setiano",firstname:"",lastname:"",membership:"3 Month Membership"},
-  {email:"duchateau.simon2@gmail.com",username:"SimonD",firstname:"",lastname:"",membership:"1 Year Membership"},
-  {email:"successsustained@gmail.com",username:"Danzella",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"jmanuel@mahico.com",username:"Mahico",firstname:"",lastname:"",membership:"Lifetime membership (99 Years)"},
-  {email:"info@apasionados.es",username:"apasionados",firstname:"",lastname:"",membership:"Lifetime membership (99 Years)"},
-  {email:"andrewpaul2000@yahoo.com",username:"drewbmc",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"inverclydesystems@googlemail.com",username:"inverclyde",firstname:"",lastname:"",membership:"Lifetime membership (99 Years)"},
-  {email:"tagray01@gmail.com",username:"tagray01@gmail.com",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"matt@choosegrow.com",username:"jmp535s",firstname:"",lastname:"",membership:"Lifetime membership (99 Years)"},
-  {email:"jesse.boskoff@gmail.com",username:"misterpatch",firstname:"nova",lastname:"jane",membership:"Lifetime membership (99 Years)"},
-  {email:"barrionuevo.santiago@gmail.com",username:"santiagobarrionuevo",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"salimmakla@gmail.com",username:"A7strohhut",firstname:"",lastname:"",membership:"3 Month Membership"},
-  {email:"alien.mindbender@protonmail.com",username:"masterskillz",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"leehill@gmail.com",username:"ormarketing",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"chris@innovativemarketing.net",username:"innovativemarketing",firstname:"",lastname:"",membership:"3 Month Membership"},
-  {email:"j.bleck@live.com",username:"jay320",firstname:"",lastname:"",membership:"Lifetime membership (99 Years)"},
-  {email:"l3v.anatoliy@yandex.ru",username:"l3v.anatoliy",firstname:"L3v",lastname:"Anatoliy",membership:"1 Year Membership"},
-  {email:"lee.ernest@live.com.sg",username:"aurorazz",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"anhlt7@gmail.com",username:"anhlt7",firstname:"",lastname:"",membership:"3 Month Membership"},
-  {email:"support@ignitefirst.net",username:"ignitefirst",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"thehookahlabteam@gmail.com",username:"thehookahlabteam",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"verdynordsten97@gmail.com",username:"verdynordsten97",firstname:"",lastname:"",membership:"1 Year Membership"},
-  {email:"artysta74@gmail.com",username:"artysta74",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"info@conceptoriginal.co.uk",username:"conceptoriginal",firstname:"",lastname:"",membership:"Lifetime membership (99 Years)"},
-  {email:"Lukatvaradze@gmail.com",username:"LukaT",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"danilhastings@yahoo.ie",username:"danoseo",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"shoutoutlinks@gmail.com",username:"shoutoutlinks",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"ekijazzyjax@gmail.com",username:"ekijazzy",firstname:"",lastname:"",membership:"3 Month Membership"},
-  {email:"romanseo@jibjibstudio.com",username:"Parisingaz",firstname:"",lastname:"",membership:"Lifetime membership (99 Years)"},
-  {email:"sadifp@gmail.com",username:"sadifp",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"nomercyx2402@gmail.com",username:"seonaga",firstname:"seo",lastname:"naga",membership:"3 Month Membership"},
-  {email:"sammerrycatch@gmail.com",username:"sam9713",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"seo.int.new@gmail.com",username:"seo.int.new@gmail.com",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"master.rajadewa@gmail.com",username:"rddoma",firstname:"",lastname:"",membership:"3 Month Membership"},
-  {email:"chsajid11@gmail.com",username:"chsajid11",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"support@seoconqueror.org",username:"volarex",firstname:"",lastname:"",membership:"Lifetime membership (99 Years)"},
-  {email:"kamalchandel@gmail.com",username:"kamalchandel",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"symphonicsph@gmail.com",username:"Goldenboy",firstname:"",lastname:"",membership:"3 Month Membership"},
-  {email:"epresscable@gmail.com",username:"Pressy",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"marketingusa@hotmail.com",username:"backlinks",firstname:"",lastname:"",membership:"3 Month Membership"},
-  {email:"r.svedjestrand@gmail.com",username:"granit",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"nus9040@gmail.com",username:"shamims",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"tony@linkdaddy.com",username:"linkdaddy",firstname:"",lastname:"",membership:"1 Year Membership"},
-  {email:"marius.memu@gmail.com",username:"mariusme",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"hassnainshah928@gmail.com",username:"tsaleem033",firstname:"Hassnain",lastname:"Shah",membership:"Lifetime membership (99 Years)"},
-  {email:"tita.melow@gmail.com",username:"titamelow",firstname:"",lastname:"",membership:"3 Month Membership"},
-  {email:"agamveva@gmail.com",username:"agam89",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"waiwitcho@gmail.com",username:"waiwitc",firstname:"",lastname:"",membership:"3 Month Membership"},
-  {email:"info@unshakable.agency",username:"Donceko",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"qminh91.itk09@gmail.com",username:"qminh91",firstname:"Minh",lastname:"Quang",membership:"3 Month Membership"},
-  {email:"bankchallenge@gmail.com",username:"anssoft",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"danielstanica10@gmail.com",username:"daniel.stanica",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"nathianjackson@gmail.com",username:"ScientificSeo",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"goishor@gmail.com",username:"mrgoe",firstname:"Goe",lastname:"Goishor",membership:"Lifetime membership (99 Years)"},
-  {email:"jon@printmatics.com",username:"jravari",firstname:"",lastname:"",membership:"3 Month Membership"},
-  {email:"corylehmkuhl@gmail.com",username:"valm",firstname:"",lastname:"",membership:"Lifetime membership (99 Years)"},
-  {email:"brian@spotmatix.com",username:"bspotmatix",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"jobsabri87@gmail.com",username:"markos87",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"muhammadwaqas7330@gmail.com",username:"vicky00",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"phil@suitably.com",username:"BigRed18",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"123martines123@gmail.com",username:"martines123",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"Taliannikolov@gmail.com",username:"Doctor Sleep",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"jd98755@yahoo.com",username:"Findmelinksplease",firstname:"",lastname:"",membership:"3 Month Membership"},
-  {email:"blessingmaseko1@gmail.com",username:"slashy27",firstname:"Slash",lastname:"Mase",membership:"Monthly Membership"},
-  {email:"info@kent-seo-services.co.uk",username:"learnseo",firstname:"",lastname:"",membership:"3 Month Membership"},
-  {email:"seorankjuice@gmail.com",username:"brswonga",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"deepseostrategy@gmail.com",username:"tashcorp",firstname:"",lastname:"",membership:"Lifetime membership (99 Years)"},
-  {email:"evgenii.gostiukhin@gmail.com",username:"izlesa",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"contact@royalpurity.com",username:"royal",firstname:"",lastname:"",membership:"Lifetime membership (99 Years)"},
-  {email:"patrickalgrim@gmail.com",username:"thepda",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"aynay7@yahoo.com",username:"ayn",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"dingtoolllc@gmail.com",username:"dingtool",firstname:"",lastname:"",membership:"3 Month Membership"},
-  {email:"lover.liwern@yahoo.com",username:"liwern",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"frankweerasinghe@gmail.com",username:"frankonline",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"sangi.gau4@gmail.com",username:"kris1911",firstname:"",lastname:"",membership:"Lifetime membership (99 Years)"},
-  {email:"rickob@mail.com",username:"Wired on Coffee",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"tom@totalodds.net",username:"totalodds",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"eulaj.durr@gmail.com",username:"rere003",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"jjooee2016@gmail.com",username:"joenguyen1999",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"NEVIL7@HOTMAIL.COM",username:"Nevil7",firstname:"",lastname:"",membership:"1 Year Membership"},
-  {email:"amar.ryder@gmail.com",username:"Amaryder",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"harishrockzz@gmail.com",username:"harish14",firstname:"harish",lastname:"rock",membership:"Monthly Membership"},
-  {email:"rawatnagendra007@gmail.com",username:"nsrawat",firstname:"",lastname:"",membership:"Lifetime membership (99 Years)"},
-  {email:"usamamustafamughal8@gmail.com",username:"usamamustafa",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"abhishekupadhyay0007@gmail.com",username:"Abhishek",firstname:"",lastname:"",membership:"Lifetime membership (99 Years)"},
-  {email:"mail@geraldgozali.com",username:"hikaro",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"livegaming@mailbox.org",username:"cfor",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"theviolinlessons@gmail.com",username:"theviolinlessons",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"ian.kohchang@gmail.com",username:"islander",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"dinhphuc2387@gmail.com",username:"dinhphuc2387",firstname:"Phuc",lastname:"Dinh",membership:"Lifetime membership (99 Years)"},
-  {email:"pranshukhanna534@gmail.com",username:"Pranshukh",firstname:"",lastname:"",membership:"Lifetime membership (99 Years)"},
-  {email:"alexpujolb@gmail.com",username:"alexkidd",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"bojan.sever93@gmail.com",username:"Soldier72",firstname:"",lastname:"",membership:"1 Year Membership"},
-  {email:"joey@iclojimarketing.com",username:"iclojimarketing",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"10kaffiliates@gmail.com",username:"caso12",firstname:"",lastname:"",membership:"Lifetime membership (99 Years)"},
-  {email:"malikfaisalalikhan@gmail.com",username:"shafaatali75",firstname:"faisal",lastname:"malik",membership:"Lifetime membership (99 Years)"},
-  {email:"drmkensington@gmail.com",username:"drmkensington@gmail.com",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"hspot2334@gmail.com",username:"mir4kir",firstname:"ranked",lastname:"seo",membership:"Lifetime membership (99 Years)"},
-  {email:"syedadnan301@gmail.com",username:"Sadnan19",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"dimahna2017@gmail.com",username:"dimahna",firstname:"",lastname:"",membership:"3 Month Membership"},
-  {email:"alihaider97111@gmail.com",username:"alihaider2029",firstname:"",lastname:"",membership:"Lifetime membership (99 Years)"},
-  {email:"adilriaz91@gmail.com",username:"adilriaz91",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"seodoortodoor.pk@gmail.com",username:"basit121",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"alessaboss1212@gmail.com",username:"alessaboss1212",firstname:"Jamrs",lastname:"mrr",membership:"Lifetime membership (99 Years)"},
-  {email:"georgios.mouratidis90@gmail.com",username:"hariettethespy",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"andreidicusar@gmail.com",username:"adicusar",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"langthanger45@gmail.com",username:"langthanger45@gmail.com",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"aiomp3s@gmail.com",username:"mywish1",firstname:"",lastname:"",membership:"3 Month Membership"},
-  {email:"deanndevos@gmail.com",username:"belg",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"fog.edo12@gmail.com",username:"fogedo12",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"tasakos78@gmail.com",username:"ktavas",firstname:"",lastname:"",membership:"Lifetime membership (99 Years)"},
-  {email:"gmustafa599@gmail.com",username:"azad2233",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"Muhammadfaizanofficial96@gmail.com",username:"faizan",firstname:"Muhammad",lastname:"Faizan",membership:"3 Month Membership"},
-  {email:"wpsokw@gmail.com",username:"wpsokw",firstname:"",lastname:"",membership:"Lifetime membership (99 Years)"},
-  {email:"commandosoftware@gmail.com",username:"Hna2020",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"jeff@linkwheels.org",username:"sciborg",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"anusnation@gmail.com",username:"spezznacci",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"shannonmblack82@gmail.com",username:"abababa",firstname:"",lastname:"",membership:"1 Year Membership"},
-  {email:"alex@monarchwave.com",username:"MonarchWave",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"superninja777888@gmail.com",username:"superninja777",firstname:"",lastname:"",membership:"Lifetime membership (99 Years)"},
-  {email:"chemsservices@gmail.com",username:"chemicalx",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"setupablogtoday@gmail.com",username:"verybadthings",firstname:"",lastname:"",membership:"3 Month Membership"},
-  {email:"techgearsnet@gmail.com",username:"techgearsnet",firstname:"",lastname:"",membership:"1 Year Membership"},
-  {email:"admin@xmgseo.com",username:"xmgseo",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"sgu3286@naver.com",username:"hwaback",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"qwertyseo4@gmail.com",username:"Miller",firstname:"",lastname:"",membership:"1 Year Membership"},
-  {email:"danielfoster437@gmail.com",username:"backlinkcat",firstname:"",lastname:"",membership:"1 Year Membership"},
-  {email:"post@tinashehair.com",username:"Tinashehair",firstname:"",lastname:"",membership:"Lifetime membership (99 Years)"},
-  {email:"jb61188@gmail.com",username:"rankdbacklinks",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"miyuru2u@gmail.com",username:"miyuru4u",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"lostchiekurs@gmail.com",username:"lostchiekurs",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"max.owono@gmail.com",username:"soulbanga",firstname:"Max",lastname:"Owono",membership:"Lifetime membership (99 Years)"},
-  {email:"contact@majux.com",username:"mm2789",firstname:"",lastname:"",membership:"3 Month Membership"},
-  {email:"contactjohnhiggins@gmail.com",username:"AndroidMan",firstname:"",lastname:"",membership:"1 Year Membership"},
-  {email:"marphila.cm@gmail.com",username:"marphila",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"ipcombg@protonmail.com",username:"jicbeatz",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"jprespina@hotmail.com",username:"PeterParking",firstname:"",lastname:"",membership:"3 Month Membership"},
-  {email:"loknath.tcms@gmail.com",username:"loknathtcms",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"mikelakos@tutanota.com",username:"mikelakos",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"agorex.s.a@gmail.com",username:"Agorex",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"renoschwarzen@gmail.com",username:"renoschwarzen",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"charlesmaximilien@protonmail.com",username:"maximilie",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"sathishisaac@gmail.com",username:"saharaice",firstname:"",lastname:"",membership:"Lifetime membership (99 Years)"},
-  {email:"pp@cuongnghiem.com",username:"vnseogroup",firstname:"",lastname:"",membership:"Lifetime membership (99 Years)"},
-  {email:"martinklob1@gmail.com",username:"martin.klob",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"luongphan711368@gmail.com",username:"mrjohny",firstname:"",lastname:"",membership:"1 Year Membership"},
-  {email:"info@netspaceventures.com",username:"netspace",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"dannyogolo@yahoo.com",username:"dannyogolo",firstname:"Damiel",lastname:"Ogolo",membership:"Lifetime membership (99 Years)"},
-  {email:"thomas@vaned.com",username:"vaneducationcenter",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"christophersethpalmer@gmail.com",username:"chrsplmr",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"alrolja@gmail.com",username:"roldana",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"hector.kako1@gmail.com",username:"nhoxhoanglk",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"mati.emagallanes@gmail.com",username:"matimagallanes1",firstname:"",lastname:"",membership:"Lifetime membership (99 Years)"},
-  {email:"marc@upfront.ie",username:"marcmurray92",firstname:"Marc",lastname:"Murray",membership:"Monthly Membership"},
-  {email:"youlnowitz@gmail.com",username:"johnny",firstname:"",lastname:"",membership:"Monthly Membership"},
-  {email:"kevin1987best@gmail.com",username:"kevin1987",firstname:"",lastname:"",membership:"3 Month Membership"},
-  {email:"whoisdomains2013@gmail.com",username:"geekguy1976",firstname:"",lastname:"",membership:"1 Year Membership"},
-  // Remaining users from row 730 onward - truncated in this array for size, 
-  // but the script handles all users from the full CSV
-];
+// Simple CSV parser that handles quoted fields
+function parseCSV(text) {
+  const lines = text.split('\n').filter(l => l.trim());
+  if (lines.length < 2) return [];
+  
+  const headers = parseCSVLine(lines[0]);
+  const rows = [];
+  
+  for (let i = 1; i < lines.length; i++) {
+    const values = parseCSVLine(lines[i]);
+    if (values.length === 0) continue;
+    const row = {};
+    headers.forEach((h, idx) => {
+      row[h.trim()] = (values[idx] || '').trim();
+    });
+    rows.push(row);
+  }
+  return rows;
+}
 
-// Plan name mapping
+function parseCSVLine(line) {
+  const result = [];
+  let current = '';
+  let inQuotes = false;
+  
+  for (let i = 0; i < line.length; i++) {
+    const ch = line[i];
+    if (ch === '"') {
+      if (inQuotes && line[i + 1] === '"') {
+        current += '"';
+        i++;
+      } else {
+        inQuotes = !inQuotes;
+      }
+    } else if (ch === ',' && !inQuotes) {
+      result.push(current);
+      current = '';
+    } else {
+      current += ch;
+    }
+  }
+  result.push(current);
+  return result;
+}
+
+// Plan name mapping from CSV membership to DB plan name
 const PLAN_MAP = {
   'Monthly Membership': 'Monthly Membership',
   '1 Year Membership': '1 Year Membership',
@@ -519,6 +59,12 @@ const PLAN_MAP = {
 };
 
 async function main() {
+  // Read CSV
+  const csvPath = path.join(__dirname, 'members.csv');
+  const csvText = fs.readFileSync(csvPath, 'utf-8');
+  const rows = parseCSV(csvText);
+  console.log(`Parsed ${rows.length} rows from CSV`);
+
   const hashedPassword = await bcrypt.hash('Rankdseo2025!', 10);
   const now = new Date();
 
@@ -553,9 +99,14 @@ async function main() {
   // Step 2: Import users
   let created = 0, skipped = 0, errors = 0;
 
-  for (const u of users) {
-    const emailLower = u.email.toLowerCase().trim();
-    
+  for (const row of rows) {
+    const emailLower = (row.email || '').toLowerCase().trim();
+    if (!emailLower) {
+      console.error('Skipping row with no email:', JSON.stringify(row));
+      errors++;
+      continue;
+    }
+
     // Check if user already exists
     const existing = await prisma.user.findUnique({ where: { email: emailLower } });
     if (existing) {
@@ -564,27 +115,32 @@ async function main() {
     }
 
     // Determine plan
-    const planName = PLAN_MAP[u.membership];
+    const membership = (row.membership || '').trim();
+    const planName = PLAN_MAP[membership];
     const plan = planByName[planName];
     if (!plan) {
-      console.error(`No plan found for "${u.membership}" (user: ${emailLower})`);
+      console.error(`No plan found for "${membership}" (user: ${emailLower})`);
       errors++;
       continue;
     }
 
     // Calculate period end
     let periodEnd;
-    if (u.membership === 'Lifetime membership (99 Years)') {
+    if (membership === 'Lifetime membership (99 Years)') {
       periodEnd = new Date(now.getTime() + 99 * 365 * 24 * 60 * 60 * 1000);
-    } else if (u.membership === '1 Year Membership') {
+    } else if (membership === '1 Year Membership') {
       periodEnd = new Date(now.getTime() + 365 * 24 * 60 * 60 * 1000);
-    } else if (u.membership === '3 Month Membership') {
+    } else if (membership === '3 Month Membership') {
       periodEnd = new Date(now.getTime() + 90 * 24 * 60 * 60 * 1000);
     } else {
+      // Monthly
       periodEnd = new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000);
     }
 
-    const name = [u.firstname, u.lastname].filter(Boolean).join(' ') || u.username || null;
+    const firstname = (row.firstname || '').trim();
+    const lastname = (row.lastname || '').trim();
+    const username = (row.username || '').trim();
+    const name = [firstname, lastname].filter(Boolean).join(' ') || username || null;
 
     try {
       await prisma.user.create({
@@ -605,14 +161,26 @@ async function main() {
         },
       });
       created++;
+      if (created % 50 === 0) {
+        console.log(`Progress: ${created} created so far...`);
+      }
     } catch (err) {
       console.error(`Error creating ${emailLower}:`, err.message);
       errors++;
     }
   }
 
-  console.log(`\nImport complete: ${created} created, ${skipped} skipped (already exist), ${errors} errors`);
-  console.log(`Total users in array: ${users.length}`);
+  console.log(`\n========== IMPORT COMPLETE ==========`);
+  console.log(`Total CSV rows: ${rows.length}`);
+  console.log(`Created: ${created}`);
+  console.log(`Skipped (already exist): ${skipped}`);
+  console.log(`Errors: ${errors}`);
+  
+  // Final count
+  const totalUsers = await prisma.user.count();
+  const totalSubs = await prisma.subscription.count();
+  console.log(`\nTotal users in DB: ${totalUsers}`);
+  console.log(`Total subscriptions in DB: ${totalSubs}`);
 }
 
 main()
