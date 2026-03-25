@@ -1319,6 +1319,68 @@ export const adminRouter = router({
       });
       return { updated: input.ids.length };
     }),
+
+  // Send expiration notification emails to users with expired subscriptions
+  sendExpirationEmails: adminProcedure
+    .input(z.object({
+      userIds: z.array(z.string()).optional(), // specific users, or all expired if omitted
+    }).optional())
+    .mutation(async ({ ctx, input }) => {
+      const now = new Date();
+
+      // Find expired subscriptions (non-admin, non-free, non-demo)
+      const expiredSubs = await ctx.prisma.subscription.findMany({
+        where: {
+          currentPeriodEnd: { lt: now },
+          status: 'ACTIVE',
+          user: {
+            role: 'USER',
+            email: { not: 'demo@rankdseo.com' },
+          },
+          plan: { price: { gt: 0 } },
+          ...(input?.userIds && input.userIds.length > 0 ? { userId: { in: input.userIds } } : {}),
+        },
+        include: {
+          user: true,
+          plan: true,
+        },
+      });
+
+      if (expiredSubs.length === 0) {
+        return { sent: 0, failed: 0, message: 'No expired subscriptions found' };
+      }
+
+      let sent = 0;
+      let failed = 0;
+
+      for (const sub of expiredSubs) {
+        try {
+          const expiredDate = sub.currentPeriodEnd
+            ? new Date(sub.currentPeriodEnd).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
+            : 'N/A';
+
+          const template = emailTemplates.subscriptionExpired(
+            sub.user.name || sub.user.email,
+            sub.plan.name,
+            expiredDate,
+          );
+
+          await sendEmail({
+            to: sub.user.email,
+            subject: template.subject,
+            html: template.html,
+          });
+
+          console.log(`📧 Expiration email sent to ${sub.user.email}`);
+          sent++;
+        } catch (error) {
+          console.error(`❌ Failed to send expiration email to ${sub.user.email}:`, error);
+          failed++;
+        }
+      }
+
+      return { sent, failed, total: expiredSubs.length };
+    }),
 });
 
 // Helper function to notify all users of a new opportunity

@@ -31,6 +31,7 @@ SaaS application for managing Backlink Opportunities. Users can discover, track,
 
 ## What's Been Implemented
 - [Mar 25 2026] Subscription Expiration: Enforces plan duration (monthly/yearly/lifetime). Expired users see block screen with renewal CTA. Admin & demo users exempt. `getSubscriptionStatus` tRPC endpoint verified working.
+- [Mar 25 2026] Expiration Email Notifications: `admin.sendExpirationEmails` tRPC endpoint sends branded expiration emails to users with expired subscriptions. Can target specific users or all expired users. Email template in `mailgun.ts`.
 - [Mar 6 2026] Invoice System: A4-formatted invoice with SIA Uprankd company details, public invoice page, print support
 - [Mar 2026] Backlink Creator Bot: One-time Playwright bot with 2Captcha, final report at `/app/backlink_bot_final_report.json`
 - [Mar 2026] Homepage: Sales copy section, "View Sample Backlink" button for guests

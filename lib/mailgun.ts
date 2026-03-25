@@ -1208,4 +1208,84 @@ export const emailTemplates = {
       </html>
     `,
   }),
+
+  subscriptionExpired: (userName: string, planName: string, expiredDate: string) => ({
+    subject: 'Your RankdSEO Membership Has Expired — Renew to Keep Access',
+    html: `
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <style>
+            body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; margin: 0; padding: 0; }
+            .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+            .header { background: linear-gradient(135deg, #dc2626 0%, #ef4444 100%); color: white; padding: 30px; text-align: center; border-radius: 10px 10px 0 0; }
+            .content { background: #f9fafb; padding: 30px; border-radius: 0 0 10px 10px; }
+            .expired-card { background: white; border: 2px solid #ef4444; border-radius: 12px; padding: 25px; margin: 20px 0; text-align: center; }
+            .expired-icon { font-size: 48px; margin-bottom: 10px; }
+            .expired-label { font-size: 14px; color: #6b7280; text-transform: uppercase; }
+            .expired-plan { font-size: 22px; font-weight: bold; color: #dc2626; margin: 8px 0; }
+            .expired-date { font-size: 14px; color: #6b7280; }
+            .benefits-box { background: #fef2f2; border-radius: 12px; padding: 20px; margin: 20px 0; }
+            .benefits-title { font-weight: bold; color: #991b1b; margin-bottom: 12px; font-size: 16px; }
+            .benefit-item { display: flex; align-items: center; margin: 8px 0; color: #991b1b; }
+            .benefit-icon { margin-right: 10px; }
+            .renew-box { background: linear-gradient(135deg, #eff6ff 0%, #ecfeff 100%); border: 2px solid #3b82f6; border-radius: 12px; padding: 25px; margin: 20px 0; text-align: center; }
+            .renew-title { font-size: 20px; font-weight: bold; color: #1e40af; margin-bottom: 10px; }
+            .renew-desc { color: #4b5563; margin-bottom: 20px; }
+            .button { display: inline-block; background: linear-gradient(135deg, #3b82f6 0%, #06b6d4 100%); color: #ffffff; padding: 16px 40px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 16px; }
+            .footer { text-align: center; color: #6b7280; padding: 20px; font-size: 14px; }
+          </style>
+        </head>
+        <body>
+          <div class="container">
+            <div class="header">
+              <h1 style="margin: 0; font-size: 28px;">Membership Expired</h1>
+              <p style="margin: 10px 0 0 0; opacity: 0.9; font-size: 16px;">Your access has been restricted</p>
+            </div>
+            <div class="content">
+              <h2 style="color: #1e40af;">Hi ${userName},</h2>
+              <p>We wanted to let you know that your RankdSEO membership has expired and your access to the platform has been restricted.</p>
+              
+              <div class="expired-card">
+                <div class="expired-icon">&#9888;</div>
+                <div class="expired-label">Expired Plan</div>
+                <div class="expired-plan">${planName}</div>
+                <div class="expired-date">Expired on ${expiredDate}</div>
+              </div>
+              
+              <div class="benefits-box">
+                <div class="benefits-title">You're missing out on:</div>
+                <div class="benefit-item"><span class="benefit-icon">&#10007;</span> Access to 1,300+ backlink opportunities</div>
+                <div class="benefit-item"><span class="benefit-icon">&#10007;</span> Step-by-step tutorials with screenshots</div>
+                <div class="benefit-item"><span class="benefit-icon">&#10007;</span> Project tracking and analytics</div>
+                <div class="benefit-item"><span class="benefit-icon">&#10007;</span> Priority support and new opportunity alerts</div>
+              </div>
+
+              <div class="renew-box">
+                <div class="renew-title">Renew Your Membership</div>
+                <div class="renew-desc">Get instant access to all premium features again. Plans start at $34.99/month.</div>
+                <a href="${process.env.NEXT_PUBLIC_APP_URL}/signup" class="button" style="color: #ffffff;">Renew Now</a>
+              </div>
+
+              <p style="color: #6b7280; font-size: 14px; margin-top: 20px;">If you believe this is a mistake or have questions about your subscription, please contact our support team.</p>
+
+              <p>We'd love to have you back!</p>
+              <p><strong>The RankdSEO Team</strong></p>
+            </div>
+            <div class="footer">
+              <p style="margin-bottom: 5px;"><strong>SIA Uprankd</strong></p>
+              <p style="font-size: 12px; color: #9ca3af;">
+                Brivibas street 40 - 20B, Riga, Latvia, LV-1050<br>
+                VAT: LV44103141201
+              </p>
+              <p style="font-size: 12px;">
+                <a href="${process.env.NEXT_PUBLIC_APP_URL}/settings" style="color: #6b7280;">Account Settings</a> ·
+                <a href="mailto:billing@uprankd.com" style="color: #6b7280;">Contact Support</a>
+              </p>
+            </div>
+          </div>
+        </body>
+      </html>
+    `,
+  }),
 };
