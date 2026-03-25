@@ -28,6 +28,7 @@ import {
 import { signOut } from 'next-auth/react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect } from 'react';
+import { PayPalScriptProvider, PayPalButtons } from '@paypal/react-paypal-js';
 
 export default function SettingsPage() {
   const router = useRouter();
@@ -67,6 +68,9 @@ export default function SettingsPage() {
   
   // Coupon state for upgrades
   const [couponCodes, setCouponCodes] = useState<Record<string, string>>({});
+  // PayPal upgrade state
+  const [paymentMethods, setPaymentMethods] = useState<Record<string, 'stripe' | 'paypal'>>({});
+  const [paypalPlanId, setPaypalPlanId] = useState<string | null>(null);
 
   // Queries
   const { data: preferences, refetch: refetchPreferences } = trpc.settings.getPreferences.useQuery();
@@ -131,6 +135,9 @@ export default function SettingsPage() {
       toast.error(error.message);
     },
   });
+
+  const createPayPalUpgrade = trpc.subscription.createPayPalUpgradeOrder.useMutation();
+  const capturePayPalUpgrade = trpc.subscription.capturePayPalUpgradePayment.useMutation();
 
   const handleUpdateProfile = () => {
     if (name || email) {
@@ -350,32 +357,142 @@ export default function SettingsPage() {
                               </div>
                             )}
                             
-                            <Button 
-                              onClick={() => changePlan.mutate({ 
-                                planId: plan.id,
-                                couponCode: couponCodes[plan.id] || undefined
-                              })}
-                              disabled={changePlan.isPending}
-                              className="w-full bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white"
-                            >
-                              {changePlan.isPending ? (
-                                <>
-                                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                                  Processing...
-                                </>
-                              ) : (
-                                <>
-                                  {plan.price > 0 ? (
-                                    <>
-                                      <CreditCard className="mr-2 h-4 w-4" />
-                                      Upgrade & Pay
-                                    </>
-                                  ) : (
-                                    'Select Plan'
-                                  )}
-                                </>
-                              )}
-                            </Button>
+                            {/* Payment Method Selection for paid plans */}
+                            {plan.price > 0 && paypalPlanId !== plan.id && (
+                              <div className="mb-4">
+                                <Label className="text-sm text-gray-600 mb-2 block">Payment Method</Label>
+                                <div className="grid grid-cols-2 gap-2">
+                                  <button
+                                    type="button"
+                                    data-testid={`payment-stripe-${plan.id}`}
+                                    onClick={() => setPaymentMethods(prev => ({ ...prev, [plan.id]: 'stripe' }))}
+                                    className={`p-3 border-2 rounded-lg transition-all text-center ${
+                                      (paymentMethods[plan.id] || 'stripe') === 'stripe'
+                                        ? 'border-blue-600 bg-blue-50'
+                                        : 'border-gray-200 hover:border-blue-300'
+                                    }`}
+                                  >
+                                    <CreditCard className="h-4 w-4 mx-auto mb-1" />
+                                    <span className="text-xs font-semibold">Card</span>
+                                  </button>
+                                  <button
+                                    type="button"
+                                    data-testid={`payment-paypal-${plan.id}`}
+                                    onClick={() => setPaymentMethods(prev => ({ ...prev, [plan.id]: 'paypal' }))}
+                                    className={`p-3 border-2 rounded-lg transition-all text-center ${
+                                      paymentMethods[plan.id] === 'paypal'
+                                        ? 'border-blue-600 bg-blue-50'
+                                        : 'border-gray-200 hover:border-blue-300'
+                                    }`}
+                                  >
+                                    <svg className="h-4 w-4 mx-auto mb-1" viewBox="0 0 24 24" fill="#003087">
+                                      <path d="M20.067 8.478c.492.88.556 2.014.3 3.327-.74 3.806-3.276 5.12-6.514 5.12h-.5a.805.805 0 00-.794.68l-.04.22-.63 3.993-.028.147a.802.802 0 01-.793.679H7.72a.483.483 0 01-.477-.558L9.28 7.813a.962.962 0 01.949-.813h5.366c.693 0 1.311.058 1.844.174a5.45 5.45 0 011.628.578z"/>
+                                    </svg>
+                                    <span className="text-xs font-semibold">PayPal</span>
+                                  </button>
+                                </div>
+                              </div>
+                            )}
+
+                            {/* PayPal Buttons */}
+                            {plan.price > 0 && paypalPlanId === plan.id ? (
+                              <div className="space-y-3" data-testid={`paypal-buttons-${plan.id}`}>
+                                <Label className="text-sm font-semibold">Complete Payment with PayPal</Label>
+                                <PayPalScriptProvider options={{
+                                  clientId: process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID || '',
+                                  currency: 'USD',
+                                }}>
+                                  <PayPalButtons
+                                    style={{ layout: 'vertical', height: 40 }}
+                                    createOrder={async () => {
+                                      try {
+                                        const result = await createPayPalUpgrade.mutateAsync({
+                                          planId: plan.id,
+                                          couponCode: couponCodes[plan.id] || undefined,
+                                        });
+                                        if (!result.requiresPayment) {
+                                          toast.success(result.message || 'Plan updated!');
+                                          setTimeout(() => window.location.reload(), 1500);
+                                          return '';
+                                        }
+                                        return result.orderId || '';
+                                      } catch (error: any) {
+                                        toast.error(error.message || 'Failed to create PayPal order');
+                                        setPaypalPlanId(null);
+                                        throw error;
+                                      }
+                                    }}
+                                    onApprove={async (data) => {
+                                      try {
+                                        const result = await capturePayPalUpgrade.mutateAsync({ orderId: data.orderID });
+                                        toast.success(`Plan upgraded to ${result.planName}!`);
+                                        setTimeout(() => window.location.reload(), 1500);
+                                      } catch (error: any) {
+                                        toast.error(error.message || 'Payment capture failed');
+                                        setPaypalPlanId(null);
+                                      }
+                                    }}
+                                    onError={() => {
+                                      toast.error('PayPal payment failed. Please try again.');
+                                      setPaypalPlanId(null);
+                                    }}
+                                    onCancel={() => {
+                                      toast.info('Payment cancelled');
+                                      setPaypalPlanId(null);
+                                    }}
+                                  />
+                                </PayPalScriptProvider>
+                                <Button
+                                  type="button"
+                                  variant="outline"
+                                  className="w-full"
+                                  onClick={() => setPaypalPlanId(null)}
+                                  data-testid={`paypal-cancel-${plan.id}`}
+                                >
+                                  Cancel
+                                </Button>
+                              </div>
+                            ) : (
+                              <Button 
+                                onClick={() => {
+                                  if (plan.price > 0 && paymentMethods[plan.id] === 'paypal') {
+                                    setPaypalPlanId(plan.id);
+                                  } else {
+                                    changePlan.mutate({ 
+                                      planId: plan.id,
+                                      couponCode: couponCodes[plan.id] || undefined
+                                    });
+                                  }
+                                }}
+                                disabled={changePlan.isPending}
+                                className="w-full bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white"
+                                data-testid={`upgrade-btn-${plan.id}`}
+                              >
+                                {changePlan.isPending ? (
+                                  <>
+                                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                    Processing...
+                                  </>
+                                ) : (
+                                  <>
+                                    {plan.price > 0 ? (
+                                      <>
+                                        {paymentMethods[plan.id] === 'paypal' ? (
+                                          <svg className="mr-2 h-4 w-4" viewBox="0 0 24 24" fill="currentColor">
+                                            <path d="M20.067 8.478c.492.88.556 2.014.3 3.327-.74 3.806-3.276 5.12-6.514 5.12h-.5a.805.805 0 00-.794.68l-.04.22-.63 3.993-.028.147a.802.802 0 01-.793.679H7.72a.483.483 0 01-.477-.558L9.28 7.813a.962.962 0 01.949-.813h5.366c.693 0 1.311.058 1.844.174a5.45 5.45 0 011.628.578z"/>
+                                          </svg>
+                                        ) : (
+                                          <CreditCard className="mr-2 h-4 w-4" />
+                                        )}
+                                        Upgrade & Pay
+                                      </>
+                                    ) : (
+                                      'Select Plan'
+                                    )}
+                                  </>
+                                )}
+                              </Button>
+                            )}
                           </CardContent>
                         </Card>
                       ))}

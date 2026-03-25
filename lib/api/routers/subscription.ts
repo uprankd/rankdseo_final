@@ -2,6 +2,8 @@ import { router, protectedProcedure, publicProcedure } from '../trpc';
 import { z } from 'zod';
 import { TRPCError } from '@trpc/server';
 import { stripe } from '../../stripe';
+import { createPayPalOrder, capturePayPalOrder } from '../../paypal';
+import { sendEmail, emailTemplates } from '../../mailgun';
 
 export const subscriptionRouter = router({
   getPublicPlans: publicProcedure.query(async ({ ctx }) => {
@@ -347,4 +349,200 @@ export const subscriptionRouter = router({
       },
     };
   }),
+
+  // Create PayPal order for plan upgrade (existing users)
+  createPayPalUpgradeOrder: protectedProcedure
+    .input(z.object({
+      planId: z.string(),
+      couponCode: z.string().optional(),
+    }))
+    .mutation(async ({ ctx, input }) => {
+      const { planId, couponCode } = input;
+
+      const plan = await ctx.prisma.plan.findUnique({ where: { id: planId } });
+      if (!plan) {
+        throw new TRPCError({ code: 'NOT_FOUND', message: 'Plan not found' });
+      }
+
+      const currentSubscription = await ctx.prisma.subscription.findUnique({
+        where: { userId: ctx.user.id },
+        include: { plan: true },
+      });
+
+      if (!currentSubscription) {
+        throw new TRPCError({ code: 'NOT_FOUND', message: 'No active subscription found' });
+      }
+
+      // Free plan — switch directly
+      if (plan.price === 0) {
+        await ctx.prisma.subscription.update({
+          where: { userId: ctx.user.id },
+          data: {
+            planId: plan.id,
+            currentPeriodStart: new Date(),
+            currentPeriodEnd: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
+          },
+        });
+        return { requiresPayment: false, orderId: null, message: 'Plan updated successfully' };
+      }
+
+      // Block downgrades
+      if (currentSubscription.plan.price >= plan.price && plan.price > 0) {
+        throw new TRPCError({
+          code: 'BAD_REQUEST',
+          message: 'Cannot downgrade to a less expensive plan. Please cancel your current subscription first.',
+        });
+      }
+
+      // Apply coupon
+      let finalPrice = plan.price;
+      let couponData: any = null;
+
+      if (couponCode) {
+        const coupon = await ctx.prisma.coupon.findFirst({
+          where: {
+            code: couponCode.toUpperCase(),
+            isActive: true,
+            OR: [{ expiresAt: null }, { expiresAt: { gte: new Date() } }],
+          },
+        });
+
+        if (coupon) {
+          if (coupon.maxUses && coupon.usedCount >= coupon.maxUses) {
+            throw new TRPCError({ code: 'BAD_REQUEST', message: 'Coupon has reached its usage limit' });
+          }
+          const existingUsage = await ctx.prisma.couponUsage.findFirst({
+            where: { couponId: coupon.id, userId: ctx.user.id },
+          });
+          if (existingUsage) {
+            throw new TRPCError({ code: 'BAD_REQUEST', message: 'You have already used this coupon' });
+          }
+
+          const discountAmount = Math.floor(plan.price * (coupon.discountValue / 100));
+          finalPrice = Math.max(0, plan.price - discountAmount);
+          couponData = { id: coupon.id, code: coupon.code, discountValue: coupon.discountValue, discountAmount, finalPrice };
+
+          // If free after coupon, upgrade directly
+          if (finalPrice <= 0) {
+            await ctx.prisma.subscription.update({
+              where: { userId: ctx.user.id },
+              data: { planId: plan.id, currentPeriodStart: new Date(), currentPeriodEnd: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000) },
+            });
+            await ctx.prisma.couponUsage.create({ data: { couponId: coupon.id, userId: ctx.user.id } });
+            await ctx.prisma.coupon.update({ where: { id: coupon.id }, data: { usedCount: { increment: 1 } } });
+            return { requiresPayment: false, orderId: null, message: `Plan upgraded with ${coupon.discountValue}% discount! No payment required.` };
+          }
+        }
+      }
+
+      // Create PayPal order
+      const paypalOrder = await createPayPalOrder(finalPrice, 'USD');
+
+      await ctx.prisma.paymentTransaction.create({
+        data: {
+          userId: ctx.user.id,
+          planId: plan.id,
+          amount: finalPrice / 100,
+          currency: 'usd',
+          status: 'PENDING',
+          sessionId: paypalOrder.orderId,
+          paymentMethod: 'paypal',
+          metadata: {
+            type: 'UPGRADE',
+            planName: plan.name,
+            upgradeFrom: currentSubscription.plan.name,
+            customerName: ctx.user.name,
+            ...(couponData && { coupon: couponData }),
+          },
+        },
+      });
+
+      console.log(`💳 PayPal upgrade order created: ${paypalOrder.orderId} for ${ctx.user.email} (${currentSubscription.plan.name} → ${plan.name})`);
+
+      return { requiresPayment: true, orderId: paypalOrder.orderId };
+    }),
+
+  // Capture PayPal payment for plan upgrade
+  capturePayPalUpgradePayment: protectedProcedure
+    .input(z.object({ orderId: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      const { orderId } = input;
+
+      // Find the pending transaction
+      const transaction = await ctx.prisma.paymentTransaction.findFirst({
+        where: { sessionId: orderId, userId: ctx.user.id, status: 'PENDING' },
+      });
+
+      if (!transaction || !transaction.planId) {
+        throw new TRPCError({ code: 'NOT_FOUND', message: 'Transaction not found' });
+      }
+
+      // Capture the payment
+      const capture = await capturePayPalOrder(orderId);
+
+      // Update transaction
+      await ctx.prisma.paymentTransaction.update({
+        where: { id: transaction.id },
+        data: { status: 'SUCCEEDED', paymentIntent: capture.captureId, updatedAt: new Date() },
+      });
+
+      // Upgrade the subscription
+      const now = new Date();
+      const plan = await ctx.prisma.plan.findUnique({ where: { id: transaction.planId } });
+      let periodEnd: Date;
+      if (plan?.interval === 'lifetime') {
+        periodEnd = new Date(now.getTime() + 99 * 365 * 24 * 60 * 60 * 1000);
+      } else if (plan?.interval === 'year') {
+        periodEnd = new Date(now.getTime() + 365 * 24 * 60 * 60 * 1000);
+      } else {
+        periodEnd = new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000);
+      }
+
+      await ctx.prisma.subscription.update({
+        where: { userId: ctx.user.id },
+        data: {
+          planId: transaction.planId,
+          status: 'ACTIVE',
+          currentPeriodStart: now,
+          currentPeriodEnd: periodEnd,
+        },
+      });
+
+      // Record coupon usage if applicable
+      const meta = transaction.metadata as any;
+      if (meta?.coupon?.id) {
+        try {
+          await ctx.prisma.couponUsage.create({ data: { couponId: meta.coupon.id, userId: ctx.user.id } });
+          await ctx.prisma.coupon.update({ where: { id: meta.coupon.id }, data: { usedCount: { increment: 1 } } });
+        } catch (e) { /* coupon already used — ignore */ }
+      }
+
+      // Send confirmation email
+      try {
+        if (plan) {
+          const planFeatures = [
+            `${plan.maxOpportunities} backlink opportunities`,
+            `${plan.maxProjects} projects`,
+            'Priority support',
+            'Step-by-step tutorials',
+          ];
+          const activationEmail = emailTemplates.subscriptionActivated(
+            ctx.user.name || 'User',
+            plan.name,
+            planFeatures,
+          );
+          await sendEmail({
+            to: ctx.user.email,
+            subject: `Your Plan Has Been Upgraded to ${plan.name}!`,
+            html: activationEmail.html,
+          });
+        }
+      } catch (emailError) {
+        console.error('Failed to send upgrade email:', emailError);
+      }
+
+      console.log(`✅ PayPal upgrade captured: ${orderId} — ${ctx.user.email} upgraded to ${plan?.name}`);
+
+      return { success: true, planName: plan?.name };
+    }),
 });
