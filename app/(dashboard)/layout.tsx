@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
-import { LayoutDashboard, FolderOpen, Database, LogOut, Menu, X, Settings, Sparkles, Crown, Shield, TrendingUp, Users, Tag, BarChart3, FileText, Eye, ClipboardList, Flag } from 'lucide-react';
+import { LayoutDashboard, FolderOpen, Database, LogOut, Menu, X, Settings, Sparkles, Crown, Shield, TrendingUp, Users, Tag, BarChart3, FileText, Eye, ClipboardList, Flag, HelpCircle, Headphones } from 'lucide-react';
 import { signOut, useSession } from 'next-auth/react';
 import { trpc } from '@/lib/api/client';
 import { AlertTriangle } from 'lucide-react';
@@ -72,7 +72,8 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       { href: '/admin/invoices', icon: FileText, label: 'Invoices', gradient: 'from-green-500 to-emerald-500' },
       { href: '/admin/coupons', icon: Tag, label: 'Coupons', gradient: 'from-orange-500 to-red-500' },
       { href: '/admin/activity-log', icon: ClipboardList, label: 'Manage Log', gradient: 'from-teal-500 to-cyan-500' },
-      { href: '/admin/reports', icon: Flag, label: 'Reports', gradient: 'from-red-500 to-pink-500' }
+      { href: '/admin/reports', icon: Flag, label: 'Reports', gradient: 'from-red-500 to-pink-500' },
+      { href: '/admin/help', icon: Headphones, label: 'Help Desk', gradient: 'from-violet-500 to-purple-500' }
     ] : []),
   ];
 
@@ -180,6 +181,12 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                     <Button variant="ghost" className="w-full justify-start hover:bg-gradient-to-r hover:from-paleblue-50 hover:to-pink-50 h-14 text-base">
                       <Settings className="h-6 w-6 mr-3 text-gray-600" />
                       <span className="font-semibold">Settings</span>
+                    </Button>
+                  </Link>
+                  <Link href="/help">
+                    <Button variant={pathname === '/help' ? 'default' : 'ghost'} className={`w-full justify-start h-14 text-base ${pathname === '/help' ? 'bg-gradient-to-r from-violet-500 to-purple-500 text-white shadow-xl transform scale-105' : 'hover:bg-gradient-to-r hover:from-paleblue-50 hover:to-pink-50 hover:scale-105'}`} data-testid="sidebar-help-btn">
+                      <HelpCircle className={`h-6 w-6 mr-3 ${pathname === '/help' ? 'text-white' : 'text-gray-600'}`} />
+                      <span className="font-semibold">Help</span>
                     </Button>
                   </Link>
                 </div>

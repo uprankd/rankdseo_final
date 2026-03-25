@@ -30,6 +30,8 @@ model User {
   couponUsages      CouponUsage[]
   passwordResetTokens PasswordResetToken[]
   opportunityReports  OpportunityReport[]
+  supportTickets      SupportTicket[]
+  supportReplies      SupportReply[]
   
   @@index([email])
   @@index([accountStatus])
@@ -465,4 +467,49 @@ model CouponUsage {
   
   @@index([couponId])
   @@index([userId])
+}
+
+
+enum TicketStatus {
+  OPEN
+  ANSWERED
+  CLOSED
+}
+
+enum TicketPriority {
+  LOW
+  MEDIUM
+  HIGH
+}
+
+model SupportTicket {
+  id          String         @id @default(cuid())
+  subject     String
+  message     String
+  status      TicketStatus   @default(OPEN)
+  priority    TicketPriority @default(MEDIUM)
+  category    String         @default("general")
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+
+  userId      String
+  user        User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  replies     SupportReply[]
+
+  @@index([userId])
+  @@index([status])
+}
+
+model SupportReply {
+  id        String   @id @default(cuid())
+  message   String
+  isAdmin   Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  ticketId  String
+  ticket    SupportTicket @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+  userId    String
+  user      User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([ticketId])
 }

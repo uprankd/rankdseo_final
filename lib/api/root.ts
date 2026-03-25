@@ -9,6 +9,7 @@ import { settingsRouter } from './routers/settings';
 import { analyticsRouter } from './routers/analytics';
 import { paymentRouter } from './routers/payment';
 import { couponRouter } from './routers/coupon';
+import { supportRouter } from './routers/support';
 
 export const appRouter = router({
   auth: authRouter,
@@ -21,6 +22,7 @@ export const appRouter = router({
   analytics: analyticsRouter,
   payment: paymentRouter,
   coupon: couponRouter,
+  support: supportRouter,
 });
 
 export type AppRouter = typeof appRouter;
