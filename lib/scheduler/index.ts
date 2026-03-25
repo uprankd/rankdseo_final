@@ -61,10 +61,10 @@ export function startScheduler() {
     }
   }, 10 * 60 * 1000); // Check every 10 minutes
 
-  // Daily expiration email check - every 10 minutes (will only send at 8 AM)
-  console.log('📧 Starting daily expiration email scheduler (daily at 8 AM)');
+  // Daily expiration email check - every 10 minutes (will only send at 8 AM, starts after Apr 25 2026)
+  console.log('📧 Starting daily expiration email scheduler (daily at 8 AM, activates Apr 25 2026)');
   expirationEmailIntervalId = setInterval(() => {
-    if (isDailyExpirationTime()) {
+    if (isDailyExpirationTime() && new Date() >= new Date('2026-04-25')) {
       console.log('📧 Triggering automated expiration emails...');
       sendAutomatedExpirationEmails().catch(console.error);
     }
