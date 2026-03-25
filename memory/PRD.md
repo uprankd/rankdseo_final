@@ -35,6 +35,7 @@ SaaS application for managing Backlink Opportunities. Users can discover, track,
 - [Mar 25 2026] PayPal for Plan Upgrades: Users can now choose between Stripe (Card) and PayPal when upgrading their plan from Settings > Subscription. Two new tRPC endpoints: `createPayPalUpgradeOrder` and `capturePayPalUpgradePayment` in `subscription.ts`.
 - [Mar 25 2026] Google Tag Manager: GTM-T8DCXL86 added to root layout (script + noscript).
 - [Mar 25 2026] Free plan DB fix: Updated maxOpportunities from 50 to 20 in the Plan table.
+- [Mar 25 2026] Help & Support System: Full ticket support system — users submit tickets from /help (sidebar), admins manage from /admin/help (Help Desk). Supports categories, priorities, threaded replies, ticket status lifecycle (Open→Answered→Closed), and stats. New Prisma models: SupportTicket, SupportReply. tRPC router: support.
 - [Mar 6 2026] Invoice System: A4-formatted invoice with SIA Uprankd company details, public invoice page, print support
 - [Mar 2026] Backlink Creator Bot: One-time Playwright bot with 2Captcha, final report at `/app/backlink_bot_final_report.json`
 - [Mar 2026] Homepage: Sales copy section, "View Sample Backlink" button for guests
