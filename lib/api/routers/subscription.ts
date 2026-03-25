@@ -8,7 +8,7 @@ import { sendEmail, emailTemplates } from '../../mailgun';
 export const subscriptionRouter = router({
   getPublicPlans: publicProcedure.query(async ({ ctx }) => {
     const plans = await ctx.prisma.plan.findMany({
-      where: { isActive: true },
+      where: { isActive: true, name: { not: '3 Month Membership' } },
       orderBy: { priority: 'asc' },
     });
 

@@ -314,7 +314,7 @@ export default function SettingsPage() {
                   <div>
                     <h4 className="font-semibold text-lg mb-4">Upgrade or Change Plan</h4>
                     <div className="grid md:grid-cols-2 gap-4">
-                      {plans?.filter(p => p.id !== subscription.planId).map((plan) => (
+                      {plans?.filter(p => p.id !== subscription.planId && p.name !== '3 Month Membership').map((plan) => (
                         <Card key={plan.id} className="border-2 hover:border-navy-400 transition-all">
                           <CardHeader>
                             <CardTitle className="text-xl">{plan.name}</CardTitle>
