@@ -107,10 +107,7 @@ export default function SignInPage() {
               </Link>
             </div>
 
-            <div className="mt-4 text-center text-sm text-gray-500">
-              <p>Demo Account:</p>
-              <p>admin@rankseo.com / Admin123!</p>
-            </div>
+
           </CardContent>
         </Card>
       </div>
