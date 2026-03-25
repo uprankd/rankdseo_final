@@ -1,9 +1,11 @@
 import { verifyAllLinks } from '@/lib/jobs/link-verification';
 import { sendWeeklyReports, sendMonthlyReports } from '@/lib/jobs/report-scheduler';
+import { sendAutomatedExpirationEmails } from '@/lib/jobs/expiration-emails';
 
 let linkVerificationIntervalId: NodeJS.Timeout | null = null;
 let weeklyReportIntervalId: NodeJS.Timeout | null = null;
 let monthlyReportIntervalId: NodeJS.Timeout | null = null;
+let expirationEmailIntervalId: NodeJS.Timeout | null = null;
 
 // Check if it's Monday at 9 AM (for weekly reports)
 function isWeeklyReportTime(): boolean {
@@ -15,6 +17,12 @@ function isWeeklyReportTime(): boolean {
 function isMonthlyReportTime(): boolean {
   const now = new Date();
   return now.getDate() === 1 && now.getHours() === 9 && now.getMinutes() < 10;
+}
+
+// Check if it's 8 AM (daily expiration email check)
+function isDailyExpirationTime(): boolean {
+  const now = new Date();
+  return now.getHours() === 8 && now.getMinutes() < 10;
 }
 
 export function startScheduler() {
@@ -53,6 +61,15 @@ export function startScheduler() {
     }
   }, 10 * 60 * 1000); // Check every 10 minutes
 
+  // Daily expiration email check - every 10 minutes (will only send at 8 AM)
+  console.log('📧 Starting daily expiration email scheduler (daily at 8 AM)');
+  expirationEmailIntervalId = setInterval(() => {
+    if (isDailyExpirationTime()) {
+      console.log('📧 Triggering automated expiration emails...');
+      sendAutomatedExpirationEmails().catch(console.error);
+    }
+  }, 10 * 60 * 1000); // Check every 10 minutes
+
   console.log('✅ Scheduler started successfully');
 }
 
@@ -69,8 +86,13 @@ export function stopScheduler() {
     clearInterval(monthlyReportIntervalId);
     monthlyReportIntervalId = null;
   }
+  if (expirationEmailIntervalId) {
+    clearInterval(expirationEmailIntervalId);
+    expirationEmailIntervalId = null;
+  }
   console.log('⏹️ All schedulers stopped');
 }
 
 // Export for manual triggering from admin panel
 export { sendWeeklyReports, sendMonthlyReports } from '@/lib/jobs/report-scheduler';
+export { sendAutomatedExpirationEmails } from '@/lib/jobs/expiration-emails';

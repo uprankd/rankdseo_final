@@ -133,6 +133,7 @@ model Subscription {
   currentPeriodEnd        DateTime?
   cancelAtPeriodEnd       Boolean          @default(false)
   canceledAt              DateTime?
+  expirationEmailSentAt   DateTime?
   createdAt               DateTime         @default(now())
   updatedAt               DateTime         @updatedAt
   

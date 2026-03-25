@@ -10,7 +10,7 @@ SaaS application for managing Backlink Opportunities. Users can discover, track,
 - **Auth**: NextAuth.js
 - **Payments**: Stripe (working), PayPal (signup + upgrades working)
 - **Email**: Mailgun (sandbox mode)
-- **Scheduling**: node-schedule
+- **Scheduling**: node-schedule + setInterval-based scheduler
 
 ## Core Features (Implemented)
 - User auth with NextAuth
@@ -28,20 +28,19 @@ SaaS application for managing Backlink Opportunities. Users can discover, track,
 - Admin-initiated password reset (individual + bulk)
 - Opportunity reporting system for paid users
 - Subscription Expiration Enforcement
+- **Automated Expiration Emails** (daily at 8 AM, with duplicate prevention)
 - Help & Support Ticket System
 - Google Tag Manager, Google Analytics, Google Search Console
 - Bulk User Import from CSV
+- Hidden "3 Month Membership" plan (visible only in Admin → Manage Users)
 
 ## What's Been Implemented
-- [Mar 25 2026] Bulk User Import: Imported 709 users from old site CSV with correct subscription plans (Monthly, Yearly, 3-Month, Lifetime). Created hidden "3 Month Membership" plan at $34.99. Total users now: 736.
-- [Mar 25 2026] Help & Support System: Full ticket system with user/admin interfaces
-- [Mar 25 2026] PayPal for Plan Upgrades: Users can upgrade via PayPal from Settings
-- [Mar 25 2026] Google Integrations: GTM, GA, GSC
-- [Mar 25 2026] Subscription Expiration Emails: Admin-triggered email notifications
-- [Mar 25 2026] Free plan DB fix: Updated maxOpportunities from 50 to 20
+- [Mar 25 2026] Automated Expiration Emails: Scheduler runs daily at 8 AM, sends expiration emails to users with expired subscriptions. Uses `expirationEmailSentAt` field on Subscription to prevent duplicate sends. Both admin manual trigger and automated job mark emails as sent.
+- [Mar 25 2026] Hidden 3 Month Plan: Filtered from signup page (API-level) and settings page (frontend) — only visible in Admin → Manage Users.
+- [Mar 25 2026] Bulk User Import: Imported 709 users from old site CSV. Created hidden "3 Month Membership" plan at $34.99. Total users: 736.
+- [Mar 25 2026] Help & Support System, PayPal Upgrades, Google Integrations, Expiration Email Template
 - [Mar 6 2026] Invoice System: A4-formatted with SIA Uprankd company details
-- [Mar 2026] Backlink Creator Bot, Homepage updates, Admin password reset, Activity Log
-- [Mar 2026] Comprehensive SEO, slug URLs, demo mode, PayPal signup fix, pagination
+- [Mar 2026] Comprehensive SEO, slug URLs, demo mode, PayPal signup fix, pagination, Activity Log, Admin password reset
 
 ## Prioritized Backlog
 ### P0
@@ -51,7 +50,6 @@ SaaS application for managing Backlink Opportunities. Users can discover, track,
 - (none)
 
 ### P2
-- Automate Expiration Emails (scheduler - needs user confirmation)
 - Backlink Validator Bot (blocked on user feedback)
 - SEOBot AI Integration (seobotai.com)
 
@@ -67,12 +65,10 @@ SaaS application for managing Backlink Opportunities. Users can discover, track,
 - Mailgun: sandbox mode (only authorized recipients)
 
 ## Key Files
-- `/app/scripts/import-users.js` - Bulk user import script (reads CSV)
-- `/app/scripts/members.csv` - Source CSV for user import
-- `/app/app/(dashboard)/layout.tsx` - Dashboard layout with subscription expiration check
-- `/app/lib/api/routers/opportunity.ts` - Opportunity API with free plan + pagination
-- `/app/lib/api/routers/admin.ts` - Admin endpoints
-- `/app/lib/api/routers/support.ts` - Help/support ticket system
+- `/app/lib/jobs/expiration-emails.ts` - Automated expiration email job
+- `/app/lib/scheduler/index.ts` - Central scheduler (link verification, reports, expiration emails)
+- `/app/scripts/import-users.js` - Bulk user import script
+- `/app/lib/api/routers/admin.ts` - Admin endpoints (incl. manual expiration email trigger)
+- `/app/lib/api/routers/subscription.ts` - Subscription endpoints (3 Month plan filtered from public)
 - `/app/lib/mailgun.ts` - Email templates and sending
-- `/app/components/InvoiceA4.tsx` - A4 invoice component
-- `/app/prisma/schema.prisma` - Database schema
+- `/app/prisma/schema.prisma` - Database schema (added expirationEmailSentAt to Subscription)

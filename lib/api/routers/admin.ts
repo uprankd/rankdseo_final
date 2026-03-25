@@ -1371,6 +1371,12 @@ export const adminRouter = router({
             html: template.html,
           });
 
+          // Mark as sent so automated scheduler skips this user
+          await ctx.prisma.subscription.update({
+            where: { id: sub.id },
+            data: { expirationEmailSentAt: new Date() },
+          });
+
           console.log(`📧 Expiration email sent to ${sub.user.email}`);
           sent++;
         } catch (error) {
