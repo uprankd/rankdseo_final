@@ -221,7 +221,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                       </Badge>
                     </div>
                     <p className="text-white/95 text-sm font-semibold mb-4">Your membership has expired</p>
-                    <Link href="/settings">
+                    <Link href="/settings?tab=subscription">
                       <Button size="sm" variant="outline" className="w-full bg-white/20 backdrop-blur border-white/30 text-white hover:bg-white/30 font-semibold" data-testid="sidebar-renew-btn">
                         Renew Now
                       </Button>
@@ -263,7 +263,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                   </p>
                   <p className="text-gray-500 text-sm mb-8">Go to Settings to choose a new plan and renew your membership.</p>
                   <div className="flex gap-3">
-                    <Link href="/settings">
+                    <Link href="/settings?tab=subscription">
                       <Button className="bg-gradient-to-r from-navy-600 to-sky-500 text-white font-semibold px-8" data-testid="renew-membership-btn">
                         Renew Membership
                       </Button>
