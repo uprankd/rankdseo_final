@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
-import { LayoutDashboard, FolderOpen, Database, LogOut, Menu, X, Settings, Sparkles, Crown, Shield, TrendingUp, Users, Tag, BarChart3, FileText, Eye, ClipboardList, Flag, HelpCircle, Headphones } from 'lucide-react';
+import { LayoutDashboard, FolderOpen, Database, LogOut, Menu, X, Settings, Sparkles, Crown, Shield, TrendingUp, Users, Tag, BarChart3, FileText, Eye, ClipboardList, Flag, HelpCircle, Headphones, HardDrive } from 'lucide-react';
 import { signOut, useSession } from 'next-auth/react';
 import { trpc } from '@/lib/api/client';
 import { AlertTriangle } from 'lucide-react';
@@ -74,7 +74,8 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       { href: '/admin/coupons', icon: Tag, label: 'Coupons', gradient: 'from-orange-500 to-red-500' },
       { href: '/admin/activity-log', icon: ClipboardList, label: 'Manage Log', gradient: 'from-teal-500 to-cyan-500' },
       { href: '/admin/reports', icon: Flag, label: 'Reports', gradient: 'from-red-500 to-pink-500' },
-      { href: '/admin/help', icon: Headphones, label: 'Help Desk', gradient: 'from-violet-500 to-purple-500' }
+      { href: '/admin/help', icon: Headphones, label: 'Help Desk', gradient: 'from-violet-500 to-purple-500' },
+      { href: '/admin/backups', icon: HardDrive, label: 'Backups', gradient: 'from-slate-500 to-zinc-500' }
     ] : []),
   ];
 

@@ -3,6 +3,7 @@ import { z } from 'zod';
 import { TRPCError } from '@trpc/server';
 import { getDomainMetrics } from '../../dataforseo.js';
 import { sendEmail, emailTemplates } from '../../mailgun';
+import { createBackup, listBackups, restoreBackup, deleteBackup } from '../../jobs/backup';
 
 function generateSlug(siteName: string): string {
   return siteName
@@ -1386,6 +1387,40 @@ export const adminRouter = router({
       }
 
       return { sent, failed, total: expiredSubs.length };
+    }),
+
+  // ====== BACKUP SYSTEM ======
+
+  listBackups: adminProcedure.query(async () => {
+    return listBackups();
+  }),
+
+  createBackup: adminProcedure.mutation(async () => {
+    const result = await createBackup();
+    if (!result.success) {
+      throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: result.error || 'Backup failed' });
+    }
+    return result;
+  }),
+
+  restoreBackup: adminProcedure
+    .input(z.object({ filename: z.string() }))
+    .mutation(async ({ input }) => {
+      const result = await restoreBackup(input.filename);
+      if (!result.success) {
+        throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: result.message });
+      }
+      return result;
+    }),
+
+  deleteBackup: adminProcedure
+    .input(z.object({ filename: z.string() }))
+    .mutation(async ({ input }) => {
+      const deleted = deleteBackup(input.filename);
+      if (!deleted) {
+        throw new TRPCError({ code: 'NOT_FOUND', message: 'Backup not found' });
+      }
+      return { success: true };
     }),
 });
 

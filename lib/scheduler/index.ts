@@ -1,11 +1,13 @@
 import { verifyAllLinks } from '@/lib/jobs/link-verification';
 import { sendWeeklyReports, sendMonthlyReports } from '@/lib/jobs/report-scheduler';
 import { sendAutomatedExpirationEmails } from '@/lib/jobs/expiration-emails';
+import { createBackup } from '@/lib/jobs/backup';
 
 let linkVerificationIntervalId: NodeJS.Timeout | null = null;
 let weeklyReportIntervalId: NodeJS.Timeout | null = null;
 let monthlyReportIntervalId: NodeJS.Timeout | null = null;
 let expirationEmailIntervalId: NodeJS.Timeout | null = null;
+let backupIntervalId: NodeJS.Timeout | null = null;
 
 // Check if it's Monday at 9 AM (for weekly reports)
 function isWeeklyReportTime(): boolean {
@@ -23,6 +25,12 @@ function isMonthlyReportTime(): boolean {
 function isDailyExpirationTime(): boolean {
   const now = new Date();
   return now.getHours() === 8 && now.getMinutes() < 10;
+}
+
+// Check if it's 3 AM (daily backup time)
+function isDailyBackupTime(): boolean {
+  const now = new Date();
+  return now.getHours() === 3 && now.getMinutes() < 10;
 }
 
 export function startScheduler() {
@@ -70,6 +78,15 @@ export function startScheduler() {
     }
   }, 10 * 60 * 1000); // Check every 10 minutes
 
+  // Daily backup - every 10 minutes (will only run at 3 AM)
+  console.log('💾 Starting daily backup scheduler (daily at 3 AM)');
+  backupIntervalId = setInterval(() => {
+    if (isDailyBackupTime()) {
+      console.log('💾 Triggering daily backup...');
+      createBackup().catch(console.error);
+    }
+  }, 10 * 60 * 1000); // Check every 10 minutes
+
   console.log('✅ Scheduler started successfully');
 }
 
@@ -90,9 +107,14 @@ export function stopScheduler() {
     clearInterval(expirationEmailIntervalId);
     expirationEmailIntervalId = null;
   }
+  if (backupIntervalId) {
+    clearInterval(backupIntervalId);
+    backupIntervalId = null;
+  }
   console.log('⏹️ All schedulers stopped');
 }
 
 // Export for manual triggering from admin panel
 export { sendWeeklyReports, sendMonthlyReports } from '@/lib/jobs/report-scheduler';
 export { sendAutomatedExpirationEmails } from '@/lib/jobs/expiration-emails';
+export { createBackup } from '@/lib/jobs/backup';
