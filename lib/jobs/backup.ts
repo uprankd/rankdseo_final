@@ -5,197 +5,234 @@ import * as path from 'path';
 const BACKUP_DIR = '/app/backups';
 const PROJECT_ROOT = '/app';
 const DB_URL = process.env.DATABASE_URL || 'postgresql://rankseo:dev_password@localhost:5432/rankseo';
+const CHUNK_SIZE_MB = 40;
 
-// Ensure backup directory exists
 if (!fs.existsSync(BACKUP_DIR)) {
   fs.mkdirSync(BACKUP_DIR, { recursive: true });
 }
 
 function getTimestamp(): string {
-  const now = new Date();
-  return now.toISOString().replace(/[:.]/g, '-').slice(0, 19);
+  return new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19);
 }
 
 export async function createBackup(): Promise<{
   success: boolean;
-  filename: string;
-  size: number;
+  backupId: string;
+  files: string[];
   error?: string;
 }> {
   const timestamp = getTimestamp();
-  const backupName = `backup_${timestamp}`;
-  const tempDir = path.join(BACKUP_DIR, backupName);
-  const archivePath = path.join(BACKUP_DIR, `${backupName}.tar.gz`);
+  const backupId = `backup_${timestamp}`;
+  const backupSubDir = path.join(BACKUP_DIR, backupId);
 
-  console.log(`📦 Starting backup: ${backupName}`);
+  console.log(`📦 Starting backup: ${backupId}`);
 
   try {
-    // Create temp directory
-    fs.mkdirSync(tempDir, { recursive: true });
+    fs.mkdirSync(backupSubDir, { recursive: true });
 
     // Step 1: Database dump
-    const dbDumpPath = path.join(tempDir, 'database.sql');
+    const dbDumpPath = path.join(backupSubDir, 'database.sql');
     console.log('📦 Dumping database...');
     execSync(`pg_dump "${DB_URL}" > "${dbDumpPath}"`, { timeout: 120000 });
-    console.log('📦 Database dump complete');
 
-    // Step 2: Archive source files (including screenshots/tutorials)
-    const sourceArchive = path.join(tempDir, 'source.tar.gz');
-    console.log('📦 Archiving source files + screenshots...');
+    // Step 2: Source code archive (WITHOUT screenshots — small file)
+    const codePath = path.join(backupSubDir, `${backupId}_code.tar.gz`);
+    console.log('📦 Archiving DB + source code...');
     execSync(
-      `cd "${PROJECT_ROOT}" && tar czf "${sourceArchive}" ` +
-      `--exclude='node_modules' ` +
-      `--exclude='.git' ` +
-      `--exclude='.next' ` +
-      `--exclude='postgresql-data' ` +
-      `--exclude='backups' ` +
-      `--exclude='.emergent' ` +
-      `--exclude='yarn.lock' ` +
-      `app/ lib/ prisma/ components/ public/ ` +
-      `scripts/ hooks/ types/ docs/ ` +
+      `cd "${PROJECT_ROOT}" && tar czf "${codePath}" ` +
+      `--exclude='node_modules' --exclude='.git' --exclude='.next' ` +
+      `--exclude='postgresql-data' --exclude='backups' --exclude='.emergent' ` +
+      `--exclude='yarn.lock' --exclude='public/screenshots' ` +
+      `app/ lib/ prisma/ components/ public/ scripts/ hooks/ types/ docs/ ` +
       `package.json tsconfig.json next.config.js tailwind.config.js postcss.config.js jsconfig.json ` +
       `components.json .env 2>/dev/null || true`,
-      { timeout: 600000 }
+      { timeout: 300000 }
     );
-    console.log('📦 Source archive complete');
+    // Append the DB dump into the code archive temp
+    const codeTempDir = path.join(backupSubDir, 'code_tmp');
+    fs.mkdirSync(codeTempDir, { recursive: true });
+    fs.copyFileSync(dbDumpPath, path.join(codeTempDir, 'database.sql'));
+    execSync(`cd "${backupSubDir}" && tar rf "${codePath}" -C "${codeTempDir}" database.sql 2>/dev/null || true`, { timeout: 60000 });
+    execSync(`rm -rf "${codeTempDir}"`);
 
-    // Step 3: Save backup metadata
-    const metadata = {
+    const createdFiles: string[] = [`${backupId}_code.tar.gz`];
+
+    // Step 3: Screenshots archive — split into chunks if large
+    const screenshotsDir = path.join(PROJECT_ROOT, 'public/screenshots');
+    if (fs.existsSync(screenshotsDir)) {
+      const screenshotsArchive = path.join(backupSubDir, `${backupId}_screenshots.tar.gz`);
+      console.log('📦 Archiving screenshots/tutorials...');
+      execSync(`cd "${PROJECT_ROOT}" && tar czf "${screenshotsArchive}" public/screenshots/`, { timeout: 600000 });
+
+      const screenshotSize = fs.statSync(screenshotsArchive).size;
+      const chunkSizeBytes = CHUNK_SIZE_MB * 1024 * 1024;
+
+      if (screenshotSize > chunkSizeBytes) {
+        // Split into chunks
+        console.log(`📦 Splitting screenshots (${(screenshotSize / 1024 / 1024).toFixed(0)} MB) into ${CHUNK_SIZE_MB}MB chunks...`);
+        execSync(`cd "${backupSubDir}" && split -b ${CHUNK_SIZE_MB}m "${screenshotsArchive}" "${backupId}_screenshots.tar.gz.part_"`, { timeout: 300000 });
+        fs.unlinkSync(screenshotsArchive);
+
+        const parts = fs.readdirSync(backupSubDir).filter(f => f.includes('_screenshots.tar.gz.part_')).sort();
+        createdFiles.push(...parts);
+        console.log(`📦 Split into ${parts.length} parts`);
+      } else {
+        createdFiles.push(`${backupId}_screenshots.tar.gz`);
+      }
+    }
+
+    // Cleanup DB dump file (it's inside code archive now)
+    if (fs.existsSync(dbDumpPath)) fs.unlinkSync(dbDumpPath);
+
+    // Save metadata
+    const fileSizes: Record<string, number> = {};
+    for (const f of createdFiles) {
+      const fp = path.join(backupSubDir, f);
+      if (fs.existsSync(fp)) fileSizes[f] = fs.statSync(fp).size;
+    }
+    fs.writeFileSync(path.join(backupSubDir, 'metadata.json'), JSON.stringify({
       timestamp: new Date().toISOString(),
-      name: backupName,
-      dbSize: fs.statSync(dbDumpPath).size,
-      sourceSize: fs.existsSync(sourceArchive) ? fs.statSync(sourceArchive).size : 0,
-    };
-    fs.writeFileSync(path.join(tempDir, 'metadata.json'), JSON.stringify(metadata, null, 2));
+      backupId,
+      files: createdFiles,
+      fileSizes,
+    }, null, 2));
 
-    // Step 4: Create final archive
-    console.log('📦 Creating final archive...');
-    execSync(`cd "${BACKUP_DIR}" && tar czf "${archivePath}" "${backupName}/"`, { timeout: 120000 });
-
-    // Cleanup temp directory
-    execSync(`rm -rf "${tempDir}"`);
-
-    const finalSize = fs.statSync(archivePath).size;
-    console.log(`📦 Backup complete: ${backupName}.tar.gz (${(finalSize / 1024 / 1024).toFixed(2)} MB)`);
-
-    // Cleanup old backups (keep last 30)
+    console.log(`📦 Backup complete: ${backupId} (${createdFiles.length} files)`);
     cleanupOldBackups(30);
 
-    return { success: true, filename: `${backupName}.tar.gz`, size: finalSize };
+    return { success: true, backupId, files: createdFiles };
   } catch (error: any) {
     console.error('❌ Backup failed:', error.message);
-    // Cleanup on failure
-    try { execSync(`rm -rf "${tempDir}"`); } catch {}
-    try { if (fs.existsSync(archivePath)) fs.unlinkSync(archivePath); } catch {}
-    return { success: false, filename: '', size: 0, error: error.message };
+    try { execSync(`rm -rf "${backupSubDir}"`); } catch {}
+    return { success: false, backupId: '', files: [], error: error.message };
   }
 }
 
-export function listBackups(): Array<{
-  filename: string;
+export interface BackupInfo {
+  backupId: string;
   date: string;
-  size: number;
-  sizeFormatted: string;
-}> {
+  files: Array<{ name: string; size: number; sizeFormatted: string }>;
+  totalSize: number;
+  totalSizeFormatted: string;
+}
+
+export function listBackups(): BackupInfo[] {
   if (!fs.existsSync(BACKUP_DIR)) return [];
 
-  const files = fs.readdirSync(BACKUP_DIR)
-    .filter(f => f.startsWith('backup_') && f.endsWith('.tar.gz'))
+  const dirs = fs.readdirSync(BACKUP_DIR)
+    .filter(d => {
+      const p = path.join(BACKUP_DIR, d);
+      return d.startsWith('backup_') && fs.statSync(p).isDirectory();
+    })
     .sort()
     .reverse();
 
-  return files.map(f => {
-    const stats = fs.statSync(path.join(BACKUP_DIR, f));
-    // Extract date from filename: backup_2026-03-25T10-15-30.tar.gz
-    const dateStr = f.replace('backup_', '').replace('.tar.gz', '').replace(/-/g, (m, i) => {
-      // Restore ISO date format for parsing
-      return i < 13 ? '-' : (i === 13 ? 'T' : ':');
-    });
-    let parsedDate: string;
+  return dirs.map(d => {
+    const dirPath = path.join(BACKUP_DIR, d);
+    const metaPath = path.join(dirPath, 'metadata.json');
+
+    let date: string;
     try {
-      // Parse from filename format backup_YYYY-MM-DDTHH-MM-SS
-      const parts = f.replace('backup_', '').replace('.tar.gz', '');
+      const parts = d.replace('backup_', '');
       const [datePart, timePart] = parts.split('T');
       const timeFixed = timePart ? timePart.replace(/-/g, ':') : '00:00:00';
-      parsedDate = new Date(`${datePart}T${timeFixed}Z`).toISOString();
+      date = new Date(`${datePart}T${timeFixed}Z`).toISOString();
     } catch {
-      parsedDate = stats.mtime.toISOString();
+      date = fs.statSync(dirPath).mtime.toISOString();
     }
 
-    const sizeMB = stats.size / 1024 / 1024;
+    const allFiles = fs.readdirSync(dirPath).filter(f => f !== 'metadata.json');
+    const files = allFiles.map(f => {
+      const fp = path.join(dirPath, f);
+      const size = fs.statSync(fp).size;
+      const sizeMB = size / 1024 / 1024;
+      return {
+        name: f,
+        size,
+        sizeFormatted: sizeMB >= 1 ? `${sizeMB.toFixed(1)} MB` : `${(size / 1024).toFixed(1)} KB`,
+      };
+    });
+
+    const totalSize = files.reduce((a, f) => a + f.size, 0);
+    const totalMB = totalSize / 1024 / 1024;
+
     return {
-      filename: f,
-      date: parsedDate,
-      size: stats.size,
-      sizeFormatted: sizeMB >= 1 ? `${sizeMB.toFixed(2)} MB` : `${(stats.size / 1024).toFixed(1)} KB`,
+      backupId: d,
+      date,
+      files,
+      totalSize,
+      totalSizeFormatted: totalMB >= 1024 ? `${(totalMB / 1024).toFixed(2)} GB` : `${totalMB.toFixed(1)} MB`,
     };
   });
 }
 
-export async function restoreBackup(filename: string): Promise<{
+export function getBackupFilePath(backupId: string, filename: string): string | null {
+  const filePath = path.join(BACKUP_DIR, backupId, filename);
+  if (!filePath.startsWith(BACKUP_DIR) || !fs.existsSync(filePath)) return null;
+  return filePath;
+}
+
+export async function restoreBackup(backupId: string): Promise<{
   success: boolean;
   message: string;
 }> {
-  const archivePath = path.join(BACKUP_DIR, filename);
+  const backupPath = path.join(BACKUP_DIR, backupId);
 
-  if (!fs.existsSync(archivePath)) {
-    return { success: false, message: 'Backup file not found' };
+  if (!fs.existsSync(backupPath) || !fs.statSync(backupPath).isDirectory()) {
+    return { success: false, message: 'Backup not found' };
   }
 
-  const restoreDir = path.join(BACKUP_DIR, 'restore_temp');
-
   try {
-    // Clean up any previous restore attempt
-    execSync(`rm -rf "${restoreDir}"`);
-    fs.mkdirSync(restoreDir, { recursive: true });
+    const files = fs.readdirSync(backupPath);
 
-    // Extract archive
-    console.log(`🔄 Extracting backup: ${filename}`);
-    execSync(`cd "${BACKUP_DIR}" && tar xzf "${archivePath}" -C "${restoreDir}"`, { timeout: 120000 });
+    // Step 1: Find and restore code archive (contains DB dump)
+    const codeFile = files.find(f => f.endsWith('_code.tar.gz'));
+    if (codeFile) {
+      console.log('🔄 Restoring source code...');
+      execSync(`cd "${PROJECT_ROOT}" && tar xzf "${path.join(backupPath, codeFile)}" --overwrite 2>/dev/null || true`, { timeout: 300000 });
 
-    // Find the extracted backup folder
-    const extractedDirs = fs.readdirSync(restoreDir).filter(d =>
-      fs.statSync(path.join(restoreDir, d)).isDirectory()
-    );
-    if (extractedDirs.length === 0) {
-      throw new Error('No backup data found in archive');
-    }
-    const backupDataDir = path.join(restoreDir, extractedDirs[0]);
-
-    // Step 1: Restore database
-    const dbDumpPath = path.join(backupDataDir, 'database.sql');
-    if (fs.existsSync(dbDumpPath)) {
-      console.log('🔄 Restoring database...');
-      // Drop and recreate to ensure clean restore
-      execSync(`psql "${DB_URL}" -c "DROP SCHEMA public CASCADE; CREATE SCHEMA public;"`, { timeout: 60000 });
-      execSync(`psql "${DB_URL}" < "${dbDumpPath}"`, { timeout: 120000 });
-      console.log('🔄 Database restored');
+      // Check if database.sql was extracted at root
+      const dbDumpPath = path.join(PROJECT_ROOT, 'database.sql');
+      if (fs.existsSync(dbDumpPath)) {
+        console.log('🔄 Restoring database...');
+        execSync(`psql "${DB_URL}" -c "DROP SCHEMA public CASCADE; CREATE SCHEMA public;"`, { timeout: 60000 });
+        execSync(`psql "${DB_URL}" < "${dbDumpPath}"`, { timeout: 120000 });
+        fs.unlinkSync(dbDumpPath);
+        console.log('🔄 Database restored');
+      }
     }
 
-    // Step 2: Restore source files
-    const sourceArchive = path.join(backupDataDir, 'source.tar.gz');
-    if (fs.existsSync(sourceArchive)) {
-      console.log('🔄 Restoring source files...');
-      execSync(`cd "${PROJECT_ROOT}" && tar xzf "${sourceArchive}" --overwrite`, { timeout: 120000 });
-      console.log('🔄 Source files restored');
+    // Step 2: Restore screenshots
+    const screenshotFile = files.find(f => f.includes('_screenshots.tar.gz') && !f.includes('.part_'));
+    const partFiles = files.filter(f => f.includes('_screenshots.tar.gz.part_')).sort();
+
+    if (partFiles.length > 0) {
+      // Reassemble parts
+      const reassembled = path.join(backupPath, 'screenshots_reassembled.tar.gz');
+      console.log(`🔄 Reassembling ${partFiles.length} screenshot parts...`);
+      const partPaths = partFiles.map(f => `"${path.join(backupPath, f)}"`).join(' ');
+      execSync(`cat ${partPaths} > "${reassembled}"`, { timeout: 300000 });
+      execSync(`cd "${PROJECT_ROOT}" && tar xzf "${reassembled}" --overwrite`, { timeout: 600000 });
+      fs.unlinkSync(reassembled);
+      console.log('🔄 Screenshots restored');
+    } else if (screenshotFile) {
+      console.log('🔄 Restoring screenshots...');
+      execSync(`cd "${PROJECT_ROOT}" && tar xzf "${path.join(backupPath, screenshotFile)}" --overwrite`, { timeout: 600000 });
+      console.log('🔄 Screenshots restored');
     }
 
-    // Cleanup
-    execSync(`rm -rf "${restoreDir}"`);
-
-    console.log(`✅ Restore complete from: ${filename}`);
-    return { success: true, message: `Successfully restored from ${filename}. Server restart may be required.` };
+    console.log(`✅ Restore complete from: ${backupId}`);
+    return { success: true, message: `Successfully restored from ${backupId}. Server restart may be required.` };
   } catch (error: any) {
     console.error('❌ Restore failed:', error.message);
-    try { execSync(`rm -rf "${restoreDir}"`); } catch {}
     return { success: false, message: `Restore failed: ${error.message}` };
   }
 }
 
-export function deleteBackup(filename: string): boolean {
-  const filePath = path.join(BACKUP_DIR, filename);
-  if (fs.existsSync(filePath)) {
-    fs.unlinkSync(filePath);
+export function deleteBackup(backupId: string): boolean {
+  const dirPath = path.join(BACKUP_DIR, backupId);
+  if (fs.existsSync(dirPath) && fs.statSync(dirPath).isDirectory()) {
+    execSync(`rm -rf "${dirPath}"`);
     return true;
   }
   return false;
@@ -207,8 +244,8 @@ function cleanupOldBackups(keepCount: number) {
     const toDelete = backups.slice(keepCount);
     for (const b of toDelete) {
       try {
-        fs.unlinkSync(path.join(BACKUP_DIR, b.filename));
-        console.log(`🗑️ Deleted old backup: ${b.filename}`);
+        execSync(`rm -rf "${path.join(BACKUP_DIR, b.backupId)}"`);
+        console.log(`🗑️ Deleted old backup: ${b.backupId}`);
       } catch {}
     }
   }

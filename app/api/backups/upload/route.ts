@@ -20,21 +20,30 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'No file provided' }, { status: 400 });
     }
 
-    if (!file.name.startsWith('backup_') || !file.name.endsWith('.tar.gz')) {
-      return NextResponse.json({ error: 'Invalid backup file. Must be a backup_*.tar.gz file.' }, { status: 400 });
+    if (!file.name.startsWith('backup_')) {
+      return NextResponse.json({ error: 'Invalid backup file name.' }, { status: 400 });
     }
 
-    if (!fs.existsSync(BACKUP_DIR)) {
-      fs.mkdirSync(BACKUP_DIR, { recursive: true });
+    // Extract backupId from filename (e.g., backup_2026-03-26T09-09-53_code.tar.gz -> backup_2026-03-26T09-09-53)
+    const match = file.name.match(/^(backup_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2})/);
+    if (!match) {
+      return NextResponse.json({ error: 'Cannot parse backup ID from filename.' }, { status: 400 });
     }
 
-    const filePath = path.join(BACKUP_DIR, file.name);
+    const backupId = match[1];
+    const backupDir = path.join(BACKUP_DIR, backupId);
 
+    if (!fs.existsSync(backupDir)) {
+      fs.mkdirSync(backupDir, { recursive: true });
+    }
+
+    const filePath = path.join(backupDir, file.name);
     const buffer = Buffer.from(await file.arrayBuffer());
     fs.writeFileSync(filePath, buffer);
 
     return NextResponse.json({
       success: true,
+      backupId,
       filename: file.name,
       size: buffer.length,
     });
