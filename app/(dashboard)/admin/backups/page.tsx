@@ -1,18 +1,20 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { trpc } from '@/lib/api/client';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { HardDrive, Download, RotateCcw, Trash2, Plus, Clock, Database, FileArchive, Loader2, AlertTriangle, CheckCircle } from 'lucide-react';
+import { HardDrive, Download, RotateCcw, Trash2, Plus, Clock, Database, FileArchive, Loader2, AlertTriangle, CheckCircle, Upload } from 'lucide-react';
 import { toast } from 'sonner';
 
 export default function AdminBackupsPage() {
   const [isCreating, setIsCreating] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);
   const [restoringFile, setRestoringFile] = useState<string | null>(null);
   const [confirmRestore, setConfirmRestore] = useState<string | null>(null);
   const [confirmDelete, setConfirmDelete] = useState<string | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const { data: backups, refetch } = trpc.admin.listBackups.useQuery(undefined, {
     refetchInterval: 30000,
@@ -67,6 +69,41 @@ export default function AdminBackupsPage() {
 
   const handleDownload = (filename: string) => {
     window.open(`/api/backups/download?filename=${encodeURIComponent(filename)}`, '_blank');
+  };
+
+  const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (!file.name.startsWith('backup_') || !file.name.endsWith('.tar.gz')) {
+      toast.error('Invalid file. Must be a backup_*.tar.gz file.');
+      if (fileInputRef.current) fileInputRef.current.value = '';
+      return;
+    }
+
+    setIsUploading(true);
+    try {
+      const formData = new FormData();
+      formData.append('file', file);
+
+      const res = await fetch('/api/backups/upload', {
+        method: 'POST',
+        body: formData,
+      });
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.error || 'Upload failed');
+      }
+
+      toast.success(`Backup uploaded: ${data.filename}`);
+      refetch();
+    } catch (err: any) {
+      toast.error(`Upload failed: ${err.message}`);
+    } finally {
+      setIsUploading(false);
+      if (fileInputRef.current) fileInputRef.current.value = '';
+    }
   };
 
   const formatDate = (dateStr: string) => {
@@ -130,18 +167,40 @@ export default function AdminBackupsPage() {
       {/* Actions */}
       <div className="flex items-center justify-between">
         <h2 className="text-xl font-bold text-gray-800">All Backups</h2>
-        <Button
-          onClick={handleCreate}
-          disabled={isCreating}
-          className="bg-gradient-to-r from-navy-600 to-sky-500 text-white font-semibold"
-          data-testid="create-backup-btn"
-        >
-          {isCreating ? (
-            <><Loader2 className="h-4 w-4 mr-2 animate-spin" /> Creating Backup...</>
-          ) : (
-            <><Plus className="h-4 w-4 mr-2" /> Create Backup Now</>
-          )}
-        </Button>
+        <div className="flex items-center gap-2">
+          <input
+            type="file"
+            ref={fileInputRef}
+            onChange={handleUpload}
+            accept=".tar.gz,.gz"
+            className="hidden"
+            data-testid="upload-backup-input"
+          />
+          <Button
+            variant="outline"
+            onClick={() => fileInputRef.current?.click()}
+            disabled={isUploading}
+            data-testid="upload-backup-btn"
+          >
+            {isUploading ? (
+              <><Loader2 className="h-4 w-4 mr-2 animate-spin" /> Uploading...</>
+            ) : (
+              <><Upload className="h-4 w-4 mr-2" /> Upload Backup</>
+            )}
+          </Button>
+          <Button
+            onClick={handleCreate}
+            disabled={isCreating}
+            className="bg-gradient-to-r from-navy-600 to-sky-500 text-white font-semibold"
+            data-testid="create-backup-btn"
+          >
+            {isCreating ? (
+              <><Loader2 className="h-4 w-4 mr-2 animate-spin" /> Creating Backup...</>
+            ) : (
+              <><Plus className="h-4 w-4 mr-2" /> Create Backup Now</>
+            )}
+          </Button>
+        </div>
       </div>
 
       {/* Info banner */}
