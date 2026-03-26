@@ -5,7 +5,7 @@ import * as path from 'path';
 const BACKUP_DIR = '/app/backups';
 const PROJECT_ROOT = '/app';
 const DB_URL = process.env.DATABASE_URL || 'postgresql://rankseo:dev_password@localhost:5432/rankseo';
-const CHUNK_SIZE_MB = 40;
+const CHUNK_SIZE_MB = 150;
 
 if (!fs.existsSync(BACKUP_DIR)) {
   fs.mkdirSync(BACKUP_DIR, { recursive: true });

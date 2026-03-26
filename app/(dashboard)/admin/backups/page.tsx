@@ -191,7 +191,7 @@ export default function AdminBackupsPage() {
           <FileArchive className="h-5 w-5 mt-0.5 flex-shrink-0" />
           <div>
             <p className="font-semibold">Backups are split into downloadable parts:</p>
-            <p><strong>DB + Code</strong> (~1-2 MB) — database dump + all source code. <strong>Screenshots</strong> — split into 40 MB chunks for reliable downloads. To reassemble: <code className="bg-blue-100 px-1 rounded">cat *_screenshots.tar.gz.part_* &gt; screenshots.tar.gz</code></p>
+            <p><strong>DB + Code</strong> (~1-2 MB) — database dump + all source code. <strong>Screenshots</strong> — split into 150 MB chunks for reliable downloads. To reassemble: <code className="bg-blue-100 px-1 rounded">cat *_screenshots.tar.gz.part_* &gt; screenshots.tar.gz</code></p>
           </div>
         </div>
       </div>
