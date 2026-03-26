@@ -39,9 +39,9 @@ export async function createBackup(): Promise<{
     execSync(`pg_dump "${DB_URL}" > "${dbDumpPath}"`, { timeout: 120000 });
     console.log('📦 Database dump complete');
 
-    // Step 2: Archive source files (exclude large/unnecessary dirs)
+    // Step 2: Archive source files (including screenshots/tutorials)
     const sourceArchive = path.join(tempDir, 'source.tar.gz');
-    console.log('📦 Archiving source files...');
+    console.log('📦 Archiving source files + screenshots...');
     execSync(
       `cd "${PROJECT_ROOT}" && tar czf "${sourceArchive}" ` +
       `--exclude='node_modules' ` +
@@ -49,14 +49,13 @@ export async function createBackup(): Promise<{
       `--exclude='.next' ` +
       `--exclude='postgresql-data' ` +
       `--exclude='backups' ` +
-      `--exclude='public/screenshots' ` +
       `--exclude='.emergent' ` +
       `--exclude='yarn.lock' ` +
-      `app/ lib/ prisma/ components/ public/favicon.ico public/favicon.png public/logo.png public/manifest.json ` +
+      `app/ lib/ prisma/ components/ public/ ` +
       `scripts/ hooks/ types/ docs/ ` +
       `package.json tsconfig.json next.config.js tailwind.config.js postcss.config.js jsconfig.json ` +
       `components.json .env 2>/dev/null || true`,
-      { timeout: 120000 }
+      { timeout: 600000 }
     );
     console.log('📦 Source archive complete');
 

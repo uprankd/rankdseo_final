@@ -150,7 +150,7 @@ export default function AdminBackupsPage() {
           <FileArchive className="h-5 w-5 mt-0.5 flex-shrink-0" />
           <div>
             <p className="font-semibold">What&apos;s included in backups:</p>
-            <p>Full database dump + source code (app, lib, prisma, components, scripts, config files). Screenshots are excluded to keep backups small. Backups auto-delete after 30 days.</p>
+            <p>Full database dump + source code (app, lib, prisma, components, scripts, config files) + all screenshots/tutorials. Backups auto-delete after 30 days.</p>
           </div>
         </div>
       </div>
