@@ -96,3 +96,7 @@ node_modules/@next/swc-linux-arm64-musl/next-swc.linux-arm64-musl.node
 *.env
 *.env.*
 backups/backup_2026-03-26T09-09-53.tar.gz
+-e 
+# Environment files
+*.env
+*.env.*
