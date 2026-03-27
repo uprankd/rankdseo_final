@@ -288,7 +288,7 @@ export default function EditProjectPage() {
                   Add Opportunity
                 </Button>
               </DialogTrigger>
-              <DialogContent className="sm:max-w-[700px] max-h-[80vh]">
+              <DialogContent className="sm:max-w-[900px] max-h-[90vh]">
                 <DialogHeader>
                   <DialogTitle>Add Opportunities to Project</DialogTitle>
                 </DialogHeader>
@@ -325,7 +325,7 @@ export default function EditProjectPage() {
                     </div>
                   )}
 
-                  <div className="max-h-[350px] overflow-y-auto space-y-2">
+                  <div className="max-h-[60vh] overflow-y-auto space-y-2">
                     {availableOpportunities.length === 0 ? (
                       <p className="text-center text-gray-500 py-8">
                         {searchQuery ? 'No matching opportunities found' : 'All opportunities already added'}
