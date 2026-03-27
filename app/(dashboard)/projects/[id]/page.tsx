@@ -964,8 +964,8 @@ export default function ProjectDetailPage() {
             <div className="space-y-4">
               {filteredOpportunities.map((opp: any) => {
                 const oppId = opp.projectOpportunityId || opp.id;
-                const currentNotes = editingNotes[oppId] !== undefined ? editingNotes[oppId] : (opp.notes || '');
-                const currentUrl = editingUrls[oppId] !== undefined ? editingUrls[oppId] : (opp.linkUrl || '');
+                const currentNotes = editingNotes[oppId] ?? opp.notes ?? '';
+                const currentUrl = editingUrls[oppId] ?? opp.linkUrl ?? '';
 
                 return (
                   <div
@@ -1043,8 +1043,9 @@ export default function ProjectDetailPage() {
                             <div className="flex-1 flex gap-2">
                               <Input
                                 placeholder="https://example.com/your-backlink"
-                                value={currentUrl}
-                                onChange={(e) => setEditingUrls({ ...editingUrls, [oppId]: e.target.value })}
+                                defaultValue={opp.linkUrl || ''}
+                                onBlur={(e) => setEditingUrls(prev => ({ ...prev, [oppId]: e.target.value }))}
+                                onChange={(e) => { editingUrls[oppId] = e.target.value; }}
                                 className="border-2"
                               />
                               <Button
@@ -1091,8 +1092,9 @@ export default function ProjectDetailPage() {
                             <div className="flex-1 flex gap-2">
                               <Textarea
                                 placeholder="Add notes about progress, issues, or next steps..."
-                                value={currentNotes}
-                                onChange={(e) => setEditingNotes({ ...editingNotes, [oppId]: e.target.value })}
+                                defaultValue={opp.notes || ''}
+                                onBlur={(e) => setEditingNotes(prev => ({ ...prev, [oppId]: e.target.value }))}
+                                onChange={(e) => { editingNotes[oppId] = e.target.value; }}
                                 className="border-2 min-h-[80px]"
                               />
                               <Button
