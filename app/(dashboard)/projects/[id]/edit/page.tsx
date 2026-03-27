@@ -53,7 +53,7 @@ export default function EditProjectPage() {
   
   const { data: project, isLoading } = trpc.project.getById.useQuery({ id: projectId });
   const { data: allOpportunities } = trpc.opportunity.list.useQuery({ 
-    limit: 100,
+    limit: 2000,
     search: debouncedSearchQuery || undefined,
   });
 
