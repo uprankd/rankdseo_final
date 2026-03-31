@@ -105,3 +105,7 @@ backups/backup_2026-03-26T11-01-14/backup_2026-03-26T11-01-14_screenshots.tar.gz
 backups/backup_2026-03-26T11-01-14/backup_2026-03-26T11-01-14_screenshots.tar.gz.part_ad
 backups/backup_2026-03-26T11-01-14/backup_2026-03-26T11-01-14_screenshots.tar.gz.part_ac
 backups/backup_2026-03-26T11-01-14/backup_2026-03-26T11-01-14_screenshots.tar.gz.part_ae
+-e 
+# Environment files
+*.env
+*.env.*
