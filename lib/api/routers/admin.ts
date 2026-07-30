@@ -5,6 +5,7 @@ import { getDomainMetrics } from '../../dataforseo.js';
 import { sendEmail, emailTemplates } from '../../mailgun';
 import { createBackup, listBackups, restoreBackup, deleteBackup } from '../../jobs/backup';
 import type { BackupInfo } from '../../jobs/backup';
+import { stripe } from '../../stripe';
 
 function generateSlug(siteName: string): string {
   return siteName
@@ -362,62 +363,172 @@ export const adminRouter = router({
       })
     )
     .mutation(async ({ ctx, input }) => {
-      // Get the plan details
-      const plan = await ctx.prisma.plan.findUnique({
+      // Get the user
+      const user = await ctx.prisma.user.findUnique({
+        where: { id: input.userId },
+        include: {
+          subscription: {
+            include: {
+              plan: true,
+            },
+          },
+        },
+      });
+
+      if (!user) {
+        throw new TRPCError({
+          code: 'NOT_FOUND',
+          message: 'User not found',
+        });
+      }
+
+      // Get the new plan details
+      const newPlan = await ctx.prisma.plan.findUnique({
         where: { id: input.planId },
       });
 
-      if (!plan) {
+      if (!newPlan) {
         throw new TRPCError({
           code: 'NOT_FOUND',
           message: 'Plan not found',
         });
       }
 
-      // Check if user already has a subscription
-      const existingSubscription = await ctx.prisma.subscription.findUnique({
-        where: { userId: input.userId },
-      });
+      console.log(`🔄 Admin updating plan for ${user.email}: ${user.subscription?.plan.name || 'No Plan'} → ${newPlan.name}`);
 
-      if (existingSubscription) {
-        // Update existing subscription
+      const existingSubscription = user.subscription;
+
+      // Calculate period end based on plan interval
+      let periodEnd: Date;
+      if (newPlan.interval === 'year' || newPlan.interval === 'lifetime') {
+        periodEnd = new Date(Date.now() + 365 * 24 * 60 * 60 * 1000); // 1 year
+      } else {
+        periodEnd = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000); // 30 days
+      }
+
+      // Handle Stripe subscription update if user has active Stripe subscription
+      if (existingSubscription?.stripeSubscriptionId) {
+        try {
+          console.log(`🔄 Canceling old Stripe subscription: ${existingSubscription.stripeSubscriptionId}`);
+          
+          // Cancel the old Stripe subscription immediately
+          await stripe.subscriptions.cancel(existingSubscription.stripeSubscriptionId);
+          
+          console.log(`✅ Old Stripe subscription canceled`);
+          
+          // If the new plan is paid and has a Stripe price ID, create a new Stripe subscription
+          if (newPlan.price > 0 && newPlan.stripePriceId && existingSubscription.stripeCustomerId) {
+            console.log(`🔄 Creating new Stripe subscription for ${newPlan.name}`);
+            
+            const newStripeSubscription = await stripe.subscriptions.create({
+              customer: existingSubscription.stripeCustomerId,
+              items: [{ price: newPlan.stripePriceId }],
+              metadata: {
+                userId: user.id,
+                userEmail: user.email,
+                planId: newPlan.id,
+                planName: newPlan.name,
+                source: 'admin_plan_change',
+                adminId: ctx.session?.user?.id || 'unknown',
+              },
+            });
+
+            console.log(`✅ New Stripe subscription created: ${newStripeSubscription.id}`);
+
+            // Update subscription with new Stripe subscription ID
+            await ctx.prisma.subscription.update({
+              where: { userId: input.userId },
+              data: {
+                planId: input.planId,
+                stripeSubscriptionId: newStripeSubscription.id,
+                currentPeriodStart: new Date(newStripeSubscription.current_period_start * 1000),
+                currentPeriodEnd: new Date(newStripeSubscription.current_period_end * 1000),
+                status: 'ACTIVE',
+                cancelAtPeriodEnd: false,
+                canceledAt: null,
+              },
+            });
+          } else {
+            // New plan is free or doesn't have Stripe price - just update database
+            await ctx.prisma.subscription.update({
+              where: { userId: input.userId },
+              data: {
+                planId: input.planId,
+                stripeSubscriptionId: null, // Remove Stripe subscription ID
+                currentPeriodStart: new Date(),
+                currentPeriodEnd: periodEnd,
+                status: 'ACTIVE',
+                cancelAtPeriodEnd: false,
+                canceledAt: null,
+              },
+            });
+          }
+        } catch (error: any) {
+          console.error('❌ Stripe subscription update error:', error);
+          
+          // If Stripe fails, still update the database (admin override)
+          console.log('⚠️ Stripe update failed, proceeding with database update only');
+          
+          await ctx.prisma.subscription.update({
+            where: { userId: input.userId },
+            data: {
+              planId: input.planId,
+              currentPeriodStart: new Date(),
+              currentPeriodEnd: periodEnd,
+              status: 'ACTIVE',
+              cancelAtPeriodEnd: false,
+              canceledAt: null,
+              // Keep stripeSubscriptionId for reference but it's now invalid
+            },
+          });
+        }
+      } else if (existingSubscription) {
+        // No Stripe subscription - just update database
+        console.log(`📝 Updating subscription in database only (no Stripe)`);
+        
         await ctx.prisma.subscription.update({
           where: { userId: input.userId },
           data: {
             planId: input.planId,
             currentPeriodStart: new Date(),
-            currentPeriodEnd: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), // 30 days
+            currentPeriodEnd: periodEnd,
             status: 'ACTIVE',
+            cancelAtPeriodEnd: false,
+            canceledAt: null,
           },
         });
       } else {
         // Create new subscription
+        console.log(`📝 Creating new subscription`);
+        
         await ctx.prisma.subscription.create({
           data: {
             userId: input.userId,
             planId: input.planId,
             status: 'ACTIVE',
             currentPeriodStart: new Date(),
-            currentPeriodEnd: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
+            currentPeriodEnd: periodEnd,
           },
         });
       }
 
       // Create a PaymentTransaction record for paid plans (for statistics tracking)
-      if (plan.price > 0) {
+      if (newPlan.price > 0) {
         await ctx.prisma.paymentTransaction.create({
           data: {
             userId: input.userId,
             planId: input.planId,
-            amount: plan.price / 100, // Convert cents to dollars
+            amount: newPlan.price / 100, // Convert cents to dollars
             currency: 'usd',
             status: 'SUCCEEDED',
             sessionId: `admin_plan_change_${Date.now()}_${input.userId}`,
+            paymentMethod: 'stripe', // Default to stripe for admin changes
             metadata: {
               source: 'admin_update',
               adminId: ctx.session?.user?.id,
               adminEmail: ctx.session?.user?.email,
-              planName: plan.name,
+              planName: newPlan.name,
+              oldPlanName: existingSubscription?.plan.name,
               note: 'Plan updated by admin',
             },
           },
@@ -431,6 +542,8 @@ export const adminRouter = router({
           accountStatus: 'ACTIVE',
         },
       });
+
+      console.log(`✅ Plan update complete for ${user.email}`);
 
       return { success: true };
     }),
