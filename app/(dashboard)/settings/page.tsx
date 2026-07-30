@@ -62,9 +62,11 @@ export default function SettingsPage() {
   // Profile state
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
+  const [emailChangePassword, setEmailChangePassword] = useState('');
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [deletePassword, setDeletePassword] = useState('');
   
   // Coupon state for upgrades
   const [couponCodes, setCouponCodes] = useState<Record<string, string>>({});
@@ -135,7 +137,11 @@ export default function SettingsPage() {
 
   const handleUpdateProfile = () => {
     if (name || email) {
-      updateProfile.mutate({ name: name || undefined, email: email || undefined });
+      updateProfile.mutate({ 
+        name: name || undefined, 
+        email: email || undefined,
+        currentPassword: email ? emailChangePassword : undefined,
+      });
     }
   };
 
@@ -150,7 +156,11 @@ export default function SettingsPage() {
   // API key handlers removed
 
   const handleDeleteAccount = () => {
-    deleteAccount.mutate();
+    if (!deletePassword) {
+      toast.error('Please enter your password to confirm deletion');
+      return;
+    }
+    deleteAccount.mutate({ currentPassword: deletePassword });
   };
 
   return (
@@ -211,10 +221,29 @@ export default function SettingsPage() {
                 <Input
                   id="email"
                   type="email"
-                  placeholder="Enter your email"
+                  placeholder="Enter new email address"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                 />
+                {email && (
+                  <div className="mt-2 p-3 bg-amber-50 border border-amber-200 rounded-lg">
+                    <p className="text-sm text-amber-800 font-semibold mb-2">
+                      🔒 Password required for email change
+                    </p>
+                    <Label htmlFor="email-password" className="text-sm">Current Password</Label>
+                    <Input
+                      id="email-password"
+                      type="password"
+                      placeholder="Enter your current password"
+                      value={emailChangePassword}
+                      onChange={(e) => setEmailChangePassword(e.target.value)}
+                      className="mt-1"
+                    />
+                    <p className="text-xs text-amber-600 mt-2">
+                      ⚠️ A verification link will be sent to your <strong>current</strong> email address
+                    </p>
+                  </div>
+                )}
               </div>
               <Button 
                 onClick={handleUpdateProfile} 
@@ -561,22 +590,41 @@ export default function SettingsPage() {
                 </Button>
               ) : (
                 <div className="space-y-4 p-4 bg-red-50 border-2 border-red-200 rounded-lg">
-                  <p className="text-red-800 font-semibold">Are you absolutely sure?</p>
+                  <p className="text-red-800 font-semibold">⚠️ Are you sure? This action cannot be undone.</p>
                   <p className="text-sm text-red-700">
-                    This action cannot be undone. This will permanently delete your account and remove all data from our servers.
+                    This will permanently delete your account and remove all data from our servers.
                   </p>
+                  <div className="space-y-2">
+                    <Label htmlFor="delete-password" className="text-red-800">
+                      Enter your password to confirm deletion
+                    </Label>
+                    <Input
+                      id="delete-password"
+                      type="password"
+                      placeholder="Current password"
+                      value={deletePassword}
+                      onChange={(e) => setDeletePassword(e.target.value)}
+                      className="border-red-300"
+                    />
+                    <p className="text-xs text-red-600">
+                      📧 You will receive a confirmation email. Account deletion will not be completed until you click the link in that email.
+                    </p>
+                  </div>
                   <div className="flex gap-2">
                     <Button 
                       variant="destructive"
                       onClick={handleDeleteAccount}
-                      disabled={deleteAccount.isPending}
+                      disabled={deleteAccount.isPending || !deletePassword}
                     >
                       {deleteAccount.isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                      Yes, Delete My Account
+                      Send Confirmation Email
                     </Button>
                     <Button 
                       variant="outline"
-                      onClick={() => setShowDeleteConfirm(false)}
+                      onClick={() => {
+                        setShowDeleteConfirm(false);
+                        setDeletePassword('');
+                      }}
                     >
                       Cancel
                     </Button>
