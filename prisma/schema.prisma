@@ -490,6 +490,9 @@ model SupportTicket {
   status      TicketStatus   @default(OPEN)
   priority    TicketPriority @default(MEDIUM)
   category    String         @default("general")
+  isSpam      Boolean        @default(false)
+  spamScore   Int            @default(0)
+  spamReason  String?
   createdAt   DateTime       @default(now())
   updatedAt   DateTime       @updatedAt
 
@@ -499,6 +502,7 @@ model SupportTicket {
 
   @@index([userId])
   @@index([status])
+  @@index([isSpam])
 }
 
 model SupportReply {
