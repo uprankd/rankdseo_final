@@ -15,6 +15,40 @@ Build an admin panel for RankdSEO that allows admin users to:
 - Delete opportunities
 
 **Latest Feature Implementation:**
+- ✅ PayPal Removal & Payment Method Column (COMPLETED)
+  - **Changes**: 
+    - `/app/app/(auth)/signup/page.tsx` - Removed all PayPal payment options from signup
+    - `/app/app/(dashboard)/settings/page.tsx` - Removed all PayPal payment options from settings/upgrade page
+    - `/app/lib/api/routers/admin.ts` - Enhanced listUsers to include payment transaction data
+    - `/app/app/(dashboard)/admin/users/page.tsx` - Added payment method column and filtering
+  - **Removed from UI**:
+    - PayPal payment method selector removed from signup page
+    - PayPal payment method selector removed from settings upgrade page
+    - All PayPal button components removed
+    - All PayPal state management removed
+  - **Backend Preserved**:
+    - PayPal endpoints kept for historical transaction support
+    - PayPal library maintained for legacy payment records
+  - **New Admin Feature - Payment Method Column**:
+    - Displays payment method for each user: Stripe, PayPal, Manual, Free, or None
+    - Logic:
+      * "Free" - Users on $0 plans
+      * "Stripe" - Users with Stripe payment records or stripeCustomerId
+      * "PayPal" - Users with PayPal payment records (legacy)
+      * "Manual" - Users on paid plans without payment records (admin-set)
+      * "None" - Users without subscriptions
+    - Color-coded badges:
+      * Stripe - Purple
+      * PayPal - Blue
+      * Manual - Orange
+      * Free - Green
+      * None - Gray
+  - **Payment Method Filtering**:
+    - Added dropdown filter to filter users by payment method
+    - Filter options: All, Stripe, PayPal, Manual, Free, None
+  - **Status**: ✅ Implementation complete, ready for testing
+
+**Previous Feature Implementation:**
 - ✅ Free Plan Reordered on Signup Page (COMPLETED)
   - **Changes**: `/app/(auth)/signup/page.tsx`
     - Free plan now appears at the TOP of the plan list
@@ -1307,3 +1341,20 @@ agent_communication:
     -message: "✅ Stripe Webhook Subscription Management testing completed successfully. All 6 new webhook event handlers verified and working correctly. Test results: 9/10 tests passed (90.0%). The 1 'failure' is due to test data limitation (fake customer IDs) - the handler logic is correct and production ready. CRITICAL BUGS FIXED: (1) Yearly memberships now activate accounts via customer.subscription.created handler, (2) Monthly subscriptions now process renewals via invoice.payment_succeeded handler, (3) Expired subscriptions now automatically downgrade to free plan via customer.subscription.deleted and subscription.updated handlers. Complete subscription lifecycle management implemented: account activation, renewal processing, automatic downgrade, failed payment handling, status updates. Database operations verified: stripeCustomerId storage, stripeSubscriptionId storage, subscription status updates, payment transaction records. Email notifications ready: payment failed template implemented with professional styling. All webhook events return 200 OK. System is production ready for real Stripe webhooks."
 ```
 
+
+  - task: "PayPal Removal & Payment Method Column - admin.listUsers API"
+    implemented: true
+    working: true
+    file: "/lib/api/routers/admin.ts"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+        -working: true
+        -agent: "testing"
+        -comment: "✅ PASS - All 4 backend tests passed (100%). admin.listUsers query successfully returns payment transaction data with correct structure { users: [...] }. Verified: (1) All 739 users have 'payments' field with most recent payment, (2) Payment method classification working correctly - Free: 2 users, Stripe: 20 users, PayPal: 0 users (expected), Manual: 717 users, None: 0 users, (3) Data integrity verified - all subscriptions have plan data, all payment records have required fields (id, amount, status, paymentMethod), (4) Payment method determination logic tested for all scenarios - Free plan, Stripe payment, Manual user scenarios all working correctly. Backend API fully functional for payment method column feature."
+
+
+agent_communication:
+    -agent: "testing"
+    -message: "✅ PayPal Removal & Payment Method Column Feature Testing completed successfully. Backend API testing: All 4 tests passed (100%). VERIFIED: (1) admin.listUsers query includes payment transaction data in correct structure { users: [...] }, (2) Enhanced query returns 'payments' array with most recent payment for each user (20/739 users have payment records), (3) Payment method classification logic working correctly for all scenarios: Free (2 users), Stripe (20 users), PayPal (0 users - expected as PayPal removed from UI), Manual (717 users), None (0 users), (4) Data integrity verified - all 739 users have subscription and plan data, all payment records include required fields (id, amount, status, paymentMethod). Payment method determination logic tested: Free plan users show 'Free', Stripe payment users show 'Stripe', Manual users (paid plan without payment records) show 'Manual'. Backend implementation in /lib/api/routers/admin.ts (lines 333-355) is fully functional. Frontend payment method column in /app/(dashboard)/admin/users/page.tsx (lines 266-287, 545-563) uses correct getPaymentMethod() logic with color-coded badges. Payment method filter dropdown (lines 415-430) implemented with options: All, Stripe, PayPal, Manual, Free, None. Feature is production-ready."

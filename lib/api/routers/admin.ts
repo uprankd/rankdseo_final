@@ -338,6 +338,10 @@ export const adminRouter = router({
             plan: true,
           },
         },
+        payments: {
+          orderBy: { createdAt: 'desc' },
+          take: 1, // Get most recent payment
+        },
         _count: {
           select: {
             projects: true,

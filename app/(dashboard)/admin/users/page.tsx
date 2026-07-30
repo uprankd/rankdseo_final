@@ -25,6 +25,7 @@ export default function AdminUsersPage() {
   const [editEmail, setEditEmail] = useState('');
   const [selectedUsers, setSelectedUsers] = useState<Set<string>>(new Set());
   const [sendingResetEmail, setSendingResetEmail] = useState<string | null>(null);
+  const [paymentMethodFilter, setPaymentMethodFilter] = useState<string>('all');
   
   const { data: usersData, isLoading, refetch } = trpc.admin.listUsers.useQuery();
   const users = usersData?.users || [];
@@ -237,14 +238,53 @@ export default function AdminUsersPage() {
   // Filter users based on search query (case-insensitive, search by name and email)
   const filteredUsers = useMemo(() => {
     if (!users) return [];
-    if (!searchQuery.trim()) return users;
+    if (!searchQuery.trim() && paymentMethodFilter === 'all') return users;
     
     const query = searchQuery.toLowerCase().trim();
-    return users.filter(user => 
-      user.email.toLowerCase().includes(query) ||
-      (user.name?.toLowerCase() || '').includes(query)
-    );
-  }, [users, searchQuery]);
+    let filtered = users;
+    
+    // Apply search filter
+    if (query) {
+      filtered = filtered.filter(user => 
+        user.email.toLowerCase().includes(query) ||
+        (user.name?.toLowerCase() || '').includes(query)
+      );
+    }
+    
+    // Apply payment method filter
+    if (paymentMethodFilter !== 'all') {
+      filtered = filtered.filter(user => {
+        const method = getPaymentMethod(user);
+        return method.toLowerCase() === paymentMethodFilter.toLowerCase();
+      });
+    }
+    
+    return filtered;
+  }, [users, searchQuery, paymentMethodFilter]);
+
+  // Helper function to determine payment method
+  const getPaymentMethod = (user: any): string => {
+    if (!user.subscription) return 'None';
+    
+    const plan = user.subscription.plan;
+    const payments = user.payments || [];
+    
+    // Free plan
+    if (plan.price === 0) return 'Free';
+    
+    // Check if has payment records
+    if (payments.length > 0) {
+      const lastPayment = payments[0]; // Most recent payment
+      if (lastPayment.paymentMethod === 'paypal') return 'PayPal';
+      if (lastPayment.paymentMethod === 'stripe') return 'Stripe';
+    }
+    
+    // Check if has Stripe customer ID
+    if (user.subscription.stripeCustomerId) return 'Stripe';
+    
+    // Paid plan but no payment records - Manual
+    return 'Manual';
+  };
 
   if (isLoading) {
     return (
@@ -370,6 +410,25 @@ export default function AdminUsersPage() {
                   <><Square className="h-4 w-4 mr-2" />Select All</>
                 )}
               </Button>
+              
+              {/* Payment Method Filter */}
+              <Select
+                value={paymentMethodFilter}
+                onValueChange={setPaymentMethodFilter}
+              >
+                <SelectTrigger className="w-48 border-2">
+                  <SelectValue placeholder="Filter by payment" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All Payment Methods</SelectItem>
+                  <SelectItem value="stripe">Stripe</SelectItem>
+                  <SelectItem value="paypal">PayPal</SelectItem>
+                  <SelectItem value="manual">Manual</SelectItem>
+                  <SelectItem value="free">Free</SelectItem>
+                  <SelectItem value="none">None</SelectItem>
+                </SelectContent>
+              </Select>
+              
               <div className="relative w-96">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
               <Input
@@ -481,6 +540,26 @@ export default function AdminUsersPage() {
                         ) : (
                           <Badge variant="outline">No Plan</Badge>
                         )}
+                      </div>
+
+                      {/* Payment Method */}
+                      <div className="flex-shrink-0 text-right">
+                        <p className="text-xs text-gray-600 mb-2">Payment Method</p>
+                        {(() => {
+                          const method = getPaymentMethod(user);
+                          const badgeClass = 
+                            method === 'Stripe' ? 'bg-purple-100 text-purple-700 border-purple-300' :
+                            method === 'PayPal' ? 'bg-blue-100 text-blue-700 border-blue-300' :
+                            method === 'Manual' ? 'bg-orange-100 text-orange-700 border-orange-300' :
+                            method === 'Free' ? 'bg-green-100 text-green-700 border-green-300' :
+                            'bg-gray-100 text-gray-600 border-gray-300';
+                          
+                          return (
+                            <Badge variant="outline" className={badgeClass}>
+                              {method}
+                            </Badge>
+                          );
+                        })()}
                       </div>
 
                       {/* Plan Selector */}
