@@ -29,12 +29,39 @@ model User {
   payments          PaymentTransaction[]
   couponUsages      CouponUsage[]
   passwordResetTokens PasswordResetToken[]
+  emailChangeTokens   EmailChangeToken[]
+  accountDeletionTokens AccountDeletionToken[]
   opportunityReports  OpportunityReport[]
   supportTickets      SupportTicket[]
   supportReplies      SupportReply[]
   
   @@index([email])
   @@index([accountStatus])
+}
+
+model EmailChangeToken {
+  id        String   @id @default(cuid())
+  token     String   @unique
+  newEmail  String
+  expires   DateTime
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+  @@index([token])
+}
+
+model AccountDeletionToken {
+  id        String   @id @default(cuid())
+  token     String   @unique
+  expires   DateTime
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+  @@index([token])
 }
 
 model PasswordResetToken {
