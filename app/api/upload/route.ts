@@ -65,8 +65,5 @@ export async function POST(request: NextRequest) {
   }
 }
 
-export const config = {
-  api: {
-    bodyParser: false,
-  },
-};
+// Next.js App Router route segment config
+export const runtime = 'nodejs'; // Required for fs APIs
