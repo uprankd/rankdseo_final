@@ -124,16 +124,63 @@ const productSchema = {
   ],
 };
 
+// Fallback plans when database is unavailable
+const FALLBACK_PLANS = [
+  {
+    id: 'weekly',
+    name: 'Weekly Membership',
+    price: 7.49,
+    interval: 'week',
+    intervalCount: 1,
+    features: ['Unlimited backlink opportunities', '100 projects', 'Step-by-step screenshot guides', 'Priority email support', 'Auto link verification'],
+    badge: 'Most Flexible',
+    priority: 1,
+  },
+  {
+    id: 'yearly',
+    name: '1 Year Membership',
+    price: 99.99,
+    interval: 'year',
+    intervalCount: 1,
+    features: ['Unlimited backlink opportunities', '100 projects', 'Step-by-step screenshot guides', 'Priority email support', 'Auto link verification'],
+    badge: 'Best Value - Save 73%',
+    priority: 2,
+  },
+  {
+    id: 'monthly',
+    name: 'Monthly Membership',
+    price: 34.99,
+    interval: 'month',
+    intervalCount: 1,
+    features: ['Unlimited backlink opportunities', '100 projects', 'Step-by-step screenshot guides', 'Priority email support', 'Auto link verification'],
+    badge: null,
+    priority: 3,
+  },
+  {
+    id: 'lifetime',
+    name: 'Lifetime Membership',
+    price: 179.99,
+    interval: 'lifetime',
+    intervalCount: 1,
+    features: ['Unlimited backlink opportunities', '100 projects', 'Step-by-step screenshot guides', 'Priority email support', 'Auto link verification', 'One-time payment'],
+    badge: 'Best Deal',
+    priority: 4,
+  },
+];
+
 export default function HomePage() {
   const [showAllPlans, setShowAllPlans] = useState(false);
-  const { data: plansData } = trpc.subscription.getPublicPlans.useQuery();
+  const { data: plansData } = trpc.subscription.getPublicPlans.useQuery(undefined, {
+    retry: false, // Don't retry if database is down
+    staleTime: 60000, // Cache for 1 minute
+  });
   
-  // Get plans and filter them
-  const allPlans = (plansData?.plans || []).filter(p => p.price > 0); // Only paid plans
-  const weeklyPlan = allPlans.find(p => p.interval === 'week');
-  const yearlyPlan = allPlans.find(p => p.interval === 'year');
+  // Get plans from database or use fallbacks
+  const allPlans = (plansData?.plans || FALLBACK_PLANS).filter((p: any) => p.price > 0); // Only paid plans
+  const weeklyPlan = allPlans.find((p: any) => p.interval === 'week');
+  const yearlyPlan = allPlans.find((p: any) => p.interval === 'year');
   const featuredPlans = [weeklyPlan, yearlyPlan].filter(Boolean);
-  const otherPlans = allPlans.filter(p => p.interval !== 'week' && p.interval !== 'year');
+  const otherPlans = allPlans.filter((p: any) => p.interval !== 'week' && p.interval !== 'year');
   
   return (
     <div className="min-h-screen">

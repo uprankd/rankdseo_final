@@ -7,12 +7,19 @@ import { sendEmail, emailTemplates } from '../../mailgun';
 
 export const subscriptionRouter = router({
   getPublicPlans: publicProcedure.query(async ({ ctx }) => {
-    const plans = await ctx.prisma.plan.findMany({
-      where: { isActive: true, name: { not: '3 Month Membership' } },
-      orderBy: { priority: 'asc' },
-    });
+    try {
+      const plans = await ctx.prisma.plan.findMany({
+        where: { isActive: true, name: { not: '3 Month Membership' } },
+        orderBy: { priority: 'asc' },
+      });
 
-    return { plans };
+      return { plans };
+    } catch (error) {
+      // If database is unavailable, return empty array
+      // Frontend will use fallback plans
+      console.error('Database error in getPublicPlans:', error);
+      return { plans: [] };
+    }
   }),
 
   getCurrent: protectedProcedure.query(async ({ ctx }) => {
