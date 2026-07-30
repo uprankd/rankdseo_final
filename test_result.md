@@ -15,6 +15,41 @@ Build an admin panel for RankdSEO that allows admin users to:
 - Delete opportunities
 
 **Latest Feature Implementation:**
+- ✅ Weekly Plan Created & Pricing Pages Updated (COMPLETED)
+  - **New Weekly Plan ($7.49/week)**:
+    - Created in database with full access features
+    - Stripe Product & Price created automatically via API
+    - Database updated with Stripe IDs
+    - Plan ID: `cms7a6mad0000oy57u42ph5n0`
+    - Stripe Product: `prod_UynU7WfrPGappt`
+    - Stripe Price: `price_1TyptRJibpVjHfHK9lLLtgH9`
+  
+  - **Homepage Pricing (`/`)**:
+    - Featured: Weekly ($7.49/week) + Yearly ($99.99/year) shown by default
+    - Other plans (Monthly, Lifetime, Free) behind "Show Other Plans" toggle
+    - Dynamic pricing from database
+    - Color-coded: Weekly = Blue, Yearly = Green
+    - Badges: "Most Flexible" (Weekly), "Best Value" (Yearly)
+  
+  - **Dashboard Settings (`/settings?tab=subscription`)**:
+    - Same behavior as homepage
+    - Weekly and Yearly featured
+    - "Show Other Plans" toggle for others
+    - Coupon support maintained
+  
+  - **Unpaid Users Emails**:
+    - Already link to `/signup` page
+    - Weekly and Yearly plans will appear automatically
+    - No email template changes needed
+  
+  - **Files Modified**:
+    - `/app/scripts/create-weekly-plan.ts` - Create plan in DB
+    - `/app/scripts/setup-weekly-stripe.ts` - Create Stripe product/price
+    - `/app/app/page.tsx` - Dynamic pricing with toggle
+    - `/app/app/(dashboard)/settings/page.tsx` - Dynamic upgrade section with toggle
+  
+  - **Status**: ✅ Complete - Ready for deployment
+
 - ✅ Manual Plan Change Fix & PayPal Removal (COMPLETED)
   - **Critical Bug Fixed**: Manual plan changes now work correctly
   - **Changes**: 
