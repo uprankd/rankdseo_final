@@ -34,6 +34,7 @@ export default function SettingsPage() {
   const searchParams = useSearchParams();
   const [activeTab, setActiveTab] = useState('profile');
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [showAllPlans, setShowAllPlans] = useState(false);
 
   // Handle tab selection from URL query parameter
   useEffect(() => {
@@ -306,84 +307,120 @@ export default function SettingsPage() {
 
                   <div>
                     <h4 className="font-semibold text-lg mb-4">Upgrade or Change Plan</h4>
-                    <div className="grid md:grid-cols-2 gap-4">
-                      {plans?.filter(p => p.id !== subscription.planId && p.name !== '3 Month Membership').map((plan) => (
-                        <Card key={plan.id} className="border-2 hover:border-navy-400 transition-all">
-                          <CardHeader>
-                            <CardTitle className="text-xl">{plan.name}</CardTitle>
-                            <CardDescription>{plan.description}</CardDescription>
-                          </CardHeader>
-                          <CardContent>
-                            <div className="mb-4">
-                              <span className="text-3xl font-bold">${(plan.price / 100).toFixed(2)}</span>
-                              <span className="text-gray-600"> / {plan.interval}</span>
-                            </div>
-                            <ul className="text-sm text-gray-600 mb-4 space-y-2">
-                              <li>✓ {plan.maxOpportunities} backlink opportunities</li>
-                              <li>✓ {plan.maxProjects} projects</li>
-                              <li>✓ Priority support</li>
-                            </ul>
-                            
-                            {/* Coupon Code Input */}
-                            {plan.price > 0 && (
-                              <div className="mb-4">
-                                <Label htmlFor={`coupon-${plan.id}`} className="text-sm text-gray-600 mb-2 flex items-center gap-1">
-                                  <Tag className="h-3 w-3" />
-                                  Have a coupon code?
-                                </Label>
-                                <Input
-                                  id={`coupon-${plan.id}`}
-                                  type="text"
-                                  placeholder="Enter coupon code"
-                                  value={couponCodes[plan.id] || ''}
-                                  onChange={(e) => setCouponCodes(prev => ({
-                                    ...prev,
-                                    [plan.id]: e.target.value.toUpperCase()
-                                  }))}
-                                  className="border-2 font-mono"
-                                />
-                                {couponCodes[plan.id] && (
-                                  <p className="text-xs text-green-600 mt-1">
-                                    ✓ Coupon will be applied at checkout
-                                  </p>
-                                )}
-                              </div>
-                            )}
-                            
-                            {/* Upgrade Button */}
-                            <Button 
-                              onClick={() => {
-                                changePlan.mutate({ 
-                                  planId: plan.id,
-                                  couponCode: couponCodes[plan.id] || undefined
-                                });
-                              }}
-                              disabled={changePlan.isPending}
-                              className="w-full bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white"
-                              data-testid={`upgrade-btn-${plan.id}`}
-                            >
-                              {changePlan.isPending ? (
-                                <>
-                                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                                  Processing...
-                                </>
-                              ) : (
-                                <>
-                                  {plan.price > 0 ? (
-                                    <>
-                                      <CreditCard className="mr-2 h-4 w-4" />
-                                      Upgrade & Pay
-                                    </>
-                                  ) : (
-                                    'Select Plan'
+                    
+                    {/* Filter plans */}
+                    {(() => {
+                      const allAvailablePlans = plans?.filter(p => p.id !== subscription.planId && p.name !== '3 Month Membership') || [];
+                      const weeklyPlan = allAvailablePlans.find(p => p.interval === 'week');
+                      const yearlyPlan = allAvailablePlans.find(p => p.interval === 'year');
+                      const featuredPlans = [weeklyPlan, yearlyPlan].filter(Boolean);
+                      const otherPlans = allAvailablePlans.filter(p => p.interval !== 'week' && p.interval !== 'year');
+                      const plansToShow = showAllPlans ? allAvailablePlans : featuredPlans;
+                      
+                      return (
+                        <>
+                          <div className="grid md:grid-cols-2 gap-4">
+                            {plansToShow.map((plan) => (
+                              <Card key={plan.id} className={`border-2 ${
+                                plan.interval === 'week' ? 'border-blue-300 bg-gradient-to-b from-blue-50 to-white' :
+                                plan.interval === 'year' ? 'border-green-300 bg-gradient-to-b from-green-50 to-white' :
+                                'border-gray-300'
+                              } hover:border-navy-400 transition-all`}>
+                                <CardHeader>
+                                  <CardTitle className="text-xl flex items-center gap-2">
+                                    {plan.name}
+                                    {plan.interval === 'year' && <Badge className="bg-green-500 text-white text-xs">Best Value</Badge>}
+                                    {plan.interval === 'week' && <Badge className="bg-blue-500 text-white text-xs">Flexible</Badge>}
+                                  </CardTitle>
+                                  <CardDescription>{plan.description}</CardDescription>
+                                </CardHeader>
+                                <CardContent>
+                                  <div className="mb-4">
+                                    <span className="text-3xl font-bold">${(plan.price / 100).toFixed(2)}</span>
+                                    <span className="text-gray-600"> / {plan.interval}</span>
+                                  </div>
+                                  <ul className="text-sm text-gray-600 mb-4 space-y-2">
+                                    <li>✓ {plan.maxOpportunities} backlink opportunities</li>
+                                    <li>✓ {plan.maxProjects} projects</li>
+                                    <li>✓ Priority support</li>
+                                  </ul>
+                                  
+                                  {/* Coupon Code Input */}
+                                  {plan.price > 0 && (
+                                    <div className="mb-4">
+                                      <Label htmlFor={`coupon-${plan.id}`} className="text-sm text-gray-600 mb-2 flex items-center gap-1">
+                                        <Tag className="h-3 w-3" />
+                                        Have a coupon code?
+                                      </Label>
+                                      <Input
+                                        id={`coupon-${plan.id}`}
+                                        type="text"
+                                        placeholder="Enter coupon code"
+                                        value={couponCodes[plan.id] || ''}
+                                        onChange={(e) => setCouponCodes(prev => ({
+                                          ...prev,
+                                          [plan.id]: e.target.value.toUpperCase()
+                                        }))}
+                                        className="border-2 font-mono"
+                                      />
+                                      {couponCodes[plan.id] && (
+                                        <p className="text-xs text-green-600 mt-1">
+                                          ✓ Coupon will be applied at checkout
+                                        </p>
+                                      )}
+                                    </div>
                                   )}
-                                </>
-                              )}
-                            </Button>
-                          </CardContent>
-                        </Card>
-                      ))}
-                    </div>
+                                  
+                                  {/* Upgrade Button */}
+                                  <Button 
+                                    onClick={() => {
+                                      changePlan.mutate({ 
+                                        planId: plan.id,
+                                        couponCode: couponCodes[plan.id] || undefined
+                                      });
+                                    }}
+                                    disabled={changePlan.isPending}
+                                    className="w-full bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white"
+                                    data-testid={`upgrade-btn-${plan.id}`}
+                                  >
+                                    {changePlan.isPending ? (
+                                      <>
+                                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                        Processing...
+                                      </>
+                                    ) : (
+                                      <>
+                                        {plan.price > 0 ? (
+                                          <>
+                                            <CreditCard className="mr-2 h-4 w-4" />
+                                            Upgrade & Pay
+                                          </>
+                                        ) : (
+                                          'Select Plan'
+                                        )}
+                                      </>
+                                    )}
+                                  </Button>
+                                </CardContent>
+                              </Card>
+                            ))}
+                          </div>
+                          
+                          {/* Show Other Plans Toggle */}
+                          {otherPlans.length > 0 && (
+                            <div className="text-center mt-6">
+                              <Button
+                                variant="outline"
+                                onClick={() => setShowAllPlans(!showAllPlans)}
+                                className="border-2"
+                              >
+                                {showAllPlans ? 'Show Less' : 'Show Other Plans'}
+                              </Button>
+                            </div>
+                          )}
+                        </>
+                      );
+                    })()}
                   </div>
                 </div>
               ) : (
