@@ -13,9 +13,11 @@ out
 build
 dist
 
-# Environment
+# Environment files
 .env
 .env*.local
+*.env
+*.env.*
 
 # Debug
 npm-debug.log*
@@ -37,84 +39,23 @@ Thumbs.db
 *.db
 *.db-journal
 
+# Backups
+backups/
+public/screenshots-part-*
+
 # Misc
 *.log
 .vercel
+.next/cache/webpack/server-production/0.pack
 node_modules/@next/swc-linux-arm64-gnu/next-swc.linux-arm64-gnu.node
 node_modules/@next/swc-linux-arm64-musl/next-swc.linux-arm64-musl.node
--e 
-# Environment files
-*.env
-*.env.*
--e 
-# Environment files
-*.env
-*.env.*
--e 
-# Environment files
-*.env
-*.env.*
--e 
-# Environment files
-*.env
-*.env.*
--e 
-# Environment files
-*.env
-*.env.*
-.next/cache/webpack/server-production/0.pack
--e 
-# Environment files
-*.env
-*.env.*
--e 
-# Environment files
-*.env
-*.env.*
--e 
-# Environment files
-*.env
-*.env.*
--e 
-# Environment files
-*.env
-*.env.*
--e 
-# Environment files
-*.env
-*.env.*
--e 
-# Environment files
-*.env
-*.env.*
--e 
-# Environment files
-*.env
-*.env.*
--e 
-# Environment files
-*.env
-*.env.*
-backups/backup_2026-03-26T09-09-53.tar.gz
--e 
-# Environment files
-*.env
-*.env.*
 backups/backup_2026-03-26T11-01-14/backup_2026-03-26T11-01-14_screenshots.tar.gz.part_ab
 backups/backup_2026-03-26T11-01-14/backup_2026-03-26T11-01-14_screenshots.tar.gz.part_aa
 backups/backup_2026-03-26T11-01-14/backup_2026-03-26T11-01-14_screenshots.tar.gz.part_ad
 backups/backup_2026-03-26T11-01-14/backup_2026-03-26T11-01-14_screenshots.tar.gz.part_ac
 backups/backup_2026-03-26T11-01-14/backup_2026-03-26T11-01-14_screenshots.tar.gz.part_ae
--e 
-# Environment files
-*.env
-*.env.*
 public/screenshots-part-aa
 public/screenshots-part-ac
 public/screenshots-part-ab
 public/screenshots-part-ae
 public/screenshots-part-ad
--e 
-# Environment files
-*.env
-*.env.*
