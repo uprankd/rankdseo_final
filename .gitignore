@@ -59,3 +59,8 @@ public/screenshots-part-ac
 public/screenshots-part-ab
 public/screenshots-part-ae
 public/screenshots-part-ad
+.env.*
+credentials.json
+*.pem
+*.key
+.credentials

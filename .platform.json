@@ -1,0 +1,10 @@
+{
+  "name": "rankdseo",
+  "type": "nextjs",
+  "framework": "next",
+  "buildCommand": "yarn build",
+  "installCommand": "yarn install",
+  "devCommand": "yarn dev",
+  "runtime": "nodejs",
+  "nodeVersion": "20"
+}
