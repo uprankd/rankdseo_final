@@ -1,0 +1,2 @@
+# This Next.js application does not use Python
+# This file exists only to satisfy deployment build process expectations
