@@ -95,14 +95,14 @@ async function main() {
 
   // Create Admin User
   console.log('Creating admin user...');
-  const hashedPassword = await bcrypt.hash('Admin123!', 10);
+  const hashedAdminPassword = await bcrypt.hash('password', 10);
   
   const adminUser = await prisma.user.upsert({
     where: { email: 'admin@rankseo.com' },
     update: {},
     create: {
       email: 'admin@rankseo.com',
-      password: hashedPassword,
+      password: hashedAdminPassword,
       name: 'Admin User',
       role: 'ADMIN',
       emailVerified: new Date(),
@@ -122,7 +122,39 @@ async function main() {
     }
   });
 
-  console.log('✅ Admin user created (admin@rankseo.com / Admin123!)');
+  console.log('✅ Admin user created (admin@rankseo.com / password)');
+
+  // Create Test User
+  console.log('Creating test user...');
+  const hashedTestPassword = await bcrypt.hash('password', 10);
+  
+  const testUser = await prisma.user.upsert({
+    where: { email: 'toms@uprankd.com' },
+    update: {},
+    create: {
+      email: 'toms@uprankd.com',
+      password: hashedTestPassword,
+      name: 'Tom Test',
+      role: 'USER',
+      emailVerified: new Date(),
+    }
+  });
+
+  // Create test user subscription (Monthly plan)
+  await prisma.subscription.upsert({
+    where: { userId: testUser.id },
+    update: {},
+    create: {
+      userId: testUser.id,
+      planId: monthlyPlan.id,
+      status: 'ACTIVE',
+      currentPeriodStart: new Date(),
+      currentPeriodEnd: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000) // 30 days
+    }
+  });
+
+  console.log('✅ Test user created (toms@uprankd.com / password)');
+
 
   // Sample Backlink Opportunities
   console.log('Creating backlink opportunities...');

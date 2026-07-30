@@ -13,11 +13,8 @@ out
 build
 dist
 
-# Environment files
-.env
-.env*.local
-*.env
-*.env.*
+# Environment files - deployment needs these files
+# .env files are required for deployment and should be committed
 
 # Debug
 npm-debug.log*
@@ -46,7 +43,10 @@ public/screenshots-part-*
 # Misc
 *.log
 .vercel
-.next/cache/webpack/server-production/0.pack
+credentials.json
+*.pem
+*.key
+.credentials
 node_modules/@next/swc-linux-arm64-gnu/next-swc.linux-arm64-gnu.node
 node_modules/@next/swc-linux-arm64-musl/next-swc.linux-arm64-musl.node
 backups/backup_2026-03-26T11-01-14/backup_2026-03-26T11-01-14_screenshots.tar.gz.part_ab
@@ -59,8 +59,3 @@ public/screenshots-part-ac
 public/screenshots-part-ab
 public/screenshots-part-ae
 public/screenshots-part-ad
-.env.*
-credentials.json
-*.pem
-*.key
-.credentials

@@ -14,6 +14,49 @@ Build an admin panel for RankdSEO that allows admin users to:
 - Manage step-by-step tutorial instructions for each opportunity
 - Delete opportunities
 
+
+## 🚨 CRITICAL ISSUE - ENVIRONMENT/DATABASE MISMATCH 
+
+**Problem**: The application is built for PostgreSQL + Prisma, but is running in a MongoDB environment.
+
+**Symptoms**:
+- Projects page fails to load/create projects
+- Authentication fails (can't login)
+- All database operations fail with error: `Can't reach database server at localhost:5432`
+- Link verification jobs fail on startup
+
+**Root Cause**:
+- Application codebase uses: **PostgreSQL + Prisma ORM** 
+  - `prisma/schema.prisma` defines PostgreSQL datasource
+  - `.env` has `DATABASE_URL="postgresql://rankseo:dev_password@localhost:5432/rankseo"`
+  - All tRPC routers use Prisma client for PostgreSQL
+  
+- Preview environment has: **MongoDB only**
+  - `/etc/supervisor/conf.d/supervisord.conf` runs MongoDB service  
+  - `.emergent/emergent.yml` specifies `nextjs_mongo_shadcn_base_image_cloud_arm`
+  - No PostgreSQL service running (`supervisorctl status` shows only mongodb, not postgres)
+
+**Impact**: 
+- 🔴 **Projects/Campaigns completely non-functional** - Cannot create, list, or view projects
+- 🔴 **Authentication broken** - Cannot login with any credentials
+- 🔴 **All database features broken** - Opportunities, users, subscriptions, support tickets, etc.
+
+**Fix Required**:
+This requires platform/infrastructure change - either:
+1. **Option A**: Change environment to PostgreSQL (align environment with codebase)
+2. **Option B**: Migrate codebase to MongoDB + Mongoose (major rewrite of entire data layer)
+
+Option A is strongly recommended as all existing code is PostgreSQL-based.
+
+**Files Demonstrating Mismatch**:
+- `/app/prisma/schema.prisma` - Line 8: `provider = "postgresql"`
+- `/app/.env` - `DATABASE_URL` points to PostgreSQL
+- `/etc/supervisor/conf.d/supervisord.conf` - Lines 15-20: Runs MongoDB only
+- `/app/.emergent/emergent.yml` - Specifies MongoDB image
+
+**Status**: BLOCKER - Cannot fix with code changes alone. Requires platform support.
+
+
 **Latest Feature Implementation:**
 - ✅ Weekly Plan Created & Pricing Pages Updated (COMPLETED)
   - **New Weekly Plan ($7.49/week)**:
