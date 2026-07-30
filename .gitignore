@@ -114,3 +114,7 @@ public/screenshots-part-ac
 public/screenshots-part-ab
 public/screenshots-part-ae
 public/screenshots-part-ad
+-e 
+# Environment files
+*.env
+*.env.*

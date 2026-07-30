@@ -74,6 +74,46 @@ export async function POST(req: Request) {
         break;
       }
 
+      case 'customer.subscription.created': {
+        const subscription = event.data.object as Stripe.Subscription;
+        console.log('✅ Processing subscription.created', subscription.id);
+
+        await handleSubscriptionCreated(subscription);
+        break;
+      }
+
+      case 'customer.subscription.updated': {
+        const subscription = event.data.object as Stripe.Subscription;
+        console.log('🔄 Processing subscription.updated', subscription.id);
+
+        await handleSubscriptionUpdated(subscription);
+        break;
+      }
+
+      case 'customer.subscription.deleted': {
+        const subscription = event.data.object as Stripe.Subscription;
+        console.log('❌ Processing subscription.deleted', subscription.id);
+
+        await handleSubscriptionDeleted(subscription);
+        break;
+      }
+
+      case 'invoice.payment_succeeded': {
+        const invoice = event.data.object as Stripe.Invoice;
+        console.log('💰 Processing invoice.payment_succeeded', invoice.id);
+
+        await handleInvoicePaymentSucceeded(invoice);
+        break;
+      }
+
+      case 'invoice.payment_failed': {
+        const invoice = event.data.object as Stripe.Invoice;
+        console.log('❌ Processing invoice.payment_failed', invoice.id);
+
+        await handleInvoicePaymentFailed(invoice);
+        break;
+      }
+
       case 'payment_intent.succeeded': {
         const paymentIntent = event.data.object as Stripe.PaymentIntent;
         console.log('✅ Payment intent succeeded', paymentIntent.id);
@@ -187,6 +227,17 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session) {
       updatedAt: new Date(),
     },
   });
+
+  // Save Stripe customer ID to subscription
+  if (session.customer) {
+    await prisma.subscription.update({
+      where: { userId: transaction.userId! },
+      data: {
+        stripeCustomerId: session.customer as string,
+        stripeSubscriptionId: session.subscription as string || undefined,
+      },
+    });
+  }
 
   // Check if this is an upgrade or new signup
   const isUpgrade = 
@@ -498,4 +549,327 @@ async function recordCouponUsage(
   } catch (error) {
     console.error('❌ Failed to record coupon usage:', error);
   }
+}
+
+// Handle subscription created (for recurring subscriptions)
+async function handleSubscriptionCreated(subscription: Stripe.Subscription) {
+  const customerEmail = subscription.customer as string;
+  const stripeSubscriptionId = subscription.id;
+  const priceId = subscription.items.data[0]?.price.id;
+
+  console.log('📝 Subscription created:', { stripeSubscriptionId, customerEmail, priceId });
+
+  // Find user by Stripe customer ID or email
+  let user = await prisma.user.findFirst({
+    where: {
+      OR: [
+        { stripeCustomerId: subscription.customer as string },
+        // If we don't have stripeCustomerId, we'll need to get email from Stripe
+      ]
+    },
+    include: { subscription: true }
+  });
+
+  // If no user found by customer ID, try to get customer email from Stripe
+  if (!user) {
+    try {
+      const customer = await stripe.customers.retrieve(subscription.customer as string);
+      if (customer && !customer.deleted && customer.email) {
+        user = await prisma.user.findUnique({
+          where: { email: customer.email },
+          include: { subscription: true }
+        });
+      }
+    } catch (error) {
+      console.error('❌ Failed to retrieve customer:', error);
+    }
+  }
+
+  if (!user) {
+    console.error('❌ Cannot find user for subscription:', stripeSubscriptionId);
+    return;
+  }
+
+  // Find matching plan by Stripe price ID
+  const plan = await prisma.plan.findFirst({
+    where: { stripePriceId: priceId }
+  });
+
+  if (!plan) {
+    console.error('❌ Cannot find plan for price ID:', priceId);
+    return;
+  }
+
+  // Update subscription with Stripe subscription ID
+  await prisma.subscription.update({
+    where: { userId: user.id },
+    data: {
+      stripeSubscriptionId,
+      status: subscription.status === 'active' ? 'ACTIVE' : 'PENDING',
+      currentPeriodStart: new Date(subscription.current_period_start * 1000),
+      currentPeriodEnd: new Date(subscription.current_period_end * 1000),
+      planId: plan.id,
+    }
+  });
+
+  console.log('✅ Subscription linked to user:', user.email);
+}
+
+// Handle subscription updated (renewals, status changes)
+async function handleSubscriptionUpdated(subscription: Stripe.Subscription) {
+  const stripeSubscriptionId = subscription.id;
+
+  console.log('📝 Subscription updated:', stripeSubscriptionId, 'Status:', subscription.status);
+
+  // Find subscription by Stripe ID
+  const dbSubscription = await prisma.subscription.findFirst({
+    where: { stripeSubscriptionId },
+    include: { user: true }
+  });
+
+  if (!dbSubscription) {
+    console.error('❌ Cannot find subscription:', stripeSubscriptionId);
+    return;
+  }
+
+  // Update subscription status and period
+  const updates: any = {
+    currentPeriodStart: new Date(subscription.current_period_start * 1000),
+    currentPeriodEnd: new Date(subscription.current_period_end * 1000),
+  };
+
+  // Map Stripe status to our status
+  if (subscription.status === 'active') {
+    updates.status = 'ACTIVE';
+  } else if (subscription.status === 'canceled') {
+    updates.status = 'CANCELED';
+  } else if (subscription.status === 'past_due') {
+    updates.status = 'PAST_DUE';
+  } else if (subscription.status === 'unpaid') {
+    updates.status = 'PAST_DUE';
+  }
+
+  await prisma.subscription.update({
+    where: { id: dbSubscription.id },
+    data: updates
+  });
+
+  // If subscription became active, activate user account
+  if (subscription.status === 'active' && dbSubscription.user.accountStatus !== 'ACTIVE') {
+    await prisma.user.update({
+      where: { id: dbSubscription.userId },
+      data: { accountStatus: 'ACTIVE' }
+    });
+    console.log('✅ User account activated:', dbSubscription.user.email);
+  }
+
+  // If subscription was canceled, downgrade to free plan
+  if (subscription.status === 'canceled') {
+    await downgradeToFreePlan(dbSubscription.userId);
+    console.log('⬇️ User downgraded to free plan:', dbSubscription.user.email);
+  }
+
+  console.log('✅ Subscription updated:', dbSubscription.user.email);
+}
+
+// Handle subscription deleted (cancellation)
+async function handleSubscriptionDeleted(subscription: Stripe.Subscription) {
+  const stripeSubscriptionId = subscription.id;
+
+  console.log('❌ Subscription deleted:', stripeSubscriptionId);
+
+  // Find subscription
+  const dbSubscription = await prisma.subscription.findFirst({
+    where: { stripeSubscriptionId },
+    include: { user: true }
+  });
+
+  if (!dbSubscription) {
+    console.error('⚠️ Cannot find subscription to delete:', stripeSubscriptionId);
+    return;
+  }
+
+  // Downgrade user to free plan
+  await downgradeToFreePlan(dbSubscription.userId);
+
+  console.log('✅ User downgraded after cancellation:', dbSubscription.user.email);
+}
+
+// Handle successful invoice payment (renewals)
+async function handleInvoicePaymentSucceeded(invoice: Stripe.Invoice) {
+  const subscriptionId = invoice.subscription as string;
+
+  if (!subscriptionId) {
+    console.log('ℹ️ Invoice not associated with subscription:', invoice.id);
+    return;
+  }
+
+  console.log('💰 Processing invoice payment:', invoice.id, 'for subscription:', subscriptionId);
+
+  // Find subscription
+  const dbSubscription = await prisma.subscription.findFirst({
+    where: { stripeSubscriptionId: subscriptionId },
+    include: { user: true, plan: true }
+  });
+
+  if (!dbSubscription) {
+    console.error('❌ Cannot find subscription for invoice:', invoice.id);
+    return;
+  }
+
+  // Ensure user account is active
+  if (dbSubscription.user.accountStatus !== 'ACTIVE') {
+    await prisma.user.update({
+      where: { id: dbSubscription.userId },
+      data: { accountStatus: 'ACTIVE' }
+    });
+    console.log('✅ User account reactivated:', dbSubscription.user.email);
+  }
+
+  // Record payment transaction
+  await prisma.paymentTransaction.create({
+    data: {
+      userId: dbSubscription.userId,
+      planId: dbSubscription.planId,
+      amount: (invoice.amount_paid || 0) / 100,
+      currency: invoice.currency || 'usd',
+      status: 'SUCCEEDED',
+      sessionId: invoice.id,
+      paymentIntent: invoice.payment_intent as string || null,
+      stripeInvoiceId: invoice.id,
+      receiptUrl: invoice.hosted_invoice_url || invoice.invoice_pdf || null,
+      metadata: { type: 'RENEWAL', subscriptionId: subscriptionId },
+    },
+  });
+
+  console.log('✅ Renewal payment recorded for:', dbSubscription.user.email);
+
+  // Send renewal receipt email
+  try {
+    const receiptEmail = emailTemplates.paymentReceipt(
+      dbSubscription.user.name || 'User',
+      {
+        invoiceNumber: invoice.number || `INV-${invoice.id.slice(-8)}`,
+        transactionId: invoice.payment_intent as string || invoice.id,
+        transactionDbId: invoice.id,
+        date: new Date(invoice.created * 1000).toLocaleDateString('en-US', { 
+          year: 'numeric', 
+          month: 'long', 
+          day: 'numeric' 
+        }),
+        planName: dbSubscription.plan.name,
+        planDescription: `${dbSubscription.plan.interval === 'yearly' ? 'Annual' : 'Monthly'} subscription renewal`,
+        amount: (invoice.amount_paid || 0) / 100,
+        currency: invoice.currency || 'usd',
+        paymentMethod: 'stripe',
+        billingEmail: dbSubscription.user.email,
+        billingName: dbSubscription.user.name || 'Customer',
+        nextBillingDate: new Date(dbSubscription.currentPeriodEnd).toLocaleDateString('en-US', { 
+          year: 'numeric', 
+          month: 'long', 
+          day: 'numeric' 
+        }),
+      }
+    );
+    await sendEmail({
+      to: dbSubscription.user.email,
+      subject: receiptEmail.subject,
+      html: receiptEmail.html,
+      metadata: {
+        userId: dbSubscription.user.id,
+        emailType: 'renewal_receipt',
+        invoiceId: invoice.id,
+      },
+    });
+    console.log('📧 Renewal receipt sent to:', dbSubscription.user.email);
+  } catch (emailError) {
+    console.error('⚠️ Failed to send renewal receipt:', emailError);
+  }
+}
+
+// Handle failed invoice payment
+async function handleInvoicePaymentFailed(invoice: Stripe.Invoice) {
+  const subscriptionId = invoice.subscription as string;
+
+  if (!subscriptionId) {
+    console.log('ℹ️ Failed invoice not associated with subscription:', invoice.id);
+    return;
+  }
+
+  console.log('❌ Processing failed invoice payment:', invoice.id);
+
+  // Find subscription
+  const dbSubscription = await prisma.subscription.findFirst({
+    where: { stripeSubscriptionId: subscriptionId },
+    include: { user: true }
+  });
+
+  if (!dbSubscription) {
+    console.error('❌ Cannot find subscription for failed invoice:', invoice.id);
+    return;
+  }
+
+  // Mark subscription as past due
+  await prisma.subscription.update({
+    where: { id: dbSubscription.id },
+    data: { status: 'PAST_DUE' }
+  });
+
+  console.log('⚠️ Subscription marked as PAST_DUE:', dbSubscription.user.email);
+
+  // Send payment failed email
+  try {
+    const failedEmail = emailTemplates.paymentFailed(
+      dbSubscription.user.name || 'User',
+      (invoice.amount_due || 0) / 100,
+      invoice.currency || 'usd'
+    );
+    await sendEmail({
+      to: dbSubscription.user.email,
+      subject: failedEmail.subject,
+      html: failedEmail.html,
+      metadata: {
+        userId: dbSubscription.user.id,
+        emailType: 'payment_failed',
+        invoiceId: invoice.id,
+      },
+    });
+    console.log('📧 Payment failed email sent to:', dbSubscription.user.email);
+  } catch (emailError) {
+    console.error('⚠️ Failed to send payment failed email:', emailError);
+  }
+}
+
+// Downgrade user to free plan
+async function downgradeToFreePlan(userId: string) {
+  // Find free plan
+  const freePlan = await prisma.plan.findFirst({
+    where: { 
+      price: 0,
+      name: { contains: 'Free', mode: 'insensitive' }
+    }
+  });
+
+  if (!freePlan) {
+    console.error('❌ Cannot find free plan for downgrade');
+    return;
+  }
+
+  // Update subscription to free plan
+  await prisma.subscription.update({
+    where: { userId },
+    data: {
+      planId: freePlan.id,
+      status: 'CANCELED',
+      stripeSubscriptionId: null,
+    }
+  });
+
+  // Keep user account active but on free plan
+  await prisma.user.update({
+    where: { id: userId },
+    data: { accountStatus: 'ACTIVE' }
+  });
+
+  console.log('✅ User downgraded to free plan:', userId);
 }

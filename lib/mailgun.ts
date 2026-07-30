@@ -1288,4 +1288,79 @@ export const emailTemplates = {
       </html>
     `,
   }),
+
+  paymentFailed: (userName: string, amount: number, currency: string) => ({
+    subject: '⚠️ Payment Failed - Action Required',
+    html: `
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <style>
+            body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; margin: 0; padding: 0; }
+            .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+            .header { background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%); color: white; padding: 30px; text-align: center; border-radius: 10px 10px 0 0; }
+            .content { background: #f9fafb; padding: 30px; border-radius: 0 0 10px 10px; }
+            .alert-box { background: #fef2f2; border: 2px solid #ef4444; border-radius: 12px; padding: 20px; margin: 20px 0; }
+            .button { display: inline-block; background: #ef4444; color: white; padding: 14px 32px; text-decoration: none; border-radius: 8px; margin: 20px 0; font-weight: bold; }
+            .amount { font-size: 32px; font-weight: bold; color: #ef4444; }
+            .footer { text-align: center; color: #6b7280; padding: 20px; font-size: 14px; }
+          </style>
+        </head>
+        <body>
+          <div class="container">
+            <div class="header">
+              <h1 style="margin: 0; font-size: 28px;">⚠️ Payment Failed</h1>
+            </div>
+            <div class="content">
+              <p style="font-size: 16px; margin-bottom: 20px;">Hi ${userName},</p>
+              
+              <div class="alert-box">
+                <h2 style="margin-top: 0; color: #dc2626;">Action Required</h2>
+                <p style="margin-bottom: 15px;">We were unable to process your subscription payment.</p>
+                <div class="amount">${currency.toUpperCase()} ${amount.toFixed(2)}</div>
+              </div>
+
+              <p style="font-size: 16px;">
+                Your subscription payment could not be processed. This could be due to:
+              </p>
+
+              <ul style="font-size: 15px; line-height: 1.8;">
+                <li>Insufficient funds in your account</li>
+                <li>Expired or invalid payment method</li>
+                <li>Your bank declining the transaction</li>
+                <li>Billing address mismatch</li>
+              </ul>
+
+              <p style="font-size: 16px; margin-top: 25px;">
+                <strong>What happens next?</strong>
+              </p>
+
+              <p style="font-size: 15px;">
+                We'll attempt to charge your payment method again over the next few days. If payment continues to fail, your subscription may be cancelled and your account will be downgraded to the free plan.
+              </p>
+
+              <div style="text-align: center; margin: 30px 0;">
+                <a href="${process.env.NEXT_PUBLIC_APP_URL}/settings" class="button" style="color: white;">
+                  Update Payment Method
+                </a>
+              </div>
+
+              <p style="font-size: 14px; color: #6b7280; margin-top: 25px;">
+                Need help? Contact our support team at <a href="mailto:support@rankdseo.com" style="color: #3b82f6;">support@rankdseo.com</a>
+              </p>
+            </div>
+            <div class="footer">
+              <p style="margin: 5px 0;">
+                © ${new Date().getFullYear()} RankdSEO. All rights reserved.
+              </p>
+              <p style="font-size: 12px;">
+                <a href="${process.env.NEXT_PUBLIC_APP_URL}/settings" style="color: #6b7280;">Account Settings</a> ·
+                <a href="mailto:support@rankdseo.com" style="color: #6b7280;">Contact Support</a>
+              </p>
+            </div>
+          </div>
+        </body>
+      </html>
+    `,
+  }),
 };
