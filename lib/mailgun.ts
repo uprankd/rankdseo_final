@@ -1363,4 +1363,191 @@ export const emailTemplates = {
       </html>
     `,
   }),
+
+  unpaidUserReminder: (userName: string, daysSinceRegistration: number) => ({
+    subject: `🚀 ${userName}, You're Missing Out on 1,500+ Backlink Opportunities`,
+    html: `
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <style>
+            body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; margin: 0; padding: 0; }
+            .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+            .header { background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%); color: white; padding: 30px; text-align: center; border-radius: 10px 10px 0 0; }
+            .content { background: #f9fafb; padding: 30px; border-radius: 0 0 10px 10px; }
+            .highlight-box { background: linear-gradient(135deg, #eff6ff 0%, #f3e8ff 100%); border-left: 4px solid #3b82f6; padding: 20px; margin: 20px 0; border-radius: 8px; }
+            .button { display: inline-block; background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%); color: white; padding: 16px 40px; text-decoration: none; border-radius: 8px; margin: 20px 0; font-weight: bold; font-size: 16px; }
+            .feature { display: flex; align-items: flex-start; margin: 15px 0; }
+            .check { color: #10b981; font-size: 20px; margin-right: 10px; }
+            .footer { text-align: center; color: #6b7280; padding: 20px; font-size: 14px; }
+            .stats { display: flex; justify-content: space-around; margin: 25px 0; }
+            .stat { text-align: center; }
+            .stat-number { font-size: 36px; font-weight: bold; color: #3b82f6; }
+            .stat-label { font-size: 14px; color: #6b7280; text-transform: uppercase; }
+          </style>
+        </head>
+        <body>
+          <div class="container">
+            <div class="header">
+              <h1 style="margin: 0; font-size: 28px;">🎯 Your Backlink Goldmine Awaits</h1>
+            </div>
+            <div class="content">
+              <p style="font-size: 16px; margin-bottom: 20px;">Hi ${userName},</p>
+              
+              <p style="font-size: 16px;">
+                You registered for RankdSEO <strong>${daysSinceRegistration} days ago</strong>, but haven't started building backlinks yet. Here's what you're missing:
+              </p>
+
+              <div class="stats">
+                <div class="stat">
+                  <div class="stat-number">1,500+</div>
+                  <div class="stat-label">Opportunities</div>
+                </div>
+                <div class="stat">
+                  <div class="stat-number">5,904</div>
+                  <div class="stat-label">Screenshots</div>
+                </div>
+                <div class="stat">
+                  <div class="stat-number">24/7</div>
+                  <div class="stat-label">Access</div>
+                </div>
+              </div>
+
+              <div class="highlight-box">
+                <h3 style="margin-top: 0; color: #1e40af;">🔥 What You Get Instantly:</h3>
+                <div class="feature">
+                  <span class="check">✓</span>
+                  <span><strong>Step-by-step tutorials</strong> with screenshots for every opportunity</span>
+                </div>
+                <div class="feature">
+                  <span class="check">✓</span>
+                  <span><strong>Ahrefs metrics</strong> (DR, traffic, spam score) for each source</span>
+                </div>
+                <div class="feature">
+                  <span class="check">✓</span>
+                  <span><strong>Filter by niche</strong> - find backlinks perfect for your industry</span>
+                </div>
+                <div class="feature">
+                  <span class="check">✓</span>
+                  <span><strong>Track your progress</strong> - mark submissions and verify live links</span>
+                </div>
+                <div class="feature">
+                  <span class="check">✓</span>
+                  <span><strong>Save 100+ hours</strong> of research finding quality backlink sources</span>
+                </div>
+              </div>
+
+              <p style="font-size: 16px; margin-top: 25px;">
+                <strong>💰 Limited Time Offer:</strong>
+              </p>
+              
+              <p style="font-size: 15px;">
+                Start building backlinks today and get access to our entire database for just <strong>€29/month</strong> or save 40% with our yearly plan at <strong>€199/year</strong>.
+              </p>
+
+              <div style="text-align: center; margin: 30px 0;">
+                <a href="${process.env.NEXT_PUBLIC_APP_URL}/signup" class="button" style="color: white;">
+                  Start Building Backlinks Now →
+                </a>
+              </div>
+
+              <p style="font-size: 14px; color: #6b7280; text-align: center;">
+                Join 1,467+ marketers already building quality backlinks with RankdSEO
+              </p>
+
+              <p style="font-size: 13px; color: #9ca3af; margin-top: 25px; text-align: center;">
+                Not interested? <a href="${process.env.NEXT_PUBLIC_APP_URL}/unsubscribe?email=${encodeURIComponent(userName)}" style="color: #6b7280;">Unsubscribe from these emails</a>
+              </p>
+            </div>
+            <div class="footer">
+              <p style="margin: 5px 0;">
+                © ${new Date().getFullYear()} RankdSEO. All rights reserved.
+              </p>
+            </div>
+          </div>
+        </body>
+      </html>
+    `,
+  }),
+
+  bulkUnpaidUserEmail: (userName: string, customMessage?: string) => ({
+    subject: '🎯 Unlock 1,500+ Backlink Opportunities Today',
+    html: `
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <style>
+            body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; margin: 0; padding: 0; }
+            .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+            .header { background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%); color: white; padding: 30px; text-align: center; border-radius: 10px 10px 0 0; }
+            .content { background: #f9fafb; padding: 30px; border-radius: 0 0 10px 10px; }
+            .custom-message { background: #fef3c7; border-left: 4px solid #f59e0b; padding: 15px; margin: 20px 0; border-radius: 4px; }
+            .button { display: inline-block; background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%); color: white; padding: 16px 40px; text-decoration: none; border-radius: 8px; margin: 20px 0; font-weight: bold; }
+            .pricing-box { background: white; border: 2px solid #e5e7eb; border-radius: 12px; padding: 20px; margin: 20px 0; }
+            .price { font-size: 48px; font-weight: bold; color: #3b82f6; }
+            .footer { text-align: center; color: #6b7280; padding: 20px; font-size: 14px; }
+          </style>
+        </head>
+        <body>
+          <div class="container">
+            <div class="header">
+              <h1 style="margin: 0; font-size: 28px;">⏰ Don't Miss Out!</h1>
+            </div>
+            <div class="content">
+              <p style="font-size: 16px; margin-bottom: 20px;">Hi ${userName},</p>
+              
+              ${customMessage ? `
+              <div class="custom-message">
+                <p style="margin: 0; font-size: 15px;"><strong>Special Message:</strong> ${customMessage}</p>
+              </div>
+              ` : ''}
+
+              <p style="font-size: 16px;">
+                You created an account with RankdSEO but haven't unlocked the full power of our backlink database yet.
+              </p>
+
+              <p style="font-size: 16px;">
+                <strong>Here's what's waiting for you:</strong>
+              </p>
+
+              <ul style="font-size: 15px; line-height: 1.8;">
+                <li>🎯 <strong>1,500+ curated backlink opportunities</strong></li>
+                <li>📸 <strong>Step-by-step screenshot tutorials</strong> for each source</li>
+                <li>📊 <strong>Ahrefs metrics</strong> (DR, traffic, spam score)</li>
+                <li>🎨 <strong>Filter by niche</strong>, difficulty, link type</li>
+                <li>✅ <strong>Track submissions</strong> and verify live links</li>
+                <li>⚡ <strong>Save 100+ hours</strong> of manual research</li>
+              </ul>
+
+              <div class="pricing-box">
+                <h3 style="margin-top: 0; text-align: center;">Start Today</h3>
+                <div style="text-align: center;">
+                  <div class="price">€29<span style="font-size: 18px; color: #6b7280;">/month</span></div>
+                  <p style="color: #6b7280; margin: 5px 0;">or save 40% with yearly plan</p>
+                </div>
+              </div>
+
+              <div style="text-align: center; margin: 30px 0;">
+                <a href="${process.env.NEXT_PUBLIC_APP_URL}/signup" class="button" style="color: white;">
+                  Get Started Now →
+                </a>
+              </div>
+
+              <p style="font-size: 14px; color: #6b7280; text-align: center;">
+                ⭐ Trusted by 1,467+ SEO professionals and agencies
+              </p>
+            </div>
+            <div class="footer">
+              <p style="margin: 5px 0;">
+                © ${new Date().getFullYear()} RankdSEO. All rights reserved.
+              </p>
+              <p style="font-size: 12px;">
+                <a href="${process.env.NEXT_PUBLIC_APP_URL}/unsubscribe" style="color: #6b7280;">Unsubscribe</a>
+              </p>
+            </div>
+          </div>
+        </body>
+      </html>
+    `,
+  }),
 };

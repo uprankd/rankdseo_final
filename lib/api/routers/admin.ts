@@ -1423,6 +1423,206 @@ export const adminRouter = router({
       }
       return { success: true };
     }),
+
+  // Get unpaid users (registered but not on paid plan)
+  getUnpaidUsers: adminProcedure
+    .input(z.object({
+      dateRange: z.enum(['1_month', '3_months', '6_months', '1_year', 'all']).default('all'),
+      limit: z.number().min(1).max(500).optional().default(100),
+      cursor: z.string().optional(),
+    }))
+    .query(async ({ ctx, input }) => {
+      const now = new Date();
+      let dateThreshold: Date | undefined;
+
+      // Calculate date threshold based on range
+      switch (input.dateRange) {
+        case '1_month':
+          dateThreshold = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
+          break;
+        case '3_months':
+          dateThreshold = new Date(now.getTime() - 90 * 24 * 60 * 60 * 1000);
+          break;
+        case '6_months':
+          dateThreshold = new Date(now.getTime() - 180 * 24 * 60 * 60 * 1000);
+          break;
+        case '1_year':
+          dateThreshold = new Date(now.getTime() - 365 * 24 * 60 * 60 * 1000);
+          break;
+        case 'all':
+          dateThreshold = undefined;
+          break;
+      }
+
+      const where: any = {
+        subscription: {
+          plan: {
+            price: 0, // Free plan users
+          }
+        },
+        ...(dateThreshold && {
+          createdAt: {
+            gte: dateThreshold,
+          }
+        })
+      };
+
+      const users = await ctx.prisma.user.findMany({
+        where,
+        take: input.limit + 1,
+        ...(input.cursor && {
+          skip: 1,
+          cursor: { id: input.cursor },
+        }),
+        orderBy: {
+          createdAt: 'desc',
+        },
+        include: {
+          subscription: {
+            include: {
+              plan: true,
+            }
+          }
+        }
+      });
+
+      let nextCursor: string | undefined = undefined;
+      if (users.length > input.limit) {
+        const nextItem = users.pop();
+        nextCursor = nextItem!.id;
+      }
+
+      // Calculate days since registration for each user
+      const usersWithDays = users.map(user => ({
+        ...user,
+        daysSinceRegistration: Math.floor((now.getTime() - new Date(user.createdAt).getTime()) / (24 * 60 * 60 * 1000))
+      }));
+
+      return {
+        users: usersWithDays,
+        nextCursor,
+      };
+    }),
+
+  // Send email to selected unpaid users
+  sendUnpaidUserEmail: adminProcedure
+    .input(z.object({
+      userIds: z.array(z.string()).min(1),
+      customMessage: z.string().optional(),
+    }))
+    .mutation(async ({ ctx, input }) => {
+      const users = await ctx.prisma.user.findMany({
+        where: {
+          id: {
+            in: input.userIds,
+          }
+        },
+        select: {
+          id: true,
+          email: true,
+          name: true,
+          createdAt: true,
+        }
+      });
+
+      let successCount = 0;
+      let failCount = 0;
+      const errors: string[] = [];
+
+      for (const user of users) {
+        try {
+          const emailContent = emailTemplates.bulkUnpaidUserEmail(
+            user.name || user.email,
+            input.customMessage
+          );
+
+          await sendEmail({
+            to: user.email,
+            subject: emailContent.subject,
+            html: emailContent.html,
+            metadata: {
+              userId: user.id,
+              emailType: 'unpaid_user_reminder',
+            },
+          });
+
+          successCount++;
+        } catch (error: any) {
+          failCount++;
+          errors.push(`${user.email}: ${error.message}`);
+        }
+
+        // Small delay to avoid rate limiting
+        await new Promise(resolve => setTimeout(resolve, 100));
+      }
+
+      return {
+        success: true,
+        sent: successCount,
+        failed: failCount,
+        errors,
+      };
+    }),
+
+  // Get unpaid users statistics
+  getUnpaidUsersStats: adminProcedure
+    .query(async ({ ctx }) => {
+      const now = new Date();
+      
+      const baseWhere = {
+        subscription: {
+          plan: {
+            price: 0,
+          }
+        }
+      };
+
+      const total = await ctx.prisma.user.count({ where: baseWhere });
+
+      const lastMonth = await ctx.prisma.user.count({
+        where: {
+          ...baseWhere,
+          createdAt: {
+            gte: new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000),
+          }
+        }
+      });
+
+      const last3Months = await ctx.prisma.user.count({
+        where: {
+          ...baseWhere,
+          createdAt: {
+            gte: new Date(now.getTime() - 90 * 24 * 60 * 60 * 1000),
+          }
+        }
+      });
+
+      const last6Months = await ctx.prisma.user.count({
+        where: {
+          ...baseWhere,
+          createdAt: {
+            gte: new Date(now.getTime() - 180 * 24 * 60 * 60 * 1000),
+          }
+        }
+      });
+
+      const lastYear = await ctx.prisma.user.count({
+        where: {
+          ...baseWhere,
+          createdAt: {
+            gte: new Date(now.getTime() - 365 * 24 * 60 * 60 * 1000),
+          }
+        }
+      });
+
+      return {
+        total,
+        lastMonth,
+        last3Months,
+        last6Months,
+        lastYear,
+      };
+    }),
 });
 
 // Helper function to notify all users of a new opportunity

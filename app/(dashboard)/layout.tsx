@@ -72,6 +72,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       { href: '/admin/users', icon: Users, label: 'Manage Users', gradient: 'from-purple-500 to-pink-500' },
       { href: '/admin/invoices', icon: FileText, label: 'Invoices', gradient: 'from-green-500 to-emerald-500' },
       { href: '/admin/coupons', icon: Tag, label: 'Coupons', gradient: 'from-orange-500 to-red-500' },
+      { href: '/admin/unpaid-users', icon: Mail, label: 'Unpaid Users', gradient: 'from-orange-500 to-amber-500' },
       { href: '/admin/activity-log', icon: ClipboardList, label: 'Manage Log', gradient: 'from-teal-500 to-cyan-500' },
       { href: '/admin/reports', icon: Flag, label: 'Reports', gradient: 'from-red-500 to-pink-500' },
       { href: '/admin/help', icon: Headphones, label: 'Help Desk', gradient: 'from-violet-500 to-purple-500' },
