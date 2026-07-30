@@ -95,66 +95,139 @@ export const paymentRouter = router({
         // Base URL for redirects
         const origin = process.env.NEXT_PUBLIC_APP_URL || process.env.NEXTAUTH_URL;
 
-        // Create checkout session with expanded configuration
-        const session = await stripe.checkout.sessions.create({
-          payment_method_types: ['card'],
-          mode: 'payment',
-          line_items: [
-            {
-              price_data: {
-                currency: 'usd',
-                product_data: {
-                  name: plan.name,
-                  description: couponData 
-                    ? `${plan.description} (Discount: ${couponData.code})`
-                    : plan.description,
-                },
-                unit_amount: finalPrice, // Price after discount in cents
+        // Determine if this is a recurring subscription
+        const isRecurring = plan.interval !== 'lifetime';
+
+        if (isRecurring && plan.stripePriceId) {
+          // Create subscription checkout with 3-day trial
+          console.log('💳 Creating subscription checkout with 3-day trial');
+          
+          const sessionParams: any = {
+            payment_method_types: ['card'],
+            mode: 'subscription',
+            line_items: [
+              {
+                price: plan.stripePriceId,
+                quantity: 1,
               },
-              quantity: 1,
-            },
-          ],
-          customer_email: email,
-          metadata: {
-            planId: plan.id,
-            planName: plan.name,
-            customerName: name,
-            couponId: couponData?.id || '',
-            couponCode: couponData?.code || '',
-            originalPrice: plan.price.toString(),
-            discountAmount: couponData?.discountAmount.toString() || '0',
-          },
-          // Enable automatic tax calculation if configured
-          automatic_tax: {
-            enabled: false,
-          },
-          // Enable receipt emails
-          invoice_creation: {
-            enabled: true,
-            invoice_data: {
-              description: `${plan.name} - RankdSEO Subscription`,
+            ],
+            customer_email: email,
+            subscription_data: {
+              trial_period_days: 3, // 3-day free trial
               metadata: {
                 planId: plan.id,
+                planName: plan.name,
                 customerName: name,
+                couponId: couponData?.id || '',
+                couponCode: couponData?.code || '',
               },
-              custom_fields: [
-                {
-                  name: 'Customer Name',
-                  value: name,
-                },
-              ],
             },
-          },
-          success_url: `${origin}/payment/success?session_id={CHECKOUT_SESSION_ID}`,
-          cancel_url: `${origin}/payment/cancel`,
-        });
+            metadata: {
+              planId: plan.id,
+              planName: plan.name,
+              customerName: name,
+              couponId: couponData?.id || '',
+              couponCode: couponData?.code || '',
+              originalPrice: plan.price.toString(),
+              discountAmount: couponData?.discountAmount.toString() || '0',
+              hasTrial: 'true',
+            },
+            success_url: `${origin}/payment/success?session_id={CHECKOUT_SESSION_ID}`,
+            cancel_url: `${origin}/payment/cancel`,
+          };
 
-        return {
-          isFree: false,
-          url: session.url,
-          sessionId: session.id,
-          coupon: couponData,
-        };
+          // Apply coupon if exists
+          if (couponData) {
+            // Create Stripe coupon if not exists
+            let stripeCouponId = couponData.code.toLowerCase().replace(/[^a-z0-9]/g, '_');
+            
+            try {
+              await stripe.coupons.retrieve(stripeCouponId);
+            } catch {
+              // Coupon doesn't exist, create it
+              const stripeCoupon = await stripe.coupons.create({
+                id: stripeCouponId,
+                amount_off: couponData.discountAmount,
+                currency: 'usd',
+                duration: 'once',
+                name: couponData.code,
+              });
+              stripeCouponId = stripeCoupon.id;
+            }
+            
+            sessionParams.discounts = [{ coupon: stripeCouponId }];
+          }
+
+          const session = await stripe.checkout.sessions.create(sessionParams);
+
+          return {
+            isFree: false,
+            url: session.url,
+            sessionId: session.id,
+            coupon: couponData,
+            hasTrial: true,
+            trialDays: 3,
+          };
+        } else {
+          // One-time payment (Lifetime plan)
+          console.log('💳 Creating one-time payment checkout');
+          
+          const session = await stripe.checkout.sessions.create({
+            payment_method_types: ['card'],
+            mode: 'payment',
+            line_items: [
+              {
+                price_data: {
+                  currency: 'usd',
+                  product_data: {
+                    name: plan.name,
+                    description: couponData 
+                      ? `${plan.description} (Discount: ${couponData.code})`
+                      : plan.description,
+                  },
+                  unit_amount: finalPrice, // Price after discount in cents
+                },
+                quantity: 1,
+              },
+            ],
+            customer_email: email,
+            metadata: {
+              planId: plan.id,
+              planName: plan.name,
+              customerName: name,
+              couponId: couponData?.id || '',
+              couponCode: couponData?.code || '',
+              originalPrice: plan.price.toString(),
+              discountAmount: couponData?.discountAmount.toString() || '0',
+            },
+            invoice_creation: {
+              enabled: true,
+              invoice_data: {
+                description: `${plan.name} - RankdSEO Subscription`,
+                metadata: {
+                  planId: plan.id,
+                  customerName: name,
+                },
+                custom_fields: [
+                  {
+                    name: 'Customer Name',
+                    value: name,
+                  },
+                ],
+              },
+            },
+            success_url: `${origin}/payment/success?session_id={CHECKOUT_SESSION_ID}`,
+            cancel_url: `${origin}/payment/cancel`,
+          });
+
+          return {
+            isFree: false,
+            url: session.url,
+            sessionId: session.id,
+            coupon: couponData,
+            hasTrial: false,
+          };
+        }
       } catch (error: any) {
         console.error('Stripe checkout error:', error);
         throw new TRPCError({

@@ -129,7 +129,7 @@ export default function HomePage() {
   const { data: plansData } = trpc.subscription.getPublicPlans.useQuery();
   
   // Get plans and filter them
-  const allPlans = plansData?.plans || [];
+  const allPlans = (plansData?.plans || []).filter(p => p.price > 0); // Only paid plans
   const weeklyPlan = allPlans.find(p => p.interval === 'week');
   const yearlyPlan = allPlans.find(p => p.interval === 'year');
   const featuredPlans = [weeklyPlan, yearlyPlan].filter(Boolean);
@@ -314,6 +314,7 @@ export default function HomePage() {
                     <h3 className="text-2xl font-black text-gray-800">{plan.name}</h3>
                     {plan.interval === 'year' && <Star className="h-6 w-6 text-green-500" />}
                   </div>
+                  <Badge className="bg-green-500 text-white text-sm mb-2">🎉 3-Day Free Trial Included</Badge>
                   <div className="mb-2">
                     <span className={`text-4xl font-black ${
                       plan.interval === 'week'
@@ -338,6 +339,7 @@ export default function HomePage() {
                       </Badge>
                     </div>
                   )}
+                  <p className="text-xs text-gray-500 mb-4">💳 Credit card required • Cancel anytime</p>
                   <ul className="space-y-3 mb-8">
                     <li className="flex items-start">
                       <Check className="h-5 w-5 text-green-600 mr-3 flex-shrink-0 mt-0.5" />

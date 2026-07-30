@@ -28,14 +28,13 @@ export default function SignUpPage() {
   // Fetch available plans
   const { data: plansData } = trpc.subscription.getPublicPlans.useQuery();
   
-  // Sort plans to show Free plan first, then by price
-  const plans = (plansData?.plans || []).sort((a, b) => {
-    // Free plans (price === 0) come first
-    if (a.price === 0 && b.price !== 0) return -1;
-    if (a.price !== 0 && b.price === 0) return 1;
-    // Then sort by price ascending
-    return a.price - b.price;
-  });
+  // Sort plans and filter out the old free plan (now it's a trial)
+  const plans = (plansData?.plans || [])
+    .filter(p => p.price > 0) // Only show paid plans (all have 3-day trial now)
+    .sort((a, b) => {
+      // Sort by price ascending
+      return a.price - b.price;
+    });
 
   const signUpMutation = trpc.auth.signUp.useMutation();
   const createCheckoutMutation = trpc.payment.createSignupCheckout.useMutation();
@@ -93,19 +92,10 @@ export default function SignUpPage() {
         throw new Error('Plan not found');
       }
 
-      // If plan is free, create account directly
-      if (plan.price === 0) {
-        await signUpMutation.mutateAsync({
-          ...formData,
-          planId: selectedPlan,
-        });
-        toast.success('Account created! Please sign in.');
-        router.push('/signin');
-        return;
-      }
-
-      // For paid plans with Stripe
-      // First create checkout session to get session ID and check if free
+      // All paid plans go through Stripe with 3-day trial
+      console.log('Creating checkout session with 3-day trial for plan:', plan.name);
+      
+      // Create checkout session
       const checkoutResult = await createCheckoutMutation.mutateAsync({
         email: formData.email,
         name: formData.name,
@@ -114,6 +104,7 @@ export default function SignUpPage() {
       });
 
       if (checkoutResult.isFree) {
+        // Should not happen since we filtered free plans, but handle gracefully
         await signUpMutation.mutateAsync({
           ...formData,
           planId: selectedPlan,
@@ -137,7 +128,7 @@ export default function SignUpPage() {
         }
       }
 
-      // Redirect to Stripe checkout
+      // Redirect to Stripe checkout (with 3-day trial)
       if (checkoutResult.url) {
         window.location.href = checkoutResult.url;
       }
@@ -280,17 +271,15 @@ export default function SignUpPage() {
                   </>
                 ) : (
                   <>
-                    {selectedPlan && plans.find(p => p.id === selectedPlan)?.price === 0 ? (
-                      'Create Free Account'
-                    ) : (
-                      <>
-                        <CreditCard className="mr-2 h-4 w-4" />
-                        Continue to Payment
-                      </>
-                    )}
+                    <CreditCard className="mr-2 h-4 w-4" />
+                    Start 3-Day Free Trial
                   </>
                 )}
               </Button>
+              
+              <p className="text-xs text-center text-gray-500 mt-2">
+                💳 Credit card required. Cancel anytime during trial.
+              </p>
 
               <div className="mt-4 text-center text-sm">
                 <span className="text-gray-600">Already have an account? </span>
@@ -324,19 +313,15 @@ export default function SignUpPage() {
                     <div className="flex-1">
                       <div className="flex items-center gap-2 mb-1">
                         <h3 className="font-bold text-lg">{plan.name}</h3>
-                        {plan.name === '1 Year Membership' && (
-                          <Badge className="bg-green-500 text-white text-xs">Best Value</Badge>
-                        )}
-                        {plan.price === 0 && (
-                          <Badge className="bg-blue-500 text-white text-xs">Free Forever</Badge>
+                        <Badge className="bg-green-500 text-white text-xs">3-Day Free Trial</Badge>
+                        {plan.interval === 'year' && (
+                          <Badge className="bg-blue-500 text-white text-xs">Best Value</Badge>
                         )}
                       </div>
                       <p className="text-sm text-gray-600 mb-2">{plan.description}</p>
-                      {plan.price === 0 && (
-                        <p className="text-sm font-semibold text-blue-600 mb-2">
-                          ✨ 20 free guides included
-                        </p>
-                      )}
+                      <p className="text-xs font-semibold text-green-600 mb-2">
+                        ✨ Try free for 3 days, then ${(plan.price / 100).toFixed(2)}/{plan.interval}
+                      </p>
                       <div className="flex items-baseline gap-1">
                         <span className="text-2xl font-black text-blue-600">
                           ${(plan.price / 100).toFixed(2)}

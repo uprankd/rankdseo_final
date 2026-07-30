@@ -310,7 +310,7 @@ export default function SettingsPage() {
                     
                     {/* Filter plans */}
                     {(() => {
-                      const allAvailablePlans = plans?.filter(p => p.id !== subscription.planId && p.name !== '3 Month Membership') || [];
+                      const allAvailablePlans = plans?.filter(p => p.id !== subscription.planId && p.name !== '3 Month Membership' && p.price > 0) || [];
                       const weeklyPlan = allAvailablePlans.find(p => p.interval === 'week');
                       const yearlyPlan = allAvailablePlans.find(p => p.interval === 'year');
                       const featuredPlans = [weeklyPlan, yearlyPlan].filter(Boolean);
