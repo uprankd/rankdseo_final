@@ -1,7 +1,7 @@
 import { router, protectedProcedure, adminProcedure } from '../trpc';
 import { z } from 'zod';
 import { TRPCError } from '@trpc/server';
-import { detectSpam } from '../spam-detector';
+import { detectSpam } from '../../spam-detector';
 
 export const supportRouter = router({
   // User: create a ticket
