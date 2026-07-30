@@ -47,6 +47,12 @@ credentials.json
 *.pem
 *.key
 .credentials
+
+# Test credentials (should not be deployed)
+memory/test_credentials.md
+
+# Local development only (not for deployment)
+docker-compose.yml
 node_modules/@next/swc-linux-arm64-gnu/next-swc.linux-arm64-gnu.node
 node_modules/@next/swc-linux-arm64-musl/next-swc.linux-arm64-musl.node
 backups/backup_2026-03-26T11-01-14/backup_2026-03-26T11-01-14_screenshots.tar.gz.part_ab
