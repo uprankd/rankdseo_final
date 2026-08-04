@@ -102,9 +102,11 @@ export default function AdminHelpPage() {
   const { data: spamTickets, refetch: refetchSpam } = trpc.support.listSpamTickets.useQuery();
 
   const replyToTicket = trpc.support.replyToTicket.useMutation({
-    onSuccess: (_, vars) => {
+    onSuccess: (_data, vars) => {
       toast.success('Reply sent to user');
-      setReplyText(prev => ({ ...prev, [vars.ticketId]: '' }));
+      if (vars && 'ticketId' in vars) {
+        setReplyText(prev => ({ ...prev, [vars.ticketId]: '' }));
+      }
       refetch();
     },
     onError: (e) => toast.error(e.message),
