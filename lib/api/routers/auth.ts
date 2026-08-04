@@ -145,6 +145,64 @@ export const authRouter = router({
       };
     }),
 
+  // Request password reset (public - no auth needed)
+  requestPasswordReset: publicProcedure
+    .input(z.object({ email: z.string().email() }))
+    .mutation(async ({ ctx, input }) => {
+      const user = await ctx.prisma.user.findUnique({
+        where: { email: input.email },
+      });
+
+      // For security, we don't reveal if user exists or not
+      // Always return success to prevent email enumeration
+      if (!user) {
+        return { success: true, message: 'If an account exists, a reset link will be sent' };
+      }
+
+      // Generate reset token
+      const crypto = require('crypto');
+      const token = crypto.randomBytes(32).toString('hex');
+      const expiresAt = new Date(Date.now() + 60 * 60 * 1000); // 1 hour
+
+      // Delete any existing reset tokens for this user
+      await ctx.prisma.passwordResetToken.deleteMany({
+        where: { userId: user.id },
+      });
+
+      // Create new reset token
+      await ctx.prisma.passwordResetToken.create({
+        data: {
+          token,
+          userId: user.id,
+          expiresAt,
+        },
+      });
+
+      // Send reset email
+      const resetUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/reset-password?token=${token}`;
+      const resetEmail = emailTemplates.passwordResetLink(user.name || user.email, resetUrl);
+
+      try {
+        await sendEmail({
+          to: user.email,
+          subject: resetEmail.subject,
+          html: resetEmail.html,
+          metadata: {
+            userId: user.id,
+            emailType: 'passwordReset',
+          },
+        });
+      } catch (emailError) {
+        console.error('Failed to send password reset email:', emailError);
+        throw new TRPCError({
+          code: 'INTERNAL_SERVER_ERROR',
+          message: 'Failed to send reset email. Please try again later.',
+        });
+      }
+
+      return { success: true, message: 'Password reset link sent to your email' };
+    }),
+
   // Verify reset token (public - no auth needed)
   verifyResetToken: publicProcedure
     .input(z.object({ token: z.string() }))

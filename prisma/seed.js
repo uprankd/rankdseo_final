@@ -35,6 +35,34 @@ async function main() {
     },
   });
 
+  const weeklyPlan = await prisma.plan.upsert({
+    where: { name: 'Weekly Membership' },
+    update: {},
+    create: {
+      name: 'Weekly Membership',
+      description: 'Most flexible - Full access billed weekly with 3-day free trial',
+      price: 749, // $7.49
+      interval: 'week',
+      maxOpportunities: 1000,
+      maxProjects: 100,
+      allowExport: true,
+      allowApiAccess: true,
+      priority: 1,
+      isActive: true,
+      features: {
+        opportunities: 'Unlimited',
+        projects: 100,
+        export: true,
+        apiAccess: true,
+        support: 'Priority Email',
+        autoVerification: true,
+        tutorials: 'Full Access',
+        trial: '3-day free trial',
+        flexible: true,
+      },
+    },
+  });
+
   const yearlyPlan = await prisma.plan.upsert({
     where: { name: '1 Year Membership' },
     update: {},
@@ -91,7 +119,7 @@ async function main() {
     },
   });
 
-  console.log('✅ Plans created (Monthly, 3-Month, Yearly, Lifetime)');
+  console.log('✅ Plans created (Weekly, Monthly, Yearly, Lifetime)');
 
   // Create Admin User
   console.log('Creating admin user...');
