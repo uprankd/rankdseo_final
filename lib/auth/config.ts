@@ -4,6 +4,7 @@ import { compare } from 'bcryptjs';
 import { prisma } from '@/lib/db/prisma';
 
 export const authConfig: NextAuthConfig = {
+  trustHost: true, // Required for production deployments
   providers: [
     CredentialsProvider({
       name: 'credentials',
