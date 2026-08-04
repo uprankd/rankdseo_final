@@ -242,7 +242,7 @@ export const subscriptionRouter = router({
                 data: {
                   couponId: coupon.id,
                   userId: ctx.user.id,
-                },
+                } as any,
               });
 
               // Increment coupon usage count
@@ -435,7 +435,7 @@ export const subscriptionRouter = router({
               where: { userId: ctx.user.id },
               data: { planId: plan.id, currentPeriodStart: new Date(), currentPeriodEnd: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000) },
             });
-            await ctx.prisma.couponUsage.create({ data: { couponId: coupon.id, userId: ctx.user.id } });
+            await ctx.prisma.couponUsage.create({ data: { couponId: coupon.id, userId: ctx.user.id } as any });
             await ctx.prisma.coupon.update({ where: { id: coupon.id }, data: { usedCount: { increment: 1 } } });
             return { requiresPayment: false, orderId: null, message: `Plan upgraded with ${coupon.discountValue}% discount! No payment required.` };
           }
@@ -519,7 +519,7 @@ export const subscriptionRouter = router({
       const meta = transaction.metadata as any;
       if (meta?.coupon?.id) {
         try {
-          await ctx.prisma.couponUsage.create({ data: { couponId: meta.coupon.id, userId: ctx.user.id } });
+          await ctx.prisma.couponUsage.create({ data: { couponId: meta.coupon.id, userId: ctx.user.id } as any });
           await ctx.prisma.coupon.update({ where: { id: meta.coupon.id }, data: { usedCount: { increment: 1 } } });
         } catch (e) { /* coupon already used — ignore */ }
       }

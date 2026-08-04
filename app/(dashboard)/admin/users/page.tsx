@@ -761,17 +761,17 @@ export default function AdminUsersPage() {
               type="button"
               variant="outline"
               onClick={() => setResetPasswordDialog(null)}
-              disabled={resetPassword.isLoading}
+              disabled={resetPassword.isPending}
             >
               Cancel
             </Button>
             <Button
               type="button"
               onClick={handleResetPassword}
-              disabled={resetPassword.isLoading || !newPassword || newPassword.length < 8}
+              disabled={resetPassword.isPending || !newPassword || newPassword.length < 8}
               className="bg-blue-600 hover:bg-blue-700"
             >
-              {resetPassword.isLoading ? (
+              {resetPassword.isPending ? (
                 <>
                   <Loader2 className="h-4 w-4 mr-2 animate-spin" />
                   Resetting...
@@ -835,7 +835,7 @@ export default function AdminUsersPage() {
               type="button"
               variant="outline"
               onClick={() => setEditUserDialog(null)}
-              disabled={updateUser.isLoading}
+              disabled={updateUser.isPending}
             >
               Cancel
             </Button>
@@ -843,14 +843,14 @@ export default function AdminUsersPage() {
               type="button"
               onClick={handleUpdateUser}
               disabled={
-                updateUser.isLoading || 
+                updateUser.isPending || 
                 !editName.trim() || 
                 !editEmail.trim() || 
                 !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(editEmail)
               }
               className="bg-navy-600 hover:bg-navy-700"
             >
-              {updateUser.isLoading ? (
+              {updateUser.isPending ? (
                 <>
                   <Loader2 className="h-4 w-4 mr-2 animate-spin" />
                   Updating...

@@ -14,7 +14,7 @@ export function TRPCProvider({ children }: { children: React.ReactNode }) {
           queries: {
             // Disable caching for real-time updates
             staleTime: 0,
-            cacheTime: 1000 * 10, // Keep in cache for 10 seconds only
+            gcTime: 1000 * 10, // Keep in cache for 10 seconds only (renamed from cacheTime)
             refetchOnWindowFocus: true,
             refetchOnMount: true,
             refetchOnReconnect: true,

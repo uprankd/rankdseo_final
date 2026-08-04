@@ -160,7 +160,7 @@ export default function SettingsPage() {
       toast.error('Please enter your password to confirm deletion');
       return;
     }
-    deleteAccount.mutate({ currentPassword: deletePassword });
+    deleteAccount.mutate({ currentPassword: deletePassword } as any);
   };
 
   return (

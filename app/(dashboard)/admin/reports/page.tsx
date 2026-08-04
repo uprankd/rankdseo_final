@@ -36,7 +36,9 @@ export default function AdminReportsPage() {
 
   const resolveMutation = trpc.admin.resolveReport.useMutation({
     onSuccess: (_, vars) => {
-      toast.success(`Report ${vars.status === 'RESOLVED' ? 'resolved' : 'dismissed'}`);
+      if (vars && 'status' in vars) {
+        toast.success(`Report ${vars.status === 'RESOLVED' ? 'resolved' : 'dismissed'}`);
+      }
       utils.admin.listReports.invalidate();
     },
     onError: (err) => toast.error(err.message),
@@ -44,7 +46,9 @@ export default function AdminReportsPage() {
 
   const bulkResolveMutation = trpc.admin.bulkResolveReports.useMutation({
     onSuccess: (data, vars) => {
-      toast.success(`${data.updated} reports ${vars.status === 'RESOLVED' ? 'resolved' : 'dismissed'}`);
+      if (vars && 'status' in vars) {
+        toast.success(`${data.updated} reports ${vars.status === 'RESOLVED' ? 'resolved' : 'dismissed'}`);
+      }
       setSelectedIds(new Set());
       utils.admin.listReports.invalidate();
     },

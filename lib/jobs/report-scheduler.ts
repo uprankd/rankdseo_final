@@ -54,18 +54,18 @@ async function generateWeeklyReportData(userId: string) {
 
   // Calculate current week stats
   const thisWeekLinks = userProjects.flatMap(p => 
-    p.opportunities.filter(o => new Date(o.addedAt) >= oneWeekAgo)
+    p.opportunities.filter((o: any) => new Date(o.addedAt || o.createdAt) >= oneWeekAgo)
   );
   
   // Calculate last week stats for comparison
   const lastWeekLinks = userProjects.flatMap(p => 
-    p.opportunities.filter(o => 
-      new Date(o.addedAt) >= twoWeeksAgo && new Date(o.addedAt) < oneWeekAgo
+    p.opportunities.filter((o: any) => 
+      new Date(o.addedAt || o.createdAt) >= twoWeeksAgo && new Date(o.addedAt || o.createdAt) < oneWeekAgo
     )
   );
 
-  const verifiedThisWeek = thisWeekLinks.filter(l => l.status === 'VERIFIED').length;
-  const verifiedLastWeek = lastWeekLinks.filter(l => l.status === 'VERIFIED').length;
+  const verifiedThisWeek = thisWeekLinks.filter((l: any) => l.status === 'VERIFIED' || l.opportunity?.status === 'VERIFIED').length;
+  const verifiedLastWeek = lastWeekLinks.filter((l: any) => l.status === 'VERIFIED' || l.opportunity?.status === 'VERIFIED').length;
 
   // Get top opportunities by DA
   const topOpportunities = thisWeekLinks
@@ -87,8 +87,8 @@ async function generateWeeklyReportData(userId: string) {
     weekEnd: getWeekRange().end,
     linksAdded: thisWeekLinks.length,
     linksVerified: verifiedThisWeek,
-    linksPending: thisWeekLinks.filter(l => l.status === 'PENDING').length,
-    projectsActive: userProjects.filter(p => !p.completed).length,
+    linksPending: thisWeekLinks.filter((l: any) => l.status === 'PENDING' || l.opportunity?.status === 'PENDING').length,
+    projectsActive: userProjects.filter((p: any) => !p.completed).length,
     topOpportunities: topOpportunities.length > 0 ? topOpportunities : [
       { name: 'Medium.com', da: 95 },
       { name: 'Reddit.com', da: 91 },
@@ -123,13 +123,13 @@ async function generateMonthlyReportData(userId: string) {
 
   // This month's links
   const thisMonthLinks = userProjects.flatMap(p => 
-    p.opportunities.filter(o => new Date(o.addedAt) >= oneMonthAgo)
+    p.opportunities.filter((o: any) => new Date(o.addedAt || o.createdAt) >= oneMonthAgo)
   );
   
   // Last month's links for comparison
   const lastMonthLinks = userProjects.flatMap(p => 
-    p.opportunities.filter(o => 
-      new Date(o.addedAt) >= twoMonthsAgo && new Date(o.addedAt) < oneMonthAgo
+    p.opportunities.filter((o: any) => 
+      new Date(o.addedAt || o.createdAt) >= twoMonthsAgo && new Date(o.addedAt || o.createdAt) < oneMonthAgo
     )
   );
 
@@ -161,7 +161,7 @@ async function generateMonthlyReportData(userId: string) {
   // Find best performing project
   const projectPerformance = userProjects.map(p => ({
     name: p.name,
-    links: p.opportunities.filter(o => new Date(o.addedAt) >= oneMonthAgo).length,
+    links: p.opportunities.filter((o: any) => new Date(o.addedAt || o.createdAt) >= oneMonthAgo).length,
   }));
   const bestProject = projectPerformance.sort((a, b) => b.links - a.links)[0];
 
@@ -176,11 +176,11 @@ async function generateMonthlyReportData(userId: string) {
     month,
     year,
     totalLinksAdded: thisMonthLinks.length,
-    totalLinksVerified: thisMonthLinks.filter(l => l.status === 'VERIFIED').length,
-    totalLinksPending: thisMonthLinks.filter(l => l.status === 'PENDING').length,
-    totalLinksRejected: thisMonthLinks.filter(l => l.status === 'REJECTED').length,
-    projectsCompleted: userProjects.filter(p => p.completed).length,
-    projectsActive: userProjects.filter(p => !p.completed).length,
+    totalLinksVerified: thisMonthLinks.filter((l: any) => l.status === 'VERIFIED' || l.opportunity?.status === 'VERIFIED').length,
+    totalLinksPending: thisMonthLinks.filter((l: any) => l.status === 'PENDING' || l.opportunity?.status === 'PENDING').length,
+    totalLinksRejected: thisMonthLinks.filter((l: any) => l.status === 'REJECTED' || l.opportunity?.status === 'REJECTED').length,
+    projectsCompleted: userProjects.filter((p: any) => p.completed).length,
+    projectsActive: userProjects.filter((p: any) => !p.completed).length,
     topCategories: topCategories.length > 0 ? topCategories : [
       { name: 'Technology', count: 5 },
       { name: 'Business', count: 3 },
@@ -198,21 +198,14 @@ export async function sendWeeklyReports() {
   console.log('📧 Starting weekly report email job...');
   
   try {
-    // Get all active users with active subscriptions who want weekly reports
+    // Get all active users with active subscriptions
     const users = await prisma.user.findMany({
       where: {
         accountStatus: 'ACTIVE',
         subscription: {
           status: 'ACTIVE',
         },
-        // Check user preferences for weekly reports
-        preferences: {
-          OR: [
-            { weeklyReports: true },
-            { weeklyReports: { not: false } }, // Default to true if not set
-          ],
-        },
-      },
+      } as any,
       select: {
         id: true,
         email: true,
@@ -262,20 +255,14 @@ export async function sendMonthlyReports() {
   console.log('📧 Starting monthly report email job...');
   
   try {
-    // Get all active users with active subscriptions who want monthly reports
+    // Get all active users with active subscriptions
     const users = await prisma.user.findMany({
       where: {
         accountStatus: 'ACTIVE',
         subscription: {
           status: 'ACTIVE',
         },
-        preferences: {
-          OR: [
-            { monthlyReports: true },
-            { monthlyReports: { not: false } },
-          ],
-        },
-      },
+      } as any,
       select: {
         id: true,
         email: true,

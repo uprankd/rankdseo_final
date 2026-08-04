@@ -52,7 +52,9 @@ export default function HelpPage() {
   const replyToTicket = trpc.support.replyToTicket.useMutation({
     onSuccess: (_, vars) => {
       toast.success('Reply sent');
-      setReplyText(prev => ({ ...prev, [vars.ticketId]: '' }));
+      if (vars && 'ticketId' in vars) {
+        setReplyText(prev => ({ ...prev, [vars.ticketId]: '' }));
+      }
       refetch();
     },
     onError: (e) => toast.error(e.message),

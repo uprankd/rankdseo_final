@@ -559,12 +559,12 @@ async function handleSubscriptionCreated(subscription: Stripe.Subscription) {
 
   console.log('📝 Subscription created:', { stripeSubscriptionId, customerEmail, priceId });
 
-  // Find user by Stripe customer ID or email
+  // Find user by Stripe customer ID (in subscription) or email
   let user = await prisma.user.findFirst({
     where: {
       OR: [
-        { stripeCustomerId: subscription.customer as string },
-        // If we don't have stripeCustomerId, we'll need to get email from Stripe
+        { subscription: { stripeCustomerId: subscription.customer as string } },
+        { email: customerEmail },
       ]
     },
     include: { subscription: true }
@@ -574,7 +574,7 @@ async function handleSubscriptionCreated(subscription: Stripe.Subscription) {
   if (!user) {
     try {
       const customer = await stripe.customers.retrieve(subscription.customer as string);
-      if (customer && !customer.deleted && customer.email) {
+      if (customer && !('deleted' in customer && customer.deleted) && 'email' in customer && customer.email) {
         user = await prisma.user.findUnique({
           where: { email: customer.email },
           include: { subscription: true }
@@ -605,7 +605,7 @@ async function handleSubscriptionCreated(subscription: Stripe.Subscription) {
     where: { userId: user.id },
     data: {
       stripeSubscriptionId,
-      status: subscription.status === 'active' ? 'ACTIVE' : 'PENDING',
+      status: subscription.status === 'active' ? 'ACTIVE' : 'INCOMPLETE',
       currentPeriodStart: new Date(subscription.current_period_start * 1000),
       currentPeriodEnd: new Date(subscription.current_period_end * 1000),
       planId: plan.id,

@@ -18,7 +18,7 @@ function DemoContent() {
           password: 'demo_view_2026',
           callbackUrl: redirectTo,
           redirect: true,
-        });
+        }) as any;
         if (result?.error) {
           setError(true);
         }

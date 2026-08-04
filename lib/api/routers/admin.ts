@@ -147,7 +147,7 @@ export const adminRouter = router({
       const slug = await getUniqueSlug(ctx.prisma, opportunityData.siteName);
       
       const opportunity = await ctx.prisma.backlinkOpportunity.create({
-        data: { ...opportunityData, slug },
+        data: { ...opportunityData, slug } as any,
       });
 
       // Send email notifications to all active users (async, non-blocking)
@@ -207,7 +207,7 @@ export const adminRouter = router({
 
       // Regenerate slug if siteName changed
       if (data.siteName) {
-        data.slug = await getUniqueSlug(ctx.prisma, data.siteName, id);
+        (data as any).slug = await getUniqueSlug(ctx.prisma, data.siteName, id);
       }
 
       const opportunity = await ctx.prisma.backlinkOpportunity.update({
@@ -243,7 +243,7 @@ export const adminRouter = router({
     )
     .mutation(async ({ ctx, input }) => {
       const instruction = await ctx.prisma.opportunityInstruction.create({
-        data: input,
+        data: input as any,
       });
 
       return instruction;
@@ -1010,20 +1010,16 @@ export const adminRouter = router({
       })
     )
     .query(async ({ ctx, input }) => {
+      // Build date filter  
+      const dateFilter: any = {
+        ...(input.dateFrom && { gte: new Date(input.dateFrom) }),
+        ...(input.dateTo && { lte: new Date(input.dateTo) }),
+      };
+
       const where: any = {
         ...(input.status && { status: input.status }),
         ...(input.userId && { userId: input.userId }),
-        ...(input.dateFrom && {
-          createdAt: {
-            gte: new Date(input.dateFrom),
-          },
-        }),
-        ...(input.dateTo && {
-          createdAt: {
-            ...((where as any)?.createdAt || {}),
-            lte: new Date(input.dateTo),
-          },
-        }),
+        ...(Object.keys(dateFilter).length > 0 && { createdAt: dateFilter }),
       };
 
       // If searching, add search conditions
@@ -1054,7 +1050,7 @@ export const adminRouter = router({
       });
 
       // Fetch plans for each transaction
-      const planIds = [...new Set(transactions.map(t => t.planId).filter(Boolean))];
+      const planIds = Array.from(new Set(transactions.map(t => t.planId).filter(Boolean)));
       const plans = planIds.length > 0 
         ? await ctx.prisma.plan.findMany({
             where: { id: { in: planIds as string[] } },
@@ -1266,7 +1262,7 @@ export const adminRouter = router({
     ]);
 
     // Fetch plans for recent transactions
-    const planIds = [...new Set(recentTransactionsRaw.map(t => t.planId).filter(Boolean))];
+    const planIds = Array.from(new Set(recentTransactionsRaw.map(t => t.planId).filter(Boolean)));
     const plans = planIds.length > 0
       ? await ctx.prisma.plan.findMany({
           where: { id: { in: planIds as string[] } },

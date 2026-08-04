@@ -469,7 +469,7 @@ export default function AdminInvoicesPage() {
                     className="flex items-center gap-2 px-4 py-2 bg-gray-50 rounded-lg"
                   >
                     {getStatusBadge(status)}
-                    <span className="font-bold">{count}</span>
+                    <span className="font-bold">{count as number}</span>
                   </div>
                 ))}
               </div>

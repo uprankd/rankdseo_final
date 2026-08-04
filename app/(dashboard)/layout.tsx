@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
-import { LayoutDashboard, FolderOpen, Database, LogOut, Menu, X, Settings, Sparkles, Crown, Shield, TrendingUp, Users, Tag, BarChart3, FileText, Eye, ClipboardList, Flag, HelpCircle, Headphones, HardDrive } from 'lucide-react';
+import { LayoutDashboard, FolderOpen, Database, LogOut, Menu, X, Settings, Sparkles, Crown, Shield, TrendingUp, Users, Tag, BarChart3, FileText, Eye, ClipboardList, Flag, HelpCircle, Headphones, HardDrive, Mail } from 'lucide-react';
 import { signOut, useSession } from 'next-auth/react';
 import { trpc } from '@/lib/api/client';
 import { AlertTriangle } from 'lucide-react';

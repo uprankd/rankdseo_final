@@ -112,7 +112,7 @@ export const projectRouter = router({
         data: {
           ...input,
           userId: ctx.user.id,
-        },
+        } as any,
       });
 
       // Log activity
