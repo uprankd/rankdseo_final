@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getServerSession } from 'next-auth';
+import { getServerSession } from 'next-auth/next';
 import { authOptions } from '@/lib/auth/config';
 import { getBackupFilePath } from '@/lib/jobs/backup';
 import * as fs from 'fs';
